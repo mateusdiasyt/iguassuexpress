@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarDays, Users } from "lucide-react";
+import { CalendarDays, Search } from "lucide-react";
 import { buildOmnibeesUrl, validateReservationData } from "@/lib/omnibees";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -140,13 +140,13 @@ export function BookingSearchCard({
         </label>
       </div>
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2 text-sm text-white/70">
-          <Users className="h-4 w-4" />
-          Motor oficial de reserva Omnibees
-        </div>
-        <Button type="submit" className="h-12 bg-white text-brand hover:bg-slate-100">
-          Buscar agora
+      <div className="mt-6 flex justify-end">
+        <Button
+          type="submit"
+          className="h-11 rounded-full border border-white/40 bg-white/14 px-5 text-white shadow-[0_12px_30px_rgba(4,24,39,0.2)] backdrop-blur-md hover:bg-white/22"
+        >
+          <Search className="mr-2 h-4 w-4" />
+          Buscar
         </Button>
       </div>
 
