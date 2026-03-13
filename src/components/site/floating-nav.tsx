@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   BedDouble,
@@ -36,8 +35,8 @@ type FloatingNavProps = {
   favicon?: string | null;
 };
 
-const DEFAULT_LOGO_SRC = "/logo%20hotel.png";
-const DEFAULT_FAVICON_SRC = "/favicon%20hotel.png";
+const DEFAULT_LOGO_SRC = "/logo-hotel.png";
+const DEFAULT_FAVICON_SRC = "/favicon-hotel.png";
 
 function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   const raw = value?.trim() ? value.trim() : fallback;
@@ -46,15 +45,28 @@ function resolveAssetSrc(value: string | null | undefined, fallback: string) {
     return raw;
   }
 
-  const withSlash = raw.startsWith("/") ? raw : `/${raw}`;
-  return withSlash.replaceAll(" ", "%20");
+  const normalized = raw
+    .replaceAll("\\", "/")
+    .replace(/^\.?\/?public\//i, "");
+  const withSlash = normalized.startsWith("/") ? normalized : `/${normalized}`;
+  return encodeURI(withSlash);
 }
 
 export function FloatingNav({ hotelName, logo, favicon }: FloatingNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const logoSrc = resolveAssetSrc(logo, DEFAULT_LOGO_SRC);
-  const faviconSrc = resolveAssetSrc(favicon, DEFAULT_FAVICON_SRC);
+  const [logoSrc, setLogoSrc] = useState(() => resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
+  const [faviconSrc, setFaviconSrc] = useState(() =>
+    resolveAssetSrc(favicon, DEFAULT_FAVICON_SRC),
+  );
+
+  useEffect(() => {
+    setLogoSrc(resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
+  }, [logo]);
+
+  useEffect(() => {
+    setFaviconSrc(resolveAssetSrc(favicon, DEFAULT_FAVICON_SRC));
+  }, [favicon]);
 
   return (
     <>
@@ -62,21 +74,19 @@ export function FloatingNav({ hotelName, logo, favicon }: FloatingNavProps) {
         <div className="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-white/15 bg-slate-950/25 px-4 py-3 text-white shadow-2xl backdrop-blur-xl">
           <Link href="/" className="flex items-center gap-3">
             <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/10 text-sm font-semibold">
-              <Image
+              <img
                 src={faviconSrc}
                 alt={`${hotelName} favicon`}
-                width={24}
-                height={24}
                 className="h-6 w-6 object-contain"
+                onError={() => setFaviconSrc(DEFAULT_FAVICON_SRC)}
               />
             </span>
             <span className="hidden md:block">
-              <Image
+              <img
                 src={logoSrc}
                 alt={hotelName}
-                width={180}
-                height={36}
                 className="h-8 w-auto object-contain"
+                onError={() => setLogoSrc(DEFAULT_LOGO_SRC)}
               />
             </span>
           </Link>
