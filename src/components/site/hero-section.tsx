@@ -60,17 +60,14 @@ export function HeroSection({
               return (
                 <article
                   key={card.title}
-                  className="rounded-[1.5rem] border border-white/14 bg-white/8 px-5 py-5 shadow-[0_24px_60px_rgba(8,36,58,0.18)] backdrop-blur-xl"
+                  className="rounded-[1.5rem] border border-white/14 bg-white/8 px-5 py-6 shadow-[0_24px_60px_rgba(8,36,58,0.18)] backdrop-blur-xl"
                 >
                   <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12 text-white/88">
                     <Icon className="h-5 w-5" />
                   </span>
-                  <h2 className="mt-5 text-lg leading-[1.05] font-extrabold md:text-[1.65rem]">
-                  {card.title}
+                  <h2 className="mt-6 max-w-[11rem] text-lg leading-[1.02] font-extrabold md:text-[1.65rem]">
+                    {card.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-7 text-white/72">
-                    {card.description}
-                  </p>
                 </article>
               );
             })}
