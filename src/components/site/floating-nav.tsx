@@ -34,7 +34,7 @@ type FloatingNavProps = {
   logo?: string | null;
 };
 
-const DEFAULT_LOGO_SRC = "/logo-hotel.png";
+const DEFAULT_LOGO_SRC = "/logo-hotel-principal.png";
 
 function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   const raw = value?.trim() ? value.trim() : fallback;
@@ -46,6 +46,17 @@ function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   const normalized = raw
     .replaceAll("\\", "/")
     .replace(/^\.?\/?public\//i, "");
+  const lower = normalized.toLowerCase();
+  if (
+    lower.endsWith("/logo-hotel.png") ||
+    lower === "logo-hotel.png" ||
+    lower.endsWith("/logo%20hotel.png") ||
+    lower === "logo%20hotel.png" ||
+    lower.endsWith("/logo hotel.png") ||
+    lower === "logo hotel.png"
+  ) {
+    return DEFAULT_LOGO_SRC;
+  }
   const withSlash = normalized.startsWith("/") ? normalized : `/${normalized}`;
   return encodeURI(withSlash);
 }

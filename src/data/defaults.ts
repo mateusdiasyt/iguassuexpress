@@ -49,7 +49,7 @@ export const defaultSiteSettings = {
     '<iframe src="https://www.google.com/maps?q=Foz%20do%20Iguacu&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
   omnibeesHotelId: "2458",
   omnibeesBaseUrl: "https://book.omnibees.com/hotelresults",
-  logo: "/logo-hotel.png",
+  logo: "/logo-hotel-principal.png",
   favicon: "/favicon-hotel.png",
   socialLinks: {
     instagram: "https://instagram.com/iguassuexpresshotel",
