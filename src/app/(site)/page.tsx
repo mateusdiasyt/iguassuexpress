@@ -78,9 +78,7 @@ export default async function HomePage() {
 
       {hasHeroCards ? (
         <section className="mx-auto -mt-10 max-w-6xl lg:-mt-16">
-          <div className="flex justify-center lg:justify-end">
-            <HighlightCardColumn cards={heroCards} className="w-full max-w-sm" />
-          </div>
+          <HighlightCardColumn cards={heroCards} />
         </section>
       ) : null}
 

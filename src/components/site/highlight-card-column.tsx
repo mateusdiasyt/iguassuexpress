@@ -20,14 +20,14 @@ export function HighlightCardColumn({
   }
 
   return (
-    <aside className={cn("flex flex-col gap-4", className)}>
+    <aside className={cn("grid gap-4 md:grid-cols-3", className)}>
       {cards.map((card, index) => {
         const Icon = icons[index] ?? Gem;
 
         return (
           <article
             key={card.title}
-            className="soft-card rounded-[1.6rem] p-5 md:p-6"
+            className="soft-card rounded-[1.6rem] p-5 md:min-h-[220px] md:p-6"
           >
             <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/8 text-brand">
               <Icon className="h-5 w-5" />
