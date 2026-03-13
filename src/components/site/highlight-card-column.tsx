@@ -16,6 +16,33 @@ export function HighlightCardColumn({
   className,
 }: HighlightCardColumnProps) {
   const icons = [MapPinned, CalendarCheck2, Gem];
+  const whatsappMessages = [
+    {
+      id: "guest-1",
+      side: "left" as const,
+      text: "Ola! Gostaria de reservar para 2 adultos.",
+    },
+    {
+      id: "hotel-1",
+      side: "right" as const,
+      text: "Perfeito. Posso enviar a melhor tarifa direto pelo motor oficial.",
+    },
+    {
+      id: "guest-2",
+      side: "left" as const,
+      text: "Maravilha, pode me passar o link?",
+    },
+    {
+      id: "hotel-2",
+      side: "right" as const,
+      text: "Claro. Ja vou enviar o link com disponibilidade em tempo real.",
+    },
+    {
+      id: "guest-3",
+      side: "left" as const,
+      text: "Excelente, obrigado!",
+    },
+  ];
 
   if (!cards.length) {
     return null;
@@ -74,22 +101,32 @@ export function HighlightCardColumn({
 
             {index === 1 ? (
               <div className={previewClassName}>
-                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-[#eef7f1] p-2 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
-                  <div className="rounded-[0.95rem] bg-[#0f7d6e] px-3 py-2 text-white">
-                    <p className="text-[0.67rem] font-semibold uppercase tracking-[0.2em] text-white/80">
-                      Atendimento WhatsApp
-                    </p>
-                    <p className="mt-1 text-sm font-semibold">Iguassu Express Hotel</p>
-                  </div>
-                  <div className="mt-2 space-y-2 rounded-[0.95rem] bg-[#d9fdd3] p-3">
-                    <div className="max-w-[86%] rounded-2xl bg-white px-3 py-2 text-xs leading-5 text-slate-700 shadow-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-hover:delay-75">
-                      Ola! Gostaria de reservar para 2 adultos.
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-[#eef7f1] p-3 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
+                  <div className="mx-1 rounded-[1rem] border border-[#d5ead8] bg-[#f3fbf4] p-3">
+                    <div className="rounded-[0.9rem] bg-[#0f7d6e] px-3 py-2 text-white">
+                      <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-white/80">
+                        Atendimento WhatsApp
+                      </p>
+                      <p className="mt-1 text-sm font-semibold">Iguassu Express Hotel</p>
                     </div>
-                    <div className="ml-auto max-w-[86%] rounded-2xl bg-[#ecfff7] px-3 py-2 text-xs leading-5 text-slate-700 shadow-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-hover:delay-150">
-                      Perfeito. Posso enviar a melhor tarifa direto pelo motor oficial.
-                    </div>
-                    <div className="max-w-[86%] rounded-2xl bg-white px-3 py-2 text-xs leading-5 text-slate-700 shadow-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-hover:delay-200">
-                      Maravilha, pode me passar o link?
+                    <div className="mt-3 rounded-[0.9rem] bg-[#dcf8c6] p-3">
+                      <div className="h-36 overflow-hidden rounded-[0.75rem] bg-[#d7f3c1] p-2">
+                        <div className="whatsapp-chat-track space-y-2.5">
+                          {[...whatsappMessages, ...whatsappMessages].map((message, messageIndex) => (
+                            <div
+                              key={`${message.id}-${messageIndex}`}
+                              className={cn(
+                                "max-w-[84%] rounded-2xl px-3 py-2 text-[0.72rem] leading-5 text-slate-700 shadow-sm",
+                                message.side === "left"
+                                  ? "bg-white"
+                                  : "ml-auto bg-[#ebfff1]",
+                              )}
+                            >
+                              {message.text}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-[#d8e8dc] bg-[#eef7f1]" />

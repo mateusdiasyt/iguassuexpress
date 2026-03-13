@@ -109,3 +109,23 @@ select {
   height: 100%;
   width: 100%;
 }
+
+.whatsapp-chat-track {
+  animation: whatsapp-chat-scroll 11s linear infinite;
+  will-change: transform;
+}
+
+@keyframes whatsapp-chat-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-chat-track {
+    animation: none;
+  }
+}
