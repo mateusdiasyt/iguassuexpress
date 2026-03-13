@@ -20,7 +20,7 @@ export function HeroSection({
   children,
 }: HeroSectionProps) {
   return (
-    <section className="relative min-h-[95vh] overflow-hidden rounded-[2.2rem] border border-white/15 px-5 pt-28 pb-10 text-white md:px-10 md:pt-36">
+    <section className="relative -mx-4 -mt-4 min-h-[95vh] overflow-hidden rounded-none px-5 pt-28 pb-10 text-white md:-mx-6 md:px-10 md:pt-36">
       <Image
         src={image}
         alt={title}
