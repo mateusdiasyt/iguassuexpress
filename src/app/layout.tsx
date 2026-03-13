@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
+import { getSiteSettings } from "@/data/queries";
 import "./globals.css";
 
 const bodyFont = Inter({
@@ -14,17 +15,36 @@ const headingFont = Manrope({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  ),
-  title: {
-    default: "Iguassu Express Hotel",
-    template: "%s | Iguassu Express Hotel",
-  },
-  description:
-    "Hotel em Foz do Iguacu com reservas diretas, restaurante, apartamentos confortaveis e localizacao estrategica.",
-};
+function resolveFaviconUrl(value?: string | null) {
+  if (!value || !value.trim()) {
+    return "/favicon.ico";
+  }
+
+  return value;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const hotelName = settings.hotelName?.trim() || "Iguassu Express Hotel";
+  const faviconUrl = resolveFaviconUrl(settings.favicon);
+
+  return {
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    ),
+    title: {
+      default: hotelName,
+      template: `%s | ${hotelName}`,
+    },
+    description:
+      "Hotel em Foz do Iguacu com reservas diretas, restaurante, apartamentos confortaveis e localizacao estrategica.",
+    icons: {
+      icon: [{ url: faviconUrl }],
+      shortcut: [{ url: faviconUrl }],
+      apple: [{ url: faviconUrl }],
+    },
+  };
+}
 
 export default function RootLayout({
   children,

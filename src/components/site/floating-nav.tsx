@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -31,9 +32,11 @@ const navItems = [
 
 type FloatingNavProps = {
   hotelName: string;
+  logo?: string | null;
+  favicon?: string | null;
 };
 
-export function FloatingNav({ hotelName }: FloatingNavProps) {
+export function FloatingNav({ hotelName, logo, favicon }: FloatingNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -42,12 +45,34 @@ export function FloatingNav({ hotelName }: FloatingNavProps) {
       <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6">
         <div className="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-white/15 bg-slate-950/25 px-4 py-3 text-white shadow-2xl backdrop-blur-xl">
           <Link href="/" className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-semibold">
-              IE
+            <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/10 text-sm font-semibold">
+              {favicon ? (
+                <Image
+                  src={favicon}
+                  alt={`${hotelName} favicon`}
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain"
+                />
+              ) : (
+                "IE"
+              )}
             </span>
-            <span className="hidden text-sm font-semibold tracking-[0.24em] uppercase md:block">
-              {hotelName}
-            </span>
+            {logo ? (
+              <span className="hidden md:block">
+                <Image
+                  src={logo}
+                  alt={hotelName}
+                  width={180}
+                  height={36}
+                  className="h-8 w-auto object-contain"
+                />
+              </span>
+            ) : (
+              <span className="hidden text-sm font-semibold tracking-[0.24em] uppercase md:block">
+                {hotelName}
+              </span>
+            )}
           </Link>
 
           <nav className="hidden items-center gap-2 md:flex">

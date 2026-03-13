@@ -12,7 +12,11 @@ export default async function SiteLayout({
 
   return (
     <div className="pb-10">
-      <FloatingNav hotelName={settings.hotelName} />
+      <FloatingNav
+        hotelName={settings.hotelName}
+        logo={settings.logo}
+        favicon={settings.favicon}
+      />
       <main className="px-4 pt-4 md:px-6">{children}</main>
       <div className="px-4 md:px-6">
         <Footer
