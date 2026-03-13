@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 
 const bodyFont = Inter({
@@ -8,7 +8,7 @@ const bodyFont = Inter({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const headingFont = Sora({
+const headingFont = Manrope({
   variable: "--font-heading",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
