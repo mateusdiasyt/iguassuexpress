@@ -13,6 +13,8 @@ type HighlightCardColumnProps = {
   className?: string;
 };
 
+const MAPS_LOCATION_URL = "https://maps.app.goo.gl/5Y9ZPvuxtNn3fs5s9";
+
 const WHATSAPP_MESSAGES = [
   {
     id: "guest-1",
@@ -96,11 +98,13 @@ export function HighlightCardColumn({
             <div className="relative overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,251,255,0.9))] p-6 shadow-[0_16px_34px_rgba(8,36,58,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/20 hover:shadow-[0_24px_46px_rgba(8,36,58,0.13)] md:min-h-[162px] md:p-7">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/45 to-transparent" />
               <div className="absolute -top-10 -right-10 h-24 w-24 rounded-full bg-brand/[0.06] blur-2xl transition-transform duration-300 group-hover:scale-110" />
-              <div className="flex items-center gap-4 text-left md:gap-5">
-                <Icon className="h-8 w-8 flex-none text-brand md:h-9 md:w-9" />
-                <h3 className="max-w-[12rem] text-[1.45rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 md:text-[1.62rem]">
-                  {card.title}
-                </h3>
+              <div className="flex h-full items-center justify-center">
+                <div className="flex items-center gap-4 text-left md:gap-5">
+                  <Icon className="h-8 w-8 flex-none text-brand md:h-9 md:w-9" />
+                  <h3 className="max-w-[12rem] text-[1.45rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 md:text-[1.62rem]">
+                    {card.title}
+                  </h3>
+                </div>
               </div>
             </div>
 
@@ -125,6 +129,14 @@ export function HighlightCardColumn({
                       Mapa em breve
                     </div>
                   )}
+                  <a
+                    href={MAPS_LOCATION_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-flex w-full items-center justify-center rounded-[0.8rem] bg-white px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand ring-1 ring-brand/20 transition hover:bg-brand/5"
+                  >
+                    Abrir no Maps
+                  </a>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-slate-200 bg-white" />
                 </div>
               </div>
