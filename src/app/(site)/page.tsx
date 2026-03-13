@@ -3,6 +3,7 @@ import { BookingSearchCard } from "@/components/site/booking-search-card";
 import { ContactSection } from "@/components/site/contact-section";
 import { FaqAccordion } from "@/components/site/faq-accordion";
 import { HeroSection } from "@/components/site/hero-section";
+import { HighlightCardColumn } from "@/components/site/highlight-card-column";
 import { RestaurantHighlight } from "@/components/site/restaurant-highlight";
 import { RoomCatalog } from "@/components/site/room-catalog";
 import { TourLocationSection } from "@/components/site/tour-location-section";
@@ -46,6 +47,7 @@ export default async function HomePage() {
 
   const homeBody = getContentBody(homePage.content);
   const heroCards = getHeroCards(homePage.content);
+  const hasHeroCards = heroCards.length > 0;
   const hotelSchema = {
     "@context": "https://schema.org",
     "@type": "Hotel",
@@ -67,7 +69,6 @@ export default async function HomePage() {
         title={homePage.title}
         subtitle={homePage.subtitle ?? ""}
         image={homePage.bannerImage ?? ""}
-        cards={heroCards}
       >
         <BookingSearchCard
           baseUrl={settings.omnibeesBaseUrl}
@@ -75,25 +76,37 @@ export default async function HomePage() {
         />
       </HeroSection>
 
-      <section className="mx-auto grid max-w-6xl gap-12">
-        <SectionHeading
-          eyebrow="Hospitalidade"
-          title="Uma base elegante para viver Foz do Iguacu"
-          description={homeBody}
-        />
+      <section className="mx-auto max-w-6xl">
+        <div
+          className={hasHeroCards
+            ? "grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(260px,0.42fr)] lg:items-start xl:gap-12"
+            : "space-y-8"}
+        >
+          <div className="space-y-8">
+            <SectionHeading
+              eyebrow="Hospitalidade"
+              title="Uma base elegante para viver Foz do Iguacu"
+              description={homeBody}
+            />
 
-        <div className="max-w-3xl">
-          <div className="soft-card rounded-[1.8rem] p-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand/70">
-              Reserva direta
-            </p>
-            <h2 className="mt-4 text-4xl leading-none text-slate-950">
-              Conversao com foco em experiencia premium
-            </h2>
-            <p className="mt-4 text-sm leading-8 text-slate-600">
-              A jornada foi desenhada para destacar a reserva direta, reduzir atritos e apresentar o hotel como uma opcao moderna e confiavel em Foz do Iguacu.
-            </p>
+            <div className="max-w-3xl">
+              <div className="soft-card rounded-[1.8rem] p-7">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand/70">
+                  Reserva direta
+                </p>
+                <h2 className="mt-4 text-4xl leading-none text-slate-950">
+                  Conversao com foco em experiencia premium
+                </h2>
+                <p className="mt-4 text-sm leading-8 text-slate-600">
+                  A jornada foi desenhada para destacar a reserva direta, reduzir atritos e apresentar o hotel como uma opcao moderna e confiavel em Foz do Iguacu.
+                </p>
+              </div>
+            </div>
           </div>
+
+          {hasHeroCards ? (
+            <HighlightCardColumn cards={heroCards} className="lg:pt-6" />
+          ) : null}
         </div>
       </section>
 
