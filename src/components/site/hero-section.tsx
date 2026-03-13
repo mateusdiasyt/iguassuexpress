@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CalendarCheck2, Gem, MapPinned } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type HeroSectionProps = {
@@ -19,6 +20,8 @@ export function HeroSection({
   cards,
   children,
 }: HeroSectionProps) {
+  const icons = [MapPinned, CalendarCheck2, Gem];
+
   return (
     <section className="relative -mx-4 -mt-4 min-h-[95vh] overflow-hidden rounded-none px-5 pt-28 pb-10 text-white md:-mx-6 md:px-10 md:pt-36">
       <Image
@@ -50,20 +53,27 @@ export function HeroSection({
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-[1.1fr_1fr] md:items-end">
-          <div className="grid gap-4 md:grid-cols-3">
-            {cards.map((card) => (
-              <article key={card.title} className="glass-panel rounded-[1.8rem] p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">
-                  Destaque
-                </p>
-                <h2 className="mt-4 text-xl leading-tight font-extrabold md:text-2xl">
+          <div className="grid gap-4 md:max-w-3xl md:grid-cols-3 md:items-start md:self-end">
+            {cards.map((card, index) => {
+              const Icon = icons[index] ?? Gem;
+
+              return (
+                <article
+                  key={card.title}
+                  className="rounded-[1.5rem] border border-white/14 bg-white/8 px-5 py-5 shadow-[0_24px_60px_rgba(8,36,58,0.18)] backdrop-blur-xl"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12 text-white/88">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h2 className="mt-5 text-lg leading-[1.05] font-extrabold md:text-[1.65rem]">
                   {card.title}
-                </h2>
-                <p className="mt-3 text-sm leading-7 text-white/70">
-                  {card.description}
-                </p>
-              </article>
-            ))}
+                  </h2>
+                  <p className="mt-3 text-sm leading-7 text-white/72">
+                    {card.description}
+                  </p>
+                </article>
+              );
+            })}
           </div>
           <div id="reserva">{children}</div>
         </div>
