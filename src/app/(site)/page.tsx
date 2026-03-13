@@ -78,7 +78,7 @@ export default async function HomePage() {
 
       {hasHeroCards ? (
         <section className="mx-auto -mt-10 max-w-6xl lg:-mt-16">
-          <HighlightCardColumn cards={heroCards} />
+          <HighlightCardColumn cards={heroCards} mapEmbed={settings.mapEmbed} />
         </section>
       ) : null}
 
