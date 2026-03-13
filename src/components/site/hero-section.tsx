@@ -57,24 +57,28 @@ export function HeroSection({
             {children}
           </div>
         </div>
-        <div className="grid gap-4 md:max-w-3xl md:grid-cols-3 md:items-start">
-          {cards.map((card, index) => {
-            const Icon = icons[index] ?? Gem;
+        <div className="w-full max-w-sm lg:ml-auto">
+          <div className="rounded-[1.8rem] border border-white/12 bg-white/7 p-4 shadow-[0_28px_70px_rgba(6,29,46,0.2)] backdrop-blur-xl">
+            <div className="grid gap-3">
+              {cards.map((card, index) => {
+                const Icon = icons[index] ?? Gem;
 
-            return (
-              <article
-                key={card.title}
-                className="rounded-[1.5rem] border border-white/14 bg-white/8 px-5 py-6 shadow-[0_24px_60px_rgba(8,36,58,0.18)] backdrop-blur-xl"
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12 text-white/88">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <h2 className="mt-6 max-w-[11rem] text-lg leading-[1.02] font-extrabold md:text-[1.65rem]">
-                  {card.title}
-                </h2>
-              </article>
-            );
-          })}
+                return (
+                  <article
+                    key={card.title}
+                    className="rounded-[1.35rem] border border-white/10 bg-white/8 px-5 py-5"
+                  >
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12 text-white/88">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h2 className="mt-5 max-w-[11rem] text-lg leading-[1.02] font-extrabold md:text-[1.95rem]">
+                      {card.title}
+                    </h2>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>
