@@ -13,8 +13,6 @@ type HighlightCardColumnProps = {
   className?: string;
 };
 
-const MAPS_LOCATION_URL = "https://maps.app.goo.gl/5Y9ZPvuxtNn3fs5s9";
-
 const WHATSAPP_MESSAGES = [
   {
     id: "guest-1",
@@ -50,6 +48,7 @@ export function HighlightCardColumn({
 }: HighlightCardColumnProps) {
   const icons = [MapPinned, CalendarCheck2, Gem];
   const [isReservationHovered, setIsReservationHovered] = useState(false);
+  const [isPremiumHovered, setIsPremiumHovered] = useState(false);
   const [chatStep, setChatStep] = useState(1);
 
   useEffect(() => {
@@ -92,8 +91,24 @@ export function HighlightCardColumn({
           <article
             key={card.title}
             className="group relative rounded-[1.8rem]"
-            onMouseEnter={index === 1 ? () => setIsReservationHovered(true) : undefined}
-            onMouseLeave={index === 1 ? () => setIsReservationHovered(false) : undefined}
+            onMouseEnter={() => {
+              if (index === 1) {
+                setIsReservationHovered(true);
+              }
+
+              if (index === 2) {
+                setIsPremiumHovered(true);
+              }
+            }}
+            onMouseLeave={() => {
+              if (index === 1) {
+                setIsReservationHovered(false);
+              }
+
+              if (index === 2) {
+                setIsPremiumHovered(false);
+              }
+            }}
           >
             <div className="relative min-h-[164px] overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,251,255,0.9))] p-6 shadow-[0_16px_34px_rgba(8,36,58,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/20 hover:shadow-[0_24px_46px_rgba(8,36,58,0.13)] md:min-h-[172px] md:p-7">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/45 to-transparent" />
@@ -129,14 +144,6 @@ export function HighlightCardColumn({
                       Mapa em breve
                     </div>
                   )}
-                  <a
-                    href={MAPS_LOCATION_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-2 inline-flex w-full items-center justify-center rounded-[0.8rem] bg-white px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand ring-1 ring-brand/20 transition hover:bg-brand/5"
-                  >
-                    Abrir no Maps
-                  </a>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-slate-200 bg-white" />
                 </div>
               </div>
@@ -192,14 +199,20 @@ export function HighlightCardColumn({
                     </p>
                   </div>
                   <div className="mt-2 overflow-hidden rounded-[0.95rem]">
-                    <iframe
-                      className="h-56 w-full"
-                      src="https://www.youtube.com/embed/YxJpctY88sI?autoplay=1&mute=1&playsinline=1&rel=0"
-                      title="Experiencia premium no Iguassu Express Hotel"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
+                    {isPremiumHovered ? (
+                      <iframe
+                        className="h-56 w-full"
+                        src="https://www.youtube.com/embed/YxJpctY88sI?autoplay=1&playsinline=1&rel=0&controls=1"
+                        title="Experiencia premium no Iguassu Express Hotel"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <div className="flex h-56 items-center justify-center bg-slate-100 text-sm text-slate-500">
+                        Carregando preview...
+                      </div>
+                    )}
                   </div>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-slate-200 bg-white" />
                 </div>
