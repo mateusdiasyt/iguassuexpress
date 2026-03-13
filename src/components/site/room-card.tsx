@@ -15,49 +15,68 @@ type RoomCardProps = {
 };
 
 export function RoomCard({ room, onClick, className }: RoomCardProps) {
+  const shortPreview =
+    room.shortDescription.length > 95
+      ? `${room.shortDescription.slice(0, 95).trimEnd()}...`
+      : room.shortDescription;
+
   return (
     <button
       type="button"
       onClick={onClick}
       className={cn(
-        "group soft-card overflow-hidden rounded-[1.8rem] text-left transition-transform duration-300 hover:-translate-y-1",
+        "group relative min-h-[27rem] overflow-hidden rounded-[1.85rem] border border-white/35 bg-slate-950 text-left text-white shadow-[0_26px_58px_rgba(5,21,35,0.34)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_34px_76px_rgba(5,21,35,0.45)]",
         className,
       )}
     >
-      <div className="relative h-64 overflow-hidden">
+      <div className="absolute inset-0">
         {room.coverImage ? (
           <Image
             src={room.coverImage}
             alt={room.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
-        ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent" />
-        <div className="absolute right-4 bottom-4 rounded-full bg-white/14 p-3 text-white backdrop-blur-md">
-          <ArrowUpRight className="h-4 w-4" />
-        </div>
+        ) : (
+          <div className="h-full w-full bg-[radial-gradient(circle_at_top,#224b67,#0f2234_56%,#0b1a28)]" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/48 to-slate-950/18" />
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/92 to-transparent" />
       </div>
-      <div className="space-y-4 p-6">
-        <div className="flex items-center justify-between gap-4">
-          <h3 className="text-[1.55rem] leading-[1.02] font-extrabold text-slate-950 md:text-[1.7rem]">
-            {room.title}
-          </h3>
-          <div className="flex items-center gap-2 rounded-full bg-brand/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand">
-            <Users className="h-4 w-4" />
-            {room.occupancy} pessoa{room.occupancy > 1 ? "s" : ""}
-          </div>
+
+      <span className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/25 backdrop-blur-md transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+        <ArrowUpRight className="h-4 w-4" />
+      </span>
+
+      <div className="relative flex h-full flex-col justify-end p-6">
+        <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/14 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white/95 ring-1 ring-white/22 backdrop-blur-md">
+          <Users className="h-3.5 w-3.5" />
+          {room.occupancy} pessoa{room.occupancy > 1 ? "s" : ""}
         </div>
-        <p className="text-sm leading-7 text-slate-600">{room.shortDescription}</p>
-        <div className="flex flex-wrap gap-2">
-          {room.features.slice(0, 3).map((feature) => (
+
+        <h3 className="mt-4 max-w-[13rem] text-[2.05rem] leading-[0.92] font-extrabold tracking-[-0.04em] text-white md:text-[2.35rem]">
+          {room.title}
+        </h3>
+
+        <p className="mt-3 max-w-[22rem] text-sm leading-6 text-white/84">
+          {shortPreview}
+        </p>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          {room.features.slice(0, 2).map((feature) => (
             <span
               key={feature}
-              className="rounded-full bg-slate-950/5 px-3 py-2 text-xs font-medium text-slate-600"
+              className="rounded-full bg-white/16 px-3 py-1.5 text-[0.67rem] font-medium uppercase tracking-[0.16em] text-white/88 ring-1 ring-white/22 backdrop-blur-md"
             >
               {feature}
             </span>
           ))}
+        </div>
+
+        <div className="mt-6">
+          <span className="inline-flex h-10 min-w-[9.8rem] items-center justify-center rounded-full bg-white px-6 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[0_8px_24px_rgba(255,255,255,0.25)] transition group-hover:bg-slate-50">
+            Ver detalhes
+          </span>
         </div>
       </div>
     </button>
