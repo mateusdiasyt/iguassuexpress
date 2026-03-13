@@ -110,22 +110,28 @@ select {
   width: 100%;
 }
 
-.whatsapp-chat-track {
-  animation: whatsapp-chat-scroll 11s linear infinite;
+.chat-feed-track {
   will-change: transform;
 }
 
-@keyframes whatsapp-chat-scroll {
+.chat-bubble-in {
+  animation: chat-bubble-in 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+@keyframes chat-bubble-in {
   from {
-    transform: translateY(0);
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
   }
   to {
-    transform: translateY(-50%);
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .whatsapp-chat-track {
+  .chat-bubble-in {
     animation: none;
   }
 }

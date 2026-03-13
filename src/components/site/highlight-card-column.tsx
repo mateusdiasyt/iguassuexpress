@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { CalendarCheck2, Gem, MapPinned } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,39 +13,65 @@ type HighlightCardColumnProps = {
   className?: string;
 };
 
+const WHATSAPP_MESSAGES = [
+  {
+    id: "guest-1",
+    side: "left" as const,
+    text: "Ola! Gostaria de reservar para 2 adultos.",
+  },
+  {
+    id: "hotel-1",
+    side: "right" as const,
+    text: "Perfeito. Posso enviar a melhor tarifa direto pelo motor oficial.",
+  },
+  {
+    id: "guest-2",
+    side: "left" as const,
+    text: "Maravilha, pode me passar o link?",
+  },
+  {
+    id: "hotel-2",
+    side: "right" as const,
+    text: "Claro. Ja vou enviar o link com disponibilidade em tempo real.",
+  },
+  {
+    id: "guest-3",
+    side: "left" as const,
+    text: "Excelente, obrigado!",
+  },
+];
+
 export function HighlightCardColumn({
   cards,
   mapEmbed,
   className,
 }: HighlightCardColumnProps) {
   const icons = [MapPinned, CalendarCheck2, Gem];
-  const whatsappMessages = [
-    {
-      id: "guest-1",
-      side: "left" as const,
-      text: "Ola! Gostaria de reservar para 2 adultos.",
-    },
-    {
-      id: "hotel-1",
-      side: "right" as const,
-      text: "Perfeito. Posso enviar a melhor tarifa direto pelo motor oficial.",
-    },
-    {
-      id: "guest-2",
-      side: "left" as const,
-      text: "Maravilha, pode me passar o link?",
-    },
-    {
-      id: "hotel-2",
-      side: "right" as const,
-      text: "Claro. Ja vou enviar o link com disponibilidade em tempo real.",
-    },
-    {
-      id: "guest-3",
-      side: "left" as const,
-      text: "Excelente, obrigado!",
-    },
-  ];
+  const [isReservationHovered, setIsReservationHovered] = useState(false);
+  const [chatStep, setChatStep] = useState(1);
+
+  useEffect(() => {
+    if (!isReservationHovered) {
+      setChatStep(1);
+      return;
+    }
+
+    const messageLength = WHATSAPP_MESSAGES.length;
+    const sequence = [1, 2, 3, 4, messageLength, messageLength, messageLength];
+    let pointer = 0;
+    setChatStep(sequence[0]);
+
+    const timer = window.setInterval(() => {
+      pointer = (pointer + 1) % sequence.length;
+      setChatStep(sequence[pointer]);
+    }, 1100);
+
+    return () => window.clearInterval(timer);
+  }, [isReservationHovered]);
+
+  const visibleMessages = WHATSAPP_MESSAGES.slice(0, chatStep);
+  const hiddenCount = Math.max(0, visibleMessages.length - 3);
+  const chatOffset = hiddenCount * 78;
 
   if (!cards.length) {
     return null;
@@ -61,6 +90,8 @@ export function HighlightCardColumn({
           <article
             key={card.title}
             className="group relative rounded-[1.8rem]"
+            onMouseEnter={index === 1 ? () => setIsReservationHovered(true) : undefined}
+            onMouseLeave={index === 1 ? () => setIsReservationHovered(false) : undefined}
           >
             <div className="relative overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,251,255,0.9))] p-6 shadow-[0_16px_34px_rgba(8,36,58,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/20 hover:shadow-[0_24px_46px_rgba(8,36,58,0.13)] md:min-h-[162px] md:p-7">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/45 to-transparent" />
@@ -110,16 +141,22 @@ export function HighlightCardColumn({
                       <p className="mt-1 text-sm font-semibold">Iguassu Express Hotel</p>
                     </div>
                     <div className="mt-3 rounded-[0.9rem] bg-[#dcf8c6] p-3">
-                      <div className="h-36 overflow-hidden rounded-[0.75rem] bg-[#d7f3c1] p-2">
-                        <div className="whatsapp-chat-track space-y-2.5">
-                          {[...whatsappMessages, ...whatsappMessages].map((message, messageIndex) => (
+                      <div className="chat-feed-window h-40 overflow-hidden rounded-[0.75rem] bg-[#d7f3c1] p-2.5">
+                        <div
+                          className="chat-feed-track space-y-2.5 transition-transform duration-500 ease-out"
+                          style={{ transform: `translateY(-${chatOffset}px)` }}
+                        >
+                          {visibleMessages.map((message, messageIndex) => (
                             <div
                               key={`${message.id}-${messageIndex}`}
                               className={cn(
-                                "max-w-[84%] rounded-2xl px-3 py-2 text-[0.72rem] leading-5 text-slate-700 shadow-sm",
+                                "max-w-[84%] min-h-[70px] rounded-2xl px-3 py-2.5 text-[0.72rem] leading-5 text-slate-700 shadow-sm",
                                 message.side === "left"
                                   ? "bg-white"
                                   : "ml-auto bg-[#ebfff1]",
+                                messageIndex === visibleMessages.length - 1 && chatStep > 1
+                                  ? "chat-bubble-in"
+                                  : null,
                               )}
                             >
                               {message.text}
