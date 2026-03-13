@@ -14,6 +14,11 @@ export function HeroSection({
   image,
   children,
 }: HeroSectionProps) {
+  const titleLines = title
+    .split(/<p>/gi)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
   return (
     <section className="relative -mx-4 -mt-4 min-h-[95vh] overflow-hidden rounded-none px-5 pt-28 pb-10 text-white md:-mx-6 md:px-10 md:pt-36">
       <Image
@@ -31,7 +36,14 @@ export function HeroSection({
               Iguassu Express Hotel
             </p>
             <h1 className="max-w-2xl text-[3.3rem] leading-[0.9] font-extrabold tracking-[-0.05em] md:text-[4.9rem]">
-              {title}
+              {titleLines.length > 1
+                ? titleLines.map((line, index) => (
+                    <span key={`${line}-${index}`}>
+                      {line}
+                      {index < titleLines.length - 1 ? <br /> : null}
+                    </span>
+                  ))
+                : title}
             </h1>
             <p className="mt-5 max-w-xl text-sm leading-7 text-white/78 md:text-base md:leading-8">
               {subtitle}

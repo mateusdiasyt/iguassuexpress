@@ -39,7 +39,7 @@ type PageSeed = {
 const pageContents: PageSeed[] = [
   {
     key: "home",
-    title: "ponto de partida para experiencias memoraveis",
+    title: "Ponto de Partida <p> para a melhor experiência",
     subtitle:
       "Conforto, localizacao estrategica e reservas diretas para quem quer aproveitar o melhor da fronteira com praticidade e elegancia.",
     bannerImage: media.hero,
