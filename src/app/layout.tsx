@@ -3,6 +3,8 @@ import { Inter, Manrope } from "next/font/google";
 import { getSiteSettings } from "@/data/queries";
 import "./globals.css";
 
+const DEFAULT_FAVICON_SRC = "/favicon%20hotel.png";
+
 const bodyFont = Inter({
   variable: "--font-body",
   subsets: ["latin"],
@@ -17,10 +19,19 @@ const headingFont = Manrope({
 
 function resolveFaviconUrl(value?: string | null) {
   if (!value || !value.trim()) {
-    return "/favicon.ico";
+    return DEFAULT_FAVICON_SRC;
   }
 
-  return value;
+  if (
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("data:")
+  ) {
+    return value;
+  }
+
+  const withSlash = value.startsWith("/") ? value : `/${value}`;
+  return withSlash.replaceAll(" ", "%20");
 }
 
 export async function generateMetadata(): Promise<Metadata> {

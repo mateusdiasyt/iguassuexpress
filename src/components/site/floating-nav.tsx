@@ -36,9 +36,25 @@ type FloatingNavProps = {
   favicon?: string | null;
 };
 
+const DEFAULT_LOGO_SRC = "/logo%20hotel.png";
+const DEFAULT_FAVICON_SRC = "/favicon%20hotel.png";
+
+function resolveAssetSrc(value: string | null | undefined, fallback: string) {
+  const raw = value?.trim() ? value.trim() : fallback;
+
+  if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("data:")) {
+    return raw;
+  }
+
+  const withSlash = raw.startsWith("/") ? raw : `/${raw}`;
+  return withSlash.replaceAll(" ", "%20");
+}
+
 export function FloatingNav({ hotelName, logo, favicon }: FloatingNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const logoSrc = resolveAssetSrc(logo, DEFAULT_LOGO_SRC);
+  const faviconSrc = resolveAssetSrc(favicon, DEFAULT_FAVICON_SRC);
 
   return (
     <>
@@ -46,33 +62,23 @@ export function FloatingNav({ hotelName, logo, favicon }: FloatingNavProps) {
         <div className="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-white/15 bg-slate-950/25 px-4 py-3 text-white shadow-2xl backdrop-blur-xl">
           <Link href="/" className="flex items-center gap-3">
             <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/10 text-sm font-semibold">
-              {favicon ? (
-                <Image
-                  src={favicon}
-                  alt={`${hotelName} favicon`}
-                  width={24}
-                  height={24}
-                  className="h-6 w-6 object-contain"
-                />
-              ) : (
-                "IE"
-              )}
+              <Image
+                src={faviconSrc}
+                alt={`${hotelName} favicon`}
+                width={24}
+                height={24}
+                className="h-6 w-6 object-contain"
+              />
             </span>
-            {logo ? (
-              <span className="hidden md:block">
-                <Image
-                  src={logo}
-                  alt={hotelName}
-                  width={180}
-                  height={36}
-                  className="h-8 w-auto object-contain"
-                />
-              </span>
-            ) : (
-              <span className="hidden text-sm font-semibold tracking-[0.24em] uppercase md:block">
-                {hotelName}
-              </span>
-            )}
+            <span className="hidden md:block">
+              <Image
+                src={logoSrc}
+                alt={hotelName}
+                width={180}
+                height={36}
+                className="h-8 w-auto object-contain"
+              />
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-2 md:flex">
