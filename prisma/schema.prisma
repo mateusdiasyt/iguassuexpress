@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+}
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String?
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SiteSettings {
+  id               Int      @id @default(1)
+  hotelName        String
+  whatsapp         String
+  phone            String
+  email            String
+  address          String
+  mapEmbed         String?  @db.Text
+  omnibeesHotelId  String
+  omnibeesBaseUrl  String
+  logo             String?
+  favicon          String?
+  socialLinks      Json?
+  seoTitle         String?
+  seoDescription   String?  @db.Text
+  institutionalBio String?  @db.Text
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model PageContent {
+  id             String   @id @default(cuid())
+  key            String   @unique
+  title          String
+  subtitle       String?
+  content        Json?
+  bannerImage    String?
+  seoTitle       String?
+  seoDescription String?  @db.Text
+  isPublished    Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model RoomCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  badge       String?
+  description String?  @db.Text
+  heroImage   String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  rooms       Room[]
+}
+
+model Room {
+  id               String       @id @default(cuid())
+  categoryId       String
+  title            String
+  slug             String       @unique
+  occupancy        Int
+  shortDescription String       @db.Text
+  fullDescription  String       @db.Text
+  features         String[]
+  coverImage       String?
+  gallery          String[]
+  isActive         Boolean      @default(true)
+  order            Int          @default(0)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  category         RoomCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+model RestaurantContent {
+  id                  Int      @id @default(1)
+  heroImage           String?
+  teaserTitle         String?
+  teaserDescription   String?  @db.Text
+  breakfastTitle      String
+  breakfastDescription String  @db.Text
+  aLaCarteTitle       String
+  aLaCarteDescription String   @db.Text
+  images              String[]
+  isBreakfastActive   Boolean  @default(true)
+  isALaCarteActive    Boolean  @default(true)
+  updatedAt           DateTime @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  category  String
+  imageUrl  String
+  altText   String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tour360Content {
+  id          Int      @id @default(1)
+  title       String
+  description String   @db.Text
+  embedUrl    String?
+  heroImage   String?
+  isActive    Boolean  @default(true)
+  updatedAt   DateTime @updatedAt
+}
+
+model LocationContent {
+  id            Int      @id @default(1)
+  title         String
+  description   String   @db.Text
+  mapEmbed      String?  @db.Text
+  nearbyPoints  String[]
+  heroImage     String?
+  accessDetails String?  @db.Text
+  updatedAt     DateTime @updatedAt
+}
+
+model BlogCategory {
+  id        String     @id @default(cuid())
+  name      String
+  slug      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  posts     BlogPost[]
+}
+
+model BlogPost {
+  id             String         @id @default(cuid())
+  title          String
+  slug           String         @unique
+  excerpt        String         @db.Text
+  content        String         @db.Text
+  featuredImage  String?
+  categoryId     String?
+  seoTitle       String?
+  seoDescription String?        @db.Text
+  publishedAt    DateTime?
+  status         BlogPostStatus @default(DRAFT)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  category       BlogCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+}
+
+model FaqItem {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CareerJob {
+  id           String              @id @default(cuid())
+  title        String
+  slug         String              @unique
+  description  String              @db.Text
+  isActive     Boolean             @default(true)
+  order        Int                 @default(0)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  applications CareerApplication[]
+}
+
+model CareerApplication {
+  id        String     @id @default(cuid())
+  jobId     String?
+  name      String
+  phone     String
+  email     String
+  message   String     @db.Text
+  resumeUrl String
+  createdAt DateTime   @default(now())
+  job       CareerJob? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+}
