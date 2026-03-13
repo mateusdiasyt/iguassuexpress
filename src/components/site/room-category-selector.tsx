@@ -30,11 +30,13 @@ export function RoomCategorySelector({
               ? "border-brand bg-brand text-white shadow-lg shadow-brand/20"
               : "border-brand/10 bg-white/80 hover:border-brand/30 hover:bg-white",
           )}
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] opacity-70">
-            Categoria
-          </p>
-          <h3 className="mt-3 text-3xl leading-none">{category.name}</h3>
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] opacity-70">
+              Categoria
+            </p>
+          <h3 className="mt-3 text-[1.8rem] leading-[0.98] font-extrabold md:text-[2rem]">
+            {category.name}
+          </h3>
           {category.description ? (
             <p className="mt-3 text-sm leading-7 opacity-75">{category.description}</p>
           ) : null}

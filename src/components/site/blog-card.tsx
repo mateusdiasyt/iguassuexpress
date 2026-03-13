@@ -34,7 +34,9 @@ export function BlogCard({ post }: BlogCardProps) {
             </span>
           ) : null}
         </div>
-        <h3 className="text-3xl leading-none text-slate-950">{post.title}</h3>
+        <h3 className="text-[1.6rem] leading-[1.02] font-extrabold text-slate-950 md:text-[1.8rem]">
+          {post.title}
+        </h3>
         <p className="text-sm leading-7 text-slate-600">{post.excerpt}</p>
         <a
           href={`/blog/${post.slug}`}

@@ -25,11 +25,11 @@ export function PageHero({ title, subtitle, image, badge }: PageHeroProps) {
             {badge}
           </span>
         ) : null}
-        <h1 className="mt-6 max-w-3xl text-5xl leading-none font-semibold md:text-6xl">
+        <h1 className="mt-6 max-w-3xl text-[2.9rem] leading-[0.92] font-extrabold tracking-[-0.05em] md:text-[4rem]">
           {title}
         </h1>
         {subtitle ? (
-          <p className="mt-6 max-w-3xl text-base leading-8 text-white/80 md:text-lg">
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/80 md:text-base md:leading-8">
             {subtitle}
           </p>
         ) : null}

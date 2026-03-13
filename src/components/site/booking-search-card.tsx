@@ -68,7 +68,9 @@ export function BookingSearchCard({
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/65">
             Reserva direta
           </p>
-          <h3 className="text-2xl">Verifique disponibilidade</h3>
+          <h3 className="text-[1.45rem] leading-tight font-extrabold md:text-[1.6rem]">
+            Verifique disponibilidade
+          </h3>
         </div>
       </div>
 

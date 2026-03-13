@@ -40,7 +40,9 @@ export function RoomCard({ room, onClick, className }: RoomCardProps) {
       </div>
       <div className="space-y-4 p-6">
         <div className="flex items-center justify-between gap-4">
-          <h3 className="text-3xl leading-none text-slate-950">{room.title}</h3>
+          <h3 className="text-[1.55rem] leading-[1.02] font-extrabold text-slate-950 md:text-[1.7rem]">
+            {room.title}
+          </h3>
           <div className="flex items-center gap-2 rounded-full bg-brand/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand">
             <Users className="h-4 w-4" />
             {room.occupancy} pessoa{room.occupancy > 1 ? "s" : ""}

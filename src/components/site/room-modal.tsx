@@ -41,7 +41,7 @@ export function RoomModal({ open, onOpenChange, room }: RoomModalProps) {
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand/70">
                       {room.category.name}
                     </p>
-                    <Dialog.Title className="mt-3 text-4xl leading-none text-slate-950">
+                    <Dialog.Title className="mt-3 text-[2rem] leading-[0.94] font-extrabold text-slate-950 md:text-[2.5rem]">
                       {room.title}
                     </Dialog.Title>
                     <p className="mt-3 text-sm text-slate-500">

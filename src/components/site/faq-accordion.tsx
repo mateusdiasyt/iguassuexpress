@@ -21,7 +21,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
           className="soft-card overflow-hidden rounded-[1.8rem]"
         >
           <Accordion.Header>
-            <Accordion.Trigger className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-lg font-semibold text-slate-950">
+            <Accordion.Trigger className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-base font-extrabold text-slate-950 md:text-[1.06rem]">
               {item.question}
               <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-300 data-[state=open]:rotate-180" />
             </Accordion.Trigger>

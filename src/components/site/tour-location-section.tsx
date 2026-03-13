@@ -20,7 +20,9 @@ export function TourLocationSection({
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/10 text-brand">
           <Camera className="h-6 w-6" />
         </div>
-        <h3 className="mt-6 text-4xl leading-none text-slate-950">{tourTitle}</h3>
+        <h3 className="mt-6 text-[2rem] leading-[0.96] font-extrabold text-slate-950 md:text-[2.35rem]">
+          {tourTitle}
+        </h3>
         <p className="mt-4 text-sm leading-7 text-slate-600">{tourDescription}</p>
         <Button asChild className="mt-7">
           <a href="/tour-360">Abrir tour 360</a>
@@ -30,7 +32,9 @@ export function TourLocationSection({
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/10 text-brand">
           <MapPinned className="h-6 w-6" />
         </div>
-        <h3 className="mt-6 text-4xl leading-none text-slate-950">{locationTitle}</h3>
+        <h3 className="mt-6 text-[2rem] leading-[0.96] font-extrabold text-slate-950 md:text-[2.35rem]">
+          {locationTitle}
+        </h3>
         <p className="mt-4 text-sm leading-7 text-slate-600">{locationDescription}</p>
         <Button asChild variant="outline" className="mt-7">
           <a href="/localizacao">Ver localizacao</a>

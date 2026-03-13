@@ -30,14 +30,14 @@ export function HeroSection({
       />
       <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(5,27,43,0.88),rgba(9,77,122,0.62),rgba(9,77,122,0.18))]" />
       <div className="relative mx-auto flex min-h-[80vh] max-w-6xl flex-col justify-between gap-12">
-        <div className="max-w-3xl pt-12 md:pt-20">
+        <div className="max-w-2xl pt-12 md:pt-20">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.36em] text-white/70">
             Iguassu Express Hotel
           </p>
-          <h1 className="text-6xl leading-none font-semibold md:text-8xl">
+          <h1 className="max-w-2xl text-[3.3rem] leading-[0.9] font-extrabold tracking-[-0.05em] md:text-[4.9rem]">
             {title}
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/78 md:text-lg">
+          <p className="mt-5 max-w-xl text-sm leading-7 text-white/78 md:text-base md:leading-8">
             {subtitle}
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
@@ -56,7 +56,9 @@ export function HeroSection({
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">
                   Destaque
                 </p>
-                <h2 className="mt-4 text-2xl leading-none">{card.title}</h2>
+                <h2 className="mt-4 text-xl leading-tight font-extrabold md:text-2xl">
+                  {card.title}
+                </h2>
                 <p className="mt-3 text-sm leading-7 text-white/70">
                   {card.description}
                 </p>
