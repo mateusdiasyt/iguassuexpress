@@ -39,7 +39,7 @@ type PageSeed = {
 const pageContents: PageSeed[] = [
   {
     key: "home",
-    title: "Sua estada inteligente em Foz do Iguacu",
+    title: "ponto de partida para experiencias memoraveis",
     subtitle:
       "Conforto, localizacao estrategica e reservas diretas para quem quer aproveitar o melhor da fronteira com praticidade e elegancia.",
     bannerImage: media.hero,
