@@ -82,7 +82,7 @@ export default async function HomePage() {
           description={homeBody}
         />
 
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="max-w-3xl">
           <div className="soft-card rounded-[1.8rem] p-7">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand/70">
               Reserva direta
@@ -92,17 +92,6 @@ export default async function HomePage() {
             </h2>
             <p className="mt-4 text-sm leading-8 text-slate-600">
               A jornada foi desenhada para destacar a reserva direta, reduzir atritos e apresentar o hotel como uma opcao moderna e confiavel em Foz do Iguacu.
-            </p>
-          </div>
-          <div className="soft-card rounded-[1.8rem] p-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand/70">
-              SEO local
-            </p>
-            <h2 className="mt-4 text-4xl leading-none text-slate-950">
-              Conteudo orientado para busca regional
-            </h2>
-            <p className="mt-4 text-sm leading-8 text-slate-600">
-              Estrutura semantica, blog editorial e paginas estrategicas para ranquear melhor nas buscas sobre hotel em Foz do Iguacu.
             </p>
           </div>
         </div>
