@@ -15,7 +15,6 @@ export default async function SiteLayout({
       <FloatingNav
         hotelName={settings.hotelName}
         logo={settings.logo}
-        favicon={settings.favicon}
       />
       <main className="px-4 pt-4 md:px-6">{children}</main>
       <div className="px-4 md:px-6">

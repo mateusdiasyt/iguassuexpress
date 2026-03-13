@@ -32,11 +32,9 @@ const navItems = [
 type FloatingNavProps = {
   hotelName: string;
   logo?: string | null;
-  favicon?: string | null;
 };
 
 const DEFAULT_LOGO_SRC = "/logo-hotel.png";
-const DEFAULT_FAVICON_SRC = "/favicon-hotel.png";
 
 function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   const raw = value?.trim() ? value.trim() : fallback;
@@ -52,43 +50,26 @@ function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   return encodeURI(withSlash);
 }
 
-export function FloatingNav({ hotelName, logo, favicon }: FloatingNavProps) {
+export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [logoSrc, setLogoSrc] = useState(() => resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
-  const [faviconSrc, setFaviconSrc] = useState(() =>
-    resolveAssetSrc(favicon, DEFAULT_FAVICON_SRC),
-  );
 
   useEffect(() => {
     setLogoSrc(resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
   }, [logo]);
 
-  useEffect(() => {
-    setFaviconSrc(resolveAssetSrc(favicon, DEFAULT_FAVICON_SRC));
-  }, [favicon]);
-
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6">
         <div className="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-white/15 bg-slate-950/25 px-4 py-3 text-white shadow-2xl backdrop-blur-xl">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/10 text-sm font-semibold">
-              <img
-                src={faviconSrc}
-                alt={`${hotelName} favicon`}
-                className="h-6 w-6 object-contain"
-                onError={() => setFaviconSrc(DEFAULT_FAVICON_SRC)}
-              />
-            </span>
-            <span className="hidden md:block">
-              <img
-                src={logoSrc}
-                alt={hotelName}
-                className="h-8 w-auto object-contain"
-                onError={() => setLogoSrc(DEFAULT_LOGO_SRC)}
-              />
-            </span>
+          <Link href="/" className="flex items-center">
+            <img
+              src={logoSrc}
+              alt={hotelName}
+              className="h-10 w-auto max-w-[170px] object-contain md:h-11 md:max-w-[240px]"
+              onError={() => setLogoSrc(DEFAULT_LOGO_SRC)}
+            />
           </Link>
 
           <nav className="hidden items-center gap-2 md:flex">
