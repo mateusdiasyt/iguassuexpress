@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CalendarCheck2, Gem, MapPinned } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -47,12 +47,38 @@ export function HighlightCardColumn({
   className,
 }: HighlightCardColumnProps) {
   const icons = [MapPinned, CalendarCheck2, Gem];
-  const [isReservationHovered, setIsReservationHovered] = useState(false);
-  const [isPremiumHovered, setIsPremiumHovered] = useState(false);
+  const [activePreviewIndex, setActivePreviewIndex] = useState<number | null>(null);
   const [chatStep, setChatStep] = useState(1);
+  const closePreviewTimerRef = useRef<number | null>(null);
+
+  const isReservationPreviewActive = activePreviewIndex === 1;
+  const isPremiumPreviewActive = activePreviewIndex === 2;
+
+  function clearCloseTimer() {
+    if (closePreviewTimerRef.current) {
+      window.clearTimeout(closePreviewTimerRef.current);
+      closePreviewTimerRef.current = null;
+    }
+  }
+
+  function openPreview(index: number) {
+    clearCloseTimer();
+    setActivePreviewIndex(index);
+  }
+
+  function scheduleClosePreview(index: number) {
+    clearCloseTimer();
+    closePreviewTimerRef.current = window.setTimeout(() => {
+      setActivePreviewIndex((current) => (current === index ? null : current));
+    }, 120);
+  }
 
   useEffect(() => {
-    if (!isReservationHovered) {
+    return () => clearCloseTimer();
+  }, []);
+
+  useEffect(() => {
+    if (!isReservationPreviewActive) {
       setChatStep(1);
       return;
     }
@@ -68,7 +94,7 @@ export function HighlightCardColumn({
     }, 1100);
 
     return () => window.clearInterval(timer);
-  }, [isReservationHovered]);
+  }, [isReservationPreviewActive]);
 
   const visibleMessages = WHATSAPP_MESSAGES.slice(0, chatStep);
   const hiddenCount = Math.max(0, visibleMessages.length - 3);
@@ -82,8 +108,12 @@ export function HighlightCardColumn({
     <aside className={cn("grid gap-4 md:grid-cols-3 lg:gap-5", className)}>
       {cards.map((card, index) => {
         const Icon = icons[index] ?? Gem;
+        const isPreviewOpen = activePreviewIndex === index;
         const previewClassName = cn(
-          "pointer-events-none absolute left-1/2 bottom-[calc(100%+0.9rem)] z-40 hidden -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 lg:block",
+          "absolute left-1/2 bottom-[calc(100%+0.9rem)] z-40 hidden -translate-x-1/2 transition-all duration-300 ease-out lg:block",
+          isPreviewOpen
+            ? "pointer-events-auto translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-2 opacity-0",
           index === 2 ? "w-[24rem]" : "w-[22rem]",
         );
 
@@ -91,24 +121,8 @@ export function HighlightCardColumn({
           <article
             key={card.title}
             className="group relative rounded-[1.8rem]"
-            onMouseEnter={() => {
-              if (index === 1) {
-                setIsReservationHovered(true);
-              }
-
-              if (index === 2) {
-                setIsPremiumHovered(true);
-              }
-            }}
-            onMouseLeave={() => {
-              if (index === 1) {
-                setIsReservationHovered(false);
-              }
-
-              if (index === 2) {
-                setIsPremiumHovered(false);
-              }
-            }}
+            onMouseEnter={() => openPreview(index)}
+            onMouseLeave={() => scheduleClosePreview(index)}
           >
             <div className="relative min-h-[164px] overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,251,255,0.9))] p-6 shadow-[0_16px_34px_rgba(8,36,58,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/20 hover:shadow-[0_24px_46px_rgba(8,36,58,0.13)] md:min-h-[172px] md:p-7">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/45 to-transparent" />
@@ -124,7 +138,11 @@ export function HighlightCardColumn({
             </div>
 
             {index === 0 ? (
-              <div className={previewClassName}>
+              <div
+                className={previewClassName}
+                onMouseEnter={() => openPreview(index)}
+                onMouseLeave={() => scheduleClosePreview(index)}
+              >
                 <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-white/96 p-2 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
                   <div className="flex items-center justify-between rounded-[0.95rem] bg-brand/10 px-3 py-2">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-brand">
@@ -150,7 +168,11 @@ export function HighlightCardColumn({
             ) : null}
 
             {index === 1 ? (
-              <div className={previewClassName}>
+              <div
+                className={previewClassName}
+                onMouseEnter={() => openPreview(index)}
+                onMouseLeave={() => scheduleClosePreview(index)}
+              >
                 <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-[#eef7f1] p-3 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
                   <div className="mx-1 rounded-[1rem] border border-[#d5ead8] bg-[#f3fbf4] p-3">
                     <div className="rounded-[0.9rem] bg-[#0f7d6e] px-3 py-2 text-white">
@@ -191,7 +213,11 @@ export function HighlightCardColumn({
             ) : null}
 
             {index === 2 ? (
-              <div className={previewClassName}>
+              <div
+                className={previewClassName}
+                onMouseEnter={() => openPreview(index)}
+                onMouseLeave={() => scheduleClosePreview(index)}
+              >
                 <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-white/96 p-2 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
                   <div className="rounded-[0.95rem] bg-brand/10 px-3 py-2">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-brand">
@@ -199,10 +225,10 @@ export function HighlightCardColumn({
                     </p>
                   </div>
                   <div className="mt-2 overflow-hidden rounded-[0.95rem]">
-                    {isPremiumHovered ? (
+                    {isPremiumPreviewActive ? (
                       <iframe
                         className="h-56 w-full"
-                        src="https://www.youtube.com/embed/YxJpctY88sI?autoplay=1&playsinline=1&rel=0&controls=1"
+                        src="https://www.youtube.com/embed/YxJpctY88sI?autoplay=1&mute=0&playsinline=1&rel=0&controls=0&modestbranding=1&iv_load_policy=3"
                         title="Experiencia premium no Iguassu Express Hotel"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
