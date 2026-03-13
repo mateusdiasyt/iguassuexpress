@@ -21,14 +21,26 @@ import {
 import { buildMetadata } from "@/lib/seo";
 import { getContentBody, getHeroCards } from "@/lib/utils";
 
+const HOME_HERO_FALLBACK = "/piscina-hotel-iguassu.jpg";
+const OLD_HOME_HERO_TOKEN = "photo-1566073771259-6a8506099945";
+
+function resolveHomeHeroImage(value?: string | null) {
+  if (!value || !value.trim()) {
+    return HOME_HERO_FALLBACK;
+  }
+
+  return value.includes(OLD_HOME_HERO_TOKEN) ? HOME_HERO_FALLBACK : value;
+}
+
 export async function generateMetadata() {
   const page = await getPageContent("home");
+  const heroImage = resolveHomeHeroImage(page.bannerImage);
 
   return buildMetadata({
     title: page.seoTitle ?? page.title,
     description: page.seoDescription ?? page.subtitle,
     path: "/",
-    image: page.bannerImage,
+    image: heroImage,
   });
 }
 
@@ -48,6 +60,7 @@ export default async function HomePage() {
   const homeBody = getContentBody(homePage.content);
   const heroCards = getHeroCards(homePage.content);
   const hasHeroCards = heroCards.length > 0;
+  const heroImage = resolveHomeHeroImage(homePage.bannerImage);
   const hotelSchema = {
     "@context": "https://schema.org",
     "@type": "Hotel",
@@ -68,7 +81,7 @@ export default async function HomePage() {
       <HeroSection
         title={homePage.title}
         subtitle={homePage.subtitle ?? ""}
-        image={homePage.bannerImage ?? ""}
+        image={heroImage}
       >
         <BookingSearchCard
           baseUrl={settings.omnibeesBaseUrl}
