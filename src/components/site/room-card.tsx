@@ -25,7 +25,7 @@ export function RoomCard({ room, onClick, className }: RoomCardProps) {
       type="button"
       onClick={onClick}
       className={cn(
-        "group relative min-h-[27rem] overflow-hidden rounded-[1.85rem] border border-white/35 bg-slate-950 text-left text-white shadow-[0_26px_58px_rgba(5,21,35,0.34)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_34px_76px_rgba(5,21,35,0.45)]",
+        "group relative min-h-[27rem] overflow-hidden rounded-[1.85rem] border border-white/72 bg-white/10 text-left text-white ring-1 ring-white/35 shadow-[0_18px_42px_rgba(8,36,58,0.22)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-[0_24px_52px_rgba(8,36,58,0.28)]",
         className,
       )}
     >
@@ -40,8 +40,8 @@ export function RoomCard({ room, onClick, className }: RoomCardProps) {
         ) : (
           <div className="h-full w-full bg-[radial-gradient(circle_at_top,#224b67,#0f2234_56%,#0b1a28)]" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/48 to-slate-950/18" />
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/92 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/82 via-slate-950/34 to-slate-950/10" />
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/84 to-transparent" />
       </div>
 
       <span className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/25 backdrop-blur-md transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
