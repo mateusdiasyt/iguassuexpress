@@ -31,14 +31,14 @@ export function HighlightCardColumn({
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/45 to-transparent" />
             <div className="absolute -top-10 -right-10 h-24 w-24 rounded-full bg-brand/[0.06] blur-2xl transition-transform duration-300 group-hover:scale-110" />
-            <div className="relative flex h-full flex-col gap-6">
-              <span className="flex h-12 w-12 items-center justify-center rounded-[1.1rem] bg-brand/[0.07] text-brand ring-1 ring-brand/[0.12]">
-                <Icon className="h-5 w-5" />
-              </span>
-              <h3 className="max-w-[12rem] text-[1.45rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 md:text-[1.65rem]">
+            <div className="relative flex h-full items-start gap-4 md:gap-5">
+              <Icon className="mt-1 h-8 w-8 flex-none text-brand md:h-9 md:w-9" />
+              <h3 className="max-w-[12rem] text-[1.45rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 md:text-[1.62rem]">
                 {card.title}
               </h3>
-              <div className="mt-auto h-px w-full bg-gradient-to-r from-brand/22 to-transparent" />
+            </div>
+            <div className="relative mt-7">
+              <div className="h-px w-full bg-gradient-to-r from-brand/22 to-transparent" />
             </div>
           </article>
         );
