@@ -16,7 +16,7 @@ export default async function SiteLayout({
         hotelName={settings.hotelName}
         logo={settings.logo}
       />
-      <main className="px-4 pt-4 md:px-6">{children}</main>
+      <main className="px-4 md:px-6">{children}</main>
       <div className="px-4 md:px-6">
         <Footer
           hotelName={settings.hotelName}

@@ -20,7 +20,7 @@ export function HeroSection({
     .filter(Boolean);
 
   return (
-    <section className="relative -mx-4 -mt-4 min-h-[95vh] overflow-hidden rounded-none px-5 pt-28 pb-10 text-white md:-mx-6 md:px-10 md:pt-36">
+    <section className="relative -mx-4 min-h-[100svh] overflow-hidden rounded-none px-5 pt-28 pb-10 text-white md:-mx-6 md:px-10 md:pt-36">
       <Image
         src={image}
         alt={title}
@@ -28,7 +28,7 @@ export function HeroSection({
         className="object-cover"
         priority
       />
-      <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(5,27,43,0.88),rgba(9,77,122,0.62),rgba(9,77,122,0.18))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(108deg,rgba(7,27,42,0.7),rgba(11,54,88,0.48),rgba(16,54,82,0.22))]" />
       <div className="relative mx-auto flex min-h-[80vh] max-w-6xl items-center">
         <div className="grid w-full gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)] lg:items-center lg:gap-10">
           <div className="max-w-2xl pt-12 md:pt-20 lg:pt-10">

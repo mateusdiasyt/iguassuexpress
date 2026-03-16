@@ -47,10 +47,10 @@ body {
   isolation: isolate;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 14% 12%, rgba(68, 148, 209, 0.2), transparent 28%),
-    radial-gradient(circle at 88% 14%, rgba(13, 98, 160, 0.24), transparent 34%),
-    radial-gradient(circle at 30% 82%, rgba(6, 42, 70, 0.5), transparent 44%),
-    linear-gradient(180deg, #071b2e 0%, #081f34 44%, #0a2238 100%);
+    radial-gradient(circle at 12% 4%, rgba(255, 255, 255, 0.46), transparent 26%),
+    radial-gradient(circle at 90% 8%, rgba(110, 166, 219, 0.34), transparent 34%),
+    radial-gradient(circle at 24% 84%, rgba(17, 41, 69, 0.5), transparent 42%),
+    linear-gradient(180deg, #d8dde4 0%, #9cacbf 26%, #304761 58%, #111f33 100%);
   color: #e8f1fb;
 }
 
@@ -61,8 +61,22 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(120deg, rgba(7, 31, 50, 0.74), transparent 45%),
-    linear-gradient(300deg, rgba(8, 37, 60, 0.64), transparent 52%);
+    linear-gradient(125deg, rgba(247, 250, 255, 0.2), transparent 40%),
+    linear-gradient(310deg, rgba(6, 24, 40, 0.28), transparent 54%);
+}
+
+.site-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 22%, rgba(192, 221, 246, 0.38), transparent 34%),
+    radial-gradient(circle at 74% 42%, rgba(121, 173, 220, 0.24), transparent 32%),
+    radial-gradient(circle at 46% 78%, rgba(13, 34, 58, 0.34), transparent 42%);
+  filter: blur(42px);
+  opacity: 0.8;
 }
 
 .site-shell > * {
@@ -116,10 +130,10 @@ select {
 .site-shell .glass-panel {
   background: linear-gradient(
     140deg,
-    rgba(36, 64, 92, 0.62),
-    rgba(13, 34, 55, 0.56)
+    rgba(31, 57, 82, 0.56),
+    rgba(12, 30, 49, 0.5)
   );
-  border: 1px solid rgba(192, 221, 248, 0.28);
+  border: 1px solid rgba(206, 228, 248, 0.28);
   backdrop-filter: blur(22px);
   box-shadow: 0 28px 70px rgba(2, 14, 26, 0.38);
 }
@@ -127,10 +141,10 @@ select {
 .site-shell .soft-card {
   background: linear-gradient(
     150deg,
-    rgba(16, 44, 69, 0.78),
-    rgba(11, 31, 51, 0.66)
+    rgba(24, 51, 76, 0.68),
+    rgba(12, 30, 49, 0.58)
   );
-  border: 1px solid rgba(173, 206, 235, 0.2);
+  border: 1px solid rgba(204, 225, 243, 0.2);
   backdrop-filter: blur(16px);
   box-shadow: 0 28px 65px rgba(2, 14, 26, 0.34);
 }
