@@ -6,6 +6,7 @@ import {
   IMAGE_TYPES,
   MAX_DOCUMENT_BYTES,
   MAX_SERVER_IMAGE_BYTES,
+  PUBLIC_BLOB_REQUIRED_MESSAGE,
   safeFileName,
 } from "@/lib/upload-shared";
 
@@ -36,13 +37,24 @@ export async function uploadFile(
   }
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const blob = await put(`${kind}/${safeFileName(file.name)}`, file, {
-      access: "public",
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-      addRandomSuffix: false,
-    });
+    try {
+      const blob = await put(`${kind}/${safeFileName(file.name)}`, file, {
+        access: "public",
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+        addRandomSuffix: false,
+      });
 
-    return blob.url;
+      return blob.url;
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message.toLowerCase().includes("private store")
+      ) {
+        throw new Error(PUBLIC_BLOB_REQUIRED_MESSAGE);
+      }
+
+      throw error;
+    }
   }
 
   return persistLocally(file, kind === "image" ? "images" : "documents");

@@ -5,6 +5,7 @@ import {
   MAX_CLIENT_IMAGE_BYTES,
   MAX_DOCUMENT_BYTES,
   MAX_SERVER_IMAGE_BYTES,
+  PUBLIC_BLOB_REQUIRED_MESSAGE,
   safeFileName,
 } from "@/lib/upload-shared";
 
@@ -48,6 +49,25 @@ async function uploadThroughServer(file: File, kind: UploadKind) {
   return json.url;
 }
 
+function normalizeDirectUploadError(error: unknown) {
+  if (!(error instanceof Error)) {
+    return new Error("Falha no upload direto para o Blob.");
+  }
+
+  const message = error.message.toLowerCase();
+
+  if (
+    message.includes("cannot use public access on a private store") ||
+    message.includes("store is configured with private access") ||
+    message.includes("failed to fetch") ||
+    message.includes("load failed")
+  ) {
+    return new Error(PUBLIC_BLOB_REQUIRED_MESSAGE);
+  }
+
+  return error;
+}
+
 export async function uploadAssetFromClient(file: File, kind: UploadKind = "image") {
   if (kind === "document") {
     if (file.size > MAX_DOCUMENT_BYTES) {
@@ -75,8 +95,6 @@ export async function uploadAssetFromClient(file: File, kind: UploadKind = "imag
       return uploadThroughServer(file, kind);
     }
 
-    throw error instanceof Error
-      ? error
-      : new Error("Falha no upload direto para o Blob.");
+    throw normalizeDirectUploadError(error);
   }
 }

@@ -16,6 +16,8 @@ export const DOCUMENT_TYPES = [
 export const MAX_SERVER_IMAGE_BYTES = 8 * 1024 * 1024;
 export const MAX_CLIENT_IMAGE_BYTES = 100 * 1024 * 1024;
 export const MAX_DOCUMENT_BYTES = 10 * 1024 * 1024;
+export const PUBLIC_BLOB_REQUIRED_MESSAGE =
+  "Sua Blob Store do Vercel esta em modo private. Para imagens do site, use uma Blob Store public e atualize a variavel BLOB_READ_WRITE_TOKEN no projeto.";
 
 export function safeFileName(name: string) {
   const extension = name.includes(".") ? name.split(".").pop() : "bin";

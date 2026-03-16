@@ -69,6 +69,9 @@ export function UploadGalleryField({
         <p className="text-sm leading-6 text-slate-500">
           Adicione quantas cenas quiser para alimentar a experiencia 360 da Home e da pagina publica.
         </p>
+        <p className="text-xs leading-6 text-slate-400">
+          Para imagens publicas do site, a Blob Store vinculada ao projeto precisa estar em modo public.
+        </p>
       </div>
 
       <div className="flex flex-col gap-3 rounded-[1.6rem] border border-brand/10 bg-slate-50/80 p-4">
