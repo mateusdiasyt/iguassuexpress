@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #13161E;
-  --foreground: #eef1f0;
+  --background: #f9f9f9;
+  --foreground: #172331;
   --card: rgba(255, 255, 255, 0.82);
   --card-strong: rgba(255, 255, 255, 0.94);
   --muted: #999c97;
-  --border-soft: rgba(153, 156, 151, 0.22);
+  --border-soft: rgba(9, 77, 122, 0.1);
   --brand: #094d7a;
   --brand-deep: #062d47;
   --sand: #d8c6a2;
@@ -37,9 +37,9 @@ body {
   font-family: var(--font-body), sans-serif;
   min-height: 100vh;
   background-image:
-    radial-gradient(circle at top left, rgba(175, 178, 173, 0.22), transparent 32%),
-    radial-gradient(circle at right, rgba(9, 77, 122, 0.14), transparent 30%),
-    linear-gradient(180deg, #b1b4af 0%, #68737d 36%, #2a3541 100%);
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.98), transparent 34%),
+    radial-gradient(circle at right, rgba(9, 77, 122, 0.08), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #f9f9f9 48%, #eef4f8 100%);
 }
 
 .site-shell {
@@ -47,11 +47,11 @@ body {
   isolation: isolate;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 4%, rgba(180, 184, 179, 0.48), transparent 30%),
-    radial-gradient(circle at 88% 10%, rgba(9, 77, 122, 0.22), transparent 36%),
-    radial-gradient(circle at 30% 84%, rgba(47, 59, 72, 0.5), transparent 46%),
-    linear-gradient(180deg, #b4b8b3 0%, #74808a 28%, #384553 58%, #222b36 100%);
-  color: #e8f1fb;
+    radial-gradient(circle at 12% 4%, rgba(255, 255, 255, 0.94), transparent 30%),
+    radial-gradient(circle at 88% 10%, rgba(9, 77, 122, 0.09), transparent 34%),
+    radial-gradient(circle at 26% 78%, rgba(9, 77, 122, 0.05), transparent 42%),
+    linear-gradient(180deg, #ffffff 0%, #f9f9f9 44%, #edf3f7 100%);
+  color: #172331;
 }
 
 .site-shell::before {
@@ -61,8 +61,8 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(125deg, rgba(184, 188, 183, 0.22), transparent 42%),
-    linear-gradient(300deg, rgba(9, 77, 122, 0.14), transparent 58%);
+    linear-gradient(125deg, rgba(255, 255, 255, 0.72), transparent 44%),
+    linear-gradient(300deg, rgba(9, 77, 122, 0.08), transparent 58%);
 }
 
 .site-shell::after {
@@ -72,11 +72,11 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 22% 24%, rgba(184, 188, 183, 0.28), transparent 36%),
-    radial-gradient(circle at 76% 40%, rgba(9, 77, 122, 0.18), transparent 36%),
-    radial-gradient(circle at 48% 78%, rgba(44, 56, 70, 0.22), transparent 42%);
-  filter: blur(46px);
-  opacity: 0.82;
+    radial-gradient(circle at 22% 24%, rgba(255, 255, 255, 0.86), transparent 34%),
+    radial-gradient(circle at 76% 40%, rgba(9, 77, 122, 0.1), transparent 36%),
+    radial-gradient(circle at 48% 78%, rgba(171, 204, 230, 0.18), transparent 42%);
+  filter: blur(54px);
+  opacity: 0.88;
 }
 
 a {
@@ -125,10 +125,10 @@ select {
 .site-shell .glass-panel {
   background: linear-gradient(
     140deg,
-    rgba(61, 70, 82, 0.58),
-    rgba(31, 39, 49, 0.5)
+    rgba(49, 58, 69, 0.54),
+    rgba(24, 31, 40, 0.48)
   );
-  border: 1px solid rgba(153, 156, 151, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   backdrop-filter: blur(22px);
   box-shadow: 0 28px 70px rgba(2, 14, 26, 0.38);
 }
@@ -136,44 +136,44 @@ select {
 .site-shell .soft-card {
   background: linear-gradient(
     150deg,
-    rgba(78, 88, 101, 0.56),
-    rgba(34, 42, 52, 0.5)
+    rgba(255, 255, 255, 0.86),
+    rgba(249, 249, 249, 0.72)
   );
-  border: 1px solid rgba(153, 156, 151, 0.24);
+  border: 1px solid rgba(9, 77, 122, 0.1);
   backdrop-filter: blur(16px);
-  box-shadow: 0 28px 65px rgba(2, 14, 26, 0.34);
+  box-shadow: 0 24px 60px rgba(15, 31, 51, 0.08);
 }
 
 .site-shell .soft-card .text-slate-950,
 .site-shell .soft-card .text-slate-900 {
-  color: #f2f8ff;
+  color: #132030;
 }
 
 .site-shell .soft-card .text-slate-800 {
-  color: #dce1de;
+  color: #223649;
 }
 
 .site-shell .soft-card .text-slate-700 {
-  color: #c8cfcb;
+  color: #405369;
 }
 
 .site-shell .soft-card .text-slate-600,
 .site-shell .soft-card .text-slate-500 {
-  color: #abb3af;
+  color: #607182;
 }
 
 .site-shell .soft-card .text-brand\/70,
 .site-shell .soft-card .text-brand\/75 {
-  color: rgba(125, 184, 233, 0.95);
+  color: rgba(9, 77, 122, 0.78);
 }
 
 .site-shell .editorial-prose {
-  color: #b8cde1;
+  color: #42576d;
 }
 
 .site-shell .editorial-prose h2,
 .site-shell .editorial-prose h3 {
-  color: #f0f7ff;
+  color: #132030;
 }
 
 .editorial-prose {
