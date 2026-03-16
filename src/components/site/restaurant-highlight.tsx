@@ -24,6 +24,7 @@ export function RestaurantHighlight({
           eyebrow="Restaurante"
           title={title}
           description={description}
+          layout="stacked"
           className="text-white [&_h2]:text-white [&_p]:text-white/72"
         />
         <div className="mt-8">

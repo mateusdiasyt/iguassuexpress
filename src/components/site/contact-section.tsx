@@ -26,6 +26,7 @@ export function ContactSection({
           eyebrow="Contato"
           title="Fale com nossa equipe"
           description="Escolha o melhor canal para falar com a recepcao, solicitar informacoes ou iniciar sua reserva."
+          layout="stacked"
         />
         <div className="grid gap-4">
           {[

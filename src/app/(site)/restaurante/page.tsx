@@ -37,6 +37,7 @@ export default async function RestaurantPage() {
             eyebrow="Cafe da manha"
             title={restaurant.breakfastTitle}
             description={restaurant.breakfastDescription}
+            layout="stacked"
           />
         </article>
         <article className="soft-card rounded-[1.8rem] p-8">
@@ -44,6 +45,7 @@ export default async function RestaurantPage() {
             eyebrow="A la carte"
             title={restaurant.aLaCarteTitle}
             description={restaurant.aLaCarteDescription}
+            layout="stacked"
           />
         </article>
       </section>

@@ -14,7 +14,7 @@ export function SectionHeading({
   title,
   description,
   align = "left",
-  layout = "stacked",
+  layout = "split",
   className,
 }: SectionHeadingProps) {
   return (
