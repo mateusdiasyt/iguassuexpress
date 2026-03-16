@@ -68,24 +68,26 @@ export default async function HomePage() {
       `Cena ${index + 2} preparada para evoluir para um panorama oficial em 360 graus.`,
     image: image.imageUrl,
   }));
-  const customTourScenes = (tour.gallery ?? []).map((image, index) => ({
-    id: `tour-gallery-${index + 1}`,
-    title: index === 0 ? "Piscina panoramica" : `Cena 360 ${index + 1}`,
-    description:
-      index === 0
-        ? "Deck externo e area de descanso em uma vista ampla para inspirar a reserva."
-        : `Cena imersiva ${index + 1} preparada para a experiencia panoramica do hotel.`,
-    image,
-  }));
-  const tourScenes = [
+  const primaryTourImage = tour.gallery?.[0] || tour.heroImage || heroImage;
+  const customTourScenes =
+    tour.gallery?.map((image, index) => ({
+      id: `tour-gallery-${index + 1}`,
+      title: index === 0 ? "Piscina panoramica" : `Cena 360 ${index + 1}`,
+      description:
+        index === 0
+          ? "Primeira cena da galeria 360 cadastrada no painel do hotel."
+          : `Imagem ${index + 1} cadastrada na galeria 360 do painel administrativo.`,
+      image,
+    })) ?? [];
+  const tourScenes = (customTourScenes.length ? customTourScenes : [
     {
-      id: "tour-pool",
+      id: "tour-primary",
       title: "Piscina panoramica",
-      description: "Deck externo e area de descanso em uma vista ampla para inspirar a reserva.",
-      image: tour.heroImage || heroImage,
+      description: "Cena principal do tour 360 com preview panoramico da area externa.",
+      image: primaryTourImage,
     },
-    ...(customTourScenes.length ? customTourScenes : fallbackTourScenes),
-  ]
+    ...fallbackTourScenes,
+  ])
     .filter(
       (scene, index, allScenes) =>
         Boolean(scene.image) &&
@@ -152,7 +154,7 @@ export default async function HomePage() {
           <TourLocationSection
             tourTitle={tour.title}
             tourDescription={tour.description}
-            previewImage={tour.heroImage || heroImage}
+            previewImage={primaryTourImage}
             scenes={tourScenes}
           />
         </section>

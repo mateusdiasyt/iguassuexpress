@@ -149,6 +149,35 @@ export function Tour360Modal({
                 <p className="mt-4 text-sm leading-7 text-slate-300/90">
                   Arraste cada cena para sentir profundidade, explorar enquadramentos e apresentar o hotel de forma mais imersiva.
                 </p>
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {scenes.slice(0, 3).map((scene, index) => (
+                    <button
+                      key={`${scene.id}-preview`}
+                      type="button"
+                      onClick={() => setActiveSceneId(scene.id)}
+                      className={cn(
+                        "group relative overflow-hidden rounded-[1rem] border transition-all duration-300",
+                        scene.id === activeScene.id
+                          ? "border-sky-200/45"
+                          : "border-white/10 hover:border-white/20",
+                      )}
+                    >
+                      <div className="relative h-20">
+                        <Image
+                          src={scene.image}
+                          alt={scene.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="120px"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent" />
+                        <span className="absolute left-2 top-2 rounded-full bg-slate-950/45 px-2 py-1 text-[0.55rem] font-semibold uppercase tracking-[0.22em] text-white/82 backdrop-blur-md">
+                          {index + 1}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-8 grid gap-3">

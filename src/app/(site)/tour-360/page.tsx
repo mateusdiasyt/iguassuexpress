@@ -21,7 +21,7 @@ export default async function Tour360Page() {
   const [page, tour] = await Promise.all([getPageContent("tour-360"), getTour360Content()]);
   const tourGallery = Array.from(
     new Set(
-      [tour.heroImage, ...(tour.gallery ?? [])].filter(
+      [(tour.gallery ?? [])[0] || tour.heroImage, ...(tour.gallery ?? [])].filter(
         (value): value is string => Boolean(value),
       ),
     ),
