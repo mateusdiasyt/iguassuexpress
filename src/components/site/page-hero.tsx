@@ -9,7 +9,7 @@ type PageHeroProps = {
 
 export function PageHero({ title, subtitle, image, badge }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden rounded-[2rem] bg-brand-deep px-6 pt-32 pb-16 text-white shadow-[0_40px_90px_rgba(6,45,71,0.35)] md:px-10">
+    <section className="relative overflow-hidden rounded-[2rem] bg-brand-deep px-6 text-white shadow-[0_40px_90px_rgba(6,45,71,0.35)] md:px-10">
       {image ? (
         <Image
           src={image}
@@ -19,7 +19,7 @@ export function PageHero({ title, subtitle, image, badge }: PageHeroProps) {
         />
       ) : null}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-deep/95 via-brand/85 to-brand-deep/75" />
-      <div className="relative mx-auto max-w-5xl">
+      <div className="relative mx-auto max-w-5xl pt-32 pb-16">
         {badge ? (
           <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-white/85">
             {badge}
