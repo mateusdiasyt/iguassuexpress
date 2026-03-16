@@ -124,6 +124,7 @@ model Tour360Content {
   description String   @db.Text
   embedUrl    String?
   heroImage   String?
+  gallery     String[]
   isActive    Boolean  @default(true)
   updatedAt   DateTime @updatedAt
 }

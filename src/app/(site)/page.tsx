@@ -60,6 +60,23 @@ export default async function HomePage() {
   const heroCards = getHeroCards(homePage.content);
   const hasHeroCards = heroCards.length > 0;
   const heroImage = resolveHomeHeroImage(homePage.bannerImage);
+  const fallbackTourScenes = galleryImages.map((image, index) => ({
+    id: image.id,
+    title: image.category,
+    description:
+      image.altText ||
+      `Cena ${index + 2} preparada para evoluir para um panorama oficial em 360 graus.`,
+    image: image.imageUrl,
+  }));
+  const customTourScenes = (tour.gallery ?? []).map((image, index) => ({
+    id: `tour-gallery-${index + 1}`,
+    title: index === 0 ? "Piscina panoramica" : `Cena 360 ${index + 1}`,
+    description:
+      index === 0
+        ? "Deck externo e area de descanso em uma vista ampla para inspirar a reserva."
+        : `Cena imersiva ${index + 1} preparada para a experiencia panoramica do hotel.`,
+    image,
+  }));
   const tourScenes = [
     {
       id: "tour-pool",
@@ -67,14 +84,7 @@ export default async function HomePage() {
       description: "Deck externo e area de descanso em uma vista ampla para inspirar a reserva.",
       image: tour.heroImage || heroImage,
     },
-    ...galleryImages.map((image, index) => ({
-      id: image.id,
-      title: image.category,
-      description:
-        image.altText ||
-        `Cena ${index + 2} preparada para evoluir para um panorama oficial em 360 graus.`,
-      image: image.imageUrl,
-    })),
+    ...(customTourScenes.length ? customTourScenes : fallbackTourScenes),
   ]
     .filter(
       (scene, index, allScenes) =>

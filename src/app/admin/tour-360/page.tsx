@@ -1,6 +1,7 @@
 import { saveTour360Action } from "@/actions/admin";
 import { AdminCard } from "@/components/admin/admin-card";
 import { AdminShell } from "@/components/admin/admin-shell";
+import { UploadGalleryField } from "@/components/admin/upload-gallery-field";
 import { UploadField } from "@/components/admin/upload-field";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
@@ -23,7 +24,7 @@ export default async function AdminTourPage() {
   return (
     <AdminShell
       title="Tour 360"
-      description="Atualize titulo, descricao, embed e banner do tour virtual."
+      description="Atualize titulo, descricao, embed, banner e a galeria de cenas do tour virtual."
       pathname="/admin/tour-360"
       userName={session.user.name}
     >
@@ -42,6 +43,11 @@ export default async function AdminTourPage() {
             <Input name="embedUrl" defaultValue={tour.embedUrl ?? ""} />
           </label>
           <UploadField name="heroImage" label="Imagem principal" defaultValue={tour.heroImage} />
+          <UploadGalleryField
+            name="gallery"
+            label="Galeria 360"
+            defaultValue={tour.gallery}
+          />
           <label className="flex items-center gap-3 rounded-2xl border border-brand/10 bg-slate-50 px-4 py-3 text-sm text-slate-600">
             <input type="checkbox" name="isActive" defaultChecked={tour.isActive} />
             Tour ativo

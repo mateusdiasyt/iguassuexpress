@@ -391,6 +391,7 @@ export async function saveTour360Action(formData: FormData) {
     description: getString(formData, "description"),
     embedUrl: getString(formData, "embedUrl"),
     heroImage: getString(formData, "heroImage"),
+    gallery: getString(formData, "gallery"),
     isActive: getBoolean(formData, "isActive"),
   });
 
@@ -401,6 +402,7 @@ export async function saveTour360Action(formData: FormData) {
       description: parsed.description,
       embedUrl: parsed.embedUrl || null,
       heroImage: parsed.heroImage || null,
+      gallery: parseList(parsed.gallery ?? ""),
       isActive: parsed.isActive,
     },
     create: {
@@ -409,6 +411,7 @@ export async function saveTour360Action(formData: FormData) {
       description: parsed.description,
       embedUrl: parsed.embedUrl || null,
       heroImage: parsed.heroImage || null,
+      gallery: parseList(parsed.gallery ?? ""),
       isActive: parsed.isActive,
     },
   });

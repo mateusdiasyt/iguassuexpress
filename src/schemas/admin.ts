@@ -85,6 +85,7 @@ export const tour360Schema = z.object({
   description: z.string().min(10),
   embedUrl: optionalString,
   heroImage: optionalString,
+  gallery: z.string().optional(),
   isActive: z.boolean(),
 });
 

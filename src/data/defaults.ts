@@ -446,6 +446,7 @@ export const defaultTour360Content = {
     "Publique aqui o tour virtual oficial do hotel. Enquanto isso, o site apresenta uma mensagem elegante de expectativa para manter a experiencia premium.",
   embedUrl: "",
   heroImage: media.hero,
+  gallery: [media.hero, media.gallery, media.location],
   isActive: true,
 };
 
