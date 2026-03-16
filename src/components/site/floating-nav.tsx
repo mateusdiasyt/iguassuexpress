@@ -73,7 +73,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6">
-        <div className="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-white/18 bg-slate-950/14 px-4 py-3 text-white shadow-2xl backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-2 py-2 text-white">
           <Link href="/" className="flex items-center">
             <img
               src={logoSrc}
@@ -93,10 +93,10 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "group flex h-11 items-center rounded-full border px-4 transition-all duration-300",
+                    "group flex h-11 items-center rounded-full border border-white/15 bg-slate-950/18 px-4 shadow-[0_8px_22px_rgba(4,18,32,0.22)] backdrop-blur-xl transition-all duration-300",
                     isActive
-                      ? "border-white/20 bg-white/16"
-                      : "border-transparent bg-transparent hover:border-white/15 hover:bg-white/10",
+                      ? "border-white/24 bg-white/16"
+                      : "hover:border-white/24 hover:bg-white/12",
                   )}
                 >
                   <Icon className="h-4 w-4 shrink-0" />
@@ -110,7 +110,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/22 shadow-[0_8px_22px_rgba(4,18,32,0.22)] backdrop-blur-xl md:hidden"
             onClick={() => setOpen((current) => !current)}
             aria-label="Abrir menu"
           >
