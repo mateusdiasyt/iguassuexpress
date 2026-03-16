@@ -1,15 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRef, useState } from "react";
 import { ArrowUpRight, MoveHorizontal } from "lucide-react";
+import { Tour360Modal, type TourScene } from "@/components/site/tour-360-modal";
 import { cn } from "@/lib/utils";
 
 type TourLocationSectionProps = {
   tourTitle: string;
   tourDescription: string;
   previewImage?: string;
+  scenes?: TourScene[];
 };
 
 const DEFAULT_PREVIEW_IMAGE = "/piscina-hotel-iguassu.jpg";
@@ -22,12 +23,26 @@ export function TourLocationSection({
   tourTitle,
   tourDescription,
   previewImage = DEFAULT_PREVIEW_IMAGE,
+  scenes = [],
 }: TourLocationSectionProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dragStateRef = useRef<{ startX: number; startOffset: number } | null>(null);
   const [offset, setOffset] = useState(0.5);
   const [isDragging, setIsDragging] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const tourScenes =
+    scenes.length > 0
+      ? scenes
+      : [
+          {
+            id: "pool-scene",
+            title: "Piscina panoramica",
+            description: "Deck externo, espelho d'agua e atmosfera de descanso do hotel.",
+            image: previewImage,
+          },
+        ];
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
     if (!containerRef.current) return;
@@ -131,15 +146,25 @@ export function TourLocationSection({
             </p>
           </div>
 
-          <Link
-            href="/tour-360"
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            onPointerDown={(event) => event.stopPropagation()}
             className="inline-flex h-12 items-center gap-3 self-start rounded-full border border-white/35 bg-white/18 px-5 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-[0_14px_30px_rgba(15,23,42,0.14)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/24"
           >
             Abrir tour 360
             <ArrowUpRight className="h-4 w-4" />
-          </Link>
+          </button>
         </div>
       </div>
+
+      <Tour360Modal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        title={tourTitle}
+        description={tourDescription}
+        scenes={tourScenes}
+      />
     </section>
   );
 }

@@ -11,6 +11,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import {
   getBlogPosts,
   getFaqItems,
+  getGalleryImages,
   getPageContent,
   getRestaurantContent,
   getRoomCategories,
@@ -44,13 +45,14 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const [settings, homePage, roomCategories, restaurant, tour, blogPosts, faqs] =
+  const [settings, homePage, roomCategories, restaurant, tour, galleryImages, blogPosts, faqs] =
     await Promise.all([
       getSiteSettings(),
       getPageContent("home"),
       getRoomCategories(),
       getRestaurantContent(),
       getTour360Content(),
+      getGalleryImages(),
       getBlogPosts(),
       getFaqItems(),
     ]);
@@ -58,6 +60,28 @@ export default async function HomePage() {
   const heroCards = getHeroCards(homePage.content);
   const hasHeroCards = heroCards.length > 0;
   const heroImage = resolveHomeHeroImage(homePage.bannerImage);
+  const tourScenes = [
+    {
+      id: "tour-pool",
+      title: "Piscina panoramica",
+      description: "Deck externo e area de descanso em uma vista ampla para inspirar a reserva.",
+      image: tour.heroImage || heroImage,
+    },
+    ...galleryImages.map((image, index) => ({
+      id: image.id,
+      title: image.category,
+      description:
+        image.altText ||
+        `Cena ${index + 2} preparada para evoluir para um panorama oficial em 360 graus.`,
+      image: image.imageUrl,
+    })),
+  ]
+    .filter(
+      (scene, index, allScenes) =>
+        Boolean(scene.image) &&
+        allScenes.findIndex((item) => item.image === scene.image) === index,
+    )
+    .slice(0, 4);
   const hotelSchema = {
     "@context": "https://schema.org",
     "@type": "Hotel",
@@ -118,6 +142,8 @@ export default async function HomePage() {
           <TourLocationSection
             tourTitle={tour.title}
             tourDescription={tour.description}
+            previewImage={tour.heroImage || heroImage}
+            scenes={tourScenes}
           />
         </section>
 
