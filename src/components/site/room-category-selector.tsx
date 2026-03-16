@@ -26,7 +26,7 @@ export function RoomCategorySelector({
 }: RoomCategorySelectorProps) {
   return (
     <div className="flex">
-      <div className="inline-flex items-center gap-1 rounded-2xl border border-white/18 bg-[linear-gradient(135deg,rgba(9,28,48,0.78),rgba(26,43,67,0.64))] p-1.5 shadow-[0_16px_40px_rgba(5,20,34,0.32)] backdrop-blur-xl">
+      <div className="inline-flex items-center gap-1 rounded-full border border-slate-200/80 bg-white/88 p-1.5 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur-md">
         {categories.map((category) => (
           <button
             key={category.slug}
@@ -34,11 +34,11 @@ export function RoomCategorySelector({
             aria-pressed={selected === category.slug}
             onClick={() => onSelect(category.slug)}
             className={cn(
-              "min-w-[8.5rem] rounded-xl px-5 py-2.5 text-sm font-semibold text-white/72 transition-all duration-250",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200/65",
+              "min-w-[8.25rem] rounded-full px-5 py-2.5 text-sm font-semibold tracking-[-0.02em] transition-all duration-250",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20",
               selected === category.slug
-                ? "bg-white/16 text-white shadow-[0_8px_24px_rgba(6,20,34,0.24)]"
-                : "hover:bg-white/8 hover:text-white/95",
+                ? "bg-brand text-white shadow-[0_10px_22px_rgba(9,77,122,0.16)]"
+                : "text-slate-500 hover:bg-slate-100 hover:text-slate-950",
             )}
           >
             {getCategoryLabel(category.name, category.slug)}
