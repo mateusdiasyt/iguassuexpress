@@ -13,6 +13,7 @@ export default withAuth(
     return NextResponse.next();
   },
   {
+    secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
     callbacks: {
       authorized: ({ token, req }) => {
         if (req.nextUrl.pathname === "/admin/login") {
