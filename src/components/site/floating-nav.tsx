@@ -140,11 +140,11 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
       <aside
         className={cn(
-          "nav-left-dock pointer-events-none fixed top-1/2 left-4 z-50 hidden -translate-y-1/2 md:block",
+          "nav-left-dock pointer-events-none fixed inset-y-0 left-4 z-50 hidden items-center py-4 md:flex",
           isDockedLeft ? "is-visible" : null,
         )}
       >
-        <nav className="flex flex-col gap-2 rounded-[1.8rem] border border-white/16 bg-slate-950/18 p-2 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)] backdrop-blur-2xl">
+        <nav className="flex max-h-[calc(100dvh-2rem)] flex-col gap-2 overflow-y-auto rounded-[1.8rem] border border-white/16 bg-slate-950/18 p-2 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)] backdrop-blur-2xl">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
