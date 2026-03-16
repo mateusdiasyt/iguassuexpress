@@ -101,6 +101,7 @@ export default async function HomePage() {
             eyebrow="Acomodacoes"
             title="Quartos organizados por categoria"
             description="Escolha entre as categorias Standard e Superior, depois explore os detalhes de cada acomodacao em um modal elegante."
+            layout="split"
           />
           <RoomCatalog categories={roomCategories} />
         </section>
