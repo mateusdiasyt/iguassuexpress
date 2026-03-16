@@ -95,6 +95,15 @@ export default async function HomePage() {
         </section>
       ) : null}
 
+      <section className="mx-auto max-w-6xl space-y-10">
+        <SectionHeading
+          eyebrow="Acomodacoes"
+          title="Quartos organizados por categoria"
+          description="Escolha entre as categorias Standard e Superior, depois explore os detalhes de cada acomodacao em um modal elegante."
+        />
+        <RoomCatalog categories={roomCategories} />
+      </section>
+
       <section className="mx-auto max-w-6xl">
         <div className="space-y-8">
           <SectionHeading
@@ -117,15 +126,6 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl space-y-10">
-        <SectionHeading
-          eyebrow="Acomodacoes"
-          title="Quartos organizados por categoria"
-          description="Escolha entre as categorias Standard e Superior, depois explore os detalhes de cada acomodacao em um modal elegante."
-        />
-        <RoomCatalog categories={roomCategories} />
       </section>
 
       <div className="mx-auto max-w-6xl">
