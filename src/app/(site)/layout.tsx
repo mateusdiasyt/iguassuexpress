@@ -11,7 +11,7 @@ export default async function SiteLayout({
   const settings = await getSiteSettings();
 
   return (
-    <div className="pb-10">
+    <div className="site-shell pb-10">
       <FloatingNav
         hotelName={settings.hotelName}
         logo={settings.logo}

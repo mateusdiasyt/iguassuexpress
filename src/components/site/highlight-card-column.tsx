@@ -41,6 +41,33 @@ const WHATSAPP_MESSAGES = [
   },
 ];
 
+const CARD_THEMES = [
+  {
+    surface:
+      "bg-[linear-gradient(145deg,rgba(20,60,93,0.78),rgba(11,34,56,0.68))]",
+    border: "border-sky-200/28",
+    glow: "from-sky-300/30 via-cyan-200/12 to-transparent",
+    icon: "text-sky-100",
+    divider: "via-sky-200/55",
+  },
+  {
+    surface:
+      "bg-[linear-gradient(145deg,rgba(26,74,109,0.8),rgba(13,40,66,0.7))]",
+    border: "border-cyan-200/26",
+    glow: "from-cyan-200/30 via-teal-200/14 to-transparent",
+    icon: "text-cyan-100",
+    divider: "via-cyan-200/55",
+  },
+  {
+    surface:
+      "bg-[linear-gradient(145deg,rgba(34,76,112,0.8),rgba(16,40,68,0.7))]",
+    border: "border-indigo-200/25",
+    glow: "from-indigo-200/28 via-sky-100/12 to-transparent",
+    icon: "text-indigo-100",
+    divider: "via-indigo-200/55",
+  },
+] as const;
+
 export function HighlightCardColumn({
   cards,
   mapEmbed,
@@ -108,6 +135,7 @@ export function HighlightCardColumn({
     <aside className={cn("grid gap-4 md:grid-cols-3 lg:gap-5", className)}>
       {cards.map((card, index) => {
         const Icon = icons[index] ?? Gem;
+        const theme = CARD_THEMES[index] ?? CARD_THEMES[0];
         const isPreviewOpen = activePreviewIndex === index;
         const previewClassName = cn(
           "absolute left-1/2 bottom-[calc(100%+0.9rem)] z-40 hidden -translate-x-1/2 transition-all duration-300 ease-out lg:block",
@@ -124,13 +152,29 @@ export function HighlightCardColumn({
             onMouseEnter={() => openPreview(index)}
             onMouseLeave={() => scheduleClosePreview(index)}
           >
-            <div className="relative min-h-[164px] overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,251,255,0.9))] p-6 shadow-[0_16px_34px_rgba(8,36,58,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/20 hover:shadow-[0_24px_46px_rgba(8,36,58,0.13)] md:min-h-[172px] md:p-7">
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/45 to-transparent" />
-              <div className="absolute -top-10 -right-10 h-24 w-24 rounded-full bg-brand/[0.06] blur-2xl transition-transform duration-300 group-hover:scale-110" />
+            <div
+              className={cn(
+                "relative min-h-[164px] overflow-hidden rounded-[1.8rem] border p-6 shadow-[0_18px_44px_rgba(2,16,30,0.26)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_62px_rgba(2,16,30,0.36)] md:min-h-[172px] md:p-7",
+                theme.surface,
+                theme.border,
+              )}
+            >
+              <div
+                className={cn(
+                  "absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent to-transparent",
+                  theme.divider,
+                )}
+              />
+              <div
+                className={cn(
+                  "absolute -top-14 -right-8 h-28 w-28 rounded-full bg-gradient-to-br blur-2xl transition-transform duration-300 group-hover:scale-110",
+                  theme.glow,
+                )}
+              />
               <div className="grid min-h-[116px] place-items-center md:min-h-[126px]">
                 <div className="flex items-center gap-4 text-left md:gap-5">
-                  <Icon className="h-8 w-8 flex-none text-brand md:h-9 md:w-9" />
-                  <h3 className="max-w-[12rem] text-[1.45rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 md:text-[1.62rem]">
+                  <Icon className={cn("h-8 w-8 flex-none md:h-9 md:w-9", theme.icon)} />
+                  <h3 className="max-w-[12rem] text-[1.45rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-white md:text-[1.62rem]">
                     {card.title}
                   </h3>
                 </div>
@@ -143,12 +187,12 @@ export function HighlightCardColumn({
                 onMouseEnter={() => openPreview(index)}
                 onMouseLeave={() => scheduleClosePreview(index)}
               >
-                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-white/96 p-2 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
-                  <div className="flex items-center justify-between rounded-[0.95rem] bg-brand/10 px-3 py-2">
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-brand">
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/20 bg-[linear-gradient(140deg,rgba(28,62,92,0.88),rgba(12,31,49,0.88))] p-2 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
+                  <div className="flex items-center justify-between rounded-[0.95rem] bg-white/10 px-3 py-2">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-sky-100">
                       Localizacao
                     </p>
-                    <span className="text-[0.65rem] font-medium text-brand/70">
+                    <span className="text-[0.65rem] font-medium text-sky-100/80">
                       Foz do Iguacu
                     </span>
                   </div>
@@ -158,11 +202,11 @@ export function HighlightCardColumn({
                       dangerouslySetInnerHTML={{ __html: mapEmbed }}
                     />
                   ) : (
-                    <div className="mt-2 flex h-52 items-center justify-center rounded-[0.95rem] bg-slate-100 text-sm text-slate-500">
+                    <div className="mt-2 flex h-52 items-center justify-center rounded-[0.95rem] bg-white/8 text-sm text-slate-200/75">
                       Mapa em breve
                     </div>
                   )}
-                  <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-slate-200 bg-white" />
+                  <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
                 </div>
               </div>
             ) : null}
@@ -173,10 +217,10 @@ export function HighlightCardColumn({
                 onMouseEnter={() => openPreview(index)}
                 onMouseLeave={() => scheduleClosePreview(index)}
               >
-                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-[#eef7f1] p-3 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
-                  <div className="mx-1 rounded-[1rem] border border-[#d5ead8] bg-[#f3fbf4] p-3">
-                    <div className="rounded-[0.9rem] bg-[#0f7d6e] px-3 py-2 text-white">
-                      <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-white/80">
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/20 bg-[linear-gradient(140deg,rgba(27,59,86,0.9),rgba(11,31,49,0.9))] p-3 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
+                  <div className="mx-2 my-2 rounded-[1rem] border border-[#d0e6d3] bg-[#ecf8ed] p-3 shadow-[0_16px_30px_rgba(8,36,58,0.12)]">
+                    <div className="rounded-[0.9rem] bg-[#0f7d6e] px-3 py-2 text-white shadow-[0_8px_18px_rgba(5,66,58,0.28)]">
+                      <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-white/82">
                         Atendimento WhatsApp
                       </p>
                       <p className="mt-1 text-sm font-semibold">Iguassu Express Hotel</p>
@@ -207,7 +251,7 @@ export function HighlightCardColumn({
                       </div>
                     </div>
                   </div>
-                  <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-[#d8e8dc] bg-[#eef7f1]" />
+                  <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
                 </div>
               </div>
             ) : null}
@@ -218,9 +262,9 @@ export function HighlightCardColumn({
                 onMouseEnter={() => openPreview(index)}
                 onMouseLeave={() => scheduleClosePreview(index)}
               >
-                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/80 bg-white/96 p-2 shadow-[0_28px_58px_rgba(8,36,58,0.24)] backdrop-blur-xl">
-                  <div className="rounded-[0.95rem] bg-brand/10 px-3 py-2">
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-brand">
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/20 bg-[linear-gradient(140deg,rgba(30,63,91,0.88),rgba(12,31,49,0.88))] p-2 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
+                  <div className="rounded-[0.95rem] bg-white/10 px-3 py-2">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-indigo-100">
                       Experiencia Premium
                     </p>
                   </div>
@@ -235,12 +279,12 @@ export function HighlightCardColumn({
                         allowFullScreen
                       />
                     ) : (
-                      <div className="flex h-56 items-center justify-center bg-slate-100 text-sm text-slate-500">
+                      <div className="flex h-56 items-center justify-center bg-white/8 text-sm text-slate-200/75">
                         Carregando preview...
                       </div>
                     )}
                   </div>
-                  <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-slate-200 bg-white" />
+                  <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
                 </div>
               </div>
             ) : null}
