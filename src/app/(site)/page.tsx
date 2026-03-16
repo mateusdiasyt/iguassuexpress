@@ -11,7 +11,6 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import {
   getBlogPosts,
   getFaqItems,
-  getLocationContent,
   getPageContent,
   getRestaurantContent,
   getRoomCategories,
@@ -45,14 +44,13 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const [settings, homePage, roomCategories, restaurant, tour, location, blogPosts, faqs] =
+  const [settings, homePage, roomCategories, restaurant, tour, blogPosts, faqs] =
     await Promise.all([
       getSiteSettings(),
       getPageContent("home"),
       getRoomCategories(),
       getRestaurantContent(),
       getTour360Content(),
-      getLocationContent(),
       getBlogPosts(),
       getFaqItems(),
     ]);
@@ -118,15 +116,13 @@ export default async function HomePage() {
 
         <section className="mx-auto max-w-6xl space-y-10">
           <SectionHeading
-            eyebrow="Experiencia"
-            title="Explore o hotel e a regiao com mais contexto"
-            description="Do tour virtual a localizacao estrategica, cada detalhe foi pensado para reforcar confianca antes da reserva."
+            eyebrow="Tour 360"
+            title="Visualize a piscina em uma experiencia interativa"
+            description="Explore a atmosfera do hotel com uma navegacao panoramica mais imersiva antes de seguir para a pagina completa do tour."
           />
           <TourLocationSection
             tourTitle={tour.title}
             tourDescription={tour.description}
-            locationTitle={location.title}
-            locationDescription={location.description}
           />
         </section>
 
