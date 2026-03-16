@@ -60,7 +60,22 @@ export function TourLocationSection({
   const translateX = `${-8 - offset * 18}%`;
 
   return (
-    <section className="grid gap-8 lg:grid-cols-[minmax(0,1.18fr)_minmax(280px,0.82fr)] lg:items-end">
+    <section className="grid gap-8 lg:grid-cols-[minmax(280px,0.82fr)_minmax(0,1.18fr)] lg:items-center">
+      <div className="space-y-5 lg:pb-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-brand/75">
+          Experiencia 360
+        </p>
+        <h3 className="max-w-md text-[2.1rem] leading-[0.94] font-extrabold text-slate-950 md:text-[3rem]">
+          Explore o hotel em uma navegacao mais sensorial
+        </h3>
+        <p className="max-w-md text-sm leading-7 text-slate-600 md:text-base md:leading-8">
+          {tourDescription}
+        </p>
+        <p className="max-w-sm text-sm leading-7 text-slate-500">
+          A interacao foi pensada para destacar a piscina e convidar o visitante a descobrir o ambiente antes da reserva.
+        </p>
+      </div>
+
       <div
         ref={containerRef}
         role="presentation"
@@ -124,21 +139,6 @@ export function TourLocationSection({
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
-
-      <div className="space-y-5 lg:pb-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-brand/75">
-          Experiencia 360
-        </p>
-        <h3 className="max-w-md text-[2.1rem] leading-[0.94] font-extrabold text-slate-950 md:text-[3rem]">
-          Explore o hotel em uma navegacao mais sensorial
-        </h3>
-        <p className="max-w-md text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-          {tourDescription}
-        </p>
-        <p className="max-w-sm text-sm leading-7 text-slate-500">
-          A interacao foi pensada para destacar a piscina e convidar o visitante a descobrir o ambiente antes da reserva.
-        </p>
       </div>
     </section>
   );

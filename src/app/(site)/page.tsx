@@ -114,12 +114,7 @@ export default async function HomePage() {
           />
         </div>
 
-        <section className="mx-auto max-w-6xl space-y-10">
-          <SectionHeading
-            eyebrow="Tour 360"
-            title="Visualize a piscina em uma experiencia interativa"
-            description="Explore a atmosfera do hotel com uma navegacao panoramica mais imersiva antes de seguir para a pagina completa do tour."
-          />
+        <section className="mx-auto max-w-6xl">
           <TourLocationSection
             tourTitle={tour.title}
             tourDescription={tour.description}
