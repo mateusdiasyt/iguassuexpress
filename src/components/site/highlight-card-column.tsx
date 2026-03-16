@@ -41,33 +41,6 @@ const WHATSAPP_MESSAGES = [
   },
 ];
 
-const CARD_THEMES = [
-  {
-    surface:
-      "bg-[linear-gradient(145deg,rgba(54,96,132,0.74),rgba(32,66,95,0.62))]",
-    border: "border-sky-200/28",
-    glow: "from-sky-300/30 via-cyan-200/12 to-transparent",
-    icon: "text-sky-100",
-    divider: "via-sky-200/55",
-  },
-  {
-    surface:
-      "bg-[linear-gradient(145deg,rgba(63,110,146,0.74),rgba(35,73,104,0.62))]",
-    border: "border-cyan-200/26",
-    glow: "from-cyan-200/30 via-teal-200/14 to-transparent",
-    icon: "text-cyan-100",
-    divider: "via-cyan-200/55",
-  },
-  {
-    surface:
-      "bg-[linear-gradient(145deg,rgba(69,114,150,0.74),rgba(39,74,104,0.62))]",
-    border: "border-indigo-200/25",
-    glow: "from-indigo-200/28 via-sky-100/12 to-transparent",
-    icon: "text-indigo-100",
-    divider: "via-indigo-200/55",
-  },
-] as const;
-
 export function HighlightCardColumn({
   cards,
   mapEmbed,
@@ -132,10 +105,9 @@ export function HighlightCardColumn({
   }
 
   return (
-    <aside className={cn("grid gap-4 md:grid-cols-3 lg:gap-5", className)}>
+    <aside className={cn("grid gap-6 md:grid-cols-3 lg:gap-8", className)}>
       {cards.map((card, index) => {
         const Icon = icons[index] ?? Gem;
-        const theme = CARD_THEMES[index] ?? CARD_THEMES[0];
         const isPreviewOpen = activePreviewIndex === index;
         const previewClassName = cn(
           "absolute left-1/2 bottom-[calc(100%+0.9rem)] z-40 hidden -translate-x-1/2 transition-all duration-300 ease-out lg:block",
@@ -148,36 +120,20 @@ export function HighlightCardColumn({
         return (
           <article
             key={card.title}
-            className="group relative rounded-[1.8rem]"
+            className="group relative"
             onMouseEnter={() => openPreview(index)}
             onMouseLeave={() => scheduleClosePreview(index)}
           >
-            <div
-              className={cn(
-                "relative min-h-[164px] overflow-hidden rounded-[1.8rem] border p-6 shadow-[0_18px_44px_rgba(2,16,30,0.26)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_62px_rgba(2,16,30,0.36)] md:min-h-[172px] md:p-7",
-                theme.surface,
-                theme.border,
-              )}
-            >
-              <div
-                className={cn(
-                  "absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent to-transparent",
-                  theme.divider,
-                )}
-              />
-              <div
-                className={cn(
-                  "absolute -top-14 -right-8 h-28 w-28 rounded-full bg-gradient-to-br blur-2xl transition-transform duration-300 group-hover:scale-110",
-                  theme.glow,
-                )}
-              />
-              <div className="grid min-h-[116px] place-items-center md:min-h-[126px]">
-                <div className="flex items-center gap-4 text-left md:gap-5">
-                  <Icon className={cn("h-8 w-8 flex-none md:h-9 md:w-9", theme.icon)} />
-                  <h3 className="max-w-[12rem] text-[1.45rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-white md:text-[1.62rem]">
-                    {card.title}
-                  </h3>
+            <div className="relative flex min-h-[136px] items-center justify-center px-4 py-6">
+              <div className="flex flex-col items-center gap-4 text-center">
+                <div className="relative flex h-14 w-14 items-center justify-center">
+                  <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(9,77,122,0.18),rgba(9,77,122,0))] opacity-0 blur-md transition-all duration-300 group-hover:scale-125 group-hover:opacity-100" />
+                  <Icon className="relative h-9 w-9 text-slate-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:scale-110 group-hover:text-brand" />
                 </div>
+                <h3 className="max-w-[12rem] text-[1.4rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 transition-colors duration-300 group-hover:text-brand md:text-[1.55rem]">
+                  {card.title}
+                </h3>
+                <span className="h-px w-16 bg-slate-200/90 transition-all duration-300 group-hover:w-24 group-hover:bg-brand/45" />
               </div>
             </div>
 
