@@ -210,6 +210,21 @@ select {
   will-change: opacity, transform;
 }
 
+.nav-left-dock {
+  opacity: 0;
+  transform: translate3d(-18px, -50%, 0) scale(0.92);
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease;
+}
+
+.nav-left-dock.is-visible {
+  pointer-events: auto;
+  animation: nav-left-dock-bounce 620ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  opacity: 1;
+  transform: translate3d(0, -50%, 0) scale(1);
+}
+
 @keyframes chat-bubble-in {
   from {
     opacity: 0;
@@ -221,8 +236,25 @@ select {
   }
 }
 
+@keyframes nav-left-dock-bounce {
+  0% {
+    opacity: 0;
+    transform: translate3d(-22px, -50%, 0) scale(0.88);
+  }
+  62% {
+    opacity: 1;
+    transform: translate3d(6px, -50%, 0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, -50%, 0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .chat-bubble-in {
+  .chat-bubble-in,
+  .nav-left-dock,
+  .nav-left-dock.is-visible {
     animation: none;
   }
 }

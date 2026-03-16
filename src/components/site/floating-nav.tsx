@@ -64,16 +64,35 @@ function resolveAssetSrc(value: string | null | undefined, fallback: string) {
 export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [isDockedLeft, setIsDockedLeft] = useState(false);
   const [logoSrc, setLogoSrc] = useState(() => resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
 
   useEffect(() => {
     setLogoSrc(resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
   }, [logo]);
 
+  useEffect(() => {
+    function syncDockState() {
+      setIsDockedLeft(window.scrollY > 180);
+    }
+
+    syncDockState();
+    window.addEventListener("scroll", syncDockState, { passive: true });
+
+    return () => window.removeEventListener("scroll", syncDockState);
+  }, []);
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-6">
-        <div className="inline-flex items-center gap-4 text-white md:gap-8">
+        <div
+          className={cn(
+            "inline-flex items-center gap-4 text-white transition-all duration-500 md:gap-8",
+            isDockedLeft
+              ? "pointer-events-none -translate-y-6 scale-95 opacity-0"
+              : "translate-y-0 scale-100 opacity-100",
+          )}
+        >
           <Link href="/" className="flex shrink-0 items-center">
             <img
               src={logoSrc}
@@ -118,6 +137,39 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           </button>
         </div>
       </header>
+
+      <aside
+        className={cn(
+          "nav-left-dock pointer-events-none fixed top-1/2 left-4 z-50 hidden -translate-y-1/2 md:block",
+          isDockedLeft ? "is-visible" : null,
+        )}
+      >
+        <nav className="flex flex-col gap-2 rounded-[1.8rem] border border-white/16 bg-slate-950/18 p-2 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)] backdrop-blur-2xl">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={`dock-${item.href}`}
+                href={item.href}
+                aria-label={item.label}
+                className={cn(
+                  "group relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/6 transition-all duration-300",
+                  isActive
+                    ? "border-white/24 bg-white/16"
+                    : "hover:border-white/24 hover:bg-white/12",
+                )}
+              >
+                <Icon className="h-4 w-4 shrink-0" />
+                <span className="pointer-events-none absolute left-[calc(100%+0.75rem)] top-1/2 -translate-y-1/2 -translate-x-2 rounded-full border border-white/14 bg-slate-950/85 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white opacity-0 shadow-[0_10px_24px_rgba(4,18,32,0.24)] backdrop-blur-xl transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+      </aside>
 
       {open ? (
         <div className="fixed inset-x-4 top-20 z-40 rounded-[2rem] border border-white/15 bg-slate-950/85 p-4 text-white shadow-2xl backdrop-blur-2xl md:hidden">
