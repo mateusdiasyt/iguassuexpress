@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f7fa;
-  --foreground: #0f1b2d;
+  --background: #13161E;
+  --foreground: #eef1f0;
   --card: rgba(255, 255, 255, 0.82);
   --card-strong: rgba(255, 255, 255, 0.94);
-  --muted: #5e6f83;
-  --border-soft: rgba(9, 77, 122, 0.12);
+  --muted: #999c97;
+  --border-soft: rgba(153, 156, 151, 0.22);
   --brand: #094d7a;
   --brand-deep: #062d47;
   --sand: #d8c6a2;
@@ -37,9 +37,9 @@ body {
   font-family: var(--font-body), sans-serif;
   min-height: 100vh;
   background-image:
-    radial-gradient(circle at top left, rgba(9, 77, 122, 0.08), transparent 22%),
-    radial-gradient(circle at right, rgba(216, 198, 162, 0.18), transparent 20%),
-    linear-gradient(180deg, #f8fbff 0%, #f4f7fb 42%, #eef3f8 100%);
+    radial-gradient(circle at top left, rgba(153, 156, 151, 0.18), transparent 30%),
+    radial-gradient(circle at right, rgba(9, 77, 122, 0.12), transparent 28%),
+    linear-gradient(180deg, #999c97 0%, #2f3743 36%, #13161e 100%);
 }
 
 .site-shell {
@@ -47,10 +47,10 @@ body {
   isolation: isolate;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 4%, rgba(255, 255, 255, 0.46), transparent 26%),
-    radial-gradient(circle at 90% 8%, rgba(110, 166, 219, 0.34), transparent 34%),
-    radial-gradient(circle at 24% 84%, rgba(17, 41, 69, 0.5), transparent 42%),
-    linear-gradient(180deg, #d8dde4 0%, #9cacbf 26%, #304761 58%, #111f33 100%);
+    radial-gradient(circle at 12% 4%, rgba(153, 156, 151, 0.42), transparent 28%),
+    radial-gradient(circle at 88% 10%, rgba(9, 77, 122, 0.25), transparent 35%),
+    radial-gradient(circle at 30% 84%, rgba(19, 22, 30, 0.68), transparent 44%),
+    linear-gradient(180deg, #999c97 0%, #4a525e 30%, #1e2530 58%, #13161e 100%);
   color: #e8f1fb;
 }
 
@@ -61,8 +61,8 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(125deg, rgba(247, 250, 255, 0.2), transparent 40%),
-    linear-gradient(310deg, rgba(6, 24, 40, 0.28), transparent 54%);
+    linear-gradient(125deg, rgba(153, 156, 151, 0.18), transparent 40%),
+    linear-gradient(300deg, rgba(9, 77, 122, 0.18), transparent 56%);
 }
 
 .site-shell::after {
@@ -72,11 +72,11 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 20% 22%, rgba(192, 221, 246, 0.38), transparent 34%),
-    radial-gradient(circle at 74% 42%, rgba(121, 173, 220, 0.24), transparent 32%),
-    radial-gradient(circle at 46% 78%, rgba(13, 34, 58, 0.34), transparent 42%);
-  filter: blur(42px);
-  opacity: 0.8;
+    radial-gradient(circle at 22% 24%, rgba(153, 156, 151, 0.26), transparent 34%),
+    radial-gradient(circle at 76% 40%, rgba(9, 77, 122, 0.22), transparent 34%),
+    radial-gradient(circle at 48% 78%, rgba(19, 22, 30, 0.32), transparent 42%);
+  filter: blur(46px);
+  opacity: 0.86;
 }
 
 .site-shell > * {
@@ -130,10 +130,10 @@ select {
 .site-shell .glass-panel {
   background: linear-gradient(
     140deg,
-    rgba(31, 57, 82, 0.56),
-    rgba(12, 30, 49, 0.5)
+    rgba(37, 43, 54, 0.64),
+    rgba(19, 22, 30, 0.58)
   );
-  border: 1px solid rgba(206, 228, 248, 0.28);
+  border: 1px solid rgba(153, 156, 151, 0.24);
   backdrop-filter: blur(22px);
   box-shadow: 0 28px 70px rgba(2, 14, 26, 0.38);
 }
@@ -141,10 +141,10 @@ select {
 .site-shell .soft-card {
   background: linear-gradient(
     150deg,
-    rgba(24, 51, 76, 0.68),
-    rgba(12, 30, 49, 0.58)
+    rgba(42, 48, 59, 0.72),
+    rgba(19, 22, 30, 0.66)
   );
-  border: 1px solid rgba(204, 225, 243, 0.2);
+  border: 1px solid rgba(153, 156, 151, 0.24);
   backdrop-filter: blur(16px);
   box-shadow: 0 28px 65px rgba(2, 14, 26, 0.34);
 }
@@ -155,21 +155,21 @@ select {
 }
 
 .site-shell .soft-card .text-slate-800 {
-  color: #d9e6f5;
+  color: #dce1de;
 }
 
 .site-shell .soft-card .text-slate-700 {
-  color: #c8d8ea;
+  color: #c8cfcb;
 }
 
 .site-shell .soft-card .text-slate-600,
 .site-shell .soft-card .text-slate-500 {
-  color: #adc1d7;
+  color: #abb3af;
 }
 
 .site-shell .soft-card .text-brand\/70,
 .site-shell .soft-card .text-brand\/75 {
-  color: rgba(152, 207, 249, 0.9);
+  color: rgba(125, 184, 233, 0.95);
 }
 
 .site-shell .editorial-prose {
