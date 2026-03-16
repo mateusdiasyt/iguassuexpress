@@ -37,9 +37,9 @@ body {
   font-family: var(--font-body), sans-serif;
   min-height: 100vh;
   background-image:
-    radial-gradient(circle at top left, rgba(153, 156, 151, 0.18), transparent 30%),
-    radial-gradient(circle at right, rgba(9, 77, 122, 0.12), transparent 28%),
-    linear-gradient(180deg, #999c97 0%, #2f3743 36%, #13161e 100%);
+    radial-gradient(circle at top left, rgba(175, 178, 173, 0.22), transparent 32%),
+    radial-gradient(circle at right, rgba(9, 77, 122, 0.14), transparent 30%),
+    linear-gradient(180deg, #b1b4af 0%, #68737d 36%, #2a3541 100%);
 }
 
 .site-shell {
@@ -47,10 +47,10 @@ body {
   isolation: isolate;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 4%, rgba(153, 156, 151, 0.42), transparent 28%),
-    radial-gradient(circle at 88% 10%, rgba(9, 77, 122, 0.25), transparent 35%),
-    radial-gradient(circle at 30% 84%, rgba(19, 22, 30, 0.68), transparent 44%),
-    linear-gradient(180deg, #999c97 0%, #4a525e 30%, #1e2530 58%, #13161e 100%);
+    radial-gradient(circle at 12% 4%, rgba(180, 184, 179, 0.48), transparent 30%),
+    radial-gradient(circle at 88% 10%, rgba(9, 77, 122, 0.22), transparent 36%),
+    radial-gradient(circle at 30% 84%, rgba(47, 59, 72, 0.5), transparent 46%),
+    linear-gradient(180deg, #b4b8b3 0%, #74808a 28%, #384553 58%, #222b36 100%);
   color: #e8f1fb;
 }
 
@@ -61,8 +61,8 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(125deg, rgba(153, 156, 151, 0.18), transparent 40%),
-    linear-gradient(300deg, rgba(9, 77, 122, 0.18), transparent 56%);
+    linear-gradient(125deg, rgba(184, 188, 183, 0.22), transparent 42%),
+    linear-gradient(300deg, rgba(9, 77, 122, 0.14), transparent 58%);
 }
 
 .site-shell::after {
@@ -72,11 +72,11 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 22% 24%, rgba(153, 156, 151, 0.26), transparent 34%),
-    radial-gradient(circle at 76% 40%, rgba(9, 77, 122, 0.22), transparent 34%),
-    radial-gradient(circle at 48% 78%, rgba(19, 22, 30, 0.32), transparent 42%);
+    radial-gradient(circle at 22% 24%, rgba(184, 188, 183, 0.28), transparent 36%),
+    radial-gradient(circle at 76% 40%, rgba(9, 77, 122, 0.18), transparent 36%),
+    radial-gradient(circle at 48% 78%, rgba(44, 56, 70, 0.22), transparent 42%);
   filter: blur(46px);
-  opacity: 0.86;
+  opacity: 0.82;
 }
 
 a {
@@ -125,8 +125,8 @@ select {
 .site-shell .glass-panel {
   background: linear-gradient(
     140deg,
-    rgba(37, 43, 54, 0.64),
-    rgba(19, 22, 30, 0.58)
+    rgba(61, 70, 82, 0.58),
+    rgba(31, 39, 49, 0.5)
   );
   border: 1px solid rgba(153, 156, 151, 0.24);
   backdrop-filter: blur(22px);
@@ -136,8 +136,8 @@ select {
 .site-shell .soft-card {
   background: linear-gradient(
     150deg,
-    rgba(42, 48, 59, 0.72),
-    rgba(19, 22, 30, 0.66)
+    rgba(78, 88, 101, 0.56),
+    rgba(34, 42, 52, 0.5)
   );
   border: 1px solid rgba(153, 156, 151, 0.24);
   backdrop-filter: blur(16px);

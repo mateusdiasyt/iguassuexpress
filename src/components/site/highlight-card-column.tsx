@@ -44,7 +44,7 @@ const WHATSAPP_MESSAGES = [
 const CARD_THEMES = [
   {
     surface:
-      "bg-[linear-gradient(145deg,rgba(20,60,93,0.78),rgba(11,34,56,0.68))]",
+      "bg-[linear-gradient(145deg,rgba(54,96,132,0.74),rgba(32,66,95,0.62))]",
     border: "border-sky-200/28",
     glow: "from-sky-300/30 via-cyan-200/12 to-transparent",
     icon: "text-sky-100",
@@ -52,7 +52,7 @@ const CARD_THEMES = [
   },
   {
     surface:
-      "bg-[linear-gradient(145deg,rgba(26,74,109,0.8),rgba(13,40,66,0.7))]",
+      "bg-[linear-gradient(145deg,rgba(63,110,146,0.74),rgba(35,73,104,0.62))]",
     border: "border-cyan-200/26",
     glow: "from-cyan-200/30 via-teal-200/14 to-transparent",
     icon: "text-cyan-100",
@@ -60,7 +60,7 @@ const CARD_THEMES = [
   },
   {
     surface:
-      "bg-[linear-gradient(145deg,rgba(34,76,112,0.8),rgba(16,40,68,0.7))]",
+      "bg-[linear-gradient(145deg,rgba(69,114,150,0.74),rgba(39,74,104,0.62))]",
     border: "border-indigo-200/25",
     glow: "from-indigo-200/28 via-sky-100/12 to-transparent",
     icon: "text-indigo-100",
