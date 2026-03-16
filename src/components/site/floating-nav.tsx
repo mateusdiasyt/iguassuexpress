@@ -144,7 +144,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           isDockedLeft ? "is-visible" : null,
         )}
       >
-        <nav className="flex max-h-[calc(100dvh-2rem)] flex-col gap-2 overflow-y-auto rounded-[1.8rem] border border-white/16 bg-slate-950/18 p-2 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)] backdrop-blur-2xl">
+        <nav className="flex flex-col gap-2 overflow-hidden rounded-[1.8rem] border border-white/16 bg-slate-950/18 p-2 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)] backdrop-blur-2xl">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
