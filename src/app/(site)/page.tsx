@@ -19,7 +19,7 @@ import {
   getTour360Content,
 } from "@/data/queries";
 import { buildMetadata } from "@/lib/seo";
-import { getContentBody, getHeroCards } from "@/lib/utils";
+import { getHeroCards } from "@/lib/utils";
 
 const HOME_HERO_FALLBACK = "/piscina-hotel-iguassu.jpg";
 const OLD_HOME_HERO_TOKEN = "photo-1566073771259-6a8506099945";
@@ -57,7 +57,6 @@ export default async function HomePage() {
       getFaqItems(),
     ]);
 
-  const homeBody = getContentBody(homePage.content);
   const heroCards = getHeroCards(homePage.content);
   const hasHeroCards = heroCards.length > 0;
   const heroImage = resolveHomeHeroImage(homePage.bannerImage);
@@ -104,30 +103,6 @@ export default async function HomePage() {
             layout="split"
           />
           <RoomCatalog categories={roomCategories} />
-        </section>
-
-        <section className="mx-auto max-w-6xl">
-          <div className="space-y-8">
-            <SectionHeading
-              eyebrow="Hospitalidade"
-              title="Uma base elegante para viver Foz do Iguacu"
-              description={homeBody}
-            />
-
-            <div className="max-w-3xl">
-              <div className="soft-card rounded-[1.8rem] p-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand/70">
-                  Reserva direta
-                </p>
-                <h2 className="mt-4 text-4xl leading-none text-slate-950">
-                  Conversao com foco em experiencia premium
-                </h2>
-                <p className="mt-4 text-sm leading-8 text-slate-600">
-                  A jornada foi desenhada para destacar a reserva direta, reduzir atritos e apresentar o hotel como uma opcao moderna e confiavel em Foz do Iguacu.
-                </p>
-              </div>
-            </div>
-          </div>
         </section>
 
         <div className="mx-auto max-w-6xl">
