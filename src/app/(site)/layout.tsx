@@ -16,8 +16,8 @@ export default async function SiteLayout({
         hotelName={settings.hotelName}
         logo={settings.logo}
       />
-      <main className="px-4 md:px-6">{children}</main>
-      <div className="px-4 md:px-6">
+      <main className="relative z-10 px-4 md:px-6">{children}</main>
+      <div className="relative z-10 px-4 md:px-6">
         <Footer
           hotelName={settings.hotelName}
           whatsapp={settings.whatsapp}

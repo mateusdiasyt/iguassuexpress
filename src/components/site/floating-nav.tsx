@@ -72,9 +72,9 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-2 py-2 text-white">
-          <Link href="/" className="flex items-center">
+      <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-6">
+        <div className="inline-flex items-center gap-4 text-white md:gap-8">
+          <Link href="/" className="flex shrink-0 items-center">
             <img
               src={logoSrc}
               alt={hotelName}
