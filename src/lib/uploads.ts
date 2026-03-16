@@ -1,26 +1,13 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
 import { put } from "@vercel/blob";
-import slugify from "slugify";
-
-const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
-const DOCUMENT_TYPES = [
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-];
-
-function safeFileName(name: string) {
-  const extension = name.includes(".") ? name.split(".").pop() : "bin";
-  const base = slugify(name.replace(/\.[^.]+$/, ""), {
-    lower: true,
-    strict: true,
-    trim: true,
-  });
-
-  return `${base || "arquivo"}-${randomUUID()}.${extension}`;
-}
+import {
+  DOCUMENT_TYPES,
+  IMAGE_TYPES,
+  MAX_DOCUMENT_BYTES,
+  MAX_SERVER_IMAGE_BYTES,
+  safeFileName,
+} from "@/lib/upload-shared";
 
 async function persistLocally(file: File, folder: string) {
   const fileName = safeFileName(file.name);
@@ -38,7 +25,7 @@ export async function uploadFile(
   kind: "image" | "document" = "image",
 ) {
   const acceptedTypes = kind === "image" ? IMAGE_TYPES : DOCUMENT_TYPES;
-  const maxBytes = kind === "image" ? 8 * 1024 * 1024 : 10 * 1024 * 1024;
+  const maxBytes = kind === "image" ? MAX_SERVER_IMAGE_BYTES : MAX_DOCUMENT_BYTES;
 
   if (!acceptedTypes.includes(file.type)) {
     throw new Error("Tipo de arquivo nao suportado.");

@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { LoaderCircle, Plus, Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { uploadAssetFromClient } from "@/lib/client-upload";
 
 type UploadGalleryFieldProps = {
   name: string;
@@ -49,23 +50,9 @@ export function UploadGalleryField({
     setLoading(true);
     setError("");
 
-    const body = new FormData();
-    body.append("file", file);
-    body.append("kind", "image");
-
     try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body,
-      });
-
-      const json = (await response.json()) as { url?: string; error?: string };
-
-      if (!response.ok || !json.url) {
-        throw new Error(json.error ?? "Falha no upload.");
-      }
-
-      addItem(json.url);
+      const url = await uploadAssetFromClient(file, "image");
+      addItem(url);
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "Falha no upload.");
     } finally {
