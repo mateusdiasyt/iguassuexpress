@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CalendarCheck2, Gem, MapPinned } from "lucide-react";
+import { CalendarCheck2, Gem, MapPinned, Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type HighlightCardColumnProps = {
@@ -41,6 +41,75 @@ const WHATSAPP_MESSAGES = [
   },
 ];
 
+type YouTubePlayer = {
+  playVideo: () => void;
+  pauseVideo: () => void;
+  setVolume: (volume: number) => void;
+  mute: () => void;
+  unMute: () => void;
+  destroy: () => void;
+};
+
+type YouTubeNamespace = {
+  Player: new (
+    target: HTMLElement,
+    options: {
+      videoId: string;
+      playerVars?: Record<string, number | string>;
+      events?: {
+        onReady?: (event: { target: YouTubePlayer }) => void;
+      };
+    },
+  ) => YouTubePlayer;
+};
+
+declare global {
+  interface Window {
+    YT?: YouTubeNamespace;
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+let youtubeApiPromise: Promise<YouTubeNamespace> | null = null;
+
+function loadYouTubeApi() {
+  if (typeof window === "undefined") {
+    return Promise.reject(new Error("YouTube API indisponivel no servidor."));
+  }
+
+  if (window.YT?.Player) {
+    return Promise.resolve(window.YT);
+  }
+
+  if (youtubeApiPromise) {
+    return youtubeApiPromise;
+  }
+
+  youtubeApiPromise = new Promise((resolve) => {
+    const existingScript = document.querySelector(
+      'script[src="https://www.youtube.com/iframe_api"]',
+    ) as HTMLScriptElement | null;
+    const previousReady = window.onYouTubeIframeAPIReady;
+
+    window.onYouTubeIframeAPIReady = () => {
+      previousReady?.();
+
+      if (window.YT) {
+        resolve(window.YT);
+      }
+    };
+
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "https://www.youtube.com/iframe_api";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  });
+
+  return youtubeApiPromise;
+}
+
 export function HighlightCardColumn({
   cards,
   mapEmbed,
@@ -49,7 +118,11 @@ export function HighlightCardColumn({
   const icons = [MapPinned, CalendarCheck2, Gem];
   const [activePreviewIndex, setActivePreviewIndex] = useState<number | null>(null);
   const [chatStep, setChatStep] = useState(1);
+  const [premiumVolume, setPremiumVolume] = useState(50);
+  const [isPremiumPlayerReady, setIsPremiumPlayerReady] = useState(false);
   const closePreviewTimerRef = useRef<number | null>(null);
+  const premiumPlayerContainerRef = useRef<HTMLDivElement | null>(null);
+  const premiumPlayerRef = useRef<YouTubePlayer | null>(null);
 
   const isReservationPreviewActive = activePreviewIndex === 1;
   const isPremiumPreviewActive = activePreviewIndex === 2;
@@ -96,6 +169,89 @@ export function HighlightCardColumn({
     return () => window.clearInterval(timer);
   }, [isReservationPreviewActive]);
 
+  useEffect(() => {
+    let isCancelled = false;
+
+    if (!isPremiumPreviewActive) {
+      premiumPlayerRef.current?.pauseVideo();
+      return;
+    }
+
+    async function setupPremiumPlayer() {
+      const playerRoot = premiumPlayerContainerRef.current;
+      if (!playerRoot) {
+        return;
+      }
+
+      const YT = await loadYouTubeApi();
+      if (isCancelled || !premiumPlayerContainerRef.current) {
+        return;
+      }
+
+      if (!premiumPlayerRef.current) {
+        premiumPlayerRef.current = new YT.Player(playerRoot, {
+          videoId: "YxJpctY88sI",
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            rel: 0,
+            playsinline: 1,
+            modestbranding: 1,
+            iv_load_policy: 3,
+          },
+          events: {
+            onReady: (event) => {
+              if (isCancelled) {
+                return;
+              }
+
+              event.target.unMute();
+              event.target.setVolume(50);
+              event.target.playVideo();
+              setPremiumVolume(50);
+              setIsPremiumPlayerReady(true);
+            },
+          },
+        });
+
+        return;
+      }
+
+      premiumPlayerRef.current.unMute();
+      premiumPlayerRef.current.setVolume(premiumVolume);
+      premiumPlayerRef.current.playVideo();
+      setIsPremiumPlayerReady(true);
+    }
+
+    void setupPremiumPlayer();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isPremiumPreviewActive, premiumVolume]);
+
+  useEffect(() => {
+    if (!premiumPlayerRef.current) {
+      return;
+    }
+
+    if (premiumVolume <= 0) {
+      premiumPlayerRef.current.mute();
+      premiumPlayerRef.current.setVolume(0);
+      return;
+    }
+
+    premiumPlayerRef.current.unMute();
+    premiumPlayerRef.current.setVolume(premiumVolume);
+  }, [premiumVolume]);
+
+  useEffect(() => {
+    return () => {
+      premiumPlayerRef.current?.destroy();
+      premiumPlayerRef.current = null;
+    };
+  }, []);
+
   const visibleMessages = WHATSAPP_MESSAGES.slice(0, chatStep);
   const hiddenCount = Math.max(0, visibleMessages.length - 3);
   const chatOffset = hiddenCount * 78;
@@ -114,7 +270,7 @@ export function HighlightCardColumn({
           isPreviewOpen
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none translate-y-2 opacity-0",
-          index === 2 ? "w-[24rem]" : "w-[22rem]",
+          index === 2 ? "w-[25.5rem]" : "w-[22rem]",
         );
 
         return (
@@ -224,21 +380,40 @@ export function HighlightCardColumn({
                       Experiencia Premium
                     </p>
                   </div>
-                  <div className="mt-2 overflow-hidden rounded-[0.95rem]">
-                    {isPremiumPreviewActive ? (
-                      <iframe
-                        className="h-56 w-full"
-                        src="https://www.youtube.com/embed/YxJpctY88sI?autoplay=1&mute=0&playsinline=1&rel=0&controls=0&modestbranding=1&iv_load_policy=3"
-                        title="Experiencia premium no Iguassu Express Hotel"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
+                  <div className="relative mt-2 overflow-hidden rounded-[0.95rem]">
+                    <div className="absolute right-3 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-3 rounded-full border border-white/16 bg-slate-950/48 px-2.5 py-3 shadow-[0_18px_32px_rgba(2,14,26,0.3)] backdrop-blur-xl">
+                      {premiumVolume <= 0 ? (
+                        <VolumeX className="h-4 w-4 text-white/80" />
+                      ) : (
+                        <Volume2 className="h-4 w-4 text-white/80" />
+                      )}
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={premiumVolume}
+                        aria-label="Controlar volume do video"
+                        onChange={(event) => {
+                          setPremiumVolume(Number(event.target.value));
+                        }}
+                        className="h-24 w-24 -rotate-90 cursor-pointer accent-white"
                       />
-                    ) : (
-                      <div className="flex h-56 items-center justify-center bg-white/8 text-sm text-slate-200/75">
-                        Carregando preview...
-                      </div>
-                    )}
+                    </div>
+                    <div className="relative h-56 w-full overflow-hidden rounded-[0.95rem] bg-slate-950/20">
+                      <div
+                        ref={premiumPlayerContainerRef}
+                        className="h-full w-full"
+                      />
+                      {!isPremiumPlayerReady ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/8 text-sm text-slate-200/75">
+                          {isPremiumPreviewActive ? "Carregando preview..." : "Passe o mouse para assistir"}
+                        </div>
+                      ) : null}
+                      {!isPremiumPreviewActive && isPremiumPlayerReady ? (
+                        <div className="absolute inset-0 bg-slate-950/18" />
+                      ) : null}
+                    </div>
                   </div>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
                 </div>
