@@ -87,9 +87,8 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
     return () => window.removeEventListener("scroll", syncDockState);
   }, []);
 
-  const isHomePath = pathname === "/";
-  const useHeroTopTone = isHomePath && scrollY <= TOP_ONLY_THRESHOLD;
-  const useHeroDockTone = isHomePath && scrollY < HOME_DOCK_DARK_UNTIL;
+  const useTopDarkTone = scrollY <= TOP_ONLY_THRESHOLD;
+  const useDockDarkTone = scrollY < HOME_DOCK_DARK_UNTIL;
 
   return (
     <>
@@ -97,25 +96,17 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
         <div
           className={cn(
             "inline-flex items-center gap-4 transition-all duration-500 md:gap-8",
-            useHeroTopTone ? "text-white" : "text-slate-700",
+            useTopDarkTone ? "text-white" : "text-slate-700",
             isDockedLeft
               ? "pointer-events-none -translate-y-6 scale-95 opacity-0"
               : "translate-y-0 scale-100 opacity-100",
           )}
         >
-          <Link
-            href="/"
-            className={cn(
-              "flex shrink-0 items-center rounded-full px-2.5 py-1.5 transition-all duration-300",
-              useHeroTopTone
-                ? "bg-transparent"
-                : "border border-slate-300/70 bg-slate-950/74 shadow-[0_10px_24px_rgba(15,23,42,0.18)] backdrop-blur-xl",
-            )}
-          >
+          <Link href="/" className="flex shrink-0 items-center">
             <img
               src={logoSrc}
               alt={hotelName}
-              className="h-10 w-auto max-w-[170px] object-contain md:h-11 md:max-w-[240px]"
+              className="h-10 w-auto max-w-[170px] object-contain drop-shadow-[0_10px_18px_rgba(2,14,26,0.5)] md:h-11 md:max-w-[240px]"
               onError={() => setLogoSrc(DEFAULT_LOGO_SRC)}
             />
           </Link>
@@ -131,7 +122,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   href={item.href}
                   className={cn(
                     "group flex h-11 items-center rounded-full px-4 backdrop-blur-xl transition-all duration-300",
-                    useHeroTopTone
+                    useTopDarkTone
                       ? cn(
                           "border border-white/15 bg-slate-950/18 shadow-[0_8px_22px_rgba(4,18,32,0.22)]",
                           isActive
@@ -159,7 +150,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
             type="button"
             className={cn(
               "inline-flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-xl md:hidden",
-              useHeroTopTone
+              useTopDarkTone
                 ? "border border-white/20 bg-slate-950/22 shadow-[0_8px_22px_rgba(4,18,32,0.22)]"
                 : "border border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.12)]",
             )}
@@ -180,7 +171,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
         <nav
           className={cn(
             "flex flex-col gap-2 overflow-hidden rounded-[1.8rem] p-2 backdrop-blur-2xl transition-all duration-300",
-            useHeroDockTone
+            useDockDarkTone
               ? "border border-white/16 bg-slate-950/20 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)]"
               : "border border-slate-300/75 bg-white/78 text-slate-700 shadow-[0_22px_42px_rgba(15,23,42,0.16)]",
           )}
@@ -196,7 +187,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                 aria-label={item.label}
                 className={cn(
                   "group relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-300",
-                  useHeroDockTone
+                  useDockDarkTone
                     ? cn(
                         "border border-white/12 bg-white/6",
                         isActive
