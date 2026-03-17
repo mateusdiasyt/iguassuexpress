@@ -5,6 +5,7 @@ import Image from "next/image";
 import { LoaderCircle, Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { uploadAssetFromClient } from "@/lib/client-upload";
+import { cn } from "@/lib/utils";
 
 type UploadFieldProps = {
   name: string;
@@ -14,6 +15,10 @@ type UploadFieldProps = {
   kind?: "image" | "document";
   value?: string;
   onValueChange?: (value: string) => void;
+  className?: string;
+  inputClassName?: string;
+  previewClassName?: string;
+  previewImageClassName?: string;
 };
 
 export function UploadField({
@@ -24,6 +29,10 @@ export function UploadField({
   kind = "image",
   value: controlledValue,
   onValueChange,
+  className,
+  inputClassName,
+  previewClassName,
+  previewImageClassName,
 }: UploadFieldProps) {
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const [loading, setLoading] = useState(false);
@@ -62,9 +71,14 @@ export function UploadField({
   }
 
   return (
-    <div className="space-y-3">
+    <div className={cn("space-y-3", className)}>
       <label className="text-sm font-medium text-slate-600">{label}</label>
-      <Input name={name} value={value} onChange={(event) => setValue(event.target.value)} />
+      <Input
+        className={inputClassName}
+        name={name}
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
       <label className="flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-brand/20 px-4 py-3 text-sm text-slate-600 transition hover:border-brand/40 hover:bg-brand/5">
         {loading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
         Enviar arquivo
@@ -76,8 +90,18 @@ export function UploadField({
         />
       </label>
       {kind === "image" && value ? (
-        <div className="relative h-32 overflow-hidden rounded-2xl border border-brand/10 bg-slate-100">
-          <Image src={value} alt={label} fill className="object-cover" />
+        <div
+          className={cn(
+            "relative h-32 overflow-hidden rounded-2xl border border-brand/10 bg-slate-100",
+            previewClassName,
+          )}
+        >
+          <Image
+            src={value}
+            alt={label}
+            fill
+            className={cn("object-cover", previewImageClassName)}
+          />
         </div>
       ) : null}
       {kind === "document" && value ? (
