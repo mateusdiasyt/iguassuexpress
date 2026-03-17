@@ -266,7 +266,7 @@ export function BlogWorkspace({
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
+      <div className="grid gap-6 2xl:grid-cols-[330px_minmax(0,1fr)]">
         <div className="space-y-6">
           <AdminCard
             title="Conteudos"
@@ -296,7 +296,7 @@ export function BlogWorkspace({
                   </Select>
                   <Button
                     type="button"
-                    className="gap-2"
+                    className="h-10 gap-2 normal-case tracking-normal"
                     variant="outline"
                     onClick={() => selectPost("new")}
                   >
@@ -366,7 +366,9 @@ export function BlogWorkspace({
                   <Input name="name" placeholder="Nova categoria" />
                   <Input name="slug" placeholder="slug-da-categoria" />
                 </div>
-                <SubmitButton className="w-full">Criar categoria</SubmitButton>
+                <SubmitButton className="h-10 w-full normal-case tracking-normal">
+                  Criar categoria
+                </SubmitButton>
               </form>
 
               <div className="space-y-3">
@@ -386,9 +388,11 @@ export function BlogWorkspace({
                       <Input name="name" defaultValue={category.name} />
                       <Input name="slug" defaultValue={category.slug} />
                       <div className="flex gap-3">
-                        <SubmitButton className="flex-1">Salvar</SubmitButton>
+                        <SubmitButton className="h-10 flex-1 normal-case tracking-normal">
+                          Salvar
+                        </SubmitButton>
                         <Button
-                          className="gap-2 px-4 text-red-600 hover:bg-red-50"
+                          className="h-10 gap-2 px-4 text-red-600 normal-case tracking-normal hover:bg-red-50"
                           formAction={deleteCategoryAction}
                           name="id"
                           type="submit"
@@ -406,7 +410,7 @@ export function BlogWorkspace({
           </AdminCard>
         </div>
 
-        <form action={savePostAction} className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_340px]">
+        <form action={savePostAction} className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
           <AdminCard
             title={draft.id ? "Editar post" : "Novo post"}
             description="Editor completo com estrutura editorial, Markdown, imagem, SEO e controle de publicacao."
@@ -415,7 +419,7 @@ export function BlogWorkspace({
             <input name="id" type="hidden" value={draft.id} />
 
             <div className="space-y-6">
-              <div className="flex flex-col gap-4 rounded-[1.6rem] border border-brand/10 bg-slate-50/80 p-4 md:flex-row md:items-center md:justify-between">
+              <div className="flex flex-col gap-4 rounded-[1.6rem] border border-brand/10 bg-slate-50/80 p-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <StatusBadge status={draft.status} />
@@ -430,20 +434,29 @@ export function BlogWorkspace({
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Button type="button" variant="outline" onClick={() => selectPost("new")}>
+                  <Button
+                    type="button"
+                    className="h-10 normal-case tracking-normal"
+                    variant="outline"
+                    onClick={() => selectPost("new")}
+                  >
                     Limpar editor
                   </Button>
                   {draft.id ? (
-                    <Button className="gap-2 text-red-600 hover:bg-red-50" formAction={deletePostAction} variant="outline">
+                    <Button
+                      className="h-10 gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                      formAction={deletePostAction}
+                      variant="outline"
+                    >
                       <Trash2 className="h-4 w-4" />
                       Excluir
                     </Button>
                   ) : null}
-                  <SubmitButton>Salvar post</SubmitButton>
+                  <SubmitButton className="h-10 normal-case tracking-normal">Salvar post</SubmitButton>
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 xl:grid-cols-2">
                 <label className="grid gap-2 text-sm text-slate-600">
                   Titulo do artigo
                   <Input
@@ -504,7 +517,7 @@ export function BlogWorkspace({
                 </label>
               </div>
 
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+              <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
                 <label className="grid gap-2 text-sm text-slate-600">
                   Resumo do artigo
                   <Textarea
@@ -521,16 +534,26 @@ export function BlogWorkspace({
                     Acoes rapidas
                   </p>
                   <div className="mt-4 grid gap-3">
-                    <Button type="button" variant="outline" className="justify-start gap-2" onClick={extractExcerpt}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-10 justify-start gap-2 normal-case tracking-normal"
+                      onClick={extractExcerpt}
+                    >
                       <Sparkles className="h-4 w-4" />
                       Extrair resumo do texto
                     </Button>
-                    <Button type="button" variant="outline" className="justify-start gap-2" onClick={fillSeoFields}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-10 justify-start gap-2 normal-case tracking-normal"
+                      onClick={fillSeoFields}
+                    >
                       <Tag className="h-4 w-4" />
                       Preencher campos SEO
                     </Button>
                     <a
-                      className="inline-flex h-11 items-center justify-center rounded-full border border-brand/20 bg-white px-5 text-sm font-semibold uppercase tracking-[0.16em] text-brand transition hover:bg-brand/5"
+                      className="inline-flex h-10 items-center justify-center rounded-full border border-brand/20 bg-white px-5 text-sm font-semibold text-brand transition hover:bg-brand/5"
                       href={buildPostUrl(seo.generatedSlug)}
                       rel="noreferrer"
                       target="_blank"
@@ -566,7 +589,7 @@ export function BlogWorkspace({
                         <Button
                           key={tool.label}
                           type="button"
-                          className="gap-2 px-4 tracking-[0.08em]"
+                          className="h-10 gap-2 px-4 normal-case tracking-normal"
                           onClick={() => insertSnippet(tool.snippet)}
                           variant="outline"
                         >
@@ -636,7 +659,7 @@ export function BlogWorkspace({
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 xl:grid-cols-2">
                 <label className="grid gap-2 text-sm text-slate-600">
                   SEO title
                   <Input
