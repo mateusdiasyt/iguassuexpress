@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useDeferredValue, useMemo, useState } from "react";
+import { type FormEvent, useDeferredValue, useMemo, useState } from "react";
 import { ArrowUpRight, PencilLine, Plus, Search, Trash2, Users, X } from "lucide-react";
 import { AdminCard } from "@/components/admin/admin-card";
 import { UploadField } from "@/components/admin/upload-field";
@@ -249,6 +249,15 @@ export function RoomsWorkspace({
     updateRoomDraft("slug", toSlug(roomDraft.title));
   }
 
+  function confirmDeleteRoom(
+    event: FormEvent<HTMLFormElement>,
+    roomTitle: string,
+  ) {
+    if (!window.confirm(`Excluir o quarto "${roomTitle}"?`)) {
+      event.preventDefault();
+    }
+  }
+
   return (
     <>
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
@@ -331,8 +340,8 @@ export function RoomsWorkspace({
 
               <div className="relative rounded-[1.4rem] border border-brand/10 lg:overflow-visible">
                 <div className="overflow-x-auto lg:overflow-visible">
-                  <div className="min-w-[860px]">
-                    <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_90px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
+                  <div className="min-w-[980px]">
+                    <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_200px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
                       <span>Titulo</span>
                       <span>Categoria</span>
                       <span>Ocupacao</span>
@@ -343,7 +352,7 @@ export function RoomsWorkspace({
                     <div className="divide-y divide-brand/10">
                       {filteredRooms.map((room) => (
                         <div key={room.id} className="px-4 py-4">
-                          <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_90px] items-center gap-4 lg:grid">
+                          <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_200px] items-center gap-4 lg:grid">
                             <div className="group/room-title relative min-w-0">
                               <p className="truncate text-sm font-semibold text-slate-900">{room.title}</p>
                               <p className="truncate text-xs text-slate-500">/{room.slug}</p>
@@ -355,15 +364,32 @@ export function RoomsWorkspace({
                             <div className="flex items-center">
                               <StatusBadge active={room.isActive} />
                             </div>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              className="h-9 gap-1 px-3 normal-case tracking-normal"
-                              onClick={() => openEditRoom(room)}
-                            >
-                              <PencilLine className="h-3.5 w-3.5" />
-                              Editar
-                            </Button>
+                            <div className="flex items-center gap-2">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                className="h-9 gap-1 px-3 normal-case tracking-normal"
+                                onClick={() => openEditRoom(room)}
+                              >
+                                <PencilLine className="h-3.5 w-3.5" />
+                                Editar
+                              </Button>
+                              <form
+                                action={deleteRoomAction}
+                                onSubmit={(event) => confirmDeleteRoom(event, room.title)}
+                              >
+                                <Button
+                                  type="submit"
+                                  name="id"
+                                  value={room.id}
+                                  variant="outline"
+                                  className="h-9 gap-1 px-3 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                  Excluir
+                                </Button>
+                              </form>
+                            </div>
                           </div>
                           <div className="space-y-3 lg:hidden">
                             <div>
@@ -375,15 +401,32 @@ export function RoomsWorkspace({
                               <span className="text-xs text-slate-500">{room.categoryName}</span>
                               <span className="text-xs text-slate-500">Ordem {room.order}</span>
                             </div>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              className="h-9 gap-1 px-3 normal-case tracking-normal"
-                              onClick={() => openEditRoom(room)}
-                            >
-                              <PencilLine className="h-3.5 w-3.5" />
-                              Editar
-                            </Button>
+                            <div className="flex items-center gap-2">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                className="h-9 gap-1 px-3 normal-case tracking-normal"
+                                onClick={() => openEditRoom(room)}
+                              >
+                                <PencilLine className="h-3.5 w-3.5" />
+                                Editar
+                              </Button>
+                              <form
+                                action={deleteRoomAction}
+                                onSubmit={(event) => confirmDeleteRoom(event, room.title)}
+                              >
+                                <Button
+                                  type="submit"
+                                  name="id"
+                                  value={room.id}
+                                  variant="outline"
+                                  className="h-9 gap-1 px-3 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                  Excluir
+                                </Button>
+                              </form>
+                            </div>
                           </div>
                         </div>
                       ))}
