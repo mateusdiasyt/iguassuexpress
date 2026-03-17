@@ -35,6 +35,8 @@ type FloatingNavProps = {
 };
 
 const DEFAULT_LOGO_SRC = "/logo-hotel-principal.png";
+const TOP_ONLY_THRESHOLD = 6;
+const HOME_DOCK_DARK_UNTIL = 560;
 
 function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   const raw = value?.trim() ? value.trim() : fallback;
@@ -76,7 +78,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
     function syncDockState() {
       const y = window.scrollY;
       setScrollY(y);
-      setIsDockedLeft(y > 180);
+      setIsDockedLeft(y > TOP_ONLY_THRESHOLD);
     }
 
     syncDockState();
@@ -86,8 +88,8 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   }, []);
 
   const isHomePath = pathname === "/";
-  const useHeroTopTone = isHomePath && scrollY < 180;
-  const useHeroDockTone = isHomePath && scrollY < 560;
+  const useHeroTopTone = isHomePath && scrollY <= TOP_ONLY_THRESHOLD;
+  const useHeroDockTone = isHomePath && scrollY < HOME_DOCK_DARK_UNTIL;
 
   return (
     <>
