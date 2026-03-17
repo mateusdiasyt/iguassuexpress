@@ -117,7 +117,7 @@ export function HighlightCardColumn({
 }: HighlightCardColumnProps) {
   const icons = [MapPinned, CalendarCheck2, Gem];
   const [activePreviewIndex, setActivePreviewIndex] = useState<number | null>(null);
-  const [chatStep, setChatStep] = useState(1);
+  const [chatTick, setChatTick] = useState(0);
   const [premiumVolume, setPremiumVolume] = useState(50);
   const [isPremiumPlayerReady, setIsPremiumPlayerReady] = useState(false);
   const closePreviewTimerRef = useRef<number | null>(null);
@@ -136,6 +136,9 @@ export function HighlightCardColumn({
 
   function openPreview(index: number) {
     clearCloseTimer();
+    if (index === 1) {
+      setChatTick(0);
+    }
     setActivePreviewIndex(index);
   }
 
@@ -152,18 +155,11 @@ export function HighlightCardColumn({
 
   useEffect(() => {
     if (!isReservationPreviewActive) {
-      setChatStep(1);
       return;
     }
 
-    const messageLength = WHATSAPP_MESSAGES.length;
-    const sequence = [1, 2, 3, 4, messageLength, messageLength, messageLength];
-    let pointer = 0;
-    setChatStep(sequence[0]);
-
     const timer = window.setInterval(() => {
-      pointer = (pointer + 1) % sequence.length;
-      setChatStep(sequence[pointer]);
+      setChatTick((current) => current + 1);
     }, 1100);
 
     return () => window.clearInterval(timer);
@@ -252,6 +248,8 @@ export function HighlightCardColumn({
     };
   }, []);
 
+  const chatSequence = [1, 2, 3, 4, WHATSAPP_MESSAGES.length, WHATSAPP_MESSAGES.length, WHATSAPP_MESSAGES.length];
+  const chatStep = isReservationPreviewActive ? chatSequence[chatTick % chatSequence.length] : 1;
   const visibleMessages = WHATSAPP_MESSAGES.slice(0, chatStep);
   const hiddenCount = Math.max(0, visibleMessages.length - 3);
   const chatOffset = hiddenCount * 78;
@@ -374,18 +372,18 @@ export function HighlightCardColumn({
                 onMouseEnter={() => openPreview(index)}
                 onMouseLeave={() => scheduleClosePreview(index)}
               >
-                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/20 bg-[linear-gradient(140deg,rgba(30,63,91,0.88),rgba(12,31,49,0.88))] p-2 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
+                <div className="relative overflow-visible rounded-[1.25rem] border border-white/20 bg-[linear-gradient(140deg,rgba(30,63,91,0.88),rgba(12,31,49,0.88))] p-2 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
                   <div className="rounded-[0.95rem] bg-white/10 px-3 py-2">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-indigo-100">
                       Experiencia Premium
                     </p>
                   </div>
                   <div className="relative mt-2 overflow-hidden rounded-[0.95rem]">
-                    <div className="absolute right-3 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-3 rounded-full border border-white/16 bg-slate-950/48 px-2.5 py-3 shadow-[0_18px_32px_rgba(2,14,26,0.3)] backdrop-blur-xl">
+                    <div className="absolute -right-14 top-1/2 z-30 flex h-[9.75rem] w-[3rem] -translate-y-1/2 flex-col items-center gap-2 rounded-[1rem] border border-white/20 bg-slate-950/62 px-2 py-2 shadow-[0_18px_32px_rgba(2,14,26,0.32)] backdrop-blur-xl">
                       {premiumVolume <= 0 ? (
-                        <VolumeX className="h-4 w-4 text-white/80" />
+                        <VolumeX className="h-3.5 w-3.5 text-white/80" />
                       ) : (
-                        <Volume2 className="h-4 w-4 text-white/80" />
+                        <Volume2 className="h-3.5 w-3.5 text-white/80" />
                       )}
                       <input
                         type="range"
@@ -397,7 +395,7 @@ export function HighlightCardColumn({
                         onChange={(event) => {
                           setPremiumVolume(Number(event.target.value));
                         }}
-                        className="h-24 w-24 -rotate-90 cursor-pointer accent-white"
+                        className="mt-1 h-20 w-20 -rotate-90 cursor-pointer accent-white"
                       />
                     </div>
                     <div className="relative h-56 w-full overflow-hidden rounded-[0.95rem] bg-slate-950/20">
