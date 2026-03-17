@@ -3,18 +3,19 @@
 import { BlogPostStatus } from "@prisma/client";
 import {
   CalendarClock,
-  Eye,
   FolderTree,
   Heading2,
   Heading3,
   Link2,
   List,
   MessageSquareQuote,
+  PencilLine,
   Plus,
   Search,
   Sparkles,
   Tag,
   Trash2,
+  X,
 } from "lucide-react";
 import { startTransition, useDeferredValue, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -25,6 +26,7 @@ import {
   buildExcerptFromContent,
   buildPostUrl,
   buildSeoDescriptionFromDraft,
+  countWords,
   createDraftFromPost,
   createEmptyDraft,
   type AdminBlogCategoryItem,
@@ -49,6 +51,8 @@ type BlogWorkspaceProps = {
   savePostAction: ActionFn;
   deletePostAction: ActionFn;
 };
+
+type EditorMode = "closed" | "create" | "edit";
 
 const editorBlocks = [
   {
@@ -105,10 +109,16 @@ function StatusBadge({ status }: { status: BlogPostStatus }) {
 
 function ScorePill({ score }: { score: number }) {
   const tone =
-    score >= 85 ? "bg-emerald-100 text-emerald-700" : score >= 65 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700";
+    score >= 85
+      ? "bg-emerald-100 text-emerald-700"
+      : score >= 65
+        ? "bg-amber-100 text-amber-700"
+        : "bg-rose-100 text-rose-700";
 
   return (
-    <span className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] ${tone}`}>
+    <span
+      className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] ${tone}`}
+    >
       SEO {score}
     </span>
   );
@@ -122,12 +132,9 @@ export function BlogWorkspace({
   savePostAction,
   deletePostAction,
 }: BlogWorkspaceProps) {
-  const firstPost = posts[0];
-
-  const [selectedId, setSelectedId] = useState(firstPost?.id ?? "new");
-  const [draft, setDraft] = useState<BlogEditorDraft>(
-    firstPost ? createDraftFromPost(firstPost) : createEmptyDraft(),
-  );
+  const [editorMode, setEditorMode] = useState<EditorMode>("closed");
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [draft, setDraft] = useState<BlogEditorDraft>(createEmptyDraft());
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"ALL" | BlogPostStatus>("ALL");
   const [editorTab, setEditorTab] = useState<"write" | "preview">("write");
@@ -137,6 +144,11 @@ export function BlogWorkspace({
 
   const deferredSearch = useDeferredValue(search);
   const deferredContent = useDeferredValue(draft.content);
+
+  const publishedCount = posts.filter(
+    (post) => post.status === BlogPostStatus.PUBLISHED,
+  ).length;
+  const draftCount = posts.length - publishedCount;
 
   const filteredPosts = useMemo(
     () =>
@@ -153,21 +165,19 @@ export function BlogWorkspace({
 
   const selectedPost = posts.find((post) => post.id === selectedId) ?? null;
   const seo = analyzeSeo(draft, targetKeyword);
-  const publishedCount = posts.filter((post) => post.status === BlogPostStatus.PUBLISHED).length;
-  const draftCount = posts.length - publishedCount;
 
-  function selectPost(postId: string) {
-    if (postId === "new") {
-      startTransition(() => {
-        setSelectedId("new");
-        setDraft(createEmptyDraft());
-        setTargetKeyword("");
-        setEditorTab("write");
-        setConfirmDeletePost(false);
-      });
-      return;
-    }
+  function openCreate() {
+    startTransition(() => {
+      setEditorMode("create");
+      setSelectedId("");
+      setDraft(createEmptyDraft());
+      setTargetKeyword("");
+      setEditorTab("write");
+      setConfirmDeletePost(false);
+    });
+  }
 
+  function openEdit(postId: string) {
     const post = posts.find((item) => item.id === postId);
 
     if (!post) {
@@ -175,6 +185,7 @@ export function BlogWorkspace({
     }
 
     startTransition(() => {
+      setEditorMode("edit");
       setSelectedId(post.id);
       setDraft(createDraftFromPost(post));
       setTargetKeyword("");
@@ -183,7 +194,21 @@ export function BlogWorkspace({
     });
   }
 
-  function updateDraft<Key extends keyof BlogEditorDraft>(field: Key, value: BlogEditorDraft[Key]) {
+  function closeEditor() {
+    startTransition(() => {
+      setEditorMode("closed");
+      setSelectedId("");
+      setDraft(createEmptyDraft());
+      setTargetKeyword("");
+      setEditorTab("write");
+      setConfirmDeletePost(false);
+    });
+  }
+
+  function updateDraft<Key extends keyof BlogEditorDraft>(
+    field: Key,
+    value: BlogEditorDraft[Key],
+  ) {
     setDraft((current) => ({
       ...current,
       [field]: value,
@@ -229,22 +254,39 @@ export function BlogWorkspace({
   }
 
   return (
-    <div className="grid gap-6 2xl:grid-cols-[320px_minmax(0,1fr)]">
-      <aside className="space-y-6">
+    <div
+      className={
+        editorMode === "closed"
+          ? "space-y-6"
+          : "grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,540px)]"
+      }
+    >
+      <div className="space-y-6">
         <AdminCard
           title="Conteudos"
-          description="Biblioteca de posts para localizar rapidamente qualquer artigo."
+          description="Biblioteca minimalista. Abra o editor somente quando quiser criar ou editar."
         >
           <div className="space-y-4">
-            <label className="relative block">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <Input
-                className="pl-10"
-                placeholder="Buscar por titulo, slug ou categoria"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-              />
-            </label>
+            <div className="flex flex-col gap-3 lg:flex-row">
+              <label className="relative block flex-1">
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Input
+                  className="pl-10"
+                  placeholder="Buscar por titulo, slug ou categoria"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                />
+              </label>
+
+              <Button
+                type="button"
+                className="h-11 gap-2 normal-case tracking-normal"
+                onClick={openCreate}
+              >
+                <Plus className="h-4 w-4" />
+                Novo post
+              </Button>
+            </div>
 
             <div className="flex flex-wrap items-center gap-2">
               <button
@@ -282,66 +324,87 @@ export function BlogWorkspace({
               </button>
             </div>
 
-            <div className="flex gap-3">
-              <Button
-                type="button"
-                className="h-10 gap-2 normal-case tracking-normal"
-                variant="outline"
-                onClick={() => selectPost("new")}
-              >
-                <Plus className="h-4 w-4" />
-                Novo post
-              </Button>
-            </div>
+            <div className="overflow-hidden rounded-[1.4rem] border border-brand/10">
+              <div className="hidden grid-cols-[minmax(0,1fr)_140px_140px_120px_90px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
+                <span>Titulo</span>
+                <span>Categoria</span>
+                <span>Status</span>
+                <span>Atualizado</span>
+                <span>Acoes</span>
+              </div>
 
-            <div className="max-h-[40rem] space-y-3 overflow-y-auto pr-1">
-              {filteredPosts.map((post) => {
-                const postSeo = analyzeSeo(createDraftFromPost(post), "");
+              <div className="divide-y divide-brand/10">
+                {filteredPosts.map((post) => {
+                  const score = analyzeSeo(createDraftFromPost(post), "").score;
 
-                return (
-                  <button
-                    key={post.id}
-                    type="button"
-                    onClick={() => selectPost(post.id)}
-                    className={
-                      selectedId === post.id
-                        ? "w-full rounded-[1.4rem] border border-brand bg-brand/[0.08] p-4 text-left shadow-sm transition"
-                        : "w-full rounded-[1.4rem] border border-brand/10 bg-slate-50/80 p-4 text-left transition hover:border-brand/30 hover:bg-white"
-                    }
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="truncate text-base font-semibold text-slate-950">{post.title}</p>
-                      <StatusBadge status={post.status} />
+                  return (
+                    <div key={post.id} className="px-4 py-4">
+                      <div className="hidden grid-cols-[minmax(0,1fr)_140px_140px_120px_90px] items-center gap-4 lg:grid">
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-slate-900">{post.title}</p>
+                          <p className="truncate text-xs text-slate-500">/blog/{post.slug}</p>
+                        </div>
+                        <p className="truncate text-sm text-slate-600">{post.categoryName ?? "Sem categoria"}</p>
+                        <div className="flex items-center gap-2">
+                          <StatusBadge status={post.status} />
+                          <ScorePill score={score} />
+                        </div>
+                        <p className="text-sm text-slate-600">{formatDate(post.updatedAt)}</p>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="h-9 gap-1 px-3 normal-case tracking-normal"
+                          onClick={() => openEdit(post.id)}
+                        >
+                          <PencilLine className="h-3.5 w-3.5" />
+                          Editar
+                        </Button>
+                      </div>
+
+                      <div className="space-y-3 lg:hidden">
+                        <div>
+                          <p className="text-sm font-semibold text-slate-900">{post.title}</p>
+                          <p className="text-xs text-slate-500">/blog/{post.slug}</p>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <StatusBadge status={post.status} />
+                          <ScorePill score={score} />
+                          <span className="text-xs text-slate-500">{post.categoryName ?? "Sem categoria"}</span>
+                          <span className="text-xs text-slate-400">/</span>
+                          <span className="text-xs text-slate-500">{formatDate(post.updatedAt)}</span>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="h-9 gap-1 px-3 normal-case tracking-normal"
+                          onClick={() => openEdit(post.id)}
+                        >
+                          <PencilLine className="h-3.5 w-3.5" />
+                          Editar
+                        </Button>
+                      </div>
                     </div>
-                    <p className="mt-1 truncate text-xs uppercase tracking-[0.22em] text-slate-400">
-                      /blog/{post.slug}
-                    </p>
-                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-500">{post.excerpt}</p>
-                    <div className="mt-4 flex items-center gap-2">
-                      <ScorePill score={postSeo.score} />
-                      <p className="text-xs text-slate-500">{formatDate(post.updatedAt)}</p>
-                    </div>
-                  </button>
-                );
-              })}
+                  );
+                })}
 
-              {!filteredPosts.length ? (
-                <div className="rounded-[1.4rem] border border-dashed border-brand/15 bg-slate-50 px-4 py-8 text-sm leading-7 text-slate-500">
-                  Nenhum conteudo encontrado para esse filtro.
-                </div>
-              ) : null}
+                {!filteredPosts.length ? (
+                  <div className="px-4 py-10 text-sm text-slate-500">
+                    Nenhum conteudo encontrado para esse filtro.
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </AdminCard>
 
         <AdminCard
           title="Categorias"
-          description="Estruture os temas editoriais para facilitar navegacao e SEO."
+          description="Gerencie categorias separadamente para manter o fluxo editorial limpo."
         >
           <div className="space-y-4">
             <form
               action={saveCategoryAction}
-              className="grid gap-3 rounded-[1.4rem] border border-brand/10 bg-slate-50 p-4"
+              className="grid gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-4"
             >
               <Input name="name" placeholder="Nova categoria" />
               <Input name="slug" placeholder="slug-da-categoria" />
@@ -352,10 +415,7 @@ export function BlogWorkspace({
 
             <div className="space-y-3">
               {categories.map((category) => (
-                <div
-                  key={category.id}
-                  className="rounded-[1.4rem] border border-brand/10 bg-white p-4"
-                >
+                <div key={category.id} className="rounded-[1.2rem] border border-brand/10 bg-white p-4">
                   <form action={saveCategoryAction} className="grid gap-3">
                     <input type="hidden" name="id" value={category.id} />
                     <div className="flex items-center justify-between gap-3">
@@ -387,29 +447,36 @@ export function BlogWorkspace({
             </div>
           </div>
         </AdminCard>
-      </aside>
+      </div>
 
-      <form action={savePostAction} className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_340px]">
-        <input name="id" type="hidden" value={draft.id} />
+      {editorMode !== "closed" ? (
+        <form action={savePostAction} className="space-y-6">
+          <input name="id" type="hidden" value={draft.id} />
 
-        <div className="space-y-6">
           <AdminCard
-            title={draft.id ? "Editar post" : "Novo post"}
-            description="Escreva o conteudo principal com foco em clareza e escaneabilidade."
+            title={editorMode === "create" ? "Novo post" : "Editar post"}
+            description="Editor sob demanda: aparece apenas quando voce escolhe criar ou editar."
           >
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.4rem] border border-brand/10 bg-slate-50 p-4">
-                <div className="flex items-center gap-3">
+            <div className="space-y-5">
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
+                <div className="flex items-center gap-2">
                   <StatusBadge status={draft.status} />
                   <ScorePill score={seo.score} />
-                  <span className="text-xs uppercase tracking-[0.16em] text-slate-500">
-                    {seo.grade}
-                  </span>
+                  {editorMode === "edit" ? (
+                    <span className="text-xs text-slate-500">
+                      {formatDate(selectedPost?.updatedAt ?? null)}
+                    </span>
+                  ) : null}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-slate-500">
-                  <CalendarClock className="h-4 w-4 text-slate-400" />
-                  {draft.id ? `Ultima edicao: ${formatDate(selectedPost?.updatedAt ?? null)}` : "Novo rascunho"}
-                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-9 gap-1 px-3 normal-case tracking-normal"
+                  onClick={closeEditor}
+                >
+                  <X className="h-3.5 w-3.5" />
+                  Fechar editor
+                </Button>
               </div>
 
               <label className="grid gap-2 text-sm text-slate-600">
@@ -422,7 +489,7 @@ export function BlogWorkspace({
                 />
               </label>
 
-              <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_190px]">
+              <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_180px]">
                 <label className="grid gap-2 text-sm text-slate-600">
                   Slug
                   <Input
@@ -440,10 +507,30 @@ export function BlogWorkspace({
                     variant="outline"
                     onClick={generateSlug}
                   >
-                    Gerar automatico
+                    Gerar
                   </Button>
                 </div>
               </div>
+
+              <label className="grid gap-2 text-sm text-slate-600">
+                Resumo
+                <Textarea
+                  name="excerpt"
+                  className="min-h-24"
+                  placeholder="Resumo enxuto e atrativo do artigo."
+                  value={draft.excerpt}
+                  onChange={(event) => updateDraft("excerpt", event.target.value)}
+                />
+              </label>
+              <Button
+                type="button"
+                variant="outline"
+                className="h-10 gap-2 normal-case tracking-normal"
+                onClick={extractExcerpt}
+              >
+                <Sparkles className="h-4 w-4" />
+                Extrair resumo do conteudo
+              </Button>
 
               <div className="space-y-3">
                 <div className="flex flex-wrap gap-2">
@@ -454,28 +541,28 @@ export function BlogWorkspace({
                         key={tool.label}
                         type="button"
                         variant="outline"
-                        className="h-10 gap-2 px-4 normal-case tracking-normal"
+                        className="h-9 gap-2 px-3 normal-case tracking-normal"
                         onClick={() => insertSnippet(tool.snippet)}
                       >
-                        <Icon className="h-4 w-4" />
+                        <Icon className="h-3.5 w-3.5" />
                         {tool.label}
                       </Button>
                     );
                   })}
                 </div>
 
-                <div className="overflow-hidden rounded-[1.8rem] border border-brand/10 bg-white shadow-sm">
-                  <div className="flex items-center justify-between border-b border-brand/10 bg-slate-50 px-4 py-3">
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                      {seo.wordCount} palavras / {seo.readingTime} min / {seo.headingCount} headings
+                <div className="overflow-hidden rounded-[1.2rem] border border-brand/10">
+                  <div className="flex items-center justify-between border-b border-brand/10 bg-slate-50 px-3 py-2">
+                    <div className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                      {countWords(draft.content)} palavras / {seo.readingTime} min
                     </div>
                     <div className="flex gap-2">
                       <button
                         type="button"
                         className={
                           editorTab === "write"
-                            ? "rounded-full bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white"
-                            : "rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 hover:bg-slate-100"
+                            ? "rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white"
+                            : "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:bg-slate-100"
                         }
                         onClick={() => setEditorTab("write")}
                       >
@@ -485,8 +572,8 @@ export function BlogWorkspace({
                         type="button"
                         className={
                           editorTab === "preview"
-                            ? "rounded-full bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white"
-                            : "rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 hover:bg-slate-100"
+                            ? "rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white"
+                            : "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:bg-slate-100"
                         }
                         onClick={() => setEditorTab("preview")}
                       >
@@ -499,52 +586,25 @@ export function BlogWorkspace({
                     <textarea
                       ref={textareaRef}
                       name="content"
-                      className="min-h-[32rem] w-full resize-y border-0 bg-white px-5 py-4 text-sm leading-7 text-slate-900 outline-none"
+                      className="min-h-[20rem] w-full resize-y border-0 bg-white px-4 py-3 text-sm leading-7 text-slate-900 outline-none"
                       placeholder="Escreva o artigo em Markdown..."
                       value={draft.content}
                       onChange={(event) => updateDraft("content", event.target.value)}
                     />
                   ) : (
-                    <div className="editorial-prose min-h-[32rem] px-5 py-6">
+                    <div className="editorial-prose min-h-[20rem] px-4 py-4">
                       {deferredContent.trim() ? (
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{deferredContent}</ReactMarkdown>
                       ) : (
-                        <div className="flex min-h-[24rem] items-center justify-center rounded-[1.6rem] border border-dashed border-brand/15 bg-slate-50 text-sm text-slate-500">
+                        <p className="text-sm text-slate-500">
                           O preview aparece aqui assim que voce comecar a escrever.
-                        </div>
+                        </p>
                       )}
                     </div>
                   )}
                 </div>
               </div>
-            </div>
-          </AdminCard>
 
-          <AdminCard title="Resumo" description="Texto de apoio para listagem do blog e compartilhamento.">
-            <div className="space-y-3">
-              <Textarea
-                name="excerpt"
-                className="min-h-28"
-                placeholder="Resumo enxuto e atrativo do artigo."
-                value={draft.excerpt}
-                onChange={(event) => updateDraft("excerpt", event.target.value)}
-              />
-              <Button
-                type="button"
-                variant="outline"
-                className="h-10 gap-2 normal-case tracking-normal"
-                onClick={extractExcerpt}
-              >
-                <Sparkles className="h-4 w-4" />
-                Extrair do conteudo
-              </Button>
-            </div>
-          </AdminCard>
-        </div>
-
-        <aside className="space-y-6 2xl:sticky 2xl:top-6 2xl:self-start">
-          <AdminCard title="Publicacao" description="Controle de status, categoria e imagem destacada.">
-            <div className="space-y-4">
               <label className="grid gap-2 text-sm text-slate-600">
                 Categoria
                 <Select
@@ -581,58 +641,6 @@ export function BlogWorkspace({
                 onValueChange={(value) => updateDraft("featuredImage", value)}
               />
 
-              <a
-                className="inline-flex h-10 w-full items-center justify-center rounded-full border border-brand/20 bg-white px-4 text-sm font-semibold text-brand transition hover:bg-brand/5"
-                href={buildPostUrl(seo.generatedSlug)}
-                rel="noreferrer"
-                target="_blank"
-              >
-                Abrir URL final
-              </a>
-
-                <div className="grid gap-3">
-                  <SubmitButton className="h-10 w-full normal-case tracking-normal">
-                    Salvar post
-                  </SubmitButton>
-
-                  {draft.id ? (
-                    confirmDeletePost ? (
-                      <div className="grid grid-cols-2 gap-2">
-                        <Button
-                          className="h-10 gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
-                          formAction={deletePostAction}
-                          variant="outline"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          Confirmar
-                        </Button>
-                        <Button
-                          type="button"
-                          className="h-10 normal-case tracking-normal"
-                          onClick={() => setConfirmDeletePost(false)}
-                          variant="outline"
-                        >
-                          Cancelar
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button
-                        type="button"
-                        className="h-10 w-full gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
-                        onClick={() => setConfirmDeletePost(true)}
-                        variant="outline"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        Excluir post
-                      </Button>
-                    )
-                  ) : null}
-                </div>
-              </div>
-          </AdminCard>
-
-          <AdminCard title="SEO ao vivo" description="Ajustes on-page com leitura imediata da qualidade do post.">
-            <div className="space-y-4">
               <label className="grid gap-2 text-sm text-slate-600">
                 Palavra-chave foco
                 <Input
@@ -641,11 +649,10 @@ export function BlogWorkspace({
                   onChange={(event) => setTargetKeyword(event.target.value)}
                 />
               </label>
-
               <Button
                 type="button"
                 variant="outline"
-                className="h-10 w-full gap-2 normal-case tracking-normal"
+                className="h-10 gap-2 normal-case tracking-normal"
                 onClick={fillSeoFields}
               >
                 <Tag className="h-4 w-4" />
@@ -666,61 +673,99 @@ export function BlogWorkspace({
                 SEO description
                 <Textarea
                   name="seoDescription"
-                  className="min-h-24"
+                  className="min-h-20"
                   placeholder="Descricao para resultados do Google"
                   value={draft.seoDescription}
                   onChange={(event) => updateDraft("seoDescription", event.target.value)}
                 />
               </label>
 
-              <div className="rounded-[1.4rem] border border-brand/10 bg-slate-50 p-4">
+              <div className="rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand/70">
-                    Score
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/70">
+                    Score SEO
                   </p>
-                  <span className="text-sm font-semibold text-slate-700">{seo.score}/100</span>
+                  <p className="text-sm font-semibold text-slate-700">{seo.score}/100</p>
                 </div>
-                <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white">
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-white">
                   <div className="h-full rounded-full bg-brand" style={{ width: `${seo.score}%` }} />
                 </div>
               </div>
 
-              <div className="max-h-[19rem] space-y-2 overflow-y-auto pr-1">
-                {seo.checks.map((check) => (
-                  <div
-                    key={check.label}
-                    className={
-                      check.passed
-                        ? "rounded-[1.1rem] border border-emerald-100 bg-emerald-50/70 p-3"
-                        : "rounded-[1.1rem] border border-amber-100 bg-amber-50/70 p-3"
-                    }
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-sm font-semibold text-slate-900">{check.label}</p>
-                      <span className="text-xs uppercase tracking-[0.14em] text-slate-500">
-                        {check.weight} pts
-                      </span>
+              <a
+                className="inline-flex h-10 items-center justify-center rounded-full border border-brand/20 bg-white px-4 text-sm font-semibold text-brand transition hover:bg-brand/5"
+                href={buildPostUrl(seo.generatedSlug)}
+                rel="noreferrer"
+                target="_blank"
+              >
+                Abrir URL final
+              </a>
+
+              <div className="grid gap-3">
+                <SubmitButton className="h-10 w-full normal-case tracking-normal">
+                  Salvar post
+                </SubmitButton>
+
+                {editorMode === "edit" && draft.id ? (
+                  confirmDeletePost ? (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        className="h-10 gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                        formAction={deletePostAction}
+                        variant="outline"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Confirmar
+                      </Button>
+                      <Button
+                        type="button"
+                        className="h-10 normal-case tracking-normal"
+                        onClick={() => setConfirmDeletePost(false)}
+                        variant="outline"
+                      >
+                        Cancelar
+                      </Button>
                     </div>
-                    <p className="mt-1 text-xs leading-6 text-slate-500">{check.detail}</p>
-                  </div>
-                ))}
+                  ) : (
+                    <Button
+                      type="button"
+                      className="h-10 w-full gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                      onClick={() => setConfirmDeletePost(true)}
+                      variant="outline"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Excluir post
+                    </Button>
+                  )
+                ) : null}
               </div>
             </div>
           </AdminCard>
 
-          <AdminCard title="Preview Google" description="Visual de como o resultado pode aparecer na busca.">
-            <div className="rounded-[1.4rem] border border-brand/10 bg-slate-50 p-4">
-              <p className="truncate text-xs text-emerald-700">{buildPostUrl(seo.generatedSlug)}</p>
-              <p className="mt-2 text-lg font-semibold leading-7 text-brand">
-                {seo.title || "Titulo do artigo"}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                {seo.description || "A descricao SEO aparecera aqui conforme voce preencher os campos."}
-              </p>
+          <AdminCard title="Checklist SEO" description="Feedback rapido de qualidade para publicar com seguranca.">
+            <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
+              {seo.checks.map((check) => (
+                <div
+                  key={check.label}
+                  className={
+                    check.passed
+                      ? "rounded-[1rem] border border-emerald-100 bg-emerald-50/70 p-3"
+                      : "rounded-[1rem] border border-amber-100 bg-amber-50/70 p-3"
+                  }
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-semibold text-slate-900">{check.label}</p>
+                    <span className="text-xs uppercase tracking-[0.12em] text-slate-500">
+                      {check.weight} pts
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs leading-6 text-slate-500">{check.detail}</p>
+                </div>
+              ))}
             </div>
           </AdminCard>
-        </aside>
-      </form>
+        </form>
+      ) : null}
     </div>
   );
 }
