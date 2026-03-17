@@ -325,10 +325,11 @@ export function BlogWorkspace({
             </div>
 
             <div className="overflow-hidden rounded-[1.4rem] border border-brand/10">
-              <div className="hidden grid-cols-[minmax(0,1fr)_140px_140px_120px_90px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
+              <div className="hidden grid-cols-[minmax(0,1fr)_140px_120px_96px_130px_90px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
                 <span>Titulo</span>
                 <span>Categoria</span>
                 <span>Status</span>
+                <span>SEO</span>
                 <span>Atualizado</span>
                 <span>Acoes</span>
               </div>
@@ -339,14 +340,16 @@ export function BlogWorkspace({
 
                   return (
                     <div key={post.id} className="px-4 py-4">
-                      <div className="hidden grid-cols-[minmax(0,1fr)_140px_140px_120px_90px] items-center gap-4 lg:grid">
+                      <div className="hidden grid-cols-[minmax(0,1fr)_140px_120px_96px_130px_90px] items-center gap-4 lg:grid">
                         <div className="min-w-0">
                           <p className="truncate text-sm font-semibold text-slate-900">{post.title}</p>
                           <p className="truncate text-xs text-slate-500">/blog/{post.slug}</p>
                         </div>
                         <p className="truncate text-sm text-slate-600">{post.categoryName ?? "Sem categoria"}</p>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center">
                           <StatusBadge status={post.status} />
+                        </div>
+                        <div className="flex items-center">
                           <ScorePill score={score} />
                         </div>
                         <p className="text-sm text-slate-600">{formatDate(post.updatedAt)}</p>
