@@ -68,17 +68,17 @@ export async function getPageContent(key: string) {
   }
 }
 
-export async function getRoomCategories() {
+export async function getRoomCategories(includeInactive = false) {
   if (!hasConfiguredDatabase) {
     return defaultRoomCategories;
   }
 
   try {
     const categories = await prisma.roomCategory.findMany({
-      where: { isActive: true },
+      where: includeInactive ? undefined : { isActive: true },
       include: {
         rooms: {
-          where: { isActive: true },
+          where: includeInactive ? undefined : { isActive: true },
           orderBy: { order: "asc" },
         },
       },
