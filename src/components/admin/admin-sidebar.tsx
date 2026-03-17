@@ -13,6 +13,7 @@ import {
   UtensilsCrossed,
   Video,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -44,8 +45,15 @@ export function AdminSidebar({ pathname }: AdminSidebarProps) {
         aria-label="Voltar ao site"
         className="group/site relative flex items-center gap-3 rounded-[1.25rem] bg-brand-deep px-4 py-4 text-white lg:justify-center lg:px-0"
       >
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-sm font-semibold">
-          IE
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10">
+          <Image
+            src="/favicon-hotel.png"
+            alt="Iguassu Express favicon"
+            width={24}
+            height={24}
+            className="h-6 w-6 object-contain"
+            priority
+          />
         </span>
         <div className="lg:hidden">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
@@ -74,7 +82,7 @@ export function AdminSidebar({ pathname }: AdminSidebarProps) {
                   : "text-slate-600 hover:bg-brand/5 hover:text-brand",
               )}
             >
-              <Icon className="h-4 w-4 shrink-0" />
+              <Icon className="h-5 w-5 shrink-0" />
               <span className="lg:hidden">{item.label}</span>
               <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/item:translate-x-0 lg:group-hover/item:opacity-100">
                 {item.label}
