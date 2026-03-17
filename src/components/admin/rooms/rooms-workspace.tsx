@@ -340,8 +340,8 @@ export function RoomsWorkspace({
 
               <div className="relative rounded-[1.4rem] border border-brand/10 lg:overflow-visible">
                 <div className="overflow-x-auto lg:overflow-visible">
-                  <div className="min-w-[980px]">
-                    <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_200px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
+                  <div className="min-w-[940px]">
+                    <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_160px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
                       <span>Titulo</span>
                       <span>Categoria</span>
                       <span>Ocupacao</span>
@@ -352,7 +352,7 @@ export function RoomsWorkspace({
                     <div className="divide-y divide-brand/10">
                       {filteredRooms.map((room) => (
                         <div key={room.id} className="px-4 py-4">
-                          <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_200px] items-center gap-4 lg:grid">
+                          <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_160px] items-center gap-4 lg:grid">
                             <div className="group/room-title relative min-w-0">
                               <p className="truncate text-sm font-semibold text-slate-900">{room.title}</p>
                               <p className="truncate text-xs text-slate-500">/{room.slug}</p>
@@ -383,10 +383,11 @@ export function RoomsWorkspace({
                                   name="id"
                                   value={room.id}
                                   variant="outline"
-                                  className="h-9 gap-1 px-3 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                                  className="h-9 w-9 p-0 text-red-600 hover:bg-red-50"
+                                  aria-label={`Excluir quarto ${room.title}`}
+                                  title="Excluir quarto"
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
-                                  Excluir
                                 </Button>
                               </form>
                             </div>
@@ -420,10 +421,11 @@ export function RoomsWorkspace({
                                   name="id"
                                   value={room.id}
                                   variant="outline"
-                                  className="h-9 gap-1 px-3 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                                  className="h-9 w-9 p-0 text-red-600 hover:bg-red-50"
+                                  aria-label={`Excluir quarto ${room.title}`}
+                                  title="Excluir quarto"
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
-                                  Excluir
                                 </Button>
                               </form>
                             </div>
