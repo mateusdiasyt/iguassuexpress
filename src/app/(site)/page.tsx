@@ -185,8 +185,6 @@ export default async function HomePage() {
           <ContactSection
             whatsapp={settings.whatsapp}
             phone={settings.phone}
-            email={settings.email}
-            address={settings.address}
             mapEmbed={settings.mapEmbed}
           />
         </div>

@@ -28,8 +28,6 @@ export default async function ContactPage() {
       <ContactSection
         whatsapp={settings.whatsapp}
         phone={settings.phone}
-        email={settings.email}
-        address={settings.address}
         mapEmbed={settings.mapEmbed}
       />
     </div>
