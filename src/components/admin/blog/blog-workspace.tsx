@@ -414,13 +414,13 @@ export function BlogWorkspace({
             <form action={savePostAction} className="space-y-6">
           <input name="id" type="hidden" value={draft.id} />
 
-          <AdminCard
-            title={editorMode === "create" ? "Novo post" : "Editar post"}
-            description="Editor em popup amplo para escrever e revisar o conteudo com mais conforto."
-          >
-            <div className="space-y-5">
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
-                <div className="flex items-center gap-2">
+          <div className="space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.2rem] border border-brand/10 bg-white/80 p-3 backdrop-blur">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand/70">
+                  {editorMode === "create" ? "Novo post" : "Editar post"}
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
                   <StatusBadge status={draft.status} />
                   <ScorePill score={seo.score} />
                   {editorMode === "edit" ? (
@@ -429,303 +429,329 @@ export function BlogWorkspace({
                     </span>
                   ) : null}
                 </div>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="h-9 gap-1 px-3 normal-case tracking-normal"
+                onClick={closeEditor}
+              >
+                <X className="h-3.5 w-3.5" />
+                Fechar editor
+              </Button>
+            </div>
+
+            <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
+              <section className="space-y-5 rounded-[1.4rem] border border-brand/10 bg-white/85 p-4 backdrop-blur md:p-5">
+                <div className="grid gap-3 md:grid-cols-2">
+                  <label className="grid gap-2 text-sm text-slate-600">
+                    Categoria
+                    <Select
+                      name="categoryId"
+                      value={draft.categoryId}
+                      onChange={(event) => updateDraft("categoryId", event.target.value)}
+                    >
+                      <option value="">Sem categoria</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </label>
+
+                  <label className="grid gap-2 text-sm text-slate-600">
+                    Status
+                    <Select
+                      name="status"
+                      value={draft.status}
+                      onChange={(event) => updateDraft("status", event.target.value as BlogPostStatus)}
+                    >
+                      <option value={BlogPostStatus.DRAFT}>Rascunho</option>
+                      <option value={BlogPostStatus.PUBLISHED}>Publicado</option>
+                    </Select>
+                  </label>
+                </div>
+
+                <label className="grid gap-2 text-sm text-slate-600">
+                  Titulo do artigo
+                  <Input
+                    name="title"
+                    placeholder="Ex.: Onde ficar em Foz do Iguacu com localizacao estrategica"
+                    value={draft.title}
+                    onChange={(event) => updateDraft("title", event.target.value)}
+                  />
+                </label>
+
+                <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_180px]">
+                  <label className="grid gap-2 text-sm text-slate-600">
+                    Slug
+                    <Input
+                      name="slug"
+                      placeholder="slug-do-post"
+                      value={draft.slug}
+                      onChange={(event) => updateDraft("slug", event.target.value)}
+                    />
+                  </label>
+                  <div className="grid gap-2 text-sm text-slate-600">
+                    <span className="opacity-0 select-none">acao</span>
+                    <Button
+                      type="button"
+                      className="h-10 normal-case tracking-normal"
+                      variant="outline"
+                      onClick={generateSlug}
+                    >
+                      Gerar
+                    </Button>
+                  </div>
+                </div>
+
+                <label className="grid gap-2 text-sm text-slate-600">
+                  Resumo
+                  <Textarea
+                    name="excerpt"
+                    className="min-h-24"
+                    placeholder="Resumo enxuto e atrativo do artigo."
+                    value={draft.excerpt}
+                    onChange={(event) => updateDraft("excerpt", event.target.value)}
+                  />
+                </label>
                 <Button
                   type="button"
                   variant="outline"
-                  className="h-9 gap-1 px-3 normal-case tracking-normal"
-                  onClick={closeEditor}
+                  className="h-10 gap-2 normal-case tracking-normal"
+                  onClick={extractExcerpt}
                 >
-                  <X className="h-3.5 w-3.5" />
-                  Fechar editor
+                  <Sparkles className="h-4 w-4" />
+                  Extrair resumo do conteudo
                 </Button>
-              </div>
 
-              <label className="grid gap-2 text-sm text-slate-600">
-                Titulo do artigo
-                <Input
-                  name="title"
-                  placeholder="Ex.: Onde ficar em Foz do Iguacu com localizacao estrategica"
-                  value={draft.title}
-                  onChange={(event) => updateDraft("title", event.target.value)}
-                />
-              </label>
+                <div className="space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {editorBlocks.map((tool) => {
+                      const Icon = tool.icon;
+                      return (
+                        <Button
+                          key={tool.label}
+                          type="button"
+                          variant="outline"
+                          className="h-9 gap-2 px-3 normal-case tracking-normal"
+                          onClick={() => insertSnippet(tool.snippet)}
+                        >
+                          <Icon className="h-3.5 w-3.5" />
+                          {tool.label}
+                        </Button>
+                      );
+                    })}
+                  </div>
 
-              <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_180px]">
-                <label className="grid gap-2 text-sm text-slate-600">
-                  Slug
-                  <Input
-                    name="slug"
-                    placeholder="slug-do-post"
-                    value={draft.slug}
-                    onChange={(event) => updateDraft("slug", event.target.value)}
-                  />
-                </label>
-                <div className="grid gap-2 text-sm text-slate-600">
-                  <span className="opacity-0 select-none">acao</span>
+                  <div className="overflow-hidden rounded-[1.2rem] border border-brand/10">
+                    <div className="flex items-center justify-between border-b border-brand/10 bg-slate-50 px-3 py-2">
+                      <div className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                        {countWords(draft.content)} palavras / {seo.readingTime} min
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          className={
+                            editorTab === "write"
+                              ? "rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white"
+                              : "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:bg-slate-100"
+                          }
+                          onClick={() => setEditorTab("write")}
+                        >
+                          Escrever
+                        </button>
+                        <button
+                          type="button"
+                          className={
+                            editorTab === "preview"
+                              ? "rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white"
+                              : "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:bg-slate-100"
+                          }
+                          onClick={() => setEditorTab("preview")}
+                        >
+                          Preview
+                        </button>
+                      </div>
+                    </div>
+
+                    {editorTab === "write" ? (
+                      <textarea
+                        ref={textareaRef}
+                        name="content"
+                        className="min-h-[28rem] w-full resize-y border-0 bg-white px-4 py-3 text-sm leading-7 text-slate-900 outline-none"
+                        placeholder="Escreva o artigo em Markdown..."
+                        value={draft.content}
+                        onChange={(event) => updateDraft("content", event.target.value)}
+                      />
+                    ) : (
+                      <div className="editorial-prose min-h-[28rem] px-4 py-4">
+                        {deferredContent.trim() ? (
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{deferredContent}</ReactMarkdown>
+                        ) : (
+                          <p className="text-sm text-slate-500">
+                            O preview aparece aqui assim que voce comecar a escrever.
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </section>
+
+              <aside className="space-y-4 xl:sticky xl:top-4 xl:self-start">
+                <section className="space-y-4 rounded-[1.4rem] border border-brand/10 bg-white/85 p-4 backdrop-blur">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand/70">SEO</p>
+                    <p className="text-xs text-slate-500">
+                      Campos de indexacao e consistencia editorial.
+                    </p>
+                  </div>
+
+                  <label className="grid gap-2 text-sm text-slate-600">
+                    Palavra-chave foco
+                    <Input
+                      placeholder="Ex.: hotel em Foz do Iguacu"
+                      value={targetKeyword}
+                      onChange={(event) => setTargetKeyword(event.target.value)}
+                    />
+                  </label>
                   <Button
                     type="button"
-                    className="h-10 normal-case tracking-normal"
                     variant="outline"
-                    onClick={generateSlug}
+                    className="h-10 gap-2 normal-case tracking-normal"
+                    onClick={fillSeoFields}
                   >
-                    Gerar
+                    <Tag className="h-4 w-4" />
+                    Preencher campos SEO
                   </Button>
-                </div>
-              </div>
 
-              <label className="grid gap-2 text-sm text-slate-600">
-                Resumo
-                <Textarea
-                  name="excerpt"
-                  className="min-h-24"
-                  placeholder="Resumo enxuto e atrativo do artigo."
-                  value={draft.excerpt}
-                  onChange={(event) => updateDraft("excerpt", event.target.value)}
-                />
-              </label>
-              <Button
-                type="button"
-                variant="outline"
-                className="h-10 gap-2 normal-case tracking-normal"
-                onClick={extractExcerpt}
-              >
-                <Sparkles className="h-4 w-4" />
-                Extrair resumo do conteudo
-              </Button>
+                  <label className="grid gap-2 text-sm text-slate-600">
+                    SEO title
+                    <Input
+                      name="seoTitle"
+                      placeholder="Titulo otimizado para busca"
+                      value={draft.seoTitle}
+                      onChange={(event) => updateDraft("seoTitle", event.target.value)}
+                    />
+                  </label>
 
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  {editorBlocks.map((tool) => {
-                    const Icon = tool.icon;
-                    return (
-                      <Button
-                        key={tool.label}
-                        type="button"
-                        variant="outline"
-                        className="h-9 gap-2 px-3 normal-case tracking-normal"
-                        onClick={() => insertSnippet(tool.snippet)}
-                      >
-                        <Icon className="h-3.5 w-3.5" />
-                        {tool.label}
-                      </Button>
-                    );
-                  })}
-                </div>
+                  <label className="grid gap-2 text-sm text-slate-600">
+                    SEO description
+                    <Textarea
+                      name="seoDescription"
+                      className="min-h-20"
+                      placeholder="Descricao para resultados do Google"
+                      value={draft.seoDescription}
+                      onChange={(event) => updateDraft("seoDescription", event.target.value)}
+                    />
+                  </label>
 
-                <div className="overflow-hidden rounded-[1.2rem] border border-brand/10">
-                  <div className="flex items-center justify-between border-b border-brand/10 bg-slate-50 px-3 py-2">
-                    <div className="text-xs uppercase tracking-[0.16em] text-slate-500">
-                      {countWords(draft.content)} palavras / {seo.readingTime} min
+                  <div className="rounded-[1rem] border border-brand/10 bg-slate-50 p-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/70">
+                        Score SEO
+                      </p>
+                      <p className="text-sm font-semibold text-slate-700">{seo.score}/100</p>
                     </div>
-                    <div className="flex gap-2">
-                      <button
-                        type="button"
-                        className={
-                          editorTab === "write"
-                            ? "rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white"
-                            : "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:bg-slate-100"
-                        }
-                        onClick={() => setEditorTab("write")}
-                      >
-                        Escrever
-                      </button>
-                      <button
-                        type="button"
-                        className={
-                          editorTab === "preview"
-                            ? "rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white"
-                            : "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:bg-slate-100"
-                        }
-                        onClick={() => setEditorTab("preview")}
-                      >
-                        Preview
-                      </button>
+                    <div className="mt-2 h-2 overflow-hidden rounded-full bg-white">
+                      <div className="h-full rounded-full bg-brand" style={{ width: `${seo.score}%` }} />
                     </div>
                   </div>
 
-                  {editorTab === "write" ? (
-                    <textarea
-                      ref={textareaRef}
-                      name="content"
-                      className="min-h-[28rem] w-full resize-y border-0 bg-white px-4 py-3 text-sm leading-7 text-slate-900 outline-none"
-                      placeholder="Escreva o artigo em Markdown..."
-                      value={draft.content}
-                      onChange={(event) => updateDraft("content", event.target.value)}
-                    />
-                  ) : (
-                    <div className="editorial-prose min-h-[28rem] px-4 py-4">
-                      {deferredContent.trim() ? (
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{deferredContent}</ReactMarkdown>
-                      ) : (
-                        <p className="text-sm text-slate-500">
-                          O preview aparece aqui assim que voce comecar a escrever.
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
+                  <div className="max-h-56 space-y-2 overflow-y-auto pr-1">
+                    {seo.checks.map((check) => (
+                      <div
+                        key={check.label}
+                        className={
+                          check.passed
+                            ? "rounded-[0.9rem] border border-emerald-100 bg-emerald-50/70 p-3"
+                            : "rounded-[0.9rem] border border-amber-100 bg-amber-50/70 p-3"
+                        }
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-sm font-semibold text-slate-900">{check.label}</p>
+                          <span className="text-[0.68rem] uppercase tracking-[0.12em] text-slate-500">
+                            {check.weight} pts
+                          </span>
+                        </div>
+                        <p className="mt-1 text-xs leading-6 text-slate-500">{check.detail}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
 
-              <label className="grid gap-2 text-sm text-slate-600">
-                Categoria
-                <Select
-                  name="categoryId"
-                  value={draft.categoryId}
-                  onChange={(event) => updateDraft("categoryId", event.target.value)}
-                >
-                  <option value="">Sem categoria</option>
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </Select>
-              </label>
+                <section className="space-y-4 rounded-[1.4rem] border border-brand/10 bg-white/85 p-4 backdrop-blur">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand/70">
+                      Imagem destacada
+                    </p>
+                    <p className="text-xs text-slate-500">Preview compacto para thumbnail do artigo.</p>
+                  </div>
 
-              <label className="grid gap-2 text-sm text-slate-600">
-                Status
-                <Select
-                  name="status"
-                  value={draft.status}
-                  onChange={(event) => updateDraft("status", event.target.value as BlogPostStatus)}
-                >
-                  <option value={BlogPostStatus.DRAFT}>Rascunho</option>
-                  <option value={BlogPostStatus.PUBLISHED}>Publicado</option>
-                </Select>
-              </label>
+                  <UploadField
+                    name="featuredImage"
+                    label="Arquivo da imagem"
+                    value={draft.featuredImage}
+                    defaultValue={draft.featuredImage}
+                    uploadStrategy="server"
+                    previewClassName="h-40"
+                    previewImageClassName="object-contain bg-slate-100"
+                    onValueChange={(value) => updateDraft("featuredImage", value)}
+                  />
 
-              <UploadField
-                name="featuredImage"
-                label="Imagem destacada"
-                value={draft.featuredImage}
-                defaultValue={draft.featuredImage}
-                uploadStrategy="server"
-                onValueChange={(value) => updateDraft("featuredImage", value)}
-              />
+                  <a
+                    className="inline-flex h-10 w-full items-center justify-center rounded-full border border-brand/20 bg-white px-4 text-sm font-semibold text-brand transition hover:bg-brand/5"
+                    href={buildPostUrl(seo.generatedSlug)}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Abrir URL final
+                  </a>
+                </section>
 
-              <label className="grid gap-2 text-sm text-slate-600">
-                Palavra-chave foco
-                <Input
-                  placeholder="Ex.: hotel em Foz do Iguacu"
-                  value={targetKeyword}
-                  onChange={(event) => setTargetKeyword(event.target.value)}
-                />
-              </label>
-              <Button
-                type="button"
-                variant="outline"
-                className="h-10 gap-2 normal-case tracking-normal"
-                onClick={fillSeoFields}
-              >
-                <Tag className="h-4 w-4" />
-                Preencher campos SEO
-              </Button>
+                <section className="space-y-3 rounded-[1.4rem] border border-brand/10 bg-white/85 p-4 backdrop-blur">
+                  <SubmitButton className="h-10 w-full normal-case tracking-normal">
+                    {submitLabel}
+                  </SubmitButton>
 
-              <label className="grid gap-2 text-sm text-slate-600">
-                SEO title
-                <Input
-                  name="seoTitle"
-                  placeholder="Titulo otimizado para busca"
-                  value={draft.seoTitle}
-                  onChange={(event) => updateDraft("seoTitle", event.target.value)}
-                />
-              </label>
-
-              <label className="grid gap-2 text-sm text-slate-600">
-                SEO description
-                <Textarea
-                  name="seoDescription"
-                  className="min-h-20"
-                  placeholder="Descricao para resultados do Google"
-                  value={draft.seoDescription}
-                  onChange={(event) => updateDraft("seoDescription", event.target.value)}
-                />
-              </label>
-
-              <div className="rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
-                <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/70">
-                    Score SEO
-                  </p>
-                  <p className="text-sm font-semibold text-slate-700">{seo.score}/100</p>
-                </div>
-                <div className="mt-2 h-2 overflow-hidden rounded-full bg-white">
-                  <div className="h-full rounded-full bg-brand" style={{ width: `${seo.score}%` }} />
-                </div>
-              </div>
-
-              <a
-                className="inline-flex h-10 items-center justify-center rounded-full border border-brand/20 bg-white px-4 text-sm font-semibold text-brand transition hover:bg-brand/5"
-                href={buildPostUrl(seo.generatedSlug)}
-                rel="noreferrer"
-                target="_blank"
-              >
-                Abrir URL final
-              </a>
-
-              <div className="grid gap-3">
-                <SubmitButton className="h-10 w-full normal-case tracking-normal">
-                  {submitLabel}
-                </SubmitButton>
-
-                {editorMode === "edit" && draft.id ? (
-                  confirmDeletePost ? (
-                    <div className="grid grid-cols-2 gap-2">
+                  {editorMode === "edit" && draft.id ? (
+                    confirmDeletePost ? (
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          className="h-10 gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                          formAction={deletePostAction}
+                          variant="outline"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          Confirmar
+                        </Button>
+                        <Button
+                          type="button"
+                          className="h-10 normal-case tracking-normal"
+                          onClick={() => setConfirmDeletePost(false)}
+                          variant="outline"
+                        >
+                          Cancelar
+                        </Button>
+                      </div>
+                    ) : (
                       <Button
-                        className="h-10 gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
-                        formAction={deletePostAction}
+                        type="button"
+                        className="h-10 w-full gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                        onClick={() => setConfirmDeletePost(true)}
                         variant="outline"
                       >
                         <Trash2 className="h-4 w-4" />
-                        Confirmar
+                        Excluir post
                       </Button>
-                      <Button
-                        type="button"
-                        className="h-10 normal-case tracking-normal"
-                        onClick={() => setConfirmDeletePost(false)}
-                        variant="outline"
-                      >
-                        Cancelar
-                      </Button>
-                    </div>
-                  ) : (
-                    <Button
-                      type="button"
-                      className="h-10 w-full gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
-                      onClick={() => setConfirmDeletePost(true)}
-                      variant="outline"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Excluir post
-                    </Button>
-                  )
-                ) : null}
-              </div>
+                    )
+                  ) : null}
+                </section>
+              </aside>
             </div>
-          </AdminCard>
-
-          <AdminCard title="Checklist SEO" description="Feedback rapido de qualidade para publicar com seguranca.">
-            <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
-              {seo.checks.map((check) => (
-                <div
-                  key={check.label}
-                  className={
-                    check.passed
-                      ? "rounded-[1rem] border border-emerald-100 bg-emerald-50/70 p-3"
-                      : "rounded-[1rem] border border-amber-100 bg-amber-50/70 p-3"
-                  }
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm font-semibold text-slate-900">{check.label}</p>
-                    <span className="text-xs uppercase tracking-[0.12em] text-slate-500">
-                      {check.weight} pts
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs leading-6 text-slate-500">{check.detail}</p>
-                </div>
-              ))}
-            </div>
-          </AdminCard>
+          </div>
             </form>
           </div>
         </div>
