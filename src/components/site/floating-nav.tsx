@@ -65,6 +65,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [isDockedLeft, setIsDockedLeft] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const [logoSrc, setLogoSrc] = useState(() => resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
 
   useEffect(() => {
@@ -73,7 +74,9 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
   useEffect(() => {
     function syncDockState() {
-      setIsDockedLeft(window.scrollY > 180);
+      const y = window.scrollY;
+      setScrollY(y);
+      setIsDockedLeft(y > 180);
     }
 
     syncDockState();
@@ -82,18 +85,31 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
     return () => window.removeEventListener("scroll", syncDockState);
   }, []);
 
+  const isHomePath = pathname === "/";
+  const useHeroTopTone = isHomePath && scrollY < 180;
+  const useHeroDockTone = isHomePath && scrollY < 560;
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-6">
         <div
           className={cn(
-            "inline-flex items-center gap-4 text-white transition-all duration-500 md:gap-8",
+            "inline-flex items-center gap-4 transition-all duration-500 md:gap-8",
+            useHeroTopTone ? "text-white" : "text-slate-700",
             isDockedLeft
               ? "pointer-events-none -translate-y-6 scale-95 opacity-0"
               : "translate-y-0 scale-100 opacity-100",
           )}
         >
-          <Link href="/" className="flex shrink-0 items-center">
+          <Link
+            href="/"
+            className={cn(
+              "flex shrink-0 items-center rounded-full px-2.5 py-1.5 transition-all duration-300",
+              useHeroTopTone
+                ? "bg-transparent"
+                : "border border-slate-300/70 bg-slate-950/74 shadow-[0_10px_24px_rgba(15,23,42,0.18)] backdrop-blur-xl",
+            )}
+          >
             <img
               src={logoSrc}
               alt={hotelName}
@@ -112,10 +128,20 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "group flex h-11 items-center rounded-full border border-white/15 bg-slate-950/18 px-4 shadow-[0_8px_22px_rgba(4,18,32,0.22)] backdrop-blur-xl transition-all duration-300",
-                    isActive
-                      ? "border-white/24 bg-white/16"
-                      : "hover:border-white/24 hover:bg-white/12",
+                    "group flex h-11 items-center rounded-full px-4 backdrop-blur-xl transition-all duration-300",
+                    useHeroTopTone
+                      ? cn(
+                          "border border-white/15 bg-slate-950/18 shadow-[0_8px_22px_rgba(4,18,32,0.22)]",
+                          isActive
+                            ? "border-white/24 bg-white/16"
+                            : "hover:border-white/24 hover:bg-white/12",
+                        )
+                      : cn(
+                          "border border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_26px_rgba(15,23,42,0.12)]",
+                          isActive
+                            ? "border-brand/40 bg-brand/12 text-brand"
+                            : "hover:border-brand/30 hover:bg-white",
+                        ),
                   )}
                 >
                   <Icon className="h-4 w-4 shrink-0" />
@@ -129,7 +155,12 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/22 shadow-[0_8px_22px_rgba(4,18,32,0.22)] backdrop-blur-xl md:hidden"
+            className={cn(
+              "inline-flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-xl md:hidden",
+              useHeroTopTone
+                ? "border border-white/20 bg-slate-950/22 shadow-[0_8px_22px_rgba(4,18,32,0.22)]"
+                : "border border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.12)]",
+            )}
             onClick={() => setOpen((current) => !current)}
             aria-label="Abrir menu"
           >
@@ -144,7 +175,14 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           isDockedLeft ? "is-visible" : null,
         )}
       >
-        <nav className="flex flex-col gap-2 overflow-hidden rounded-[1.8rem] border border-white/16 bg-slate-950/18 p-2 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)] backdrop-blur-2xl">
+        <nav
+          className={cn(
+            "flex flex-col gap-2 overflow-hidden rounded-[1.8rem] p-2 backdrop-blur-2xl transition-all duration-300",
+            useHeroDockTone
+              ? "border border-white/16 bg-slate-950/20 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)]"
+              : "border border-slate-300/75 bg-white/78 text-slate-700 shadow-[0_22px_42px_rgba(15,23,42,0.16)]",
+          )}
+        >
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -155,14 +193,24 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                 href={item.href}
                 aria-label={item.label}
                 className={cn(
-                  "group relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/6 transition-all duration-300",
-                  isActive
-                    ? "border-white/24 bg-white/16"
-                    : "hover:border-white/24 hover:bg-white/12",
+                  "group relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-300",
+                  useHeroDockTone
+                    ? cn(
+                        "border border-white/12 bg-white/6",
+                        isActive
+                          ? "border-white/24 bg-white/16"
+                          : "hover:border-white/24 hover:bg-white/12",
+                      )
+                    : cn(
+                        "border border-slate-300/75 bg-white/66",
+                        isActive
+                          ? "border-brand/40 bg-brand/12 text-brand"
+                          : "hover:border-brand/30 hover:bg-white",
+                      ),
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />
-                <span className="pointer-events-none absolute left-[calc(100%+0.75rem)] top-1/2 -translate-y-1/2 -translate-x-2 rounded-full border border-white/14 bg-slate-950/85 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white opacity-0 shadow-[0_10px_24px_rgba(4,18,32,0.24)] backdrop-blur-xl transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+                <span className="pointer-events-none absolute left-[calc(100%+0.75rem)] top-1/2 -translate-y-1/2 -translate-x-2 rounded-full border border-slate-900/20 bg-slate-950/88 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white opacity-0 shadow-[0_10px_24px_rgba(4,18,32,0.24)] backdrop-blur-xl transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
                   {item.label}
                 </span>
               </Link>
