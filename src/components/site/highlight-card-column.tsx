@@ -378,7 +378,7 @@ export function HighlightCardColumn({
                       Experiencia Premium
                     </p>
                   </div>
-                  <div className="relative mt-2 overflow-hidden rounded-[0.95rem]">
+                  <div className="relative mt-2 overflow-visible">
                     <div className="absolute -right-14 top-1/2 z-30 flex h-[9.75rem] w-[3rem] -translate-y-1/2 flex-col items-center gap-2 rounded-[1rem] border border-white/20 bg-slate-950/62 px-2 py-2 shadow-[0_18px_32px_rgba(2,14,26,0.32)] backdrop-blur-xl">
                       {premiumVolume <= 0 ? (
                         <VolumeX className="h-3.5 w-3.5 text-white/80" />
