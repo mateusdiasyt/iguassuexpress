@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
-import { PencilLine, Plus, Search, Trash2, X } from "lucide-react";
+import { ArrowUpRight, PencilLine, Plus, Search, Trash2, Users, X } from "lucide-react";
 import { AdminCard } from "@/components/admin/admin-card";
 import { UploadField } from "@/components/admin/upload-field";
 import { Button } from "@/components/ui/button";
@@ -111,6 +112,63 @@ function StatusBadge({ active }: { active: boolean }) {
     >
       {active ? "Ativo" : "Inativo"}
     </span>
+  );
+}
+
+function getRoomPreviewImage(room: AdminRoomItem) {
+  return room.coverImage || room.gallery[0] || "/piscina-hotel-iguassu.jpg";
+}
+
+function RoomHoverPreview({ room }: { room: AdminRoomItem }) {
+  const tags = room.features.slice(0, 2);
+
+  return (
+    <div className="pointer-events-none absolute left-0 top-full z-30 mt-3 w-[300px] translate-y-2 opacity-0 transition-all duration-250 group-hover/room-title:translate-y-0 group-hover/room-title:opacity-100">
+      <article className="overflow-hidden rounded-[1.8rem] border border-slate-200/70 bg-white shadow-[0_26px_48px_rgba(15,23,42,0.2)]">
+        <div className="relative h-44 overflow-hidden">
+          <Image
+            src={getRoomPreviewImage(room)}
+            alt={room.title}
+            fill
+            className="object-cover"
+            sizes="300px"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent" />
+          <span
+            aria-hidden="true"
+            className="absolute right-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/35 text-white backdrop-blur-sm"
+          >
+            <ArrowUpRight className="h-4 w-4" />
+          </span>
+        </div>
+        <div className="space-y-3 bg-slate-900 px-4 py-4 text-white">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/95">
+            <Users className="h-3.5 w-3.5" />
+            {room.occupancy} pessoa{room.occupancy > 1 ? "s" : ""}
+          </span>
+          <h4 className="text-4xl leading-[0.9] font-extrabold tracking-[-0.03em]">{room.title}</h4>
+          <p className="line-clamp-2 text-sm leading-6 text-white/80">{room.shortDescription}</p>
+          {tags.length ? (
+            <div className="flex flex-wrap gap-2">
+              {tags.map((feature) => (
+                <span
+                  key={feature}
+                  className="rounded-full bg-white/18 px-3 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-white/90"
+                >
+                  {feature}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          <span
+            aria-hidden="true"
+            className="inline-flex h-10 items-center rounded-full bg-white px-5 text-xs font-semibold uppercase tracking-[0.22em] text-slate-900"
+          >
+            Ver detalhes
+          </span>
+        </div>
+      </article>
+    </div>
   );
 }
 
@@ -286,9 +344,10 @@ export function RoomsWorkspace({
                       {filteredRooms.map((room) => (
                         <div key={room.id} className="px-4 py-4">
                           <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_90px] items-center gap-4 lg:grid">
-                            <div className="min-w-0">
+                            <div className="group/room-title relative min-w-0">
                               <p className="truncate text-sm font-semibold text-slate-900">{room.title}</p>
                               <p className="truncate text-xs text-slate-500">/{room.slug}</p>
+                              <RoomHoverPreview room={room} />
                             </div>
                             <p className="truncate text-sm text-slate-600">{room.categoryName}</p>
                             <p className="text-sm text-slate-600">{room.occupancy} pessoas</p>
