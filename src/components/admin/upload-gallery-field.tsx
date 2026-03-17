@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { LoaderCircle, Plus, Trash2, Upload } from "lucide-react";
+import { ArrowDown, ArrowUp, LoaderCircle, Star, Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { uploadAssetFromClient } from "@/lib/client-upload";
 
 type UploadGalleryFieldProps = {
@@ -23,36 +22,51 @@ export function UploadGalleryField({
   defaultValue,
 }: UploadGalleryFieldProps) {
   const [items, setItems] = useState(() => normalizeItems(defaultValue ?? []));
-  const [draftUrl, setDraftUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const serializedValue = useMemo(() => items.join("\n"), [items]);
 
-  function addItem(url: string) {
-    const normalized = url.trim();
+  function removeItem(index: number) {
+    setItems((current) => current.filter((_, itemIndex) => itemIndex !== index));
+  }
 
-    if (!normalized) {
+  function moveItem(fromIndex: number, toIndex: number) {
+    setItems((current) => {
+      if (toIndex < 0 || toIndex >= current.length || fromIndex === toIndex) {
+        return current;
+      }
+
+      const next = [...current];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(toIndex, 0, moved);
+      return next;
+    });
+  }
+
+  function moveToTop(index: number) {
+    moveItem(index, 0);
+  }
+
+  async function handleChange(fileList?: FileList | null) {
+    const files = Array.from(fileList ?? []);
+
+    if (!files.length) {
       return;
     }
-
-    setItems((current) => normalizeItems([...current, normalized]));
-    setDraftUrl("");
-  }
-
-  function removeItem(url: string) {
-    setItems((current) => current.filter((item) => item !== url));
-  }
-
-  async function handleChange(file?: File) {
-    if (!file) return;
 
     setLoading(true);
     setError("");
 
     try {
-      const url = await uploadAssetFromClient(file, "image");
-      addItem(url);
+      const uploaded: string[] = [];
+
+      for (const file of files) {
+        const url = await uploadAssetFromClient(file, "image");
+        uploaded.push(url);
+      }
+
+      setItems((current) => normalizeItems([...current, ...uploaded]));
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "Falha no upload.");
     } finally {
@@ -67,7 +81,7 @@ export function UploadGalleryField({
       <div className="space-y-1">
         <label className="text-sm font-medium text-slate-600">{label}</label>
         <p className="text-sm leading-6 text-slate-500">
-          Adicione quantas cenas quiser para alimentar a experiencia 360 da Home e da pagina publica.
+          Envie as imagens panoramicas e defina a hierarquia para escolher o que aparece primeiro.
         </p>
         <p className="text-xs leading-6 text-slate-400">
           Para imagens publicas do site, a Blob Store vinculada ao projeto precisa estar em modo public.
@@ -75,23 +89,6 @@ export function UploadGalleryField({
       </div>
 
       <div className="flex flex-col gap-3 rounded-[1.6rem] border border-brand/10 bg-slate-50/80 p-4">
-        <div className="flex flex-col gap-3 md:flex-row">
-          <Input
-            value={draftUrl}
-            onChange={(event) => setDraftUrl(event.target.value)}
-            placeholder="Cole a URL de uma imagem panoramica"
-          />
-          <Button
-            type="button"
-            variant="outline"
-            className="gap-2 px-4 tracking-[0.08em]"
-            onClick={() => addItem(draftUrl)}
-          >
-            <Plus className="h-4 w-4" />
-            Adicionar URL
-          </Button>
-        </div>
-
         <label className="flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-brand/20 px-4 py-3 text-sm text-slate-600 transition hover:border-brand/40 hover:bg-brand/5">
           {loading ? (
             <LoaderCircle className="h-4 w-4 animate-spin" />
@@ -102,8 +99,9 @@ export function UploadGalleryField({
           <input
             type="file"
             accept="image/*"
+            multiple
             className="hidden"
-            onChange={(event) => void handleChange(event.target.files?.[0])}
+            onChange={(event) => void handleChange(event.target.files)}
           />
         </label>
       </div>
@@ -132,15 +130,54 @@ export function UploadGalleryField({
                     {item}
                   </p>
                 </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full gap-2 px-4 tracking-[0.08em]"
-                  onClick={() => removeItem(item)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Remover
-                </Button>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-9 gap-2 px-3 text-xs tracking-[0.06em]"
+                    disabled={index === 0}
+                    onClick={() => moveItem(index, index - 1)}
+                  >
+                    <ArrowUp className="h-3.5 w-3.5" />
+                    Subir
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-9 gap-2 px-3 text-xs tracking-[0.06em]"
+                    disabled={index === items.length - 1}
+                    onClick={() => moveItem(index, index + 1)}
+                  >
+                    <ArrowDown className="h-3.5 w-3.5" />
+                    Descer
+                  </Button>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-9 gap-2 px-3 text-xs tracking-[0.06em]"
+                    disabled={index === 0}
+                    onClick={() => moveToTop(index)}
+                  >
+                    <Star className="h-3.5 w-3.5" />
+                    Priorizar
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-9 gap-2 px-3 text-xs tracking-[0.06em] text-red-600 hover:bg-red-50"
+                    onClick={() => removeItem(index)}
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    Remover
+                  </Button>
+                </div>
+                {index === 0 ? (
+                  <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-emerald-700">
+                    Cena principal da Home
+                  </p>
+                ) : null}
               </div>
             </div>
           ))}

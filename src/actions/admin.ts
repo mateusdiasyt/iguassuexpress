@@ -390,13 +390,17 @@ export async function deleteGalleryImageAction(formData: FormData) {
 export async function saveTour360Action(formData: FormData) {
   await requireAdmin();
 
+  const galleryRaw = getString(formData, "gallery");
+  const galleryItems = parseList(galleryRaw ?? "");
+  const primarySceneImage = galleryItems[0] ?? "";
+
   const parsed = tour360Schema.parse({
     title: getString(formData, "title"),
     description: getString(formData, "description"),
-    embedUrl: getString(formData, "embedUrl"),
-    heroImage: getString(formData, "heroImage"),
-    gallery: getString(formData, "gallery"),
-    isActive: getBoolean(formData, "isActive"),
+    embedUrl: "",
+    heroImage: primarySceneImage,
+    gallery: galleryRaw,
+    isActive: true,
   });
 
   await prisma.tour360Content.upsert({
@@ -404,19 +408,19 @@ export async function saveTour360Action(formData: FormData) {
     update: {
       title: parsed.title,
       description: parsed.description,
-      embedUrl: parsed.embedUrl || null,
+      embedUrl: null,
       heroImage: parsed.heroImage || null,
-      gallery: parseList(parsed.gallery ?? ""),
-      isActive: parsed.isActive,
+      gallery: galleryItems,
+      isActive: true,
     },
     create: {
       id: 1,
       title: parsed.title,
       description: parsed.description,
-      embedUrl: parsed.embedUrl || null,
+      embedUrl: null,
       heroImage: parsed.heroImage || null,
-      gallery: parseList(parsed.gallery ?? ""),
-      isActive: parsed.isActive,
+      gallery: galleryItems,
+      isActive: true,
     },
   });
 
