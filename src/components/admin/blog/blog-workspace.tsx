@@ -164,6 +164,8 @@ export function BlogWorkspace({
   const selectedPost = posts.find((post) => post.id === selectedId) ?? null;
   const seo = analyzeSeo(draft, targetKeyword);
   const isEditorOpen = editorMode !== "closed";
+  const submitLabel =
+    draft.status === BlogPostStatus.PUBLISHED ? "Publicar post" : "Salvar rascunho";
 
   function openCreate() {
     startTransition(() => {
@@ -597,6 +599,7 @@ export function BlogWorkspace({
                 label="Imagem destacada"
                 value={draft.featuredImage}
                 defaultValue={draft.featuredImage}
+                uploadStrategy="server"
                 onValueChange={(value) => updateDraft("featuredImage", value)}
               />
 
@@ -662,7 +665,7 @@ export function BlogWorkspace({
 
               <div className="grid gap-3">
                 <SubmitButton className="h-10 w-full normal-case tracking-normal">
-                  Salvar post
+                  {submitLabel}
                 </SubmitButton>
 
                 {editorMode === "edit" && draft.id ? (

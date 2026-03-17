@@ -7,12 +7,15 @@ import { Input } from "@/components/ui/input";
 import { uploadAssetFromClient } from "@/lib/client-upload";
 import { cn } from "@/lib/utils";
 
+type UploadStrategy = "auto" | "server" | "direct";
+
 type UploadFieldProps = {
   name: string;
   label: string;
   defaultValue?: string | null;
   accept?: string;
   kind?: "image" | "document";
+  uploadStrategy?: UploadStrategy;
   value?: string;
   onValueChange?: (value: string) => void;
   className?: string;
@@ -27,6 +30,7 @@ export function UploadField({
   defaultValue,
   accept = "image/*",
   kind = "image",
+  uploadStrategy = "auto",
   value: controlledValue,
   onValueChange,
   className,
@@ -61,7 +65,7 @@ export function UploadField({
     setError("");
 
     try {
-      const url = await uploadAssetFromClient(file, kind);
+      const url = await uploadAssetFromClient(file, kind, uploadStrategy);
       setValue(url);
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "Falha no upload.");
@@ -86,7 +90,11 @@ export function UploadField({
           type="file"
           accept={accept}
           className="hidden"
-          onChange={(event) => void handleChange(event.target.files?.[0])}
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            event.target.value = "";
+            void handleChange(file);
+          }}
         />
       </label>
       {kind === "image" && value ? (

@@ -10,6 +10,8 @@ import {
 } from "@/lib/upload-shared";
 
 type UploadKind = "image" | "document";
+type UploadStrategy = "auto" | "server" | "direct";
+const SERVER_UPLOAD_TIMEOUT_MS = 90_000;
 
 async function readErrorMessage(response: Response) {
   const text = await response.text();
@@ -31,9 +33,15 @@ async function uploadThroughServer(file: File, kind: UploadKind) {
   body.append("file", file);
   body.append("kind", kind);
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), SERVER_UPLOAD_TIMEOUT_MS);
+
   const response = await fetch("/api/upload", {
     method: "POST",
     body,
+    signal: controller.signal,
+  }).finally(() => {
+    clearTimeout(timeoutId);
   });
 
   if (!response.ok) {
@@ -54,6 +62,10 @@ function normalizeDirectUploadError(error: unknown) {
     return new Error("Falha no upload direto para o Blob.");
   }
 
+  if (error.name === "AbortError") {
+    return new Error("Tempo de upload excedido. Tente novamente com uma imagem menor.");
+  }
+
   const message = error.message.toLowerCase();
 
   if (
@@ -68,7 +80,11 @@ function normalizeDirectUploadError(error: unknown) {
   return error;
 }
 
-export async function uploadAssetFromClient(file: File, kind: UploadKind = "image") {
+export async function uploadAssetFromClient(
+  file: File,
+  kind: UploadKind = "image",
+  strategy: UploadStrategy = "auto",
+) {
   if (kind === "document") {
     if (file.size > MAX_DOCUMENT_BYTES) {
       throw new Error("Arquivo acima do tamanho permitido.");
@@ -81,20 +97,31 @@ export async function uploadAssetFromClient(file: File, kind: UploadKind = "imag
     throw new Error("Imagem acima do tamanho permitido para a galeria 360.");
   }
 
-  try {
-    const blob = await upload(`image/${safeFileName(file.name)}`, file, {
-      access: "public",
-      handleUploadUrl: "/api/upload/client",
-      contentType: file.type,
-      multipart: file.size > MAX_SERVER_IMAGE_BYTES,
-    });
+  const shouldUseServer =
+    strategy === "server" || (strategy === "auto" && file.size <= MAX_SERVER_IMAGE_BYTES);
 
-    return blob.url;
-  } catch (error) {
-    if (file.size <= MAX_SERVER_IMAGE_BYTES) {
-      return uploadThroughServer(file, kind);
-    }
-
-    throw normalizeDirectUploadError(error);
+  if (shouldUseServer) {
+    return uploadThroughServer(file, kind);
   }
+
+  if (strategy === "direct" || strategy === "auto") {
+    try {
+      const blob = await upload(`image/${safeFileName(file.name)}`, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload/client",
+        contentType: file.type,
+        multipart: file.size > MAX_SERVER_IMAGE_BYTES,
+      });
+
+      return blob.url;
+    } catch (error) {
+      if (strategy === "auto" && file.size <= MAX_SERVER_IMAGE_BYTES) {
+        return uploadThroughServer(file, kind);
+      }
+
+      throw normalizeDirectUploadError(error);
+    }
+  }
+
+  return uploadThroughServer(file, kind);
 }

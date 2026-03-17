@@ -52,6 +52,63 @@ function normalizePageContent(value: string) {
   return { body: trimmed };
 }
 
+function isUniqueSlugConstraintError(error: unknown) {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const maybePrismaError = error as {
+    code?: string;
+    meta?: { target?: unknown };
+  };
+
+  if (maybePrismaError.code !== "P2002") {
+    return false;
+  }
+
+  const target = maybePrismaError.meta?.target;
+  const targetValue = Array.isArray(target)
+    ? target.join(" ").toLowerCase()
+    : String(target ?? "").toLowerCase();
+
+  return targetValue.includes("slug");
+}
+
+async function buildUniqueBlogPostSlug(rawSlug: string, ignorePostId?: string) {
+  const baseSlug = toSlug(rawSlug) || `post-${Date.now()}`;
+  const whereBase = ignorePostId
+    ? { slug: baseSlug, id: { not: ignorePostId } }
+    : { slug: baseSlug };
+
+  const baseTaken = await prisma.blogPost.findFirst({
+    where: whereBase,
+    select: { id: true },
+  });
+
+  if (!baseTaken) {
+    return baseSlug;
+  }
+
+  const related = await prisma.blogPost.findMany({
+    where: {
+      slug: { startsWith: `${baseSlug}-` },
+      ...(ignorePostId ? { id: { not: ignorePostId } } : {}),
+    },
+    select: { slug: true },
+  });
+
+  const used = new Set(related.map((item) => item.slug));
+  let suffix = 2;
+  let candidate = `${baseSlug}-${suffix}`;
+
+  while (used.has(candidate)) {
+    suffix += 1;
+    candidate = `${baseSlug}-${suffix}`;
+  }
+
+  return candidate;
+}
+
 export async function saveSiteSettingsAction(formData: FormData) {
   await requireAdmin();
 
@@ -531,9 +588,14 @@ export async function saveBlogPostAction(formData: FormData) {
       })
     : null;
 
+  const requestedSlug =
+    toSlug(parsed.slug) || toSlug(parsed.title) || `post-${Date.now()}`;
+  const postId = parsed.id || undefined;
+  let resolvedSlug = await buildUniqueBlogPostSlug(requestedSlug, postId);
+
   const data = {
     title: parsed.title,
-    slug: parsed.slug,
+    slug: resolvedSlug,
     excerpt: parsed.excerpt,
     content: parsed.content,
     featuredImage: parsed.featuredImage || null,
@@ -547,23 +609,48 @@ export async function saveBlogPostAction(formData: FormData) {
         : null,
   };
 
-  if (parsed.id) {
-    await prisma.blogPost.update({
-      where: { id: parsed.id },
-      data,
-    });
-  } else {
-    await prisma.blogPost.create({
-      data,
-    });
+  try {
+    if (parsed.id) {
+      await prisma.blogPost.update({
+        where: { id: parsed.id },
+        data,
+      });
+    } else {
+      await prisma.blogPost.create({
+        data,
+      });
+    }
+  } catch (error) {
+    if (!isUniqueSlugConstraintError(error)) {
+      throw error;
+    }
+
+    resolvedSlug = await buildUniqueBlogPostSlug(`${requestedSlug}-${Date.now()}`, postId);
+
+    if (parsed.id) {
+      await prisma.blogPost.update({
+        where: { id: parsed.id },
+        data: {
+          ...data,
+          slug: resolvedSlug,
+        },
+      });
+    } else {
+      await prisma.blogPost.create({
+        data: {
+          ...data,
+          slug: resolvedSlug,
+        },
+      });
+    }
   }
 
   refreshSite([
     "/",
     "/blog",
     "/admin/blog",
-    `/blog/${parsed.slug}`,
-    existingPost?.slug && existingPost.slug !== parsed.slug ? `/blog/${existingPost.slug}` : "",
+    `/blog/${resolvedSlug}`,
+    existingPost?.slug && existingPost.slug !== resolvedSlug ? `/blog/${existingPost.slug}` : "",
   ]);
 }
 
