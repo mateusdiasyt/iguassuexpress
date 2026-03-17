@@ -2,7 +2,6 @@
 
 import { BlogPostStatus } from "@prisma/client";
 import {
-  CalendarClock,
   Heading2,
   Heading3,
   Link2,
@@ -256,7 +255,7 @@ export function BlogWorkspace({
     <div
       className={
         editorMode === "closed"
-          ? "grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]"
+          ? "grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]"
           : "grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,540px)]"
       }
     >
@@ -324,76 +323,80 @@ export function BlogWorkspace({
             </div>
 
             <div className="overflow-hidden rounded-[1.4rem] border border-brand/10">
-              <div className="hidden grid-cols-[minmax(0,1fr)_140px_120px_96px_130px_90px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
-                <span>Titulo</span>
-                <span>Categoria</span>
-                <span>Status</span>
-                <span>SEO</span>
-                <span>Atualizado</span>
-                <span>Acoes</span>
-              </div>
-
-              <div className="divide-y divide-brand/10">
-                {filteredPosts.map((post) => {
-                  const score = analyzeSeo(createDraftFromPost(post), "").score;
-
-                  return (
-                    <div key={post.id} className="px-4 py-4">
-                      <div className="hidden grid-cols-[minmax(0,1fr)_140px_120px_96px_130px_90px] items-center gap-4 lg:grid">
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-semibold text-slate-900">{post.title}</p>
-                          <p className="truncate text-xs text-slate-500">/blog/{post.slug}</p>
-                        </div>
-                        <p className="truncate text-sm text-slate-600">{post.categoryName ?? "Sem categoria"}</p>
-                        <div className="flex items-center">
-                          <StatusBadge status={post.status} />
-                        </div>
-                        <div className="flex items-center">
-                          <ScorePill score={score} />
-                        </div>
-                        <p className="text-sm text-slate-600">{formatDate(post.updatedAt)}</p>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          className="h-9 gap-1 px-3 normal-case tracking-normal"
-                          onClick={() => openEdit(post.id)}
-                        >
-                          <PencilLine className="h-3.5 w-3.5" />
-                          Editar
-                        </Button>
-                      </div>
-
-                      <div className="space-y-3 lg:hidden">
-                        <div>
-                          <p className="text-sm font-semibold text-slate-900">{post.title}</p>
-                          <p className="text-xs text-slate-500">/blog/{post.slug}</p>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <StatusBadge status={post.status} />
-                          <ScorePill score={score} />
-                          <span className="text-xs text-slate-500">{post.categoryName ?? "Sem categoria"}</span>
-                          <span className="text-xs text-slate-400">/</span>
-                          <span className="text-xs text-slate-500">{formatDate(post.updatedAt)}</span>
-                        </div>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          className="h-9 gap-1 px-3 normal-case tracking-normal"
-                          onClick={() => openEdit(post.id)}
-                        >
-                          <PencilLine className="h-3.5 w-3.5" />
-                          Editar
-                        </Button>
-                      </div>
-                    </div>
-                  );
-                })}
-
-                {!filteredPosts.length ? (
-                  <div className="px-4 py-10 text-sm text-slate-500">
-                    Nenhum conteudo encontrado para esse filtro.
+              <div className="overflow-x-auto">
+                <div className="min-w-[860px]">
+                  <div className="hidden grid-cols-[minmax(260px,1fr)_140px_120px_96px_130px_90px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
+                    <span className="truncate">Titulo</span>
+                    <span className="truncate">Categoria</span>
+                    <span className="truncate">Status</span>
+                    <span className="truncate">SEO</span>
+                    <span className="truncate">Atualizado</span>
+                    <span className="truncate">Acoes</span>
                   </div>
-                ) : null}
+
+                  <div className="divide-y divide-brand/10">
+                    {filteredPosts.map((post) => {
+                      const score = analyzeSeo(createDraftFromPost(post), "").score;
+
+                      return (
+                        <div key={post.id} className="px-4 py-4">
+                          <div className="hidden grid-cols-[minmax(260px,1fr)_140px_120px_96px_130px_90px] items-center gap-4 lg:grid">
+                            <div className="min-w-0">
+                              <p className="truncate text-sm font-semibold text-slate-900">{post.title}</p>
+                              <p className="truncate text-xs text-slate-500">/blog/{post.slug}</p>
+                            </div>
+                            <p className="truncate text-sm text-slate-600">{post.categoryName ?? "Sem categoria"}</p>
+                            <div className="flex items-center">
+                              <StatusBadge status={post.status} />
+                            </div>
+                            <div className="flex items-center">
+                              <ScorePill score={score} />
+                            </div>
+                            <p className="text-sm text-slate-600">{formatDate(post.updatedAt)}</p>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="h-9 gap-1 px-3 normal-case tracking-normal"
+                              onClick={() => openEdit(post.id)}
+                            >
+                              <PencilLine className="h-3.5 w-3.5" />
+                              Editar
+                            </Button>
+                          </div>
+
+                          <div className="space-y-3 lg:hidden">
+                            <div>
+                              <p className="text-sm font-semibold text-slate-900">{post.title}</p>
+                              <p className="text-xs text-slate-500">/blog/{post.slug}</p>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <StatusBadge status={post.status} />
+                              <ScorePill score={score} />
+                              <span className="text-xs text-slate-500">{post.categoryName ?? "Sem categoria"}</span>
+                              <span className="text-xs text-slate-400">/</span>
+                              <span className="text-xs text-slate-500">{formatDate(post.updatedAt)}</span>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="h-9 gap-1 px-3 normal-case tracking-normal"
+                              onClick={() => openEdit(post.id)}
+                            >
+                              <PencilLine className="h-3.5 w-3.5" />
+                              Editar
+                            </Button>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {!filteredPosts.length ? (
+                      <div className="px-4 py-10 text-sm text-slate-500">
+                        Nenhum conteudo encontrado para esse filtro.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

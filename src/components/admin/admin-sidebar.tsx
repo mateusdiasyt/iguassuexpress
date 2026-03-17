@@ -38,17 +38,24 @@ type AdminSidebarProps = {
 
 export function AdminSidebar({ pathname }: AdminSidebarProps) {
   return (
-    <aside className="rounded-[2rem] border border-brand/10 bg-white p-4 shadow-sm">
-      <Link href="/" className="flex items-center gap-3 rounded-[1.5rem] bg-brand-deep px-4 py-4 text-white">
-        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 font-semibold">
+    <aside className="rounded-[2rem] border border-brand/10 bg-white p-3 shadow-sm">
+      <Link
+        href="/"
+        aria-label="Voltar ao site"
+        className="group/site relative flex items-center gap-3 rounded-[1.25rem] bg-brand-deep px-4 py-4 text-white lg:justify-center lg:px-0"
+      >
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-sm font-semibold">
           IE
         </span>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-white/65">
+        <div className="lg:hidden">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
             Iguassu Express
           </p>
           <p className="text-sm text-white/80">Voltar ao site</p>
         </div>
+        <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/site:translate-x-0 lg:group-hover/site:opacity-100">
+          Voltar ao site
+        </span>
       </Link>
 
       <nav className="mt-5 grid gap-2">
@@ -59,15 +66,19 @@ export function AdminSidebar({ pathname }: AdminSidebarProps) {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.label}
               className={cn(
-                "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition",
+                "group/item relative flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition lg:justify-center lg:px-0",
                 pathname === item.href
                   ? "bg-brand text-white"
                   : "text-slate-600 hover:bg-brand/5 hover:text-brand",
               )}
             >
-              <Icon className="h-4 w-4" />
-              {item.label}
+              <Icon className="h-4 w-4 shrink-0" />
+              <span className="lg:hidden">{item.label}</span>
+              <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/item:translate-x-0 lg:group-hover/item:opacity-100">
+                {item.label}
+              </span>
             </Link>
           );
         })}
