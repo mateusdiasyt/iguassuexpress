@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { LoaderCircle, Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,8 @@ type UploadFieldProps = {
   defaultValue?: string | null;
   accept?: string;
   kind?: "image" | "document";
+  value?: string;
+  onValueChange?: (value: string) => void;
 };
 
 export function UploadField({
@@ -20,10 +22,28 @@ export function UploadField({
   defaultValue,
   accept = "image/*",
   kind = "image",
+  value: controlledValue,
+  onValueChange,
 }: UploadFieldProps) {
-  const [value, setValue] = useState(defaultValue ?? "");
+  const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : internalValue;
+
+  useEffect(() => {
+    if (!isControlled) {
+      setInternalValue(defaultValue ?? "");
+    }
+  }, [defaultValue, isControlled]);
+
+  function setValue(nextValue: string) {
+    if (!isControlled) {
+      setInternalValue(nextValue);
+    }
+
+    onValueChange?.(nextValue);
+  }
 
   async function handleChange(file?: File) {
     if (!file) return;

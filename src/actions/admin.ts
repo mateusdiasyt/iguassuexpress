@@ -30,6 +30,10 @@ function getString(formData: FormData, key: string) {
 
 function refreshSite(paths: string[]) {
   for (const path of paths) {
+    if (!path) {
+      continue;
+    }
+
     revalidatePath(path);
   }
 }
@@ -513,6 +517,16 @@ export async function saveBlogPostAction(formData: FormData) {
     status: (getString(formData, "status") || "DRAFT") as BlogPostStatus,
   });
 
+  const existingPost = parsed.id
+    ? await prisma.blogPost.findUnique({
+        where: { id: parsed.id },
+        select: {
+          slug: true,
+          publishedAt: true,
+        },
+      })
+    : null;
+
   const data = {
     title: parsed.title,
     slug: parsed.slug,
@@ -523,7 +537,10 @@ export async function saveBlogPostAction(formData: FormData) {
     seoTitle: parsed.seoTitle || null,
     seoDescription: parsed.seoDescription || null,
     status: parsed.status,
-    publishedAt: parsed.status === BlogPostStatus.PUBLISHED ? new Date() : null,
+    publishedAt:
+      parsed.status === BlogPostStatus.PUBLISHED
+        ? existingPost?.publishedAt ?? new Date()
+        : null,
   };
 
   if (parsed.id) {
@@ -537,7 +554,13 @@ export async function saveBlogPostAction(formData: FormData) {
     });
   }
 
-  refreshSite(["/", "/blog", "/admin/blog"]);
+  refreshSite([
+    "/",
+    "/blog",
+    "/admin/blog",
+    `/blog/${parsed.slug}`,
+    existingPost?.slug && existingPost.slug !== parsed.slug ? `/blog/${existingPost.slug}` : "",
+  ]);
 }
 
 export async function deleteBlogPostAction(formData: FormData) {
@@ -546,11 +569,16 @@ export async function deleteBlogPostAction(formData: FormData) {
 
   if (!id) return;
 
+  const post = await prisma.blogPost.findUnique({
+    where: { id },
+    select: { slug: true },
+  });
+
   await prisma.blogPost.delete({
     where: { id },
   });
 
-  refreshSite(["/", "/blog", "/admin/blog"]);
+  refreshSite(["/", "/blog", "/admin/blog", post?.slug ? `/blog/${post.slug}` : ""]);
 }
 
 export async function saveFaqAction(formData: FormData) {
