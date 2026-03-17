@@ -43,9 +43,9 @@ export function AdminSidebar({ pathname }: AdminSidebarProps) {
       <Link
         href="/"
         aria-label="Voltar ao site"
-        className="group/site relative flex items-center gap-3 rounded-[1.25rem] bg-brand-deep px-4 py-4 text-white lg:justify-center lg:px-0"
+        className="group/site relative flex items-center gap-3 rounded-[1.25rem] px-2 py-2 text-slate-700 lg:justify-center"
       >
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10">
+        <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-deep shadow-sm">
           <Image
             src="/favicon-hotel.png"
             alt="Iguassu Express favicon"
@@ -56,10 +56,10 @@ export function AdminSidebar({ pathname }: AdminSidebarProps) {
           />
         </span>
         <div className="lg:hidden">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
             Iguassu Express
           </p>
-          <p className="text-sm text-white/80">Voltar ao site</p>
+          <p className="text-sm text-slate-700">Voltar ao site</p>
         </div>
         <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/site:translate-x-0 lg:group-hover/site:opacity-100">
           Voltar ao site
