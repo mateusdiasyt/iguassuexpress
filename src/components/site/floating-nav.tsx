@@ -170,7 +170,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
       >
         <nav
           className={cn(
-            "flex flex-col gap-2 overflow-hidden rounded-[1.8rem] p-2 backdrop-blur-2xl transition-all duration-300",
+            "flex flex-col gap-2 overflow-visible rounded-[1.8rem] p-2 backdrop-blur-2xl transition-all duration-300",
             useDockDarkTone
               ? "border border-white/16 bg-slate-950/20 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)]"
               : "border border-slate-300/75 bg-white/78 text-slate-700 shadow-[0_22px_42px_rgba(15,23,42,0.16)]",
