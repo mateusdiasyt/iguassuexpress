@@ -163,6 +163,7 @@ export function BlogWorkspace({
 
   const selectedPost = posts.find((post) => post.id === selectedId) ?? null;
   const seo = analyzeSeo(draft, targetKeyword);
+  const isEditorOpen = editorMode !== "closed";
 
   function openCreate() {
     startTransition(() => {
@@ -252,13 +253,8 @@ export function BlogWorkspace({
   }
 
   return (
-    <div
-      className={
-        editorMode === "closed"
-          ? "grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]"
-          : "grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,540px)]"
-      }
-    >
+    <>
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
       <div className="space-y-6">
         <AdminCard
           title="Conteudos"
@@ -404,13 +400,21 @@ export function BlogWorkspace({
 
       </div>
 
-      {editorMode !== "closed" ? (
-        <form action={savePostAction} className="space-y-6">
+      {isEditorOpen ? (
+        <div
+          className="fixed inset-0 z-50 bg-slate-950/45 px-3 py-4 backdrop-blur-[2px] md:px-6 md:py-8"
+          onClick={closeEditor}
+        >
+          <div
+            className="mx-auto max-h-[94vh] w-full max-w-[1180px] overflow-y-auto rounded-[1.8rem] border border-brand/15 bg-slate-50 p-4 shadow-2xl md:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <form action={savePostAction} className="space-y-6">
           <input name="id" type="hidden" value={draft.id} />
 
           <AdminCard
             title={editorMode === "create" ? "Novo post" : "Editar post"}
-            description="Editor sob demanda: aparece apenas quando voce escolhe criar ou editar."
+            description="Editor em popup amplo para escrever e revisar o conteudo com mais conforto."
           >
             <div className="space-y-5">
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
@@ -541,13 +545,13 @@ export function BlogWorkspace({
                     <textarea
                       ref={textareaRef}
                       name="content"
-                      className="min-h-[20rem] w-full resize-y border-0 bg-white px-4 py-3 text-sm leading-7 text-slate-900 outline-none"
+                      className="min-h-[28rem] w-full resize-y border-0 bg-white px-4 py-3 text-sm leading-7 text-slate-900 outline-none"
                       placeholder="Escreva o artigo em Markdown..."
                       value={draft.content}
                       onChange={(event) => updateDraft("content", event.target.value)}
                     />
                   ) : (
-                    <div className="editorial-prose min-h-[20rem] px-4 py-4">
+                    <div className="editorial-prose min-h-[28rem] px-4 py-4">
                       {deferredContent.trim() ? (
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{deferredContent}</ReactMarkdown>
                       ) : (
@@ -719,7 +723,9 @@ export function BlogWorkspace({
               ))}
             </div>
           </AdminCard>
-        </form>
+            </form>
+          </div>
+        </div>
       ) : (
         <aside className="space-y-6">
           <AdminCard
@@ -806,5 +812,6 @@ export function BlogWorkspace({
         </aside>
       )}
     </div>
+    </>
   );
 }
