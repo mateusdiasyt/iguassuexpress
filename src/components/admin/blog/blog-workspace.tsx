@@ -132,6 +132,7 @@ export function BlogWorkspace({
   const [statusFilter, setStatusFilter] = useState<"ALL" | BlogPostStatus>("ALL");
   const [editorTab, setEditorTab] = useState<"write" | "preview">("write");
   const [targetKeyword, setTargetKeyword] = useState("");
+  const [confirmDeletePost, setConfirmDeletePost] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const deferredSearch = useDeferredValue(search);
@@ -152,6 +153,8 @@ export function BlogWorkspace({
 
   const selectedPost = posts.find((post) => post.id === selectedId) ?? null;
   const seo = analyzeSeo(draft, targetKeyword);
+  const publishedCount = posts.filter((post) => post.status === BlogPostStatus.PUBLISHED).length;
+  const draftCount = posts.length - publishedCount;
 
   function selectPost(postId: string) {
     if (postId === "new") {
@@ -160,6 +163,7 @@ export function BlogWorkspace({
         setDraft(createEmptyDraft());
         setTargetKeyword("");
         setEditorTab("write");
+        setConfirmDeletePost(false);
       });
       return;
     }
@@ -175,6 +179,7 @@ export function BlogWorkspace({
       setDraft(createDraftFromPost(post));
       setTargetKeyword("");
       setEditorTab("write");
+      setConfirmDeletePost(false);
     });
   }
 
@@ -241,17 +246,43 @@ export function BlogWorkspace({
               />
             </label>
 
-            <div className="flex gap-3">
-              <Select
-                value={statusFilter}
-                onChange={(event) =>
-                  setStatusFilter(event.target.value as "ALL" | BlogPostStatus)
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                className={
+                  statusFilter === "ALL"
+                    ? "rounded-full bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white"
+                    : "rounded-full border border-brand/15 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-600 transition hover:border-brand/35"
                 }
+                onClick={() => setStatusFilter("ALL")}
               >
-                <option value="ALL">Todos os status</option>
-                <option value={BlogPostStatus.PUBLISHED}>Publicados</option>
-                <option value={BlogPostStatus.DRAFT}>Rascunhos</option>
-              </Select>
+                Todos ({posts.length})
+              </button>
+              <button
+                type="button"
+                className={
+                  statusFilter === BlogPostStatus.PUBLISHED
+                    ? "rounded-full bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white"
+                    : "rounded-full border border-brand/15 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-600 transition hover:border-brand/35"
+                }
+                onClick={() => setStatusFilter(BlogPostStatus.PUBLISHED)}
+              >
+                Publicados ({publishedCount})
+              </button>
+              <button
+                type="button"
+                className={
+                  statusFilter === BlogPostStatus.DRAFT
+                    ? "rounded-full bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white"
+                    : "rounded-full border border-brand/15 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-600 transition hover:border-brand/35"
+                }
+                onClick={() => setStatusFilter(BlogPostStatus.DRAFT)}
+              >
+                Rascunhos ({draftCount})
+              </button>
+            </div>
+
+            <div className="flex gap-3">
               <Button
                 type="button"
                 className="h-10 gap-2 normal-case tracking-normal"
@@ -559,23 +590,45 @@ export function BlogWorkspace({
                 Abrir URL final
               </a>
 
-              <div className="grid gap-3">
-                <SubmitButton className="h-10 w-full normal-case tracking-normal">
-                  Salvar post
-                </SubmitButton>
+                <div className="grid gap-3">
+                  <SubmitButton className="h-10 w-full normal-case tracking-normal">
+                    Salvar post
+                  </SubmitButton>
 
-                {draft.id ? (
-                  <Button
-                    className="h-10 w-full gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
-                    formAction={deletePostAction}
-                    variant="outline"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    Excluir post
-                  </Button>
-                ) : null}
+                  {draft.id ? (
+                    confirmDeletePost ? (
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          className="h-10 gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                          formAction={deletePostAction}
+                          variant="outline"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          Confirmar
+                        </Button>
+                        <Button
+                          type="button"
+                          className="h-10 normal-case tracking-normal"
+                          onClick={() => setConfirmDeletePost(false)}
+                          variant="outline"
+                        >
+                          Cancelar
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        type="button"
+                        className="h-10 w-full gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                        onClick={() => setConfirmDeletePost(true)}
+                        variant="outline"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Excluir post
+                      </Button>
+                    )
+                  ) : null}
+                </div>
               </div>
-            </div>
           </AdminCard>
 
           <AdminCard title="SEO ao vivo" description="Ajustes on-page com leitura imediata da qualidade do post.">
