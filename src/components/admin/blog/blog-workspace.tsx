@@ -3,7 +3,6 @@
 import { BlogPostStatus } from "@prisma/client";
 import {
   CalendarClock,
-  FolderTree,
   Heading2,
   Heading3,
   Link2,
@@ -257,7 +256,7 @@ export function BlogWorkspace({
     <div
       className={
         editorMode === "closed"
-          ? "space-y-6"
+          ? "grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]"
           : "grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,540px)]"
       }
     >
@@ -400,56 +399,6 @@ export function BlogWorkspace({
           </div>
         </AdminCard>
 
-        <AdminCard
-          title="Categorias"
-          description="Gerencie categorias separadamente para manter o fluxo editorial limpo."
-        >
-          <div className="space-y-4">
-            <form
-              action={saveCategoryAction}
-              className="grid gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-4"
-            >
-              <Input name="name" placeholder="Nova categoria" />
-              <Input name="slug" placeholder="slug-da-categoria" />
-              <SubmitButton className="h-10 w-full normal-case tracking-normal">
-                Criar categoria
-              </SubmitButton>
-            </form>
-
-            <div className="space-y-3">
-              {categories.map((category) => (
-                <div key={category.id} className="rounded-[1.2rem] border border-brand/10 bg-white p-4">
-                  <form action={saveCategoryAction} className="grid gap-3">
-                    <input type="hidden" name="id" value={category.id} />
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand/70">
-                        {category.postCount} posts
-                      </p>
-                      <FolderTree className="h-4 w-4 text-brand/60" />
-                    </div>
-                    <Input name="name" defaultValue={category.name} />
-                    <Input name="slug" defaultValue={category.slug} />
-                    <div className="flex gap-3">
-                      <SubmitButton className="h-10 flex-1 normal-case tracking-normal">
-                        Salvar
-                      </SubmitButton>
-                      <Button
-                        className="h-10 gap-2 px-4 text-red-600 normal-case tracking-normal hover:bg-red-50"
-                        formAction={deleteCategoryAction}
-                        name="id"
-                        type="submit"
-                        value={category.id}
-                        variant="outline"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </form>
-                </div>
-              ))}
-            </div>
-          </div>
-        </AdminCard>
       </div>
 
       {editorMode !== "closed" ? (
@@ -768,7 +717,91 @@ export function BlogWorkspace({
             </div>
           </AdminCard>
         </form>
-      ) : null}
+      ) : (
+        <aside className="space-y-6">
+          <AdminCard
+            title="Dados do blog"
+            description="Visao rapida para acompanhar o estado editorial."
+          >
+            <div className="grid gap-3">
+              <div className="rounded-[1rem] border border-brand/10 bg-slate-50 p-3">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-brand/70">
+                  Total de posts
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-900">{posts.length}</p>
+              </div>
+              <div className="rounded-[1rem] border border-brand/10 bg-slate-50 p-3">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-brand/70">
+                  Publicados
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-900">{publishedCount}</p>
+              </div>
+              <div className="rounded-[1rem] border border-brand/10 bg-slate-50 p-3">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-brand/70">
+                  Rascunhos
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-900">{draftCount}</p>
+              </div>
+            </div>
+          </AdminCard>
+
+          <AdminCard
+            title="Categorias"
+            description="Coluna compacta e minimalista para manter categorias."
+          >
+            <div className="space-y-4">
+              <form
+                action={saveCategoryAction}
+                className="grid gap-3 rounded-[1rem] border border-brand/10 bg-slate-50 p-3"
+              >
+                <Input className="h-10" name="name" placeholder="Nova categoria" />
+                <Input className="h-10" name="slug" placeholder="slug-da-categoria" />
+                <SubmitButton className="h-10 w-full normal-case tracking-normal">
+                  Criar categoria
+                </SubmitButton>
+              </form>
+
+              <div className="overflow-hidden rounded-[1rem] border border-brand/10">
+                {categories.map((category, index) => (
+                  <form
+                    key={category.id}
+                    action={saveCategoryAction}
+                    className={`grid gap-2 p-3 ${index < categories.length - 1 ? "border-b border-brand/10" : ""}`}
+                  >
+                    <input type="hidden" name="id" value={category.id} />
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        {category.postCount} posts
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          className="h-8 px-3 text-xs normal-case tracking-normal"
+                          type="submit"
+                          variant="outline"
+                        >
+                          Salvar
+                        </Button>
+                        <Button
+                          className="h-8 w-8 p-0 text-red-600 hover:bg-red-50"
+                          formAction={deleteCategoryAction}
+                          name="id"
+                          type="submit"
+                          value={category.id}
+                          variant="outline"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                    <Input className="h-10" name="name" defaultValue={category.name} />
+                    <Input className="h-10" name="slug" defaultValue={category.slug} />
+                  </form>
+                ))}
+              </div>
+            </div>
+          </AdminCard>
+        </aside>
+      )}
     </div>
   );
 }
