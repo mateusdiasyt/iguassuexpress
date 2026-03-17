@@ -123,7 +123,7 @@ function RoomHoverPreview({ room }: { room: AdminRoomItem }) {
   const tags = room.features.slice(0, 2);
 
   return (
-    <div className="pointer-events-none absolute left-0 top-full z-30 mt-3 w-[300px] translate-y-2 opacity-0 transition-all duration-250 group-hover/room-title:translate-y-0 group-hover/room-title:opacity-100">
+    <div className="pointer-events-none absolute left-0 top-full z-[80] mt-3 w-[300px] translate-y-2 opacity-0 transition-all duration-250 group-hover/room-title:translate-y-0 group-hover/room-title:opacity-100">
       <article className="overflow-hidden rounded-[1.8rem] border border-slate-200/70 bg-white shadow-[0_26px_48px_rgba(15,23,42,0.2)]">
         <div className="relative h-44 overflow-hidden">
           <Image
@@ -329,8 +329,8 @@ export function RoomsWorkspace({
                 </Select>
               </label>
 
-              <div className="overflow-hidden rounded-[1.4rem] border border-brand/10">
-                <div className="overflow-x-auto">
+              <div className="relative rounded-[1.4rem] border border-brand/10 lg:overflow-visible">
+                <div className="overflow-x-auto lg:overflow-visible">
                   <div className="min-w-[860px]">
                     <div className="hidden grid-cols-[minmax(260px,1fr)_160px_90px_90px_120px_90px] gap-4 border-b border-brand/10 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid">
                       <span>Titulo</span>
