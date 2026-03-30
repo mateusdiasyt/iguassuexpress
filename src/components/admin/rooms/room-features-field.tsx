@@ -225,6 +225,31 @@ export function RoomFeaturesField({
           </span>
         </div>
 
+        <div className="border-b border-slate-100 bg-slate-50/75 px-4 py-4">
+          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
+            <Input
+              value={newFeature}
+              onChange={(event) => setNewFeature(event.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Adicionar nova comodidade"
+              className="bg-white"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              className="h-11 gap-2 border-slate-200 bg-white px-4 text-slate-700 normal-case tracking-normal hover:border-brand/20 hover:bg-white"
+              onClick={addFeature}
+            >
+              <Plus className="h-4 w-4" />
+              Adicionar tag
+            </Button>
+          </div>
+
+          <p className="mt-3 text-xs leading-6 text-slate-500">
+            Marque o que esse quarto possui e crie novas comodidades quando precisar.
+          </p>
+        </div>
+
         <div className="space-y-4 px-4 py-4">
           {orderedFeatures.length ? (
             <div className="grid gap-2.5 md:grid-cols-2">
@@ -324,34 +349,9 @@ export function RoomFeaturesField({
             </div>
           ) : (
             <div className="rounded-[1rem] border border-dashed border-slate-200 bg-slate-50/80 px-4 py-5 text-sm leading-7 text-slate-500">
-              Nenhuma comodidade disponivel ainda. Adicione a primeira tag abaixo.
+              Nenhuma comodidade disponivel ainda. Adicione a primeira tag acima.
             </div>
           )}
-        </div>
-
-        <div className="border-t border-slate-100 bg-slate-50/75 px-4 py-4">
-          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
-            <Input
-              value={newFeature}
-              onChange={(event) => setNewFeature(event.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Adicionar nova comodidade"
-              className="bg-white"
-            />
-            <Button
-              type="button"
-              variant="outline"
-              className="h-11 gap-2 border-slate-200 bg-white px-4 text-slate-700 normal-case tracking-normal hover:border-brand/20 hover:bg-white"
-              onClick={addFeature}
-            >
-              <Plus className="h-4 w-4" />
-              Adicionar tag
-            </Button>
-          </div>
-
-          <p className="mt-3 text-xs leading-6 text-slate-500">
-            Marque o que esse quarto possui e crie novas comodidades quando precisar.
-          </p>
         </div>
       </div>
     </div>
