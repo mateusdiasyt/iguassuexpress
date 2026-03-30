@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
   title: "Personalizacao Admin",
-  description: "Central visual para banners, restaurante e galeria institucional.",
+  description: "Galeria institucional e referencias visuais.",
   path: "/admin/galeria",
   noIndex: true,
 });
@@ -33,16 +33,16 @@ type RestaurantContentItem = Awaited<ReturnType<typeof getRestaurantContent>>;
 type GuideCardProps = {
   eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   href: string;
   actionLabel: string;
   icon: LucideIcon;
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 type FieldBlockProps = {
   label: string;
-  description: string;
+  description?: string;
   children: ReactNode;
 };
 
@@ -66,11 +66,11 @@ function GuideCard({
             {eyebrow}
           </p>
           <h2 className="text-base font-semibold text-slate-950">{title}</h2>
-          <p className="text-sm leading-6 text-slate-600">{description}</p>
+          {description ? <p className="text-sm leading-6 text-slate-600">{description}</p> : null}
         </div>
       </div>
 
-      <div className="mt-4">{children}</div>
+      {children ? <div className="mt-4">{children}</div> : null}
 
       <Link
         href={href}
@@ -122,7 +122,7 @@ function FieldBlock({ label, description, children }: FieldBlockProps) {
     <label className="grid gap-2 text-sm text-slate-600">
       <span className="space-y-1">
         <span className="block font-medium text-slate-950">{label}</span>
-        <span className="block text-xs leading-5 text-slate-500">{description}</span>
+        {description ? <span className="block text-xs leading-5 text-slate-500">{description}</span> : null}
       </span>
       {children}
     </label>
@@ -168,14 +168,14 @@ function VisibilityToggleField({
 }: {
   name: string;
   label: string;
-  description: string;
+  description?: string;
   defaultChecked?: boolean;
 }) {
   return (
     <label className="flex items-center justify-between gap-4 rounded-[1.15rem] border border-slate-200 bg-white px-4 py-3">
       <div className="space-y-1">
         <span className="block text-sm font-medium text-slate-950">{label}</span>
-        <span className="block text-xs leading-5 text-slate-500">{description}</span>
+        {description ? <span className="block text-xs leading-5 text-slate-500">{description}</span> : null}
       </div>
 
       <span className="relative inline-flex h-7 w-12 shrink-0 items-center">
@@ -206,10 +206,6 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
               </span>
             </div>
             <h3 className="text-lg font-semibold text-slate-950">{image.altText}</h3>
-            <p className="max-w-xl text-sm leading-6 text-slate-600">
-              Esta foto aparece na grade publica de <span className="font-medium text-slate-900">/galeria-de-fotos</span>.
-              Use aqui imagens institucionais do hotel. Fotos especificas de quartos ficam na aba <span className="font-medium text-slate-900">Quartos</span>.
-            </p>
           </div>
 
           <ReadOnlyStatusToggle active={image.isActive} />
@@ -220,29 +216,20 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
 
           <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_8rem]">
             <FieldPanel>
-              <FieldBlock
-                label="Categoria"
-                description="Agrupe por tema. Ex.: Fachada, Restaurante, Cafe da manha."
-              >
+              <FieldBlock label="Categoria">
                 <Input name="category" defaultValue={image.category} />
               </FieldBlock>
             </FieldPanel>
 
             <FieldPanel>
-              <FieldBlock
-                label="Ordem"
-                description="Numeros menores sobem na pagina."
-              >
+              <FieldBlock label="Ordem">
                 <Input name="order" type="number" defaultValue={image.order} />
               </FieldBlock>
             </FieldPanel>
           </div>
 
           <FieldPanel>
-            <FieldBlock
-              label="Descricao da imagem"
-              description="Explique claramente o ambiente mostrado. Isso ajuda no SEO e na acessibilidade."
-            >
+            <FieldBlock label="Descricao da imagem">
               <Input name="altText" defaultValue={image.altText} />
             </FieldBlock>
           </FieldPanel>
@@ -255,17 +242,13 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
               hideTextInput
               hidePreview
             />
-            <p className="mt-3 text-xs leading-5 text-slate-500">
-              Troque a foto aqui quando precisar atualizar este item, sem misturar com banners ou imagens de quartos.
-            </p>
           </FieldPanel>
 
           <FieldPanel>
             <VisibilityToggleField
               name="isActive"
               defaultChecked={image.isActive}
-              label="Exibir na galeria publica"
-              description="Quando ativo, o item fica visivel para os visitantes abaixo do banner da pagina."
+              label="Exibir"
             />
           </FieldPanel>
 
@@ -295,8 +278,7 @@ function RestaurantGuideCard({ restaurant }: { restaurant: RestaurantContentItem
   return (
     <GuideCard
       eyebrow="Restaurante"
-      title="As 3 fotos do bloco gastronomico"
-      description="Estas imagens pertencem ao bloco visual do restaurante. Elas nao devem ser cadastradas na galeria institucional."
+      title="3 imagens do restaurante"
       href="/admin/restaurante"
       actionLabel="Abrir Restaurante"
       icon={UtensilsCrossed}
@@ -323,8 +305,7 @@ function GalleryBannerGuideCard({ page }: { page: PageContentItem }) {
   return (
     <GuideCard
       eyebrow="Banner"
-      title="Imagem do topo da pagina de galeria"
-      description="Este banner aparece antes das fotos em /galeria-de-fotos e e ajustado na aba Paginas."
+      title="Banner da galeria"
       href="/admin/paginas"
       actionLabel="Abrir Paginas"
       icon={ImageIcon}
@@ -338,16 +319,13 @@ function RoomsGuideCard() {
   return (
     <GuideCard
       eyebrow="Quartos"
-      title="Capas e galerias dos quartos ficam em outro lugar"
-      description="Imagens de quartos individuais nao entram nesta aba. Cada acomodacao ja possui seu proprio editor na area de quartos."
+      title="Imagens dos quartos"
       href="/admin/quartos"
       actionLabel="Abrir Quartos"
       icon={BedDouble}
     >
       <div className="rounded-[1.15rem] border border-slate-200 bg-slate-50 px-4 py-4">
-        <p className="text-sm leading-6 text-slate-600">
-          As imagens de <span className="font-medium text-slate-900">Quarto standard</span> e <span className="font-medium text-slate-900">Quarto superior</span> foram removidas desta area para nao duplicar o conteudo administrado na aba de quartos.
-        </p>
+        <p className="text-sm text-slate-600">Edite em Quartos.</p>
       </div>
     </GuideCard>
   );
@@ -365,7 +343,7 @@ export default async function AdminGalleryPage() {
   return (
     <AdminShell
       title="Personalizacao"
-      description="Entenda melhor o papel de cada imagem antes de editar o site."
+      description="Galeria institucional e referencias."
       pathname="/admin/galeria"
       userName={session.user.name}
     >
@@ -379,9 +357,6 @@ export default async function AdminGalleryPage() {
               <h1 className="text-2xl font-semibold tracking-[-0.03em] text-slate-950">
                 Onde cada imagem deve ser editada
               </h1>
-              <p className="text-sm leading-6 text-slate-600">
-                Esta aba cuida da galeria institucional. O bloco abaixo ajuda a nao misturar banner, restaurante e quartos no mesmo lugar.
-              </p>
             </div>
 
             <div className="mt-5 grid gap-4">
@@ -397,38 +372,26 @@ export default async function AdminGalleryPage() {
                 Nova foto
               </p>
               <h2 className="text-xl font-semibold tracking-[-0.02em] text-slate-950">
-                Adicionar a galeria institucional
+                Adicionar foto
               </h2>
-              <p className="text-sm leading-6 text-slate-600">
-                Use esta area apenas para imagens que devem aparecer na pagina publica <span className="font-medium text-slate-900">/galeria-de-fotos</span>.
-              </p>
             </div>
 
             <form action={saveGalleryImageAction} className="mt-5 grid gap-4">
               <FieldPanel>
-                <FieldBlock
-                  label="Categoria"
-                  description="Ex.: Fachada, Restaurante, Cafe da manha ou Area comum."
-                >
+                <FieldBlock label="Categoria">
                   <Input name="category" placeholder="Ex.: Fachada" />
                 </FieldBlock>
               </FieldPanel>
 
               <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_8rem]">
                 <FieldPanel>
-                  <FieldBlock
-                    label="Descricao da imagem"
-                    description="Descreva o ambiente fotografado para SEO e acessibilidade."
-                  >
+                  <FieldBlock label="Descricao da imagem">
                     <Input name="altText" placeholder="Ex.: Fachada principal do hotel" />
                   </FieldBlock>
                 </FieldPanel>
 
                 <FieldPanel>
-                  <FieldBlock
-                    label="Ordem"
-                    description="Posicao da foto na pagina."
-                  >
+                  <FieldBlock label="Ordem">
                     <Input name="order" type="number" defaultValue={nextOrder} />
                   </FieldBlock>
                 </FieldPanel>
@@ -441,17 +404,13 @@ export default async function AdminGalleryPage() {
                   hideTextInput
                   previewClassName="h-44 rounded-[1.1rem] border border-slate-200 bg-slate-100"
                 />
-                <p className="mt-3 text-xs leading-5 text-slate-500">
-                  Prefira imagens horizontais, com boa luz e enquadramento claro do ambiente.
-                </p>
               </FieldPanel>
 
               <FieldPanel>
                 <VisibilityToggleField
                   name="isActive"
                   defaultChecked
-                  label="Publicar assim que salvar"
-                  description="Quando ativo, o item ja entra na galeria publica imediatamente."
+                  label="Publicar"
                 />
               </FieldPanel>
 
@@ -468,9 +427,6 @@ export default async function AdminGalleryPage() {
             <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
               Fotos exibidas em /galeria-de-fotos
             </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-              Aqui ficam apenas imagens institucionais do hotel. O layout abaixo foi separado em cards mais fortes, com preview destacado e campos agrupados, para facilitar a leitura de cada item.
-            </p>
           </div>
 
           {images.length ? (
@@ -482,9 +438,6 @@ export default async function AdminGalleryPage() {
           ) : (
             <section className="rounded-[1.9rem] border border-dashed border-slate-200 bg-white px-6 py-10 text-center shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
               <h2 className="text-lg font-semibold text-slate-950">Nenhuma foto cadastrada ainda</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                Comece adicionando uma imagem na coluna ao lado. Ela aparecera aqui com campos separados e preview proprio.
-              </p>
             </section>
           )}
         </section>
