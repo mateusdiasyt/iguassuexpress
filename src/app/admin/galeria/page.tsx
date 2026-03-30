@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUpRight,
-  BedDouble,
   ImageIcon,
   Trash2,
   type LucideIcon,
@@ -308,22 +307,6 @@ function RestaurantReference({ restaurant }: { restaurant: RestaurantContentItem
   );
 }
 
-function RoomsReference() {
-  return (
-    <ReferenceCard
-      eyebrow="Quartos"
-      title="Imagens dos quartos"
-      href="/admin/quartos"
-      actionLabel="Quartos"
-      icon={BedDouble}
-    >
-      <div className="rounded-[1.2rem] border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">
-        Editar em Quartos
-      </div>
-    </ReferenceCard>
-  );
-}
-
 export default async function AdminGalleryPage() {
   const session = await requireAdmin();
   const [galleryPage, restaurant, images] = await Promise.all([
@@ -351,7 +334,6 @@ export default async function AdminGalleryPage() {
             <div className="mt-5 grid gap-4">
               <GalleryBannerReference page={galleryPage} />
               <RestaurantReference restaurant={restaurant} />
-              <RoomsReference />
             </div>
           </section>
         </aside>
