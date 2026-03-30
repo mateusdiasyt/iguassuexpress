@@ -159,21 +159,6 @@ function InlineVisibilityToggle({
   );
 }
 
-function VisibilityRow({
-  name,
-  defaultChecked = true,
-}: {
-  name: string;
-  defaultChecked?: boolean;
-}) {
-  return (
-    <div className="flex items-center justify-between rounded-[1.25rem] border border-slate-200 bg-slate-50/90 px-4 py-3">
-      <span className="text-sm font-medium text-slate-950">Publicar</span>
-      <InlineVisibilityToggle name={name} defaultChecked={defaultChecked} />
-    </div>
-  );
-}
-
 function ExistingImageCard({ image }: { image: GalleryImageItem }) {
   const formId = `gallery-image-${image.id}`;
   const deleteFormId = `delete-gallery-image-${image.id}`;
@@ -314,7 +299,6 @@ export default async function AdminGalleryPage() {
     getRestaurantContent(),
     getGalleryImages(true),
   ]);
-  const nextOrder = images.length ? Math.max(...images.map((image) => image.order)) + 1 : 1;
 
   return (
     <AdminShell
@@ -339,55 +323,6 @@ export default async function AdminGalleryPage() {
         </aside>
 
         <section className="space-y-5">
-          <section className="rounded-[2rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.94)_100%)] p-5 shadow-[0_28px_70px_rgba(15,23,42,0.08)] backdrop-blur-sm">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <SectionEyebrow>Nova foto</SectionEyebrow>
-                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
-                  Adicionar a galeria
-                </h2>
-              </div>
-
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-                /galeria-de-fotos
-              </span>
-            </div>
-
-            <form action={saveGalleryImageAction} className="mt-6 grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
-              <UploadField
-                name="imageUrl"
-                label="Arquivo da foto"
-                hideTextInput
-                className="space-y-3"
-                previewClassName="h-[18rem] rounded-[1.35rem] border border-slate-200/80 bg-slate-100"
-              />
-
-              <div className="grid content-start gap-5">
-                <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_8rem]">
-                  <FieldBlock label="Categoria">
-                    <Input name="category" placeholder="Ex.: Fachada" />
-                  </FieldBlock>
-
-                  <FieldBlock label="Ordem">
-                    <Input name="order" type="number" defaultValue={nextOrder} />
-                  </FieldBlock>
-                </div>
-
-                <FieldBlock label="Descricao da imagem">
-                  <Input name="altText" placeholder="Ex.: Fachada principal do hotel" />
-                </FieldBlock>
-
-                <VisibilityRow name="isActive" defaultChecked />
-
-                <div className="flex items-center gap-3">
-                  <SubmitButton className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm">
-                    Adicionar
-                  </SubmitButton>
-                </div>
-              </div>
-            </form>
-          </section>
-
           <section className="space-y-4">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
