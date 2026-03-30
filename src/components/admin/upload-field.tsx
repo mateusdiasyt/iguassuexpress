@@ -22,6 +22,7 @@ type UploadFieldProps = {
   inputClassName?: string;
   previewClassName?: string;
   previewImageClassName?: string;
+  hideTextInput?: boolean;
 };
 
 export function UploadField({
@@ -37,6 +38,7 @@ export function UploadField({
   inputClassName,
   previewClassName,
   previewImageClassName,
+  hideTextInput = false,
 }: UploadFieldProps) {
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const [loading, setLoading] = useState(false);
@@ -77,13 +79,17 @@ export function UploadField({
   return (
     <div className={cn("space-y-3", className)}>
       <label className="text-sm font-medium text-slate-600">{label}</label>
-      <Input
-        className={inputClassName}
-        name={name}
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-      />
-      <label className="flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-brand/20 px-4 py-3 text-sm text-slate-600 transition hover:border-brand/40 hover:bg-brand/5">
+      {hideTextInput ? (
+        <input type="hidden" name={name} value={value} readOnly />
+      ) : (
+        <Input
+          className={inputClassName}
+          name={name}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        />
+      )}
+      <label className="flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-brand/20 bg-white px-4 py-3 text-sm text-slate-600 transition hover:border-brand/40 hover:bg-brand/5">
         {loading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
         Enviar arquivo
         <input

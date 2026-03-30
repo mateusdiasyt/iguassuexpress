@@ -694,23 +694,22 @@ export function RoomsWorkspace({
                       suggestions={roomFeatureSuggestions}
                       onValueChange={(value) => updateRoomDraft("features", value)}
                     />
-                    <label className="grid gap-2 text-sm text-slate-600">
-                      Galeria (uma URL por linha)
-                      <Textarea
-                        className="min-h-28"
-                        name="gallery"
-                        value={roomDraft.gallery}
-                        onChange={(event) => updateRoomDraft("gallery", event.target.value)}
-                      />
-                    </label>
                   </div>
 
-                  <UploadField
-                    name="coverImage"
-                    label="Imagem de capa"
-                    value={roomDraft.coverImage}
-                    onValueChange={(value) => updateRoomDraft("coverImage", value)}
-                  />
+                  <input type="hidden" name="gallery" value={roomDraft.gallery} readOnly />
+
+                  <div className="max-w-md">
+                    <UploadField
+                      name="coverImage"
+                      label="Imagem de capa"
+                      value={roomDraft.coverImage}
+                      hideTextInput
+                      className="rounded-[1.6rem] border border-slate-200/80 bg-white p-4 shadow-[0_18px_38px_rgba(15,23,42,0.05)]"
+                      previewClassName="h-44 rounded-[1.2rem] border border-slate-200/80"
+                      previewImageClassName="object-cover"
+                      onValueChange={(value) => updateRoomDraft("coverImage", value)}
+                    />
+                  </div>
 
                   <div className="grid gap-3">
                     <SubmitButton className="h-10 w-full normal-case tracking-normal">
