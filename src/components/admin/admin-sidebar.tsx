@@ -22,7 +22,7 @@ const items = [
   { href: "/admin/paginas", label: "Paginas", icon: House },
   { href: "/admin/quartos", label: "Quartos", icon: BedDouble },
   { href: "/admin/restaurante", label: "Restaurante", icon: UtensilsCrossed },
-  { href: "/admin/galeria", label: "Galeria", icon: Images },
+  { href: "/admin/galeria", label: "Personalizacao", icon: Images },
   { href: "/admin/tour-360", label: "Tour 360", icon: Video },
   { href: "/admin/localizacao", label: "Localizacao", icon: MapPinned },
   { href: "/admin/contato", label: "Contato", icon: PhoneCall },
