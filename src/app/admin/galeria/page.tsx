@@ -167,7 +167,19 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
     <article className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_28px_70px_rgba(15,23,42,0.08)]">
       <div className="grid gap-0 xl:grid-cols-[280px_minmax(0,1fr)]">
         <div className="border-b border-slate-200/80 bg-slate-50/70 p-4 xl:border-b-0 xl:border-r">
-          <PreviewFrame src={image.imageUrl} alt={image.altText} className="min-h-[220px] w-full" />
+          <UploadField
+            name="imageUrl"
+            label="Imagem"
+            form={formId}
+            defaultValue={image.imageUrl}
+            hideTextInput
+            hideLabel
+            hideTriggerButton
+            previewActionLabel="Alterar imagem"
+            className="space-y-0"
+            previewClassName="min-h-[220px] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)]"
+            previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
+          />
         </div>
 
         <div className="p-5">
@@ -206,37 +218,24 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
               <Input name="altText" defaultValue={image.altText} />
             </FieldBlock>
 
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-              <div className="max-w-sm">
-                <UploadField
-                  name="imageUrl"
-                  label="Atualizar arquivo"
-                  defaultValue={image.imageUrl}
-                  hideTextInput
-                  hidePreview
-                  className="space-y-2"
-                />
-              </div>
+            <div className="flex items-center justify-between gap-3">
+              <SubmitButton
+                form={formId}
+                className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm"
+              >
+                Salvar
+              </SubmitButton>
 
-              <div className="flex items-center justify-between gap-3 lg:min-w-[9.5rem] lg:justify-end">
-                <SubmitButton
-                  form={formId}
-                  className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm"
-                >
-                  Salvar
-                </SubmitButton>
-
-                <Button
-                  type="submit"
-                  form={deleteFormId}
-                  variant="outline"
-                  className="h-10 w-10 border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
-                  aria-label={`Remover foto ${image.altText}`}
-                  title="Remover foto"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
+              <Button
+                type="submit"
+                form={deleteFormId}
+                variant="outline"
+                className="h-10 w-10 border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
+                aria-label={`Remover foto ${image.altText}`}
+                title="Remover foto"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
             </div>
           </form>
 

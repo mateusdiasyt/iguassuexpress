@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { LoaderCircle, Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -18,12 +18,16 @@ type UploadFieldProps = {
   uploadStrategy?: UploadStrategy;
   value?: string;
   onValueChange?: (value: string) => void;
+  form?: string;
   className?: string;
   inputClassName?: string;
   previewClassName?: string;
   previewImageClassName?: string;
   hideTextInput?: boolean;
   hidePreview?: boolean;
+  hideTriggerButton?: boolean;
+  hideLabel?: boolean;
+  previewActionLabel?: string;
 };
 
 export function UploadField({
@@ -35,13 +39,18 @@ export function UploadField({
   uploadStrategy = "auto",
   value: controlledValue,
   onValueChange,
+  form,
   className,
   inputClassName,
   previewClassName,
   previewImageClassName,
   hideTextInput = false,
   hidePreview = false,
+  hideTriggerButton = false,
+  hideLabel = false,
+  previewActionLabel,
 }: UploadFieldProps) {
+  const inputId = useId();
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -80,44 +89,68 @@ export function UploadField({
 
   return (
     <div className={cn("space-y-3", className)}>
-      <label className="text-sm font-medium text-slate-600">{label}</label>
+      {!hideLabel ? <label className="text-sm font-medium text-slate-600">{label}</label> : null}
       {hideTextInput ? (
-        <input type="hidden" name={name} value={value} readOnly />
+        <input type="hidden" name={name} form={form} value={value} readOnly />
       ) : (
         <Input
           className={inputClassName}
           name={name}
+          form={form}
           value={value}
           onChange={(event) => setValue(event.target.value)}
         />
       )}
-      <label className="flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-brand/20 bg-white px-4 py-3 text-sm text-slate-600 transition hover:border-brand/40 hover:bg-brand/5">
-        {loading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-        Enviar arquivo
-        <input
-          type="file"
-          accept={accept}
-          className="hidden"
-          onChange={(event) => {
-            const file = event.target.files?.[0];
-            event.target.value = "";
-            void handleChange(file);
-          }}
-        />
-      </label>
-      {kind === "image" && value && !hidePreview ? (
+      <input
+        id={inputId}
+        type="file"
+        accept={accept}
+        className="hidden"
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          event.target.value = "";
+          void handleChange(file);
+        }}
+      />
+      {!hideTriggerButton ? (
+        <label
+          htmlFor={inputId}
+          className="flex cursor-pointer items-center gap-2 rounded-2xl border border-dashed border-brand/20 bg-white px-4 py-3 text-sm text-slate-600 transition hover:border-brand/40 hover:bg-brand/5"
+        >
+          {loading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+          Enviar arquivo
+        </label>
+      ) : null}
+      {kind === "image" && !hidePreview && (value || hideTriggerButton) ? (
         <div
           className={cn(
-            "relative h-32 overflow-hidden rounded-2xl border border-brand/10 bg-slate-100",
+            "group/upload relative h-32 overflow-hidden rounded-2xl border border-brand/10 bg-slate-100",
             previewClassName,
           )}
         >
-          <Image
-            src={value}
-            alt={label}
-            fill
-            className={cn("object-cover", previewImageClassName)}
-          />
+          {value ? (
+            <Image
+              src={value}
+              alt={label}
+              fill
+              className={cn("object-cover", previewImageClassName)}
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-xs text-slate-400">
+              Sem imagem
+            </div>
+          )}
+          {previewActionLabel ? (
+            <label
+              htmlFor={inputId}
+              className="absolute inset-0 flex cursor-pointer items-center justify-center bg-slate-950/0 opacity-0 transition duration-200 group-hover/upload:bg-slate-950/30 group-hover/upload:opacity-100 group-focus-within/upload:bg-slate-950/30 group-focus-within/upload:opacity-100"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/92 px-4 py-2 text-sm font-medium text-slate-950 shadow-lg backdrop-blur-sm">
+                {loading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                {loading ? "Enviando..." : previewActionLabel}
+              </span>
+            </label>
+          ) : null}
         </div>
       ) : null}
       {kind === "document" && value ? (
