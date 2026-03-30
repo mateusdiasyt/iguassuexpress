@@ -4,6 +4,7 @@ import Image from "next/image";
 import { type FormEvent, useDeferredValue, useMemo, useState } from "react";
 import { ArrowUpRight, PencilLine, Plus, Search, Trash2, Users, X } from "lucide-react";
 import { AdminCard } from "@/components/admin/admin-card";
+import { RoomFeaturesField } from "@/components/admin/rooms/room-features-field";
 import { UploadField } from "@/components/admin/upload-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,6 +67,21 @@ type RoomDraft = {
   coverImage: string;
   isActive: boolean;
 };
+
+const COMMON_ROOM_FEATURES = [
+  "Reformado",
+  "Novo",
+  "Cama box",
+  "Cama box nova",
+  "Internet wi-fi",
+  "Ar condicionado de janela",
+  "Ar condicionado split",
+  "Telefone",
+  "TV LCD 32 polegadas a cabo",
+  "Frigobar",
+  "Aquecimento de agua",
+  "Servico de quarto",
+];
 
 function emptyRoomDraft(defaultCategoryId = ""): RoomDraft {
   return {
@@ -189,6 +205,26 @@ export function RoomsWorkspace({
   const deferredSearch = useDeferredValue(search);
   const activeRoomsCount = rooms.filter((room) => room.isActive).length;
   const inactiveRoomsCount = rooms.length - activeRoomsCount;
+  const roomFeatureSuggestions = useMemo(() => {
+    const seen = new Set<string>();
+
+    return [...COMMON_ROOM_FEATURES, ...rooms.flatMap((room) => room.features)].filter((feature) => {
+      const normalized = feature.trim();
+
+      if (!normalized) {
+        return false;
+      }
+
+      const key = normalized.toLowerCase();
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    });
+  }, [rooms]);
 
   const sortedRooms = useMemo(
     () =>
@@ -651,15 +687,13 @@ export function RoomsWorkspace({
                   </label>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    <label className="grid gap-2 text-sm text-slate-600">
-                      Comodidades (uma por linha)
-                      <Textarea
-                        className="min-h-28"
-                        name="features"
-                        value={roomDraft.features}
-                        onChange={(event) => updateRoomDraft("features", event.target.value)}
-                      />
-                    </label>
+                    <RoomFeaturesField
+                      name="features"
+                      label="Comodidades"
+                      value={roomDraft.features}
+                      suggestions={roomFeatureSuggestions}
+                      onValueChange={(value) => updateRoomDraft("features", value)}
+                    />
                     <label className="grid gap-2 text-sm text-slate-600">
                       Galeria (uma URL por linha)
                       <Textarea
