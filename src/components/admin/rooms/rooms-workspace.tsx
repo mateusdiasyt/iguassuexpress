@@ -686,7 +686,7 @@ export function RoomsWorkspace({
                     />
                   </label>
 
-                  <div className="grid gap-4 md:grid-cols-2">
+                  <div className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_320px] xl:items-start">
                     <RoomFeaturesField
                       name="features"
                       label="Comodidades"
@@ -694,18 +694,15 @@ export function RoomsWorkspace({
                       suggestions={roomFeatureSuggestions}
                       onValueChange={(value) => updateRoomDraft("features", value)}
                     />
-                  </div>
+                    <input type="hidden" name="gallery" value={roomDraft.gallery} readOnly />
 
-                  <input type="hidden" name="gallery" value={roomDraft.gallery} readOnly />
-
-                  <div className="max-w-md">
                     <UploadField
                       name="coverImage"
                       label="Imagem de capa"
                       value={roomDraft.coverImage}
                       hideTextInput
-                      className="rounded-[1.6rem] border border-slate-200/80 bg-white p-4 shadow-[0_18px_38px_rgba(15,23,42,0.05)]"
-                      previewClassName="h-44 rounded-[1.2rem] border border-slate-200/80"
+                      className="rounded-[1.6rem] border border-slate-200/80 bg-white p-4 shadow-[0_18px_38px_rgba(15,23,42,0.05)] xl:sticky xl:top-4"
+                      previewClassName="h-52 rounded-[1.2rem] border border-slate-200/80"
                       previewImageClassName="object-cover"
                       onValueChange={(value) => updateRoomDraft("coverImage", value)}
                     />
