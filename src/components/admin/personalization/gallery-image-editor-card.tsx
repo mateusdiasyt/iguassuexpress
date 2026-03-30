@@ -228,7 +228,19 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
                 </h3>
               </div>
 
-              <InlineVisibilityToggle name="isActive" defaultChecked={image.isActive} />
+              <div className="flex items-center gap-2">
+                <InlineVisibilityToggle name="isActive" defaultChecked={image.isActive} />
+                <Button
+                  type="submit"
+                  form={deleteFormId}
+                  variant="outline"
+                  className="h-8 w-8 rounded-full border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
+                  aria-label={`Remover foto ${image.altText}`}
+                  title="Remover foto"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
             </div>
 
             <div className="mt-6 grid gap-5">
@@ -273,17 +285,6 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
                   {saveState === "saved" ? "Salvo" : null}
                   {saveState === "error" ? "Falha ao salvar" : null}
                 </p>
-
-                <Button
-                  type="submit"
-                  form={deleteFormId}
-                  variant="outline"
-                  className="h-10 w-10 border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
-                  aria-label={`Remover foto ${image.altText}`}
-                  title="Remover foto"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
               </div>
             </div>
           </div>
