@@ -137,26 +137,36 @@ function FieldPanel({ children }: { children: ReactNode }) {
   );
 }
 
-function ReadOnlyStatusToggle({ active }: { active: boolean }) {
+function InlineVisibilityToggle({
+  name,
+  defaultChecked = true,
+  form,
+}: {
+  name: string;
+  defaultChecked?: boolean;
+  form?: string;
+}) {
   return (
-    <span
-      aria-label={active ? "Visivel" : "Oculta"}
-      title={active ? "Visivel na pagina publica" : "Oculta na pagina publica"}
+    <label
+      aria-label="Exibir na galeria publica"
+      title="Exibir na galeria publica"
       className={cn(
-        "relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border p-1",
-        active
-          ? "border-slate-900 bg-slate-900 shadow-[inset_0_1px_2px_rgba(255,255,255,0.06)]"
-          : "border-slate-200 bg-slate-200/90 shadow-[inset_0_1px_2px_rgba(15,23,42,0.08)]",
+        "relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center",
       )}
     >
+      <input
+        type="checkbox"
+        name={name}
+        form={form}
+        defaultChecked={defaultChecked}
+        className="peer sr-only"
+      />
+      <span className="absolute inset-0 rounded-full border border-slate-200 bg-slate-200/90 transition peer-checked:border-slate-900 peer-checked:bg-slate-900" />
       <span
         aria-hidden="true"
-        className={cn(
-          "relative z-10 h-5 w-5 rounded-full border border-white/90 bg-white shadow-[0_3px_10px_rgba(15,23,42,0.14)] transition-transform duration-200 ease-out",
-          active ? "translate-x-5" : "translate-x-0",
-        )}
+        className="absolute left-1 top-1 z-10 h-5 w-5 rounded-full border border-white/90 bg-white shadow-[0_3px_10px_rgba(15,23,42,0.14)] transition-transform duration-200 ease-out peer-checked:translate-x-5"
       />
-    </span>
+    </label>
   );
 }
 
@@ -188,6 +198,8 @@ function VisibilityToggleField({
 }
 
 function ExistingImageCard({ image }: { image: GalleryImageItem }) {
+  const formId = `gallery-image-${image.id}`;
+
   return (
     <article className="overflow-hidden rounded-[1.8rem] border border-slate-200 bg-white shadow-[0_26px_60px_rgba(15,23,42,0.08)]">
       <div className="border-b border-slate-200 bg-slate-50/80 p-4">
@@ -208,10 +220,10 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
             <h3 className="text-lg font-semibold text-slate-950">{image.altText}</h3>
           </div>
 
-          <ReadOnlyStatusToggle active={image.isActive} />
+          <InlineVisibilityToggle name="isActive" defaultChecked={image.isActive} form={formId} />
         </div>
 
-        <form action={saveGalleryImageAction} className="grid gap-4">
+        <form id={formId} action={saveGalleryImageAction} className="grid gap-4">
           <input type="hidden" name="id" value={image.id} />
 
           <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_8rem]">
@@ -241,14 +253,6 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
               defaultValue={image.imageUrl}
               hideTextInput
               hidePreview
-            />
-          </FieldPanel>
-
-          <FieldPanel>
-            <VisibilityToggleField
-              name="isActive"
-              defaultChecked={image.isActive}
-              label="Exibir"
             />
           </FieldPanel>
 
