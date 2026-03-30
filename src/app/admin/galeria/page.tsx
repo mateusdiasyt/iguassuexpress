@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight, ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
+import { ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { GalleryImageEditorCard } from "@/components/admin/personalization/gallery-image-editor-card";
 import { getGalleryImages, getPageContent, getRestaurantContent } from "@/data/queries";
@@ -22,8 +21,6 @@ type RestaurantContentItem = Awaited<ReturnType<typeof getRestaurantContent>>;
 type ReferenceCardProps = {
   eyebrow: string;
   title: string;
-  href: string;
-  actionLabel: string;
   icon: LucideIcon;
   children?: ReactNode;
 };
@@ -73,8 +70,6 @@ function SectionEyebrow({ children }: { children: ReactNode }) {
 function ReferenceCard({
   eyebrow,
   title,
-  href,
-  actionLabel,
   icon: Icon,
   children,
 }: ReferenceCardProps) {
@@ -91,14 +86,6 @@ function ReferenceCard({
       </div>
 
       {children ? <div className="mt-4">{children}</div> : null}
-
-      <Link
-        href={href}
-        className="mt-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-slate-300 hover:text-slate-950"
-      >
-        {actionLabel}
-        <ArrowUpRight className="h-3.5 w-3.5" />
-      </Link>
     </article>
   );
 }
@@ -108,8 +95,6 @@ function GalleryBannerReference({ page }: { page: PageContentItem }) {
     <ReferenceCard
       eyebrow="Banner"
       title="Banner da galeria"
-      href="/admin/paginas"
-      actionLabel="Paginas"
       icon={ImageIcon}
     >
       <PreviewFrame src={page.bannerImage} alt={`Banner da pagina ${page.title}`} className="h-32 w-full" />
@@ -124,8 +109,6 @@ function RestaurantReference({ restaurant }: { restaurant: RestaurantContentItem
     <ReferenceCard
       eyebrow="Restaurante"
       title="3 imagens"
-      href="/admin/restaurante"
-      actionLabel="Restaurante"
       icon={UtensilsCrossed}
     >
       <div className="grid grid-cols-3 gap-2">
