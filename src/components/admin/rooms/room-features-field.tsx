@@ -195,23 +195,18 @@ export function RoomFeaturesField({
         </div>
 
         <div className="space-y-4 px-4 py-4">
-          {selectedFeatures.length ? (
-            <div className="space-y-3 rounded-[1.2rem] border border-slate-200/80 bg-slate-50/70 p-3">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  Tags do quarto
-                </p>
-                <span className="text-xs text-slate-400">
-                  Renomeie ou remova o que estiver errado
-                </span>
-              </div>
+          {orderedFeatures.length ? (
+            <div className="grid gap-2.5 md:grid-cols-2">
+              {orderedFeatures.map((feature) => {
+                const isSelected = selectedFeatures.some(
+                  (item) => item.toLowerCase() === feature.toLowerCase(),
+                );
 
-              <div className="flex flex-wrap gap-2">
-                {selectedFeatures.map((feature) =>
-                  editingFeature?.toLowerCase() === feature.toLowerCase() ? (
+                if (editingFeature?.toLowerCase() === feature.toLowerCase()) {
+                  return (
                     <div
                       key={`${feature}-editing`}
-                      className="flex w-full flex-wrap items-center gap-2 rounded-[1rem] border border-brand/15 bg-white px-3 py-2 shadow-[0_10px_24px_rgba(15,23,42,0.04)]"
+                      className="flex flex-wrap items-center gap-2 rounded-[1rem] border border-brand/15 bg-white px-3 py-2.5 shadow-[0_10px_24px_rgba(15,23,42,0.04)] md:col-span-2"
                     >
                       <Input
                         value={editingValue}
@@ -238,72 +233,61 @@ export function RoomFeaturesField({
                         Cancelar
                       </Button>
                     </div>
-                  ) : (
-                    <div
-                      key={feature}
-                      className="inline-flex items-center gap-2 rounded-full border border-brand/15 bg-white px-2.5 py-2 shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                    >
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand text-white">
-                        <Check className="h-3.5 w-3.5" />
-                      </span>
-                      <span className="text-sm font-medium text-slate-700">{feature}</span>
-                      <button
-                        type="button"
-                        onClick={() => startEditing(feature)}
-                        className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-brand"
-                        aria-label={`Editar tag ${feature}`}
-                        title="Editar tag"
-                      >
-                        <PencilLine className="h-3.5 w-3.5" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => removeFeature(feature)}
-                        className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 transition hover:bg-red-50 hover:text-red-600"
-                        aria-label={`Remover tag ${feature}`}
-                        title="Remover tag"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  ),
-                )}
-              </div>
-            </div>
-          ) : null}
-
-          {orderedFeatures.length ? (
-            <div className="grid gap-2.5 md:grid-cols-2">
-              {orderedFeatures.map((feature) => {
-                const isSelected = selectedFeatures.some(
-                  (item) => item.toLowerCase() === feature.toLowerCase(),
-                );
+                  );
+                }
 
                 return (
-                  <button
+                  <div
                     key={feature}
-                    type="button"
-                    onClick={() => toggleFeature(feature)}
                     className={cn(
-                      "flex min-h-11 w-full items-center gap-3 rounded-[1rem] border px-3.5 py-2.5 text-left text-sm transition",
+                      "group/feature flex min-h-11 items-center gap-2 rounded-[1rem] border px-3.5 py-2.5 transition",
                       isSelected
                         ? "border-brand/20 bg-[linear-gradient(180deg,#f8fbfe_0%,#f1f7fc_100%)] text-brand shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"
                         : "border-slate-200/80 bg-white text-slate-600 hover:border-brand/20 hover:bg-slate-50",
                     )}
-                    aria-pressed={isSelected}
                   >
-                    <span
-                      className={cn(
-                        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition",
-                        isSelected
-                          ? "border-brand bg-brand text-white"
-                          : "border-slate-200 bg-white text-transparent",
-                      )}
+                    <button
+                      type="button"
+                      onClick={() => toggleFeature(feature)}
+                      className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                      aria-pressed={isSelected}
                     >
-                      <Check className="h-3.5 w-3.5" />
-                    </span>
-                    <span className="leading-5">{feature}</span>
-                  </button>
+                      <span
+                        className={cn(
+                          "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition",
+                          isSelected
+                            ? "border-brand bg-brand text-white"
+                            : "border-slate-200 bg-white text-transparent",
+                        )}
+                      >
+                        <Check className="h-3.5 w-3.5" />
+                      </span>
+                      <span className="leading-5">{feature}</span>
+                    </button>
+
+                    {isSelected ? (
+                      <div className="pointer-events-none flex items-center gap-1 opacity-0 transition group-hover/feature:pointer-events-auto group-hover/feature:opacity-100 group-focus-within/feature:pointer-events-auto group-focus-within/feature:opacity-100">
+                        <button
+                          type="button"
+                          onClick={() => startEditing(feature)}
+                          className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-brand"
+                          aria-label={`Editar tag ${feature}`}
+                          title="Editar tag"
+                        >
+                          <PencilLine className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => removeFeature(feature)}
+                          className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 transition hover:bg-red-50 hover:text-red-600"
+                          aria-label={`Remover tag ${feature}`}
+                          title="Remover tag"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
                 );
               })}
             </div>
