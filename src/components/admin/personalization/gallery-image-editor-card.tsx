@@ -101,6 +101,18 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
     };
   }, []);
 
+  useEffect(() => {
+    if (saveState !== "saved") {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setSaveState("idle");
+    }, 1400);
+
+    return () => window.clearTimeout(timeout);
+  }, [saveState]);
+
   async function saveCurrentForm() {
     const form = formRef.current;
 
@@ -165,7 +177,7 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
 
   return (
     <article className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_28px_70px_rgba(15,23,42,0.08)]">
-      <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)] xl:items-start">
+      <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)]">
         <form
           ref={formRef}
           className="contents"
@@ -184,7 +196,7 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
         >
           <input type="hidden" name="id" value={image.id} />
 
-          <div className="self-start border-b border-slate-200/80 bg-slate-50/70 p-4 xl:rounded-br-[1.6rem] xl:border-b-0 xl:border-r">
+          <div className="border-b border-slate-200/80 bg-slate-50/70 p-4 xl:flex xl:rounded-br-[1.6rem] xl:border-b-0 xl:border-r">
             <UploadField
               name="imageUrl"
               label="Imagem"
@@ -194,8 +206,8 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
               hideTriggerButton
               previewActionLabel="Alterar imagem"
               onValueChange={() => scheduleSave(80)}
-              className="space-y-0"
-              previewClassName="aspect-[1/1] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)]"
+              className="space-y-0 xl:flex xl:w-full"
+              previewClassName="min-h-[220px] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)] xl:h-full xl:min-h-[300px]"
               previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
             />
           </div>
@@ -258,9 +270,8 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
                       Salvando...
                     </>
                   ) : null}
-                  {saveState === "saved" ? "Salvo automaticamente" : null}
+                  {saveState === "saved" ? "Salvo" : null}
                   {saveState === "error" ? "Falha ao salvar" : null}
-                  {saveState === "idle" ? "Salva ao sair do campo" : null}
                 </p>
 
                 <Button
