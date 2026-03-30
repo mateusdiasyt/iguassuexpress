@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState, type FocusEvent, type ReactNode } from "react";
-import { LoaderCircle, Trash2 } from "lucide-react";
+import {
+  Building2,
+  Coffee,
+  ImageIcon,
+  LoaderCircle,
+  Trash2,
+  type LucideIcon,
+  UtensilsCrossed,
+} from "lucide-react";
 import { deleteGalleryImageAction, saveGalleryImageAction } from "@/actions/admin";
 import { UploadField } from "@/components/admin/upload-field";
 import { Button } from "@/components/ui/button";
@@ -20,35 +28,45 @@ type GalleryImageEditorCardProps = {
 
 type SaveState = "idle" | "saving" | "saved" | "error";
 
+function getSlotMeta(category: string): {
+  eyebrow: string;
+  icon: LucideIcon;
+} {
+  const normalized = category.toLowerCase();
+
+  if (normalized.includes("rest")) {
+    return {
+      eyebrow: "Restaurante",
+      icon: UtensilsCrossed,
+    };
+  }
+
+  if (normalized.includes("cafe")) {
+    return {
+      eyebrow: "Cafe da manha",
+      icon: Coffee,
+    };
+  }
+
+  if (normalized.includes("hotel")) {
+    return {
+      eyebrow: "Hotel",
+      icon: Building2,
+    };
+  }
+
+  return {
+    eyebrow: "Galeria",
+    icon: ImageIcon,
+  };
+}
+
 function serializeForm(form: HTMLFormElement) {
   return Array.from(new FormData(form).entries())
     .map(([key, value]) => [key, typeof value === "string" ? value : value.name] as const)
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([key, value]) => `${key}:${value}`)
     .join("|");
-}
-
-function InlineVisibilityToggle({
-  name,
-  defaultChecked = true,
-}: {
-  name: string;
-  defaultChecked?: boolean;
-}) {
-  return (
-    <label
-      aria-label="Exibir na galeria publica"
-      title="Exibir na galeria publica"
-      className="relative inline-flex h-8 w-[3.3rem] shrink-0 cursor-pointer items-center"
-    >
-      <input type="checkbox" name={name} defaultChecked={defaultChecked} className="peer sr-only" />
-      <span className="absolute inset-0 rounded-full border border-slate-200 bg-slate-200/90 transition peer-checked:border-slate-900 peer-checked:bg-slate-900" />
-      <span
-        aria-hidden="true"
-        className="absolute left-1 top-1 h-6 w-6 rounded-full border border-white/90 bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] transition-transform duration-200 ease-out peer-checked:translate-x-[1.35rem]"
-      />
-    </label>
-  );
 }
 
 function FieldBlock({
@@ -76,6 +94,8 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [displayTitle, setDisplayTitle] = useState(image.altText);
   const [displayOrder, setDisplayOrder] = useState(String(image.order));
+  const slotMeta = getSlotMeta(image.category);
+  const SlotIcon = slotMeta.icon;
 
   useEffect(() => {
     setDisplayTitle(image.altText);
@@ -174,108 +194,90 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
   }
 
   return (
-    <article className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_28px_70px_rgba(15,23,42,0.08)]">
-      <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)] xl:items-start">
-        <form
-          ref={formRef}
-          className="contents"
-          onBlurCapture={handleBlurCapture}
-          onChangeCapture={(event) => {
-            const target = event.target;
+    <article className="rounded-[1.75rem] border border-white/70 bg-white/90 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.08)] backdrop-blur-sm">
+      <form ref={formRef} className="space-y-4" onBlurCapture={handleBlurCapture}>
+        <input type="hidden" name="id" value={image.id} />
+        <input type="hidden" name="category" value={image.category} readOnly />
+        <input type="hidden" name="isActive" value="true" readOnly />
 
-            if (!(target instanceof HTMLInputElement)) {
-              return;
-            }
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+              <SlotIcon className="h-4.5 w-4.5" />
+            </span>
+            <div className="min-w-0 space-y-1">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                {slotMeta.eyebrow}
+              </p>
+              <h3 className="truncate text-lg font-semibold tracking-[-0.03em] text-slate-950">
+                {displayTitle || "Sem descricao"}
+              </h3>
+            </div>
+          </div>
 
-            if (target.type === "checkbox") {
-              scheduleSave(80);
-            }
-          }}
-        >
-          <input type="hidden" name="id" value={image.id} />
-          <input type="hidden" name="category" value={image.category} readOnly />
+          <div className="flex items-center gap-2">
+            <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+              Ordem {displayOrder || "0"}
+            </span>
+            <Button
+              type="submit"
+              form={deleteFormId}
+              variant="outline"
+              className="h-8 w-8 rounded-full border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
+              aria-label={`Remover foto ${image.altText}`}
+              title="Remover foto"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        </div>
 
-          <div className="self-start border-b border-slate-200/80 bg-slate-50/70 p-4 xl:rounded-br-[1.6rem] xl:border-b-0 xl:border-r">
-            <UploadField
-              name="imageUrl"
-              label="Imagem"
-              defaultValue={image.imageUrl}
-              hideTextInput
-              hideLabel
-              hideTriggerButton
-              previewActionLabel="Alterar imagem"
-              onValueChange={() => scheduleSave(80)}
-              className="space-y-0"
-              previewClassName="h-[240px] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)]"
-              previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
+        <UploadField
+          name="imageUrl"
+          label="Imagem"
+          defaultValue={image.imageUrl}
+          hideTextInput
+          hideLabel
+          hideTriggerButton
+          previewActionLabel="Alterar imagem"
+          onValueChange={() => scheduleSave(80)}
+          className="space-y-0"
+          previewClassName="aspect-[4/3] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)]"
+          previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
+        />
+
+        <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_7rem] sm:items-end">
+          <FieldBlock label="Descricao da imagem">
+            <Input
+              name="altText"
+              defaultValue={image.altText}
+              onChange={(event) => setDisplayTitle(event.target.value)}
             />
-          </div>
+          </FieldBlock>
 
-          <div className="p-5">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="space-y-2">
-                <span className="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Ordem {displayOrder || "0"}
-                </span>
-                <h3 className="text-xl font-semibold tracking-[-0.02em] text-slate-950">
-                  {displayTitle || "Sem descricao"}
-                </h3>
-              </div>
+          <FieldBlock label="Ordem">
+            <Input
+              name="order"
+              type="number"
+              defaultValue={image.order}
+              onChange={(event) => setDisplayOrder(event.target.value)}
+            />
+          </FieldBlock>
+        </div>
 
-              <div className="flex items-center gap-2">
-                <InlineVisibilityToggle name="isActive" defaultChecked={image.isActive} />
-                <Button
-                  type="submit"
-                  form={deleteFormId}
-                  variant="outline"
-                  className="h-8 w-8 rounded-full border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
-                  aria-label={`Remover foto ${image.altText}`}
-                  title="Remover foto"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_7.5rem] lg:items-start">
-              <FieldBlock label="Descricao da imagem">
-                <Input
-                  name="altText"
-                  defaultValue={image.altText}
-                  onChange={(event) => setDisplayTitle(event.target.value)}
-                />
-              </FieldBlock>
-
-              <FieldBlock label="Ordem">
-                <Input
-                  name="order"
-                  type="number"
-                  defaultValue={image.order}
-                  onChange={(event) => setDisplayOrder(event.target.value)}
-                />
-              </FieldBlock>
-            </div>
-
-            <div className="mt-4 flex items-center justify-end">
-              <div className="flex items-center justify-between gap-3">
-                <p
-                  aria-live="polite"
-                  className="inline-flex min-h-5 items-center gap-2 text-sm text-slate-500"
-                >
-                  {saveState === "saving" ? (
-                    <>
-                      <LoaderCircle className="h-4 w-4 animate-spin text-slate-400" />
-                      Salvando...
-                    </>
-                  ) : null}
-                  {saveState === "saved" ? "Salvo" : null}
-                  {saveState === "error" ? "Falha ao salvar" : null}
-                </p>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+        <div className="flex min-h-5 items-center justify-end">
+          <p aria-live="polite" className="inline-flex items-center gap-2 text-sm text-slate-500">
+            {saveState === "saving" ? (
+              <>
+                <LoaderCircle className="h-4 w-4 animate-spin text-slate-400" />
+                Salvando...
+              </>
+            ) : null}
+            {saveState === "saved" ? "Salvo" : null}
+            {saveState === "error" ? "Falha ao salvar" : null}
+          </p>
+        </div>
+      </form>
 
       <form id={deleteFormId} action={deleteGalleryImageAction}>
         <input type="hidden" name="id" value={image.id} />

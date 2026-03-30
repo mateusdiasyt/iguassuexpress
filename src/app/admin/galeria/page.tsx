@@ -196,7 +196,7 @@ export default async function AdminGalleryPage() {
 
         <section className="space-y-4">
           {images.length ? (
-            <div className="grid gap-5">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {images.map((image) => (
                 <GalleryImageEditorCard key={image.id} image={image} />
               ))}
