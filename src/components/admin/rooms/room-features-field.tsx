@@ -53,11 +53,16 @@ export function RoomFeaturesField({
   const [newFeature, setNewFeature] = useState("");
   const [editingFeature, setEditingFeature] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState("");
+  const [deletedFeatures, setDeletedFeatures] = useState<string[]>([]);
 
   const selectedFeatures = useMemo(() => dedupeFeatures(parseList(value)), [value]);
   const availableFeatures = useMemo(
-    () => dedupeFeatures([...suggestions, ...selectedFeatures]),
-    [selectedFeatures, suggestions],
+    () =>
+      dedupeFeatures([...suggestions, ...selectedFeatures]).filter(
+        (feature) =>
+          !deletedFeatures.some((deleted) => deleted.toLowerCase() === feature.toLowerCase()),
+      ),
+    [deletedFeatures, selectedFeatures, suggestions],
   );
   const orderedFeatures = useMemo(
     () =>
@@ -101,6 +106,10 @@ export function RoomFeaturesField({
       return;
     }
 
+    setDeletedFeatures((current) =>
+      current.filter((item) => item.toLowerCase() !== normalized.toLowerCase()),
+    );
+
     const alreadyExists = selectedFeatures.some(
       (item) => item.toLowerCase() === normalized.toLowerCase(),
     );
@@ -122,7 +131,15 @@ export function RoomFeaturesField({
     setEditingValue("");
   }
 
-  function removeFeature(feature: string) {
+  function deleteFeature(feature: string) {
+    setDeletedFeatures((current) => {
+      if (current.some((item) => item.toLowerCase() === feature.toLowerCase())) {
+        return current;
+      }
+
+      return [...current, feature];
+    });
+
     updateFeatures(selectedFeatures.filter((item) => item.toLowerCase() !== feature.toLowerCase()));
 
     if (editingFeature?.toLowerCase() === feature.toLowerCase()) {
@@ -136,10 +153,24 @@ export function RoomFeaturesField({
     }
 
     const normalized = normalizeFeatureLabel(editingValue);
+    const isSameFeature = normalized.toLowerCase() === editingFeature.toLowerCase();
 
     if (!normalized) {
-      removeFeature(editingFeature);
+      deleteFeature(editingFeature);
       return;
+    }
+
+    if (!isSameFeature) {
+      setDeletedFeatures((current) => {
+        const next = current.filter(
+          (item) =>
+            item.toLowerCase() !== editingFeature.toLowerCase() &&
+            item.toLowerCase() !== normalized.toLowerCase(),
+        );
+
+        next.push(editingFeature);
+        return next;
+      });
     }
 
     const nextFeatures = selectedFeatures.map((feature) =>
@@ -278,10 +309,10 @@ export function RoomFeaturesField({
                         </button>
                         <button
                           type="button"
-                          onClick={() => removeFeature(feature)}
+                          onClick={() => deleteFeature(feature)}
                           className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 transition hover:bg-red-50 hover:text-red-600"
                           aria-label={`Remover tag ${feature}`}
-                          title="Remover tag"
+                          title="Excluir tag"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
