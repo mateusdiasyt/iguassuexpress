@@ -75,15 +75,13 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
   const lastSavedSnapshotRef = useRef("");
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [displayTitle, setDisplayTitle] = useState(image.altText);
-  const [displayCategory, setDisplayCategory] = useState(image.category);
   const [displayOrder, setDisplayOrder] = useState(String(image.order));
 
   useEffect(() => {
     setDisplayTitle(image.altText);
-    setDisplayCategory(image.category);
     setDisplayOrder(String(image.order));
     setSaveState("idle");
-  }, [image.altText, image.category, image.id, image.order]);
+  }, [image.altText, image.id, image.order]);
 
   useEffect(() => {
     if (!formRef.current) {
@@ -195,6 +193,7 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
           }}
         >
           <input type="hidden" name="id" value={image.id} />
+          <input type="hidden" name="category" value={image.category} readOnly />
 
           <div className="border-b border-slate-200/80 bg-slate-50/70 p-4 xl:flex xl:rounded-br-[1.6rem] xl:border-b-0 xl:border-r">
             <UploadField
@@ -215,14 +214,9 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
           <div className="p-5">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="space-y-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    {displayCategory || "Sem categoria"}
-                  </span>
-                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                    Ordem {displayOrder || "0"}
-                  </span>
-                </div>
+                <span className="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                  Ordem {displayOrder || "0"}
+                </span>
                 <h3 className="text-xl font-semibold tracking-[-0.02em] text-slate-950">
                   {displayTitle || "Sem descricao"}
                 </h3>
@@ -244,15 +238,7 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
             </div>
 
             <div className="mt-6 grid gap-5">
-              <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_8rem]">
-                <FieldBlock label="Categoria">
-                  <Input
-                    name="category"
-                    defaultValue={image.category}
-                    onChange={(event) => setDisplayCategory(event.target.value)}
-                  />
-                </FieldBlock>
-
+              <div className="grid gap-4 md:grid-cols-[8rem] md:justify-end">
                 <FieldBlock label="Ordem">
                   <Input
                     name="order"
