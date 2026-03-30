@@ -107,14 +107,16 @@ export async function getRestaurantContent() {
   }
 }
 
-export async function getGalleryImages() {
+export async function getGalleryImages(includeInactive = false) {
   if (!hasConfiguredDatabase) {
-    return defaultGalleryImages;
+    return includeInactive
+      ? defaultGalleryImages
+      : defaultGalleryImages.filter((item) => item.isActive);
   }
 
   try {
     const items = await prisma.galleryImage.findMany({
-      where: { isActive: true },
+      where: includeInactive ? undefined : { isActive: true },
       orderBy: [{ order: "asc" }, { createdAt: "desc" }],
     });
 

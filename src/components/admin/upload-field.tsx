@@ -23,6 +23,7 @@ type UploadFieldProps = {
   previewClassName?: string;
   previewImageClassName?: string;
   hideTextInput?: boolean;
+  hidePreview?: boolean;
 };
 
 export function UploadField({
@@ -39,6 +40,7 @@ export function UploadField({
   previewClassName,
   previewImageClassName,
   hideTextInput = false,
+  hidePreview = false,
 }: UploadFieldProps) {
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const [loading, setLoading] = useState(false);
@@ -103,7 +105,7 @@ export function UploadField({
           }}
         />
       </label>
-      {kind === "image" && value ? (
+      {kind === "image" && value && !hidePreview ? (
         <div
           className={cn(
             "relative h-32 overflow-hidden rounded-2xl border border-brand/10 bg-slate-100",

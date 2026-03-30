@@ -433,10 +433,8 @@ export const defaultRestaurantContent = {
 
 export const defaultGalleryImages = [
   { id: "hotel-1", category: "Hotel", imageUrl: media.hero, altText: "Fachada do hotel", order: 1, isActive: true },
-  { id: "apartamentos-2", category: "Apartamentos", imageUrl: media.standard, altText: "Quarto standard", order: 2, isActive: true },
-  { id: "apartamentos-3", category: "Apartamentos", imageUrl: media.superior, altText: "Quarto superior", order: 3, isActive: true },
-  { id: "restaurante-4", category: "Restaurante", imageUrl: media.restaurant, altText: "Ambiente do restaurante", order: 4, isActive: true },
-  { id: "cafe-5", category: "Cafe da manha", imageUrl: media.breakfast, altText: "Buffet de cafe da manha", order: 5, isActive: true },
+  { id: "restaurante-4", category: "Restaurante", imageUrl: media.restaurant, altText: "Ambiente do restaurante", order: 2, isActive: true },
+  { id: "cafe-5", category: "Cafe da manha", imageUrl: media.breakfast, altText: "Buffet de cafe da manha", order: 3, isActive: true },
 ];
 
 export const defaultTour360Content = {
