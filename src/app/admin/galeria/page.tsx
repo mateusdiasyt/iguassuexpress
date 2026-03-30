@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { GalleryImageEditorCard } from "@/components/admin/personalization/gallery-image-editor-card";
@@ -29,25 +30,16 @@ function PreviewFrame({
   src,
   alt,
   className,
+  href,
+  actionLabel,
 }: {
   src?: string | null;
   alt: string;
   className?: string;
+  href?: string;
+  actionLabel?: string;
 }) {
-  if (!src) {
-    return (
-      <div
-        className={cn(
-          "flex items-center justify-center rounded-[1.2rem] border border-dashed border-slate-200 bg-slate-100 text-xs text-slate-400",
-          className,
-        )}
-      >
-        Sem imagem
-      </div>
-    );
-  }
-
-  return (
+  const frame = src ? (
     <div
       className={cn(
         "relative overflow-hidden rounded-[1.2rem] border border-slate-200/80 bg-slate-100",
@@ -56,6 +48,32 @@ function PreviewFrame({
     >
       <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 360px" />
     </div>
+  ) : (
+    <div
+      className={cn(
+        "flex items-center justify-center rounded-[1.2rem] border border-dashed border-slate-200 bg-slate-100 text-xs text-slate-400",
+        className,
+      )}
+    >
+      Sem imagem
+    </div>
+  );
+
+  if (!href) {
+    return frame;
+  }
+
+  return (
+    <Link href={href} className="group block">
+      <div className="relative">
+        {frame}
+        <div className="absolute inset-0 flex items-center justify-center rounded-[1.2rem] bg-slate-950/0 opacity-0 transition duration-200 group-hover:bg-slate-950/28 group-hover:opacity-100">
+          <span className="rounded-full bg-white/94 px-4 py-2 text-sm font-medium text-slate-950 shadow-[0_10px_24px_rgba(15,23,42,0.16)] backdrop-blur-sm">
+            {actionLabel ?? "Alterar imagem"}
+          </span>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -97,7 +115,13 @@ function GalleryBannerReference({ page }: { page: PageContentItem }) {
       title="Banner da galeria"
       icon={ImageIcon}
     >
-      <PreviewFrame src={page.bannerImage} alt={`Banner da pagina ${page.title}`} className="h-32 w-full" />
+      <PreviewFrame
+        src={page.bannerImage}
+        alt={`Banner da pagina ${page.title}`}
+        href="/admin/paginas"
+        actionLabel="Alterar imagem"
+        className="h-32 w-full"
+      />
     </ReferenceCard>
   );
 }
@@ -118,11 +142,18 @@ function RestaurantReference({ restaurant }: { restaurant: RestaurantContentItem
               key={`${src}-${index}`}
               src={src}
               alt={`Imagem ${index + 1} do restaurante`}
+              href="/admin/restaurante"
+              actionLabel="Alterar imagem"
               className="h-24 w-full"
             />
           ))
         ) : (
-          <PreviewFrame alt="Sem imagens do restaurante" className="col-span-3 h-24 w-full" />
+          <PreviewFrame
+            alt="Sem imagens do restaurante"
+            href="/admin/restaurante"
+            actionLabel="Alterar imagem"
+            className="col-span-3 h-24 w-full"
+          />
         )}
       </div>
     </ReferenceCard>
