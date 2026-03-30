@@ -146,35 +146,20 @@ function RoomActiveToggle({
       <button
         type="button"
         aria-pressed={checked}
+        aria-label={checked ? "Desativar quarto" : "Ativar quarto"}
         onClick={() => onCheckedChange(!checked)}
         className={cn(
-          "relative inline-flex h-14 w-[9.5rem] items-center rounded-full border p-1 transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30",
+          "relative inline-flex h-9 w-[4.4rem] items-center rounded-full border p-1 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300",
           checked
-            ? "border-emerald-400/50 bg-[linear-gradient(135deg,#1df115_0%,#15d80f_48%,#10c70d_100%)] shadow-[0_18px_32px_rgba(34,197,94,0.24)]"
-            : "border-slate-200 bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] shadow-[inset_0_2px_6px_rgba(148,163,184,0.16)]",
+            ? "border-slate-900 bg-slate-900 shadow-[inset_0_1px_2px_rgba(255,255,255,0.06)]"
+            : "border-slate-200 bg-slate-200/90 shadow-[inset_0_1px_2px_rgba(15,23,42,0.08)]",
         )}
       >
         <span
-          className={cn(
-            "absolute left-5 text-sm font-semibold uppercase tracking-[0.2em] transition",
-            checked ? "text-emerald-950/65" : "text-slate-300",
-          )}
-        >
-          On
-        </span>
-        <span
-          className={cn(
-            "absolute right-5 text-sm font-semibold uppercase tracking-[0.2em] transition",
-            checked ? "text-emerald-200/70" : "text-slate-400",
-          )}
-        >
-          Off
-        </span>
-        <span
           aria-hidden="true"
           className={cn(
-            "relative z-10 h-12 w-12 rounded-full border border-white/80 bg-white shadow-[0_10px_24px_rgba(15,23,42,0.18)] transition-transform duration-300 ease-out",
-            checked ? "translate-x-[5.1rem]" : "translate-x-0",
+            "relative z-10 h-7 w-7 rounded-full border border-white/90 bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] transition-transform duration-200 ease-out",
+            checked ? "translate-x-[2.15rem]" : "translate-x-0",
           )}
         />
       </button>
