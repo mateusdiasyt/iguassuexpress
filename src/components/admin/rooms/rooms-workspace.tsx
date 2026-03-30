@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Textarea } from "@/components/ui/textarea";
-import { toSlug } from "@/lib/utils";
+import { cn, toSlug } from "@/lib/utils";
 
 type ActionFn = (formData: FormData) => void | Promise<void>;
 
@@ -128,6 +128,57 @@ function StatusBadge({ active }: { active: boolean }) {
     >
       {active ? "Ativo" : "Inativo"}
     </span>
+  );
+}
+
+function RoomActiveToggle({
+  checked,
+  name,
+  onCheckedChange,
+}: {
+  checked: boolean;
+  name: string;
+  onCheckedChange: (value: boolean) => void;
+}) {
+  return (
+    <>
+      <input type="hidden" name={name} value={checked ? "true" : "false"} readOnly />
+      <button
+        type="button"
+        aria-pressed={checked}
+        onClick={() => onCheckedChange(!checked)}
+        className={cn(
+          "relative inline-flex h-14 w-[9.5rem] items-center rounded-full border p-1 transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30",
+          checked
+            ? "border-emerald-400/50 bg-[linear-gradient(135deg,#1df115_0%,#15d80f_48%,#10c70d_100%)] shadow-[0_18px_32px_rgba(34,197,94,0.24)]"
+            : "border-slate-200 bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_100%)] shadow-[inset_0_2px_6px_rgba(148,163,184,0.16)]",
+        )}
+      >
+        <span
+          className={cn(
+            "absolute left-5 text-sm font-semibold uppercase tracking-[0.2em] transition",
+            checked ? "text-emerald-950/65" : "text-slate-300",
+          )}
+        >
+          On
+        </span>
+        <span
+          className={cn(
+            "absolute right-5 text-sm font-semibold uppercase tracking-[0.2em] transition",
+            checked ? "text-emerald-200/70" : "text-slate-400",
+          )}
+        >
+          Off
+        </span>
+        <span
+          aria-hidden="true"
+          className={cn(
+            "relative z-10 h-12 w-12 rounded-full border border-white/80 bg-white shadow-[0_10px_24px_rgba(15,23,42,0.18)] transition-transform duration-300 ease-out",
+            checked ? "translate-x-[5.1rem]" : "translate-x-0",
+          )}
+        />
+      </button>
+    </>
   );
 }
 
@@ -574,8 +625,12 @@ export function RoomsWorkspace({
               >
                 <div className="space-y-5">
                   <div className="flex max-w-4xl flex-wrap items-center justify-between gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
-                    <div className="flex items-center gap-2">
-                      <StatusBadge active={roomDraft.isActive} />
+                    <div className="flex flex-wrap items-center gap-4">
+                      <RoomActiveToggle
+                        name="isActive"
+                        checked={roomDraft.isActive}
+                        onCheckedChange={(value) => updateRoomDraft("isActive", value)}
+                      />
                       <span className="text-xs text-slate-500">
                         Hierarquia definida por categoria + ordem
                       </span>
@@ -655,16 +710,6 @@ export function RoomsWorkspace({
                       />
                     </label>
                   </div>
-
-                  <label className="flex w-full max-w-sm items-center gap-3 rounded-2xl border border-brand/10 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-                    <input
-                      type="checkbox"
-                      name="isActive"
-                      checked={roomDraft.isActive}
-                      onChange={(event) => updateRoomDraft("isActive", event.target.checked)}
-                    />
-                    Quarto ativo
-                  </label>
 
                   <div className="grid gap-4 xl:grid-cols-2 xl:justify-start">
                     <label className="grid w-full max-w-[28rem] gap-2 text-sm text-slate-600">
