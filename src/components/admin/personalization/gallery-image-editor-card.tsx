@@ -237,18 +237,7 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-5">
-              <div className="grid gap-4 md:grid-cols-[8rem] md:justify-end">
-                <FieldBlock label="Ordem">
-                  <Input
-                    name="order"
-                    type="number"
-                    defaultValue={image.order}
-                    onChange={(event) => setDisplayOrder(event.target.value)}
-                  />
-                </FieldBlock>
-              </div>
-
+            <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_7.5rem] lg:items-start">
               <FieldBlock label="Descricao da imagem">
                 <Input
                   name="altText"
@@ -257,6 +246,17 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
                 />
               </FieldBlock>
 
+              <FieldBlock label="Ordem">
+                <Input
+                  name="order"
+                  type="number"
+                  defaultValue={image.order}
+                  onChange={(event) => setDisplayOrder(event.target.value)}
+                />
+              </FieldBlock>
+            </div>
+
+            <div className="mt-4 flex items-center justify-end">
               <div className="flex items-center justify-between gap-3">
                 <p
                   aria-live="polite"
