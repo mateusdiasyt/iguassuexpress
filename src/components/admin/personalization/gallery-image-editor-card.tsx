@@ -6,13 +6,11 @@ import {
   Coffee,
   ImageIcon,
   LoaderCircle,
-  Trash2,
   type LucideIcon,
   UtensilsCrossed,
 } from "lucide-react";
-import { deleteGalleryImageAction, saveGalleryImageAction } from "@/actions/admin";
+import { saveGalleryImageAction } from "@/actions/admin";
 import { UploadField } from "@/components/admin/upload-field";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 type GalleryImageEditorCardProps = {
@@ -85,7 +83,6 @@ function FieldBlock({
 }
 
 export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
-  const deleteFormId = `delete-gallery-image-${image.id}`;
   const formRef = useRef<HTMLFormElement>(null);
   const saveTimeoutRef = useRef<number | null>(null);
   const saveInFlightRef = useRef(false);
@@ -219,16 +216,6 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
             <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
               Ordem {displayOrder || "0"}
             </span>
-            <Button
-              type="submit"
-              form={deleteFormId}
-              variant="outline"
-              className="h-8 w-8 rounded-full border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
-              aria-label={`Remover foto ${image.altText}`}
-              title="Remover foto"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-            </Button>
           </div>
         </div>
 
@@ -277,10 +264,6 @@ export function GalleryImageEditorCard({ image }: GalleryImageEditorCardProps) {
             {saveState === "error" ? "Falha ao salvar" : null}
           </p>
         </div>
-      </form>
-
-      <form id={deleteFormId} action={deleteGalleryImageAction}>
-        <input type="hidden" name="id" value={image.id} />
       </form>
     </article>
   );
