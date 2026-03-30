@@ -161,50 +161,39 @@ export default async function AdminGalleryPage() {
       pathname="/admin/galeria"
       userName={session.user.name}
     >
-      <div className="mx-auto grid max-w-[1180px] gap-6 xl:grid-cols-[320px_minmax(0,1fr)] xl:items-start">
-        <aside className="xl:sticky xl:top-6">
-          <section className="rounded-[2rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,250,252,0.92)_100%)] p-5 shadow-[0_28px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm">
-            <SectionEyebrow>Referencias</SectionEyebrow>
-            <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
-              Personalizacao
+      <section className="mx-auto max-w-[1180px] space-y-5">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <SectionEyebrow>Personalizacao</SectionEyebrow>
+            <h1 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-slate-950">
+              Fotos principais do site
             </h1>
+          </div>
 
-            <div className="mt-5 grid gap-4">
-              <GalleryBannerReference page={galleryPage} />
-              <RestaurantReference restaurant={restaurant} />
+          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
+            {images.length} {images.length === 1 ? "item" : "itens"}
+          </span>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <GalleryBannerReference page={galleryPage} />
+          <RestaurantReference restaurant={restaurant} />
+        </div>
+
+        <section className="space-y-4">
+          {images.length ? (
+            <div className="grid gap-5">
+              {images.map((image) => (
+                <GalleryImageEditorCard key={image.id} image={image} />
+              ))}
             </div>
-          </section>
-        </aside>
-
-        <section className="space-y-5">
-          <section className="space-y-4">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <SectionEyebrow>Galeria institucional</SectionEyebrow>
-                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
-                  Fotos da pagina
-                </h2>
-              </div>
-
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-                {images.length} {images.length === 1 ? "item" : "itens"}
-              </span>
-            </div>
-
-            {images.length ? (
-              <div className="grid gap-5">
-                {images.map((image) => (
-                  <GalleryImageEditorCard key={image.id} image={image} />
-                ))}
-              </div>
-            ) : (
-              <section className="rounded-[2rem] border border-dashed border-slate-200 bg-white px-6 py-10 text-center shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
-                <h2 className="text-lg font-semibold text-slate-950">Nenhuma foto cadastrada</h2>
-              </section>
-            )}
-          </section>
+          ) : (
+            <section className="rounded-[2rem] border border-dashed border-slate-200 bg-white px-6 py-10 text-center shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
+              <h2 className="text-lg font-semibold text-slate-950">Nenhuma foto cadastrada</h2>
+            </section>
+          )}
         </section>
-      </div>
+      </section>
     </AdminShell>
   );
 }
