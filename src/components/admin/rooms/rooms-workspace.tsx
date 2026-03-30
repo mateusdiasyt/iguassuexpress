@@ -562,7 +562,7 @@ export function RoomsWorkspace({
           onClick={closeEditor}
         >
           <div
-            className="mx-auto max-h-[94vh] w-full max-w-[1080px] overflow-y-auto rounded-[1.8rem] border border-brand/15 bg-slate-50 p-4 shadow-2xl md:p-6"
+            className="mx-auto max-h-[94vh] w-full max-w-[980px] overflow-y-auto rounded-[1.8rem] border border-brand/15 bg-slate-50 p-4 shadow-2xl md:p-6"
             onClick={(event) => event.stopPropagation()}
           >
             <form action={saveRoomAction} className="space-y-6">
@@ -573,7 +573,7 @@ export function RoomsWorkspace({
                 description="Editor sob demanda para manter o fluxo limpo e objetivo."
               >
                 <div className="space-y-5">
-                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
+                  <div className="flex max-w-4xl flex-wrap items-center justify-between gap-3 rounded-[1.2rem] border border-brand/10 bg-slate-50 p-3">
                     <div className="flex items-center gap-2">
                       <StatusBadge active={roomDraft.isActive} />
                       <span className="text-xs text-slate-500">
@@ -591,8 +591,8 @@ export function RoomsWorkspace({
                     </Button>
                   </div>
 
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <label className="grid gap-2 text-sm text-slate-600">
+                  <div className="grid gap-4 md:grid-cols-2 xl:justify-start">
+                    <label className="grid w-full max-w-md gap-2 text-sm text-slate-600">
                       Categoria
                       <Select
                         name="categoryId"
@@ -606,7 +606,7 @@ export function RoomsWorkspace({
                         ))}
                       </Select>
                     </label>
-                    <label className="grid gap-2 text-sm text-slate-600">
+                    <label className="grid w-full max-w-md gap-2 text-sm text-slate-600">
                       Titulo
                       <Input
                         name="title"
@@ -614,7 +614,7 @@ export function RoomsWorkspace({
                         onChange={(event) => updateRoomDraft("title", event.target.value)}
                       />
                     </label>
-                    <label className="grid gap-2 text-sm text-slate-600">
+                    <label className="grid w-full max-w-md gap-2 text-sm text-slate-600">
                       Slug
                       <Input
                         name="slug"
@@ -622,18 +622,18 @@ export function RoomsWorkspace({
                         onChange={(event) => updateRoomDraft("slug", event.target.value)}
                       />
                     </label>
-                    <div className="grid gap-2 text-sm text-slate-600">
+                    <div className="grid w-full max-w-xs gap-2 text-sm text-slate-600">
                       <span className="opacity-0 select-none">acao</span>
                       <Button
                         type="button"
                         variant="outline"
-                        className="h-11 normal-case tracking-normal"
+                        className="h-11 justify-self-start px-5 normal-case tracking-normal"
                         onClick={generateRoomSlug}
                       >
                         Gerar slug
                       </Button>
                     </div>
-                    <label className="grid gap-2 text-sm text-slate-600">
+                    <label className="grid w-full max-w-[12rem] gap-2 text-sm text-slate-600">
                       Ocupacao
                       <Input
                         name="occupancy"
@@ -644,7 +644,7 @@ export function RoomsWorkspace({
                         onChange={(event) => updateRoomDraft("occupancy", event.target.value)}
                       />
                     </label>
-                    <label className="grid gap-2 text-sm text-slate-600">
+                    <label className="grid w-full max-w-[12rem] gap-2 text-sm text-slate-600">
                       Ordem
                       <Input
                         name="order"
@@ -656,7 +656,7 @@ export function RoomsWorkspace({
                     </label>
                   </div>
 
-                  <label className="flex items-center gap-3 rounded-2xl border border-brand/10 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                  <label className="flex w-full max-w-sm items-center gap-3 rounded-2xl border border-brand/10 bg-slate-50 px-4 py-3 text-sm text-slate-700">
                     <input
                       type="checkbox"
                       name="isActive"
@@ -666,25 +666,27 @@ export function RoomsWorkspace({
                     Quarto ativo
                   </label>
 
-                  <label className="grid gap-2 text-sm text-slate-600">
-                    Descricao curta
-                    <Textarea
-                      className="min-h-24"
-                      name="shortDescription"
-                      value={roomDraft.shortDescription}
-                      onChange={(event) => updateRoomDraft("shortDescription", event.target.value)}
-                    />
-                  </label>
+                  <div className="grid gap-4 xl:grid-cols-2 xl:justify-start">
+                    <label className="grid w-full max-w-[28rem] gap-2 text-sm text-slate-600">
+                      Descricao curta
+                      <Textarea
+                        className="min-h-28"
+                        name="shortDescription"
+                        value={roomDraft.shortDescription}
+                        onChange={(event) => updateRoomDraft("shortDescription", event.target.value)}
+                      />
+                    </label>
 
-                  <label className="grid gap-2 text-sm text-slate-600">
-                    Descricao completa
-                    <Textarea
-                      className="min-h-32"
-                      name="fullDescription"
-                      value={roomDraft.fullDescription}
-                      onChange={(event) => updateRoomDraft("fullDescription", event.target.value)}
-                    />
-                  </label>
+                    <label className="grid w-full max-w-[28rem] gap-2 text-sm text-slate-600">
+                      Descricao completa
+                      <Textarea
+                        className="min-h-36"
+                        name="fullDescription"
+                        value={roomDraft.fullDescription}
+                        onChange={(event) => updateRoomDraft("fullDescription", event.target.value)}
+                      />
+                    </label>
+                  </div>
 
                   <div className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_320px] xl:items-start">
                     <RoomFeaturesField
@@ -708,8 +710,8 @@ export function RoomsWorkspace({
                     />
                   </div>
 
-                  <div className="grid gap-3">
-                    <SubmitButton className="h-10 w-full normal-case tracking-normal">
+                  <div className="flex flex-wrap items-center justify-end gap-3 pt-1">
+                    <SubmitButton className="h-10 px-5 normal-case tracking-normal">
                       Salvar quarto
                     </SubmitButton>
                     {roomDraft.id ? (
@@ -718,7 +720,7 @@ export function RoomsWorkspace({
                         name="id"
                         value={roomDraft.id}
                         type="submit"
-                        className="h-10 w-full gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
+                        className="h-10 gap-2 px-5 text-red-600 normal-case tracking-normal hover:bg-red-50"
                         variant="outline"
                       >
                         <Trash2 className="h-4 w-4" />
