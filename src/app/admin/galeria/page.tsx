@@ -1,19 +1,9 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  ImageIcon,
-  Trash2,
-  type LucideIcon,
-  UtensilsCrossed,
-} from "lucide-react";
-import { deleteGalleryImageAction, saveGalleryImageAction } from "@/actions/admin";
+import { ArrowUpRight, ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
-import { UploadField } from "@/components/admin/upload-field";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { SubmitButton } from "@/components/ui/submit-button";
+import { GalleryImageEditorCard } from "@/components/admin/personalization/gallery-image-editor-card";
 import { getGalleryImages, getPageContent, getRestaurantContent } from "@/data/queries";
 import { requireAdmin } from "@/lib/auth";
 import { buildMetadata } from "@/lib/seo";
@@ -26,7 +16,6 @@ export const metadata = buildMetadata({
   noIndex: true,
 });
 
-type GalleryImageItem = Awaited<ReturnType<typeof getGalleryImages>>[number];
 type PageContentItem = Awaited<ReturnType<typeof getPageContent>>;
 type RestaurantContentItem = Awaited<ReturnType<typeof getRestaurantContent>>;
 
@@ -37,11 +26,6 @@ type ReferenceCardProps = {
   actionLabel: string;
   icon: LucideIcon;
   children?: ReactNode;
-};
-
-type FieldBlockProps = {
-  label: string;
-  children: ReactNode;
 };
 
 function PreviewFrame({
@@ -86,15 +70,6 @@ function SectionEyebrow({ children }: { children: ReactNode }) {
   );
 }
 
-function FieldBlock({ label, children }: FieldBlockProps) {
-  return (
-    <label className="grid gap-2 text-sm text-slate-600">
-      <span className="font-medium text-slate-950">{label}</span>
-      {children}
-    </label>
-  );
-}
-
 function ReferenceCard({
   eyebrow,
   title,
@@ -124,126 +99,6 @@ function ReferenceCard({
         {actionLabel}
         <ArrowUpRight className="h-3.5 w-3.5" />
       </Link>
-    </article>
-  );
-}
-
-function InlineVisibilityToggle({
-  name,
-  defaultChecked = true,
-  form,
-}: {
-  name: string;
-  defaultChecked?: boolean;
-  form?: string;
-}) {
-  return (
-    <label
-      aria-label="Exibir na galeria publica"
-      title="Exibir na galeria publica"
-      className="relative inline-flex h-8 w-[3.3rem] shrink-0 cursor-pointer items-center"
-    >
-      <input
-        type="checkbox"
-        name={name}
-        form={form}
-        defaultChecked={defaultChecked}
-        className="peer sr-only"
-      />
-      <span className="absolute inset-0 rounded-full border border-slate-200 bg-slate-200/90 transition peer-checked:border-slate-900 peer-checked:bg-slate-900" />
-      <span
-        aria-hidden="true"
-        className="absolute left-1 top-1 h-6 w-6 rounded-full border border-white/90 bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] transition-transform duration-200 ease-out peer-checked:translate-x-[1.35rem]"
-      />
-    </label>
-  );
-}
-
-function ExistingImageCard({ image }: { image: GalleryImageItem }) {
-  const formId = `gallery-image-${image.id}`;
-  const deleteFormId = `delete-gallery-image-${image.id}`;
-
-  return (
-    <article className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_28px_70px_rgba(15,23,42,0.08)]">
-      <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)] xl:items-start">
-        <div className="self-start border-b border-slate-200/80 bg-slate-50/70 p-4 xl:rounded-br-[1.6rem] xl:border-b-0 xl:border-r">
-          <UploadField
-            name="imageUrl"
-            label="Imagem"
-            form={formId}
-            defaultValue={image.imageUrl}
-            hideTextInput
-            hideLabel
-            hideTriggerButton
-            previewActionLabel="Alterar imagem"
-            className="space-y-0"
-            previewClassName="aspect-[1/1] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)]"
-            previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
-          />
-        </div>
-
-        <div className="p-5">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                  {image.category}
-                </span>
-                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                  Ordem {image.order}
-                </span>
-              </div>
-              <h3 className="text-xl font-semibold tracking-[-0.02em] text-slate-950">
-                {image.altText}
-              </h3>
-            </div>
-
-            <InlineVisibilityToggle name="isActive" defaultChecked={image.isActive} form={formId} />
-          </div>
-
-          <form id={formId} action={saveGalleryImageAction} className="mt-6 grid gap-5">
-            <input type="hidden" name="id" value={image.id} />
-
-            <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_8rem]">
-              <FieldBlock label="Categoria">
-                <Input name="category" defaultValue={image.category} />
-              </FieldBlock>
-
-              <FieldBlock label="Ordem">
-                <Input name="order" type="number" defaultValue={image.order} />
-              </FieldBlock>
-            </div>
-
-            <FieldBlock label="Descricao da imagem">
-              <Input name="altText" defaultValue={image.altText} />
-            </FieldBlock>
-
-            <div className="flex items-center justify-between gap-3">
-              <SubmitButton
-                form={formId}
-                className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm"
-              >
-                Salvar
-              </SubmitButton>
-
-              <Button
-                type="submit"
-                form={deleteFormId}
-                variant="outline"
-                className="h-10 w-10 border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
-                aria-label={`Remover foto ${image.altText}`}
-                title="Remover foto"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          </form>
-
-          <form id={deleteFormId} action={deleteGalleryImageAction}>
-            <input type="hidden" name="id" value={image.id} />
-          </form>
-        </div>
-      </div>
     </article>
   );
 }
@@ -339,7 +194,7 @@ export default async function AdminGalleryPage() {
             {images.length ? (
               <div className="grid gap-5">
                 {images.map((image) => (
-                  <ExistingImageCard key={image.id} image={image} />
+                  <GalleryImageEditorCard key={image.id} image={image} />
                 ))}
               </div>
             ) : (
