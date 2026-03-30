@@ -165,8 +165,8 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
 
   return (
     <article className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] shadow-[0_28px_70px_rgba(15,23,42,0.08)]">
-      <div className="grid gap-0 xl:grid-cols-[280px_minmax(0,1fr)]">
-        <div className="border-b border-slate-200/80 bg-slate-50/70 p-4 xl:border-b-0 xl:border-r">
+      <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)] xl:items-start">
+        <div className="self-start border-b border-slate-200/80 bg-slate-50/70 p-4 xl:rounded-br-[1.6rem] xl:border-b-0 xl:border-r">
           <UploadField
             name="imageUrl"
             label="Imagem"
@@ -177,7 +177,7 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
             hideTriggerButton
             previewActionLabel="Alterar imagem"
             className="space-y-0"
-            previewClassName="min-h-[220px] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)]"
+            previewClassName="aspect-[1/1] w-full rounded-[1.35rem] border border-slate-200/80 bg-slate-100 shadow-[0_18px_36px_rgba(15,23,42,0.12)]"
             previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
           />
         </div>
