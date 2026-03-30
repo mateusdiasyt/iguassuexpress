@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   BedDouble,
   ImageIcon,
+  Trash2,
   type LucideIcon,
   UtensilsCrossed,
 } from "lucide-react";
@@ -256,20 +257,29 @@ function ExistingImageCard({ image }: { image: GalleryImageItem }) {
             />
           </FieldPanel>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <SubmitButton>Salvar ajustes</SubmitButton>
+          <div className="flex items-center justify-between gap-3">
+            <SubmitButton
+              form={formId}
+              className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm"
+            >
+              Salvar
+            </SubmitButton>
+
+            <Button
+              type="submit"
+              form={`delete-gallery-image-${image.id}`}
+              variant="outline"
+              className="h-10 w-10 border-slate-200 p-0 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
+              aria-label={`Remover foto ${image.altText}`}
+              title="Remover foto"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
           </div>
         </form>
 
-        <form action={deleteGalleryImageAction}>
+        <form id={`delete-gallery-image-${image.id}`} action={deleteGalleryImageAction}>
           <input type="hidden" name="id" value={image.id} />
-          <Button
-            type="submit"
-            variant="outline"
-            className="h-10 border-slate-200 px-4 text-red-600 normal-case tracking-normal hover:bg-red-50 hover:text-red-700"
-          >
-            Remover foto
-          </Button>
         </form>
       </div>
     </article>
@@ -418,7 +428,9 @@ export default async function AdminGalleryPage() {
                 />
               </FieldPanel>
 
-              <SubmitButton>Adicionar foto</SubmitButton>
+              <SubmitButton className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm">
+                Adicionar
+              </SubmitButton>
             </form>
           </section>
         </aside>
