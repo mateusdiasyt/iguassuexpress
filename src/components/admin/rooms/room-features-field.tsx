@@ -1,7 +1,7 @@
 "use client";
 
 import { type KeyboardEvent, useMemo, useState } from "react";
-import { Check, Plus } from "lucide-react";
+import { Check, ListChecks, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn, parseList } from "@/lib/utils";
@@ -57,6 +57,24 @@ export function RoomFeaturesField({
     () => dedupeFeatures([...suggestions, ...selectedFeatures]),
     [selectedFeatures, suggestions],
   );
+  const orderedFeatures = useMemo(
+    () =>
+      [...availableFeatures].sort((left, right) => {
+        const leftSelected = selectedFeatures.some(
+          (item) => item.toLowerCase() === left.toLowerCase(),
+        );
+        const rightSelected = selectedFeatures.some(
+          (item) => item.toLowerCase() === right.toLowerCase(),
+        );
+
+        if (leftSelected !== rightSelected) {
+          return leftSelected ? -1 : 1;
+        }
+
+        return left.localeCompare(right, "pt-BR");
+      }),
+    [availableFeatures, selectedFeatures],
+  );
 
   function updateFeatures(nextFeatures: string[]) {
     onValueChange(serializeFeatures(dedupeFeatures(nextFeatures)));
@@ -103,72 +121,93 @@ export function RoomFeaturesField({
 
   return (
     <div className="grid gap-3 text-sm text-slate-600">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <label className="font-medium text-slate-600">{label}</label>
-        <span className="text-xs uppercase tracking-[0.16em] text-slate-400">
-          {selectedFeatures.length} selecionada{selectedFeatures.length === 1 ? "" : "s"}
-        </span>
-      </div>
-
       <input type="hidden" name={name} value={serializeFeatures(selectedFeatures)} readOnly />
 
-      <div className="grid gap-4 rounded-[1.6rem] border border-brand/10 bg-white/90 p-4">
-        <div className="flex flex-wrap gap-2">
-          {availableFeatures.map((feature) => {
-            const isSelected = selectedFeatures.some(
-              (item) => item.toLowerCase() === feature.toLowerCase(),
-            );
-
-            return (
-              <button
-                key={feature}
-                type="button"
-                onClick={() => toggleFeature(feature)}
-                className={cn(
-                  "inline-flex items-center gap-2 rounded-full border px-3 py-2 text-left text-sm transition",
-                  isSelected
-                    ? "border-brand bg-brand/8 text-brand shadow-[0_10px_24px_rgba(9,77,122,0.08)]"
-                    : "border-brand/10 bg-slate-50 text-slate-600 hover:border-brand/30 hover:bg-brand/5",
-                )}
-                aria-pressed={isSelected}
-              >
-                <span
-                  className={cn(
-                    "flex h-6 w-6 items-center justify-center rounded-full border transition",
-                    isSelected
-                      ? "border-brand bg-brand text-white"
-                      : "border-brand/15 bg-white text-transparent",
-                  )}
-                >
-                  <Check className="h-3.5 w-3.5" />
-                </span>
-                <span>{feature}</span>
-              </button>
-            );
-          })}
+      <div className="overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white shadow-[0_18px_38px_rgba(15,23,42,0.05)]">
+        <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 px-4 py-4">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand/8 text-brand">
+              <ListChecks className="h-4.5 w-4.5" />
+            </span>
+            <div>
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/70">
+                Selecao visual
+              </p>
+              <label className="text-base font-semibold text-slate-900">{label}</label>
+            </div>
+          </div>
+          <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">
+            {selectedFeatures.length} selecionada{selectedFeatures.length === 1 ? "" : "s"}
+          </span>
         </div>
 
-        <div className="grid gap-3 border-t border-brand/10 pt-4 md:grid-cols-[minmax(0,1fr)_auto]">
-          <Input
-            value={newFeature}
-            onChange={(event) => setNewFeature(event.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Adicionar nova comodidade"
-          />
-          <Button
-            type="button"
-            variant="outline"
-            className="h-11 gap-2 normal-case tracking-normal"
-            onClick={addFeature}
-          >
-            <Plus className="h-4 w-4" />
-            Adicionar tag
-          </Button>
+        <div className="space-y-4 px-4 py-4">
+          {orderedFeatures.length ? (
+            <div className="grid gap-2.5 md:grid-cols-2">
+              {orderedFeatures.map((feature) => {
+                const isSelected = selectedFeatures.some(
+                  (item) => item.toLowerCase() === feature.toLowerCase(),
+                );
+
+                return (
+                  <button
+                    key={feature}
+                    type="button"
+                    onClick={() => toggleFeature(feature)}
+                    className={cn(
+                      "flex min-h-11 w-full items-center gap-3 rounded-[1rem] border px-3.5 py-2.5 text-left text-sm transition",
+                      isSelected
+                        ? "border-brand/20 bg-[linear-gradient(180deg,#f8fbfe_0%,#f1f7fc_100%)] text-brand shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"
+                        : "border-slate-200/80 bg-white text-slate-600 hover:border-brand/20 hover:bg-slate-50",
+                    )}
+                    aria-pressed={isSelected}
+                  >
+                    <span
+                      className={cn(
+                        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition",
+                        isSelected
+                          ? "border-brand bg-brand text-white"
+                          : "border-slate-200 bg-white text-transparent",
+                      )}
+                    >
+                      <Check className="h-3.5 w-3.5" />
+                    </span>
+                    <span className="leading-5">{feature}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="rounded-[1rem] border border-dashed border-slate-200 bg-slate-50/80 px-4 py-5 text-sm leading-7 text-slate-500">
+              Nenhuma comodidade disponivel ainda. Adicione a primeira tag abaixo.
+            </div>
+          )}
         </div>
 
-        <p className="text-xs leading-6 text-slate-500">
-          Marque as comodidades que esse quarto possui e adicione novas tags quando precisar.
-        </p>
+        <div className="border-t border-slate-100 bg-slate-50/75 px-4 py-4">
+          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
+            <Input
+              value={newFeature}
+              onChange={(event) => setNewFeature(event.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Adicionar nova comodidade"
+              className="bg-white"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              className="h-11 gap-2 border-slate-200 bg-white px-4 text-slate-700 normal-case tracking-normal hover:border-brand/20 hover:bg-white"
+              onClick={addFeature}
+            >
+              <Plus className="h-4 w-4" />
+              Adicionar tag
+            </Button>
+          </div>
+
+          <p className="mt-3 text-xs leading-6 text-slate-500">
+            Marque o que esse quarto possui e crie novas comodidades quando precisar.
+          </p>
+        </div>
       </div>
     </div>
   );
