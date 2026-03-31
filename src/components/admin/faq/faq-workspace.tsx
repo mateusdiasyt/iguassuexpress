@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type DragEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { GripVertical, LoaderCircle, MessageCircleQuestion } from "lucide-react";
 import { deleteFaqAction, reorderFaqItemsAction, saveFaqAction } from "@/actions/admin";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,22 @@ type FaqWorkspaceProps = {
 };
 
 type OrderState = "idle" | "saving" | "saved" | "error";
+
+type DragSession = {
+  draggedId: string;
+  pointerId: number;
+  offsetX: number;
+  offsetY: number;
+};
+
+type DragDocumentStyles = {
+  bodyUserSelect: string;
+  bodyUserSelectPriority: string;
+  bodyCursor: string;
+  bodyCursorPriority: string;
+  htmlCursor: string;
+  htmlCursorPriority: string;
+};
 
 function SectionEyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -51,11 +67,20 @@ function InlineVisibilityToggle({
   );
 }
 
-function moveItem(items: FaqItem[], draggedId: string, targetId: string) {
+function moveItem(items: FaqItem[], draggedId: string, targetId: string, placeAfter = false) {
   const fromIndex = items.findIndex((item) => item.id === draggedId);
-  const toIndex = items.findIndex((item) => item.id === targetId);
+  const targetIndex = items.findIndex((item) => item.id === targetId);
 
-  if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) {
+  if (fromIndex === -1 || targetIndex === -1) {
+    return items;
+  }
+
+  let toIndex = targetIndex + (placeAfter ? 1 : 0);
+  if (fromIndex < toIndex) {
+    toIndex -= 1;
+  }
+
+  if (fromIndex === toIndex) {
     return items;
   }
 
@@ -73,6 +98,9 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
   const originalOrderRef = useRef<string[]>([]);
   const latestFaqsRef = useRef(items);
   const dragPreviewRef = useRef<HTMLElement | null>(null);
+  const dragHandleRef = useRef<HTMLButtonElement | null>(null);
+  const dragSessionRef = useRef<DragSession | null>(null);
+  const dragDocumentStylesRef = useRef<DragDocumentStyles | null>(null);
 
   useEffect(() => {
     latestFaqsRef.current = faqs;
@@ -99,6 +127,67 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
     [faqs],
   );
 
+  function applyDragDocumentStyles() {
+    const bodyStyle = document.body.style;
+    const htmlStyle = document.documentElement.style;
+
+    dragDocumentStylesRef.current = {
+      bodyUserSelect: bodyStyle.getPropertyValue("user-select"),
+      bodyUserSelectPriority: bodyStyle.getPropertyPriority("user-select"),
+      bodyCursor: bodyStyle.getPropertyValue("cursor"),
+      bodyCursorPriority: bodyStyle.getPropertyPriority("cursor"),
+      htmlCursor: htmlStyle.getPropertyValue("cursor"),
+      htmlCursorPriority: htmlStyle.getPropertyPriority("cursor"),
+    };
+
+    bodyStyle.setProperty("user-select", "none", "important");
+    bodyStyle.setProperty("cursor", "grabbing", "important");
+    htmlStyle.setProperty("cursor", "grabbing", "important");
+  }
+
+  function restoreDragDocumentStyles() {
+    if (!dragDocumentStylesRef.current) {
+      return;
+    }
+
+    const bodyStyle = document.body.style;
+    const htmlStyle = document.documentElement.style;
+    const snapshot = dragDocumentStylesRef.current;
+
+    if (snapshot.bodyUserSelect) {
+      bodyStyle.setProperty("user-select", snapshot.bodyUserSelect, snapshot.bodyUserSelectPriority);
+    } else {
+      bodyStyle.removeProperty("user-select");
+    }
+
+    if (snapshot.bodyCursor) {
+      bodyStyle.setProperty("cursor", snapshot.bodyCursor, snapshot.bodyCursorPriority);
+    } else {
+      bodyStyle.removeProperty("cursor");
+    }
+
+    if (snapshot.htmlCursor) {
+      htmlStyle.setProperty("cursor", snapshot.htmlCursor, snapshot.htmlCursorPriority);
+    } else {
+      htmlStyle.removeProperty("cursor");
+    }
+
+    dragDocumentStylesRef.current = null;
+  }
+
+  function updateDragPreviewPosition(clientX: number, clientY: number) {
+    const preview = dragPreviewRef.current;
+    const session = dragSessionRef.current;
+
+    if (!preview || !session) {
+      return;
+    }
+
+    const left = clientX - session.offsetX;
+    const top = clientY - session.offsetY;
+    preview.style.transform = `translate3d(${left}px, ${top}px, 0) rotate(-1.8deg) scale(0.98)`;
+  }
+
   async function persistOrder(nextItems: FaqItem[]) {
     const formData = new FormData();
 
@@ -117,69 +206,35 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
       const fallbackOrder = originalOrderRef.current;
       if (fallbackOrder.length) {
         const orderMap = new Map(fallbackOrder.map((id, index) => [id, index]));
-        setFaqs((current) =>
-          [...current].sort((left, right) => {
+        setFaqs((current) => {
+          const revertedItems = [...current].sort((left, right) => {
             return (orderMap.get(left.id) ?? 0) - (orderMap.get(right.id) ?? 0);
-          }),
-        );
+          });
+
+          latestFaqsRef.current = revertedItems;
+          return revertedItems;
+        });
       }
 
       setOrderState("error");
     }
   }
 
-  function handleDragStart(id: string) {
-    return (event: DragEvent<HTMLButtonElement>) => {
-      const card = event.currentTarget.closest("article");
-
-      if (card) {
-        const rect = card.getBoundingClientRect();
-        const preview = card.cloneNode(true) as HTMLElement;
-        preview.style.position = "fixed";
-        preview.style.top = "-10000px";
-        preview.style.left = "-10000px";
-        preview.style.width = `${rect.width}px`;
-        preview.style.maxWidth = `${rect.width}px`;
-        preview.style.pointerEvents = "none";
-        preview.style.transform = "rotate(-1.8deg) scale(0.98)";
-        preview.style.opacity = "0.96";
-        preview.style.boxShadow = "0 30px 80px rgba(15,23,42,0.22)";
-        preview.style.zIndex = "2147483647";
-        document.body.appendChild(preview);
-        dragPreviewRef.current = preview;
-
-        event.dataTransfer.effectAllowed = "move";
-        event.dataTransfer.setData("text/plain", id);
-        event.dataTransfer.setDragImage(
-          preview,
-          event.clientX - rect.left,
-          event.clientY - rect.top,
-        );
-      }
-
-      originalOrderRef.current = faqs.map((item) => item.id);
-      setDraggedId(id);
-      setDragOverId(id);
-      setOrderState("idle");
-    };
-  }
-
-  function handleDragOver(event: DragEvent<HTMLElement>, targetId: string) {
-    event.preventDefault();
-
-    if (!draggedId || draggedId === targetId) {
-      return;
+  async function finishDrag() {
+    const session = dragSessionRef.current;
+    if (session && dragHandleRef.current?.hasPointerCapture(session.pointerId)) {
+      dragHandleRef.current.releasePointerCapture(session.pointerId);
     }
 
-    setDragOverId(targetId);
-    setFaqs((current) => moveItem(current, draggedId, targetId));
-  }
-
-  function handleDragEnd() {
+    dragHandleRef.current = null;
     dragPreviewRef.current?.remove();
     dragPreviewRef.current = null;
+    restoreDragDocumentStyles();
 
-    if (!draggedId) {
+    dragSessionRef.current = null;
+
+    if (!session) {
+      setDraggedId(null);
       setDragOverId(null);
       return;
     }
@@ -198,7 +253,107 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
       return;
     }
 
-    void persistOrder(nextItems);
+    await persistOrder(nextItems);
+  }
+
+  useEffect(() => {
+    return () => {
+      dragPreviewRef.current?.remove();
+      dragPreviewRef.current = null;
+      restoreDragDocumentStyles();
+      dragSessionRef.current = null;
+    };
+  }, []);
+
+  function handlePointerDown(id: string) {
+    return (event: ReactPointerEvent<HTMLButtonElement>) => {
+      if (event.button !== 0) {
+        return;
+      }
+
+      const card = event.currentTarget.closest("article");
+      if (!(card instanceof HTMLElement)) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const rect = card.getBoundingClientRect();
+      const preview = card.cloneNode(true) as HTMLElement;
+      preview.setAttribute("aria-hidden", "true");
+      preview.style.position = "fixed";
+      preview.style.top = "0";
+      preview.style.left = "0";
+      preview.style.width = `${rect.width}px`;
+      preview.style.maxWidth = `${rect.width}px`;
+      preview.style.pointerEvents = "none";
+      preview.style.opacity = "0.96";
+      preview.style.boxShadow = "0 30px 80px rgba(15,23,42,0.22)";
+      preview.style.zIndex = "2147483647";
+      preview.style.willChange = "transform";
+      document.body.appendChild(preview);
+
+      dragPreviewRef.current?.remove();
+      dragPreviewRef.current = preview;
+      dragHandleRef.current = event.currentTarget;
+      dragSessionRef.current = {
+        draggedId: id,
+        pointerId: event.pointerId,
+        offsetX: event.clientX - rect.left,
+        offsetY: event.clientY - rect.top,
+      };
+
+      event.currentTarget.setPointerCapture(event.pointerId);
+      updateDragPreviewPosition(event.clientX, event.clientY);
+      applyDragDocumentStyles();
+
+      originalOrderRef.current = latestFaqsRef.current.map((item) => item.id);
+      setDraggedId(id);
+      setDragOverId(id);
+      setOrderState("idle");
+    };
+  }
+
+  function handlePointerMove(event: ReactPointerEvent<HTMLButtonElement>) {
+    const session = dragSessionRef.current;
+    if (!session || event.pointerId !== session.pointerId) {
+      return;
+    }
+
+    event.preventDefault();
+    updateDragPreviewPosition(event.clientX, event.clientY);
+
+    const hoveredElement = document.elementFromPoint(event.clientX, event.clientY);
+    const targetCard =
+      hoveredElement instanceof HTMLElement
+        ? hoveredElement.closest<HTMLElement>("[data-faq-card-id]")
+        : null;
+    const targetId = targetCard?.dataset.faqCardId ?? null;
+
+    if (!targetCard || !targetId || targetId === session.draggedId) {
+      setDragOverId(session.draggedId);
+      return;
+    }
+
+    setDragOverId(targetId);
+    const targetRect = targetCard.getBoundingClientRect();
+    const placeAfter = event.clientY > targetRect.top + targetRect.height / 2;
+
+    setFaqs((current) => {
+      const nextItems = moveItem(current, session.draggedId, targetId, placeAfter);
+      latestFaqsRef.current = nextItems;
+      return nextItems;
+    });
+  }
+
+  function handlePointerUp(event: ReactPointerEvent<HTMLButtonElement>) {
+    const session = dragSessionRef.current;
+    if (!session || event.pointerId !== session.pointerId) {
+      return;
+    }
+
+    event.preventDefault();
+    void finishDrag();
   }
 
   return (
@@ -227,8 +382,7 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
           return (
             <article
               key={faq.id}
-              onDragOver={(event) => handleDragOver(event, faq.id)}
-              onDrop={(event) => event.preventDefault()}
+              data-faq-card-id={faq.id}
               className={[
                 "rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_20px_48px_rgba(15,23,42,0.08)] backdrop-blur-sm transition duration-200",
                 draggedId === faq.id
@@ -247,10 +401,11 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
                   <div className="flex min-w-0 items-center gap-3">
                     <button
                       type="button"
-                      draggable
-                      onDragStart={handleDragStart(faq.id)}
-                      onDragEnd={handleDragEnd}
-                      className="flex h-10 w-10 shrink-0 cursor-grab items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-slate-700 active:cursor-grabbing"
+                      onPointerDown={handlePointerDown(faq.id)}
+                      onPointerMove={handlePointerMove}
+                      onPointerUp={handlePointerUp}
+                      onPointerCancel={handlePointerUp}
+                      className="flex h-10 w-10 shrink-0 cursor-grab touch-none items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-slate-700 active:cursor-grabbing"
                       aria-label={`Arrastar ${faq.question}`}
                       title="Arrastar para reordenar"
                     >
