@@ -81,10 +81,10 @@ export function UploadGalleryField({
       <div className="space-y-1">
         <label className="text-sm font-medium text-slate-600">{label}</label>
         <p className="text-sm leading-6 text-slate-500">
-          Envie as imagens panoramicas e defina a hierarquia para escolher o que aparece primeiro.
+          Envie fotos panoramicas 360 e organize a ordem das cenas para definir o que aparece primeiro.
         </p>
         <p className="text-xs leading-6 text-slate-400">
-          Para imagens publicas do site, a Blob Store vinculada ao projeto precisa estar em modo public.
+          O ideal e usar imagens equiretangulares em formato 2:1. Para imagens publicas do site, a Blob Store vinculada ao projeto precisa estar em modo public.
         </p>
       </div>
 
@@ -95,7 +95,7 @@ export function UploadGalleryField({
           ) : (
             <Upload className="h-4 w-4" />
           )}
-          Enviar imagem para a galeria
+          Enviar nova cena 360
           <input
             type="file"
             accept="image/*"

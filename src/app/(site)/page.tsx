@@ -23,6 +23,7 @@ import { getHeroCards } from "@/lib/utils";
 
 const HOME_HERO_FALLBACK = "/piscina-hotel-iguassu.jpg";
 const OLD_HOME_HERO_TOKEN = "photo-1566073771259-6a8506099945";
+const OLD_TOUR_DESCRIPTION_TOKEN = "Publique aqui o tour virtual oficial do hotel";
 
 function resolveHomeHeroImage(value?: string | null) {
   if (!value || !value.trim()) {
@@ -30,6 +31,14 @@ function resolveHomeHeroImage(value?: string | null) {
   }
 
   return value.includes(OLD_HOME_HERO_TOKEN) ? HOME_HERO_FALLBACK : value;
+}
+
+function resolveTourDescription(value?: string | null) {
+  if (!value || !value.trim() || value.includes(OLD_TOUR_DESCRIPTION_TOKEN)) {
+    return "Gire as fotos panoramicas do hotel para olhar os ambientes em 360 e antecipar a atmosfera da sua hospedagem.";
+  }
+
+  return value;
 }
 
 export async function generateMetadata() {
@@ -60,6 +69,7 @@ export default async function HomePage() {
   const heroCards = getHeroCards(homePage.content);
   const hasHeroCards = heroCards.length > 0;
   const heroImage = resolveHomeHeroImage(homePage.bannerImage);
+  const tourDescription = resolveTourDescription(tour.description);
   const fallbackTourScenes = galleryImages.map((image, index) => ({
     id: image.id,
     title: image.category,
@@ -153,7 +163,7 @@ export default async function HomePage() {
         <section className="mx-auto max-w-6xl">
           <TourLocationSection
             tourTitle={tour.title}
-            tourDescription={tour.description}
+            tourDescription={tourDescription}
             previewImage={primaryTourImage}
             scenes={tourScenes}
           />

@@ -441,7 +441,7 @@ export const defaultTour360Content = {
   id: 1,
   title: "Tour 360 do Iguassu Express Hotel",
   description:
-    "Publique aqui o tour virtual oficial do hotel. Enquanto isso, o site apresenta uma mensagem elegante de expectativa para manter a experiencia premium.",
+    "Gire as fotos panoramicas do hotel para olhar os ambientes em 360 e antecipar a atmosfera da hospedagem.",
   embedUrl: "",
   heroImage: media.hero,
   gallery: [media.hero, media.gallery, media.location],
