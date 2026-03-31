@@ -68,9 +68,11 @@ function moveItem(items: FaqItem[], draggedId: string, targetId: string) {
 export function FaqWorkspace({ items }: FaqWorkspaceProps) {
   const [faqs, setFaqs] = useState(items);
   const [draggedId, setDraggedId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
   const [orderState, setOrderState] = useState<OrderState>("idle");
   const originalOrderRef = useRef<string[]>([]);
   const latestFaqsRef = useRef(items);
+  const dragPreviewRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     latestFaqsRef.current = faqs;
@@ -127,9 +129,39 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
   }
 
   function handleDragStart(id: string) {
-    originalOrderRef.current = faqs.map((item) => item.id);
-    setDraggedId(id);
-    setOrderState("idle");
+    return (event: DragEvent<HTMLButtonElement>) => {
+      const card = event.currentTarget.closest("article");
+
+      if (card) {
+        const rect = card.getBoundingClientRect();
+        const preview = card.cloneNode(true) as HTMLElement;
+        preview.style.position = "fixed";
+        preview.style.top = "-10000px";
+        preview.style.left = "-10000px";
+        preview.style.width = `${rect.width}px`;
+        preview.style.maxWidth = `${rect.width}px`;
+        preview.style.pointerEvents = "none";
+        preview.style.transform = "rotate(-1.8deg) scale(0.98)";
+        preview.style.opacity = "0.96";
+        preview.style.boxShadow = "0 30px 80px rgba(15,23,42,0.22)";
+        preview.style.zIndex = "2147483647";
+        document.body.appendChild(preview);
+        dragPreviewRef.current = preview;
+
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", id);
+        event.dataTransfer.setDragImage(
+          preview,
+          event.clientX - rect.left,
+          event.clientY - rect.top,
+        );
+      }
+
+      originalOrderRef.current = faqs.map((item) => item.id);
+      setDraggedId(id);
+      setDragOverId(id);
+      setOrderState("idle");
+    };
   }
 
   function handleDragOver(event: DragEvent<HTMLElement>, targetId: string) {
@@ -139,11 +171,16 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
       return;
     }
 
+    setDragOverId(targetId);
     setFaqs((current) => moveItem(current, draggedId, targetId));
   }
 
   function handleDragEnd() {
+    dragPreviewRef.current?.remove();
+    dragPreviewRef.current = null;
+
     if (!draggedId) {
+      setDragOverId(null);
       return;
     }
 
@@ -152,6 +189,7 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
     const previousOrder = originalOrderRef.current;
 
     setDraggedId(null);
+    setDragOverId(null);
 
     if (
       nextOrder.length === previousOrder.length &&
@@ -192,8 +230,13 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
               onDragOver={(event) => handleDragOver(event, faq.id)}
               onDrop={(event) => event.preventDefault()}
               className={[
-                "rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_20px_48px_rgba(15,23,42,0.08)] backdrop-blur-sm transition",
-                draggedId === faq.id ? "opacity-70" : "",
+                "rounded-[1.8rem] border border-white/70 bg-white/90 p-5 shadow-[0_20px_48px_rgba(15,23,42,0.08)] backdrop-blur-sm transition duration-200",
+                draggedId === faq.id
+                  ? "scale-[0.985] border-dashed border-slate-300 bg-slate-50/80 opacity-60 shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
+                  : "",
+                dragOverId === faq.id && draggedId !== faq.id
+                  ? "border-slate-300 bg-slate-50/70 shadow-[0_24px_56px_rgba(15,23,42,0.12)]"
+                  : "",
               ].join(" ")}
             >
               <form action={saveFaqAction} className="space-y-4">
@@ -205,9 +248,9 @@ export function FaqWorkspace({ items }: FaqWorkspaceProps) {
                     <button
                       type="button"
                       draggable
-                      onDragStart={() => handleDragStart(faq.id)}
+                      onDragStart={handleDragStart(faq.id)}
                       onDragEnd={handleDragEnd}
-                      className="flex h-10 w-10 shrink-0 cursor-grab items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 active:cursor-grabbing"
+                      className="flex h-10 w-10 shrink-0 cursor-grab items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-slate-700 active:cursor-grabbing"
                       aria-label={`Arrastar ${faq.question}`}
                       title="Arrastar para reordenar"
                     >
