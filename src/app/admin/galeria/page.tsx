@@ -26,6 +26,11 @@ type ReferenceCardProps = {
   children?: ReactNode;
 };
 
+type ReferenceItemProps = {
+  label: string;
+  children: ReactNode;
+};
+
 function PreviewFrame({
   src,
   alt,
@@ -108,20 +113,33 @@ function ReferenceCard({
   );
 }
 
+function ReferenceItem({ label, children }: ReferenceItemProps) {
+  return (
+    <section className="space-y-3 rounded-[1.35rem] border border-slate-200/80 bg-slate-50/60 p-3">
+      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+        {label}
+      </p>
+      {children}
+    </section>
+  );
+}
+
 function GalleryBannerReference({ page }: { page: PageContentItem }) {
   return (
     <ReferenceCard
-      eyebrow="Banner"
-      title="Banner da galeria"
+      eyebrow="Coluna"
+      title="Galeria de fotos"
       icon={ImageIcon}
     >
-      <PreviewFrame
-        src={page.bannerImage}
-        alt={`Banner da pagina ${page.title}`}
-        href="/admin/paginas"
-        actionLabel="Alterar imagem"
-        className="h-32 w-full"
-      />
+      <ReferenceItem label="Banner da galeria">
+        <PreviewFrame
+          src={page.bannerImage}
+          alt={`Banner da pagina ${page.title}`}
+          href="/admin/paginas"
+          actionLabel="Alterar imagem"
+          className="h-32 w-full"
+        />
+      </ReferenceItem>
     </ReferenceCard>
   );
 }
@@ -131,30 +149,44 @@ function RestaurantReference({ restaurant }: { restaurant: RestaurantContentItem
 
   return (
     <ReferenceCard
-      eyebrow="Restaurante"
-      title="3 imagens"
+      eyebrow="Coluna"
+      title="Restaurante"
       icon={UtensilsCrossed}
     >
-      <div className="grid grid-cols-3 gap-2">
-        {images.length ? (
-          images.map((src, index) => (
-            <PreviewFrame
-              key={`${src}-${index}`}
-              src={src}
-              alt={`Imagem ${index + 1} do restaurante`}
-              href="/admin/restaurante"
-              actionLabel="Alterar imagem"
-              className="h-24 w-full"
-            />
-          ))
-        ) : (
+      <div className="space-y-3">
+        <ReferenceItem label="Banner restaurante">
           <PreviewFrame
-            alt="Sem imagens do restaurante"
+            src={restaurant.heroImage}
+            alt="Banner do restaurante"
             href="/admin/restaurante"
             actionLabel="Alterar imagem"
-            className="col-span-3 h-24 w-full"
+            className="h-32 w-full"
           />
-        )}
+        </ReferenceItem>
+
+        <ReferenceItem label="Imagens restaurante">
+          <div className="grid grid-cols-3 gap-2">
+            {images.length ? (
+              images.map((src, index) => (
+                <PreviewFrame
+                  key={`${src}-${index}`}
+                  src={src}
+                  alt={`Imagem ${index + 1} do restaurante`}
+                  href="/admin/restaurante"
+                  actionLabel="Alterar imagem"
+                  className="h-24 w-full"
+                />
+              ))
+            ) : (
+              <PreviewFrame
+                alt="Sem imagens do restaurante"
+                href="/admin/restaurante"
+                actionLabel="Alterar imagem"
+                className="col-span-3 h-24 w-full"
+              />
+            )}
+          </div>
+        </ReferenceItem>
       </div>
     </ReferenceCard>
   );
