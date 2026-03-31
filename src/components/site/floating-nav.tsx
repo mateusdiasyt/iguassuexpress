@@ -109,6 +109,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   }, [isHomePage, pathname]);
 
   const useTopDarkTone = scrollY <= TOP_ONLY_THRESHOLD;
+  const useInternalDockDarkTone = !isHomePage;
 
   return (
     <>
@@ -192,7 +193,9 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           className={cn(
             "flex flex-col gap-2 overflow-visible rounded-[1.8rem] p-2 backdrop-blur-2xl transition-all duration-300",
             useDockDarkTone
-              ? "border border-white/16 bg-slate-950/20 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)]"
+              ? useInternalDockDarkTone
+                ? "border border-slate-950/75 bg-slate-950/72 text-white shadow-[0_22px_46px_rgba(2,14,26,0.34)]"
+                : "border border-white/16 bg-slate-950/20 text-white shadow-[0_18px_42px_rgba(4,18,32,0.26)]"
               : "border border-slate-300/75 bg-white/78 text-slate-700 shadow-[0_22px_42px_rgba(15,23,42,0.16)]",
           )}
         >
@@ -208,12 +211,19 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                 className={cn(
                   "group relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-300",
                   useDockDarkTone
-                    ? cn(
-                        "border border-white/12 bg-white/6",
-                        isActive
-                          ? "border-white/24 bg-white/16"
-                          : "hover:border-white/24 hover:bg-white/12",
-                      )
+                    ? useInternalDockDarkTone
+                      ? cn(
+                          "border border-white/10 bg-white/7 text-white/92",
+                          isActive
+                            ? "border-[#4f9bce]/55 bg-[#0d4f7d]/88 text-white shadow-[0_10px_24px_rgba(6,45,71,0.34)]"
+                            : "hover:border-white/18 hover:bg-white/12",
+                        )
+                      : cn(
+                          "border border-white/12 bg-white/6",
+                          isActive
+                            ? "border-white/24 bg-white/16"
+                            : "hover:border-white/24 hover:bg-white/12",
+                        )
                     : cn(
                         "border border-slate-300/75 bg-white/66",
                         isActive
