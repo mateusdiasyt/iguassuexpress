@@ -332,7 +332,7 @@ export function RestaurantMenuDialog({
             {introPhase !== "hidden" ? (
               <div
                 className={cn(
-                  "absolute inset-0 z-[70] flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,252,247,0.98),rgba(243,231,214,0.94)_52%,rgba(232,215,192,0.9)_100%)] px-6 text-center transition-opacity duration-500",
+                  "absolute inset-0 z-[70] flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,252,247,0.88),rgba(243,231,214,0.8)_52%,rgba(232,215,192,0.72)_100%)] px-6 text-center backdrop-blur-md transition-opacity duration-500",
                   introPhase === "loading" ? "opacity-100" : "opacity-0",
                 )}
               >
@@ -373,7 +373,12 @@ export function RestaurantMenuDialog({
               </div>
             ) : null}
 
-            <aside className="hidden w-[280px] shrink-0 border-r border-[#eadfce] bg-[linear-gradient(180deg,rgba(250,244,236,0.94)_0%,rgba(244,235,222,0.82)_100%)] p-7 lg:flex lg:flex-col">
+            <aside
+              className={cn(
+                "hidden w-[280px] shrink-0 border-r border-[#eadfce] bg-[linear-gradient(180deg,rgba(250,244,236,0.94)_0%,rgba(244,235,222,0.82)_100%)] p-7 transition duration-500 lg:flex lg:flex-col",
+                introPhase !== "hidden" ? "scale-[0.985] blur-[10px] opacity-35" : "scale-100 blur-0 opacity-100",
+              )}
+            >
               <div className="rounded-[1.8rem] border border-[#e9dece] bg-[linear-gradient(160deg,rgba(255,253,250,0.98),rgba(248,240,228,0.92))] p-5 shadow-[0_20px_46px_rgba(84,61,33,0.08)]">
                 <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
                   Menu interativo
@@ -417,7 +422,12 @@ export function RestaurantMenuDialog({
               </div>
             </aside>
 
-            <div className="flex min-h-0 flex-1 flex-col">
+            <div
+              className={cn(
+                "flex min-h-0 flex-1 flex-col transition duration-500",
+                introPhase !== "hidden" ? "scale-[0.99] blur-[10px] opacity-35" : "scale-100 blur-0 opacity-100",
+              )}
+            >
               <header className="flex items-center justify-between gap-4 border-b border-[#eadfce] px-6 py-7 sm:px-7 lg:px-9">
                 <div>
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
