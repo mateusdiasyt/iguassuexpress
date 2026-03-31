@@ -39,24 +39,6 @@ function SectionEyebrow({ children }: { children: ReactNode }) {
   );
 }
 
-function MetricCard({
-  eyebrow,
-  value,
-  label,
-}: {
-  eyebrow: string;
-  value: string;
-  label: string;
-}) {
-  return (
-    <article className="rounded-[1.55rem] border border-white/70 bg-white/88 px-5 py-4 shadow-[0_18px_40px_rgba(15,23,42,0.07)] backdrop-blur-sm">
-      <SectionEyebrow>{eyebrow}</SectionEyebrow>
-      <p className="mt-2 text-[1.8rem] font-semibold tracking-[-0.05em] text-slate-950">{value}</p>
-      <p className="mt-1 text-sm text-slate-500">{label}</p>
-    </article>
-  );
-}
-
 function EditorShell({
   eyebrow,
   title,
@@ -240,8 +222,6 @@ export default async function AdminContactPage() {
   ]);
 
   const socialLinks = (settings.socialLinks as { instagram?: string; facebook?: string } | null) ?? {};
-  const latestMessage = messages[0];
-  const messagesWithPhone = messages.filter((message) => Boolean(message.phone?.trim())).length;
 
   return (
     <AdminShell
@@ -262,16 +242,6 @@ export default async function AdminContactPage() {
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
             {messages.length} {messages.length === 1 ? "mensagem" : "mensagens"}
           </span>
-        </div>
-
-        <div className="grid gap-3 md:grid-cols-3">
-          <MetricCard eyebrow="Inbox" value={String(messages.length)} label="Mensagens recebidas" />
-          <MetricCard eyebrow="Telefone" value={String(messagesWithPhone)} label="Com telefone informado" />
-          <MetricCard
-            eyebrow="Ultima entrada"
-            value={latestMessage ? format(latestMessage.createdAt, "dd/MM", { locale: ptBR }) : "--"}
-            label={latestMessage ? latestMessage.name : "Sem mensagens ainda"}
-          />
         </div>
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.92fr)]">
