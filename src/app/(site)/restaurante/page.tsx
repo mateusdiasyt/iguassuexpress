@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight, ScrollText } from "lucide-react";
+import { ScrollText } from "lucide-react";
 import { PageHero } from "@/components/site/page-hero";
 import { RestaurantMenuDialog } from "@/components/site/restaurant-menu-dialog";
 import { RichText } from "@/components/ui/rich-text";
@@ -40,7 +40,7 @@ export default async function RestaurantPage() {
         <RichText content={getContentBody(page.content)} />
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)]">
+      <section>
         <article className="soft-card rounded-[2rem] p-8">
           <SectionHeading
             eyebrow="Cardápio interativo"
@@ -62,40 +62,6 @@ export default async function RestaurantPage() {
               <ScrollText className="h-4 w-4 text-brand" />
               {menuCategories.length} categorias e {totalMenuItems} itens
             </span>
-          </div>
-        </article>
-
-        <article className="soft-card rounded-[2rem] p-6">
-          <div className="grid gap-4 sm:grid-cols-3">
-            {restaurant.images.slice(0, 3).map((image, index) => (
-              <div
-                key={`${image}-${index}`}
-                className={index === 0 ? "sm:col-span-3" : ""}
-              >
-                <div className="relative h-40 overflow-hidden rounded-[1.5rem] sm:h-32 xl:h-36">
-                  <Image
-                    src={image}
-                    alt="Cenas do restaurante"
-                    fill
-                    className="object-cover transition duration-500 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-transparent" />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 rounded-[1.5rem] border border-brand/10 bg-white/70 px-4 py-4">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-brand/70">
-              Acesso rápido
-            </p>
-            <p className="mt-2 text-sm leading-7 text-slate-600">
-              O menu abre em tela cheia com foco nas categorias, destaques visuais e leitura fluida dos itens.
-            </p>
-            <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand">
-              Ver menu em destaque
-              <ArrowUpRight className="h-4 w-4" />
-            </div>
           </div>
         </article>
       </section>
