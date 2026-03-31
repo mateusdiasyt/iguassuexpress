@@ -65,6 +65,7 @@ function resolveAssetSrc(value: string | null | undefined, fallback: string) {
 
 export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const pathname = usePathname();
+  const isHomePage = pathname === "/";
   const [open, setOpen] = useState(false);
   const [isDockedLeft, setIsDockedLeft] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -94,7 +95,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
       const y = window.scrollY;
       setScrollY(y);
       setIsDockedLeft(y > TOP_ONLY_THRESHOLD);
-      setUseDockDarkTone(y < getDockDarkBoundary());
+      setUseDockDarkTone(isHomePage ? y < getDockDarkBoundary() : true);
     }
 
     syncDockState();
@@ -105,7 +106,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
       window.removeEventListener("scroll", syncDockState);
       window.removeEventListener("resize", syncDockState);
     };
-  }, [pathname]);
+  }, [isHomePage, pathname]);
 
   const useTopDarkTone = scrollY <= TOP_ONLY_THRESHOLD;
 
