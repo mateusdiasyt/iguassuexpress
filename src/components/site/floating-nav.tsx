@@ -36,7 +36,7 @@ type FloatingNavProps = {
 
 const DEFAULT_LOGO_SRC = "/logo-hotel-principal.png";
 const TOP_ONLY_THRESHOLD = 6;
-const HOME_DOCK_DARK_UNTIL = 560;
+const DOCK_THEME_OFFSET = 84;
 
 function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   const raw = value?.trim() ? value.trim() : fallback;
@@ -68,6 +68,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const [open, setOpen] = useState(false);
   const [isDockedLeft, setIsDockedLeft] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [useDockDarkTone, setUseDockDarkTone] = useState(true);
   const [logoSrc, setLogoSrc] = useState(() => resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
 
   useEffect(() => {
@@ -75,20 +76,38 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   }, [logo]);
 
   useEffect(() => {
+    function getDockDarkBoundary() {
+      const anchor = document.querySelector<HTMLElement>("[data-floating-nav-theme='dark']");
+
+      if (!anchor) {
+        return TOP_ONLY_THRESHOLD;
+      }
+
+      const rect = anchor.getBoundingClientRect();
+      const absoluteTop = rect.top + window.scrollY;
+      const absoluteBottom = absoluteTop + rect.height;
+
+      return Math.max(TOP_ONLY_THRESHOLD, absoluteBottom - DOCK_THEME_OFFSET);
+    }
+
     function syncDockState() {
       const y = window.scrollY;
       setScrollY(y);
       setIsDockedLeft(y > TOP_ONLY_THRESHOLD);
+      setUseDockDarkTone(y < getDockDarkBoundary());
     }
 
     syncDockState();
     window.addEventListener("scroll", syncDockState, { passive: true });
+    window.addEventListener("resize", syncDockState);
 
-    return () => window.removeEventListener("scroll", syncDockState);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", syncDockState);
+      window.removeEventListener("resize", syncDockState);
+    };
+  }, [pathname]);
 
   const useTopDarkTone = scrollY <= TOP_ONLY_THRESHOLD;
-  const useDockDarkTone = scrollY < HOME_DOCK_DARK_UNTIL;
 
   return (
     <>

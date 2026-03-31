@@ -9,7 +9,10 @@ type PageHeroProps = {
 
 export function PageHero({ title, subtitle, image, badge }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden rounded-[2rem] bg-brand-deep px-6 text-white shadow-[0_40px_90px_rgba(6,45,71,0.35)] md:px-10">
+    <section
+      data-floating-nav-theme="dark"
+      className="relative overflow-hidden rounded-[2rem] bg-brand-deep px-6 text-white shadow-[0_40px_90px_rgba(6,45,71,0.35)] md:px-10"
+    >
       {image ? (
         <Image
           src={image}

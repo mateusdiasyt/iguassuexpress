@@ -20,7 +20,10 @@ export function HeroSection({
     .filter(Boolean);
 
   return (
-    <section className="relative -mx-4 min-h-[100svh] overflow-hidden rounded-none px-5 text-white md:-mx-6 md:px-10">
+    <section
+      data-floating-nav-theme="dark"
+      className="relative -mx-4 min-h-[100svh] overflow-hidden rounded-none px-5 text-white md:-mx-6 md:px-10"
+    >
       <Image
         src={image}
         alt={title}
