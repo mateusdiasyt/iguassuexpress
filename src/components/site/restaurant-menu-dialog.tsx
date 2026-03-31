@@ -275,9 +275,9 @@ export function RestaurantMenuDialog({
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
+        <Dialog.Trigger asChild>
         <Button className="h-12 px-5 text-sm normal-case tracking-normal shadow-[0_18px_38px_rgba(9,77,122,0.28)]">
-          Ver cardapio
+          Ver cardápio
         </Button>
       </Dialog.Trigger>
 
@@ -292,7 +292,7 @@ export function RestaurantMenuDialog({
                   Menu interativo
                 </p>
                 <h2 className="mt-3 text-[1.9rem] leading-[0.94] font-semibold tracking-[-0.05em] text-[#1f2b36]">
-                  Cardapio do restaurante
+                  Cardápio do restaurante
                 </h2>
                 <p className="mt-4 text-sm leading-8 text-[#6d7882]">
                   Navegue pelas categorias e valores do nosso menu interativo.
@@ -313,18 +313,18 @@ export function RestaurantMenuDialog({
               <div className="mt-5 rounded-[1.8rem] border border-[#e8dccd] bg-[linear-gradient(180deg,rgba(255,253,250,0.92)_0%,rgba(248,240,228,0.82)_100%)] p-5 shadow-[0_14px_32px_rgba(84,61,33,0.06)]">
                 <div>
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
-                    Servico
+                    Serviço
                   </p>
                   <p className="mt-3 text-base leading-8 text-[#5d6975]">
-                    {breakfastTitle ?? "Cafe da manha"} e {aLaCarteTitle ?? "A la carte"} no restaurante do hotel.
+                    {breakfastTitle ?? "Café da manhã"} e {aLaCarteTitle ?? "à la carte"} no restaurante do hotel.
                   </p>
                 </div>
                 <div className="mt-5 grid gap-3 text-sm text-[#6d7882]">
                   <div className="rounded-[1.25rem] border border-[#eadfce] bg-white/78 px-4 py-3">
-                    {allCategoryItems.length} opcoes nesta categoria
+                    {allCategoryItems.length} opções nesta categoria
                   </div>
                   <div className="rounded-[1.25rem] border border-[#eadfce] bg-white/78 px-4 py-3">
-                    Navegacao pensada para leitura clara e rapida
+                    Navegação pensada para leitura clara e rápida
                   </div>
                 </div>
               </div>
@@ -337,7 +337,7 @@ export function RestaurantMenuDialog({
                     Restaurante
                   </p>
                   <Dialog.Title className="mt-2 text-[1.85rem] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.05rem]">
-                    Experiencia de cardapio
+                    Experiência de cardápio
                   </Dialog.Title>
                 </div>
 
@@ -345,7 +345,7 @@ export function RestaurantMenuDialog({
                   <button
                     type="button"
                     className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#dfcfb8] bg-white/82 text-[#786347] transition hover:border-[#c9b18d] hover:bg-white hover:text-[#3b4b5a]"
-                    aria-label="Fechar cardapio"
+                    aria-label="Fechar cardápio"
                   >
                     <X className="h-4.5 w-4.5" />
                   </button>
@@ -381,13 +381,13 @@ export function RestaurantMenuDialog({
                             </h3>
                             <p className="mt-4 max-w-2xl text-sm leading-7 text-[#58636f] sm:text-base">
                               {selectedCategory.description ??
-                                "Uma selecao pensada para manter o cardapio claro, elegante e facil de explorar no ambiente do hotel."}
+                                "Uma seleção pensada para manter o cardápio claro, elegante e fácil de explorar no ambiente do hotel."}
                             </p>
                           </div>
 
                           <div className="mt-8 flex flex-wrap gap-3">
                             <span className="rounded-[1.15rem] border border-[#eadfce] bg-white/80 px-4 py-3 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
-                              {allCategoryItems.length} opcoes disponiveis
+                              {allCategoryItems.length} opções disponíveis
                             </span>
                             {selectedCategory.children.length ? (
                               <span className="rounded-[1.15rem] border border-[#eadfce] bg-white/80 px-4 py-3 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
@@ -424,7 +424,7 @@ export function RestaurantMenuDialog({
                             </h4>
                             <p className="mt-3 max-w-md text-sm leading-6 text-white/72">
                               {previewItem?.description ??
-                                "Explore os itens da categoria e descubra combinacoes pensadas para diferentes momentos da hospedagem."}
+                                "Explore os itens da categoria e descubra combinações pensadas para diferentes momentos da hospedagem."}
                             </p>
 
                             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -450,7 +450,7 @@ export function RestaurantMenuDialog({
                               Itens principais
                             </p>
                             <h4 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-[#182633]">
-                              Selecoes desta categoria
+                              Seleções desta categoria
                             </h4>
                           </div>
                         </div>
@@ -482,7 +482,7 @@ export function RestaurantMenuDialog({
                             </h4>
                           </div>
                           <span className="rounded-full border border-[#e2d4c2] bg-white/76 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
-                            {child.items.length} opcoes
+                            {child.items.length} opções
                           </span>
                         </div>
 

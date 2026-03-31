@@ -43,9 +43,9 @@ export default async function RestaurantPage() {
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)]">
         <article className="soft-card rounded-[2rem] p-8">
           <SectionHeading
-            eyebrow="Cardapio interativo"
-            title="Abra o menu completo e explore a experiencia do restaurante."
-            description="Um popup imersivo apresenta categorias, destaques e valores em uma leitura mais sofisticada do cardapio."
+            eyebrow="Cardápio interativo"
+            title="Abra o menu completo e explore a experiência do restaurante."
+            description="Um pop-up imersivo apresenta categorias, destaques e valores em uma leitura mais sofisticada do cardápio."
             layout="stacked"
             className="[&_h2]:max-w-[26rem] [&_h2]:text-[2.3rem] [&_h2]:leading-[0.95] md:[&_h2]:text-[3rem]"
           />
@@ -87,7 +87,7 @@ export default async function RestaurantPage() {
 
           <div className="mt-5 rounded-[1.5rem] border border-brand/10 bg-white/70 px-4 py-4">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-brand/70">
-              Acesso rapido
+              Acesso rápido
             </p>
             <p className="mt-2 text-sm leading-7 text-slate-600">
               O menu abre em tela cheia com foco nas categorias, destaques visuais e leitura fluida dos itens.
@@ -103,7 +103,7 @@ export default async function RestaurantPage() {
       <section className="grid gap-8 lg:grid-cols-2">
         <article className="soft-card rounded-[1.8rem] p-8">
           <SectionHeading
-            eyebrow="Cafe da manha"
+            eyebrow="Café da manhã"
             title={restaurant.breakfastTitle}
             description={restaurant.breakfastDescription}
             layout="stacked"

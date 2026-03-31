@@ -104,20 +104,20 @@ export const defaultPages: PageRecord[] = [
       body: "Escolha a acomodacao ideal e descubra detalhes completos em um fluxo simples e inspirador.",
     },
   },
-  {
-    key: "restaurant",
-    title: "Sabores para comecar bem e aproveitar o dia",
-    subtitle:
-      "Cafe da manha caprichado e servico a la carte em um ambiente acolhedor dentro do hotel.",
-    bannerImage: media.restaurant,
-    seoTitle: "Restaurante | Iguassu Express Hotel",
-    seoDescription:
-      "Cafe da manha e opcao a la carte no restaurante do Iguassu Express Hotel.",
-    isPublished: true,
-    content: {
-      body: "A gastronomia do hotel foi pensada para unir praticidade, sabor e um clima convidativo.",
+    {
+      key: "restaurant",
+      title: "Sabores para começar bem e aproveitar o dia",
+      subtitle:
+        "Café da manhã caprichado e serviço à la carte em um ambiente acolhedor dentro do hotel.",
+      bannerImage: media.restaurant,
+      seoTitle: "Restaurante | Iguassu Express Hotel",
+      seoDescription:
+        "Café da manhã e opção à la carte no restaurante do Iguassu Express Hotel.",
+      isPublished: true,
+      content: {
+        body: "A gastronomia do hotel foi pensada para unir praticidade, sabor e um clima convidativo.",
+      },
     },
-  },
   {
     key: "gallery",
     title: "Galeria de fotos",
@@ -419,13 +419,13 @@ export const defaultRestaurantContent = {
   heroImage: media.restaurant,
   teaserTitle: "Sabores para a sua estada",
   teaserDescription:
-    "Do cafe da manha a opcao a la carte, o restaurante foi desenhado para complementar uma experiencia de hospedagem mais completa.",
-  breakfastTitle: "Cafe da manha incluso",
+    "Do café da manhã à opção à la carte, o restaurante foi desenhado para complementar uma experiência de hospedagem mais completa.",
+  breakfastTitle: "Café da manhã incluso",
   breakfastDescription:
-    "Comece o dia com uma mesa variada, ambiente acolhedor e uma selecao equilibrada para lazer ou viagens de negocios.",
-  aLaCarteTitle: "Servico a la carte",
+    "Comece o dia com uma mesa variada, ambiente acolhedor e uma seleção equilibrada para lazer ou viagens de negócios.",
+  aLaCarteTitle: "Serviço à la carte",
   aLaCarteDescription:
-    "Opcoes selecionadas para refeicoes praticas e saborosas sem sair do hotel.",
+    "Opções selecionadas para refeições práticas e saborosas sem sair do hotel.",
   images: [media.restaurant, media.breakfast, media.gallery],
   isBreakfastActive: true,
   isALaCarteActive: true,

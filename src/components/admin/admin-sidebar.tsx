@@ -10,7 +10,6 @@ import {
   PhoneCall,
   ScrollText,
   Settings,
-  UtensilsCrossed,
   Video,
 } from "lucide-react";
 import Image from "next/image";
@@ -21,7 +20,6 @@ const items = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/paginas", label: "Paginas", icon: House },
   { href: "/admin/quartos", label: "Quartos", icon: BedDouble },
-  { href: "/admin/restaurante", label: "Restaurante", icon: UtensilsCrossed },
   { href: "/admin/cardapio", label: "Cardapio", icon: ScrollText },
   { href: "/admin/galeria", label: "Personalizacao", icon: Images },
   { href: "/admin/tour-360", label: "Tour 360", icon: Video },
