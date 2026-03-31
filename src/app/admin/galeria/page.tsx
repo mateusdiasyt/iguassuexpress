@@ -19,6 +19,11 @@ export const metadata = buildMetadata({
 type PageContentItem = Awaited<ReturnType<typeof getPageContent>>;
 type RestaurantContentItem = Awaited<ReturnType<typeof getRestaurantContent>>;
 
+function isRestaurantRelated(category: string) {
+  const normalized = category.toLowerCase();
+  return normalized.includes("rest") || normalized.includes("cafe");
+}
+
 type ReferenceCardProps = {
   eyebrow: string;
   title: string;
@@ -199,6 +204,7 @@ export default async function AdminGalleryPage() {
     getRestaurantContent(),
     getGalleryImages(true),
   ]);
+  const mainImages = images.filter((image) => !isRestaurantRelated(image.category));
 
   return (
     <AdminShell
@@ -217,7 +223,7 @@ export default async function AdminGalleryPage() {
           </div>
 
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-            {images.length} {images.length === 1 ? "item" : "itens"}
+            {mainImages.length} {mainImages.length === 1 ? "item" : "itens"}
           </span>
         </div>
 
@@ -227,9 +233,9 @@ export default async function AdminGalleryPage() {
         </div>
 
         <section className="space-y-4">
-          {images.length ? (
+          {mainImages.length ? (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {images.map((image) => (
+              {mainImages.map((image) => (
                 <GalleryImageEditorCard key={image.id} image={image} />
               ))}
             </div>
