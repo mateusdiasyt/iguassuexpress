@@ -324,19 +324,20 @@ function CategoryEditorCard({
   return (
     <details
       className={cn(
-        "group rounded-[1.9rem] border border-white/70 bg-white/92 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.08)] backdrop-blur-sm",
-        depth > 0 && "border-slate-200 bg-slate-50/95 shadow-[0_12px_28px_rgba(15,23,42,0.05)]",
+        "group rounded-[1.9rem] border border-white/70 bg-white/92 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.08)] backdrop-blur-sm transition-colors duration-300 group-open:border-brand/15 group-open:bg-[linear-gradient(180deg,rgba(244,249,253,0.98)_0%,rgba(236,245,251,0.94)_100%)]",
+        depth > 0 &&
+          "border-slate-200 bg-slate-50/95 shadow-[0_12px_28px_rgba(15,23,42,0.05)] group-open:border-brand/12 group-open:bg-[linear-gradient(180deg,rgba(245,249,252,0.98)_0%,rgba(239,245,250,0.94)_100%)]",
       )}
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[1.4rem] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(248,250,252,0.84)_100%)] px-4 py-3 transition hover:border-slate-300 hover:bg-slate-50/80 [&::-webkit-details-marker]:hidden">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[1.4rem] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(248,250,252,0.84)_100%)] px-4 py-3 transition duration-300 hover:border-slate-300 hover:bg-slate-50/80 group-open:border-brand/20 group-open:bg-[linear-gradient(180deg,rgba(235,245,252,0.98)_0%,rgba(225,238,248,0.92)_100%)] [&::-webkit-details-marker]:hidden">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 transition group-open:bg-slate-900 group-open:text-white">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 transition group-open:bg-brand group-open:text-white">
             {depth > 0 ? <FolderTree className="h-5 w-5" /> : <ScrollText className="h-5 w-5" />}
           </span>
 
           <div className="min-w-0">
             <SectionEyebrow>{depth > 0 ? "Subcategoria" : "Categoria"}</SectionEyebrow>
-            <h2 className="mt-1 truncate text-xl font-semibold tracking-[-0.03em] text-slate-950">
+            <h2 className="mt-1 truncate text-xl font-semibold tracking-[-0.03em] text-slate-950 transition-colors duration-300 group-open:text-brand-deep">
               {category.name}
             </h2>
             {category.description ? (
