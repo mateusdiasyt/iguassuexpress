@@ -292,7 +292,7 @@ export function RestaurantMenuDialog({
                 </p>
               </div>
 
-              <div className="mt-5 space-y-2 overflow-y-auto pr-1">
+              <div className="restaurant-menu-scroll mt-5 space-y-2 overflow-y-auto pr-2">
                 {categories.map((category) => (
                   <MenuCategoryButton
                     key={category.id}
@@ -358,7 +358,7 @@ export function RestaurantMenuDialog({
                 </div>
 
                 <div className="grid min-h-0 flex-1 gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
-                  <div className="min-h-0 space-y-4 overflow-y-auto pr-1">
+                  <div className="restaurant-menu-scroll min-h-0 space-y-4 overflow-y-auto pr-2">
                     <section
                       key={selectedCategory.slug}
                       className="overflow-hidden rounded-[1.95rem] border border-white/10 bg-[linear-gradient(140deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.03)_100%)] shadow-[0_24px_60px_rgba(1,12,22,0.26)]"
