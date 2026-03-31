@@ -156,6 +156,7 @@ model Tour360Content {
   embedUrl    String?
   heroImage   String?
   gallery     String[]
+  scenes      Json?
   isActive    Boolean  @default(true)
   updatedAt   DateTime @updatedAt
 }

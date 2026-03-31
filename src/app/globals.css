@@ -344,6 +344,47 @@ select {
   height: 0;
 }
 
+.soft-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(143, 207, 255, 0.7) rgba(255, 255, 255, 0.06);
+}
+
+.soft-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.soft-scrollbar::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(148, 163, 184, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.soft-scrollbar::-webkit-scrollbar-thumb {
+  min-height: 56px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.76)) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08)) border-box;
+  box-shadow:
+    0 10px 22px rgba(2, 8, 23, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.soft-scrollbar::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(180deg, rgba(147, 223, 255, 1), rgba(77, 198, 253, 0.88)) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.12)) border-box;
+}
+
+.soft-scrollbar::-webkit-scrollbar-corner,
+.soft-scrollbar::-webkit-scrollbar-button {
+  background: transparent;
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 @keyframes chat-bubble-in {
   from {
     opacity: 0;

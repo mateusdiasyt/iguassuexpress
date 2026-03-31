@@ -1,6 +1,6 @@
 "use server";
 
-import { BlogPostStatus } from "@prisma/client";
+import { BlogPostStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -21,6 +21,7 @@ import {
   siteSettingsSchema,
   tour360Schema,
 } from "@/schemas/admin";
+import { buildTourScenes } from "@/components/site/tour-360-types";
 
 function getBoolean(formData: FormData, key: string) {
   return formData.get(key) === "on" || formData.get(key) === "true";
@@ -564,18 +565,19 @@ export async function deleteGalleryImageAction(formData: FormData) {
 export async function saveTour360Action(formData: FormData) {
   await requireAdmin();
 
-  const galleryRaw = getString(formData, "gallery");
-  const galleryItems = parseList(galleryRaw ?? "");
-  const primarySceneImage = galleryItems[0] ?? "";
+  const scenesRaw = safeParseJson(getString(formData, "scenes"), []);
+  const normalizedScenes = buildTourScenes(scenesRaw, [], getString(formData, "description"));
+  const primarySceneImage = normalizedScenes[0]?.image ?? "";
 
   const parsed = tour360Schema.parse({
     title: getString(formData, "title"),
     description: getString(formData, "description"),
-    embedUrl: "",
-    heroImage: primarySceneImage,
-    gallery: galleryRaw,
+    scenes: normalizedScenes,
     isActive: true,
   });
+
+  const galleryItems = parsed.scenes.map((scene) => scene.image);
+  const scenesJson = parsed.scenes as unknown as Prisma.InputJsonValue;
 
   await prisma.tour360Content.upsert({
     where: { id: 1 },
@@ -583,8 +585,9 @@ export async function saveTour360Action(formData: FormData) {
       title: parsed.title,
       description: parsed.description,
       embedUrl: null,
-      heroImage: parsed.heroImage || null,
+      heroImage: primarySceneImage || null,
       gallery: galleryItems,
+      scenes: scenesJson,
       isActive: true,
     },
     create: {
@@ -592,8 +595,9 @@ export async function saveTour360Action(formData: FormData) {
       title: parsed.title,
       description: parsed.description,
       embedUrl: null,
-      heroImage: parsed.heroImage || null,
+      heroImage: primarySceneImage || null,
       gallery: galleryItems,
+      scenes: scenesJson,
       isActive: true,
     },
   });

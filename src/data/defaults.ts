@@ -445,6 +445,29 @@ export const defaultTour360Content = {
   embedUrl: "",
   heroImage: media.hero,
   gallery: [media.hero, media.gallery, media.location],
+  scenes: [
+    {
+      id: "tour-scene-1",
+      title: "Piscina panoramica",
+      description:
+        "Gire a imagem para observar a area externa do hotel em um panorama mais imersivo.",
+      image: media.hero,
+    },
+    {
+      id: "tour-scene-2",
+      title: "Ambiente interno 360",
+      description:
+        "Cena panoramica complementar para apresentar os interiores do hotel com mais profundidade.",
+      image: media.gallery,
+    },
+    {
+      id: "tour-scene-3",
+      title: "Chegada e acesso",
+      description:
+        "Uma terceira cena pensada para reforcar o contexto do hotel e a leitura espacial da hospedagem.",
+      image: media.location,
+    },
+  ],
   isActive: true,
 };
 

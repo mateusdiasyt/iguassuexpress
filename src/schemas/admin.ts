@@ -115,12 +115,17 @@ export const galleryImageSchema = z.object({
   isActive: z.boolean(),
 });
 
+const tourSceneSchema = z.object({
+  id: optionalString,
+  title: z.string().min(2),
+  description: optionalString,
+  image: z.string().min(1),
+});
+
 export const tour360Schema = z.object({
   title: z.string().min(2),
   description: z.string().min(10),
-  embedUrl: optionalString,
-  heroImage: optionalString,
-  gallery: z.string().optional(),
+  scenes: z.array(tourSceneSchema).default([]),
   isActive: z.boolean(),
 });
 

@@ -28,21 +28,17 @@ export async function generateMetadata() {
 export default async function Tour360Page() {
   const [page, tour] = await Promise.all([getPageContent("tour-360"), getTour360Content()]);
   const tourDescription = resolveTourDescription(tour.description);
-  const tourScenes = Array.from(
-    new Set(
-      [...(tour.gallery ?? []), tour.heroImage, page.bannerImage].filter(
-        (value): value is string => Boolean(value),
-      ),
-    ),
-  ).map((image, index) => ({
-    id: `tour-scene-${index + 1}`,
-    title: index === 0 ? "Panorama principal" : `Ambiente 360 ${index + 1}`,
-    description:
-      index === 0
-        ? tourDescription
-        : `Cena panoramica ${index + 1} publicada para apresentar o hotel com uma leitura mais imersiva.`,
-    image,
-  }));
+  const tourScenes =
+    tour.scenes.length > 0
+      ? tour.scenes
+      : [
+          {
+            id: "tour-fallback-1",
+            title: "Panorama principal",
+            description: tourDescription,
+            image: tour.heroImage || page.bannerImage || "/piscina-hotel-iguassu.jpg",
+          },
+        ];
 
   return (
     <div className="mx-auto max-w-6xl space-y-14">

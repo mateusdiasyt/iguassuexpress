@@ -14,6 +14,7 @@ import {
   defaultTour360Content,
 } from "@/data/defaults";
 import { buildDefaultMenuCategories } from "@/data/menu-catalog";
+import { buildTourScenes } from "@/components/site/tour-360-types";
 
 const databaseUrl = process.env.DATABASE_URL ?? "";
 const hasConfiguredDatabase = Boolean(
@@ -263,17 +264,43 @@ export async function getGalleryImages(includeInactive = false) {
 
 export async function getTour360Content() {
   if (!hasConfiguredDatabase) {
-    return defaultTour360Content;
+    return {
+      ...defaultTour360Content,
+      scenes: buildTourScenes(
+        defaultTour360Content.scenes,
+        [defaultTour360Content.heroImage, ...(defaultTour360Content.gallery ?? [])],
+        defaultTour360Content.description,
+      ),
+    };
   }
 
   try {
-    return (
+    const content =
       (await prisma.tour360Content.findUnique({
         where: { id: 1 },
-      })) ?? defaultTour360Content
+      })) ?? defaultTour360Content;
+
+    const scenes = buildTourScenes(
+      "scenes" in content ? content.scenes : undefined,
+      [content.heroImage, ...(content.gallery ?? [])],
+      content.description,
     );
+
+    return {
+      ...content,
+      gallery: scenes.map((scene) => scene.image),
+      heroImage: scenes[0]?.image ?? content.heroImage ?? null,
+      scenes,
+    };
   } catch {
-    return defaultTour360Content;
+    return {
+      ...defaultTour360Content,
+      scenes: buildTourScenes(
+        defaultTour360Content.scenes,
+        [defaultTour360Content.heroImage, ...(defaultTour360Content.gallery ?? [])],
+        defaultTour360Content.description,
+      ),
+    };
   }
 }
 

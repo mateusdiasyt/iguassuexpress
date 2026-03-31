@@ -590,20 +590,66 @@ async function main() {
     update: {
       title: "Tour 360 do Iguassu Express Hotel",
       description:
-        "Publique aqui o tour virtual oficial do hotel. Enquanto isso, o site apresenta uma mensagem elegante de expectativa para manter a experiencia premium.",
+        "Gire as fotos panoramicas do hotel para olhar os ambientes em 360 e antecipar a atmosfera da hospedagem.",
       embedUrl: "",
       heroImage: media.hero,
       gallery: [media.hero, media.gallery, media.location],
+      scenes: [
+        {
+          id: "tour-scene-1",
+          title: "Piscina panoramica",
+          description:
+            "Gire a imagem para observar a area externa do hotel em um panorama mais imersivo.",
+          image: media.hero,
+        },
+        {
+          id: "tour-scene-2",
+          title: "Ambiente interno 360",
+          description:
+            "Cena panoramica complementar para apresentar os interiores do hotel com mais profundidade.",
+          image: media.gallery,
+        },
+        {
+          id: "tour-scene-3",
+          title: "Chegada e acesso",
+          description:
+            "Uma terceira cena pensada para reforcar o contexto do hotel e a leitura espacial da hospedagem.",
+          image: media.location,
+        },
+      ],
       isActive: true,
     },
     create: {
       id: 1,
       title: "Tour 360 do Iguassu Express Hotel",
       description:
-        "Publique aqui o tour virtual oficial do hotel. Enquanto isso, o site apresenta uma mensagem elegante de expectativa para manter a experiencia premium.",
+        "Gire as fotos panoramicas do hotel para olhar os ambientes em 360 e antecipar a atmosfera da hospedagem.",
       embedUrl: "",
       heroImage: media.hero,
       gallery: [media.hero, media.gallery, media.location],
+      scenes: [
+        {
+          id: "tour-scene-1",
+          title: "Piscina panoramica",
+          description:
+            "Gire a imagem para observar a area externa do hotel em um panorama mais imersivo.",
+          image: media.hero,
+        },
+        {
+          id: "tour-scene-2",
+          title: "Ambiente interno 360",
+          description:
+            "Cena panoramica complementar para apresentar os interiores do hotel com mais profundidade.",
+          image: media.gallery,
+        },
+        {
+          id: "tour-scene-3",
+          title: "Chegada e acesso",
+          description:
+            "Uma terceira cena pensada para reforcar o contexto do hotel e a leitura espacial da hospedagem.",
+          image: media.location,
+        },
+      ],
       isActive: true,
     },
   });

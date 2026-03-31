@@ -11,7 +11,6 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import {
   getBlogPosts,
   getFaqItems,
-  getGalleryImages,
   getPageContent,
   getRestaurantContent,
   getRoomCategories,
@@ -54,14 +53,13 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const [settings, homePage, roomCategories, restaurant, tour, galleryImages, blogPosts, faqs] =
+  const [settings, homePage, roomCategories, restaurant, tour, blogPosts, faqs] =
     await Promise.all([
       getSiteSettings(),
       getPageContent("home"),
       getRoomCategories(),
       getRestaurantContent(),
       getTour360Content(),
-      getGalleryImages(),
       getBlogPosts(),
       getFaqItems(),
     ]);
@@ -70,40 +68,8 @@ export default async function HomePage() {
   const hasHeroCards = heroCards.length > 0;
   const heroImage = resolveHomeHeroImage(homePage.bannerImage);
   const tourDescription = resolveTourDescription(tour.description);
-  const fallbackTourScenes = galleryImages.map((image, index) => ({
-    id: image.id,
-    title: image.category,
-    description:
-      image.altText ||
-      `Cena ${index + 2} preparada para evoluir para um panorama oficial em 360 graus.`,
-    image: image.imageUrl,
-  }));
-  const primaryTourImage = tour.gallery?.[0] || tour.heroImage || heroImage;
-  const customTourScenes =
-    tour.gallery?.map((image, index) => ({
-      id: `tour-gallery-${index + 1}`,
-      title: index === 0 ? "Piscina panoramica" : `Cena 360 ${index + 1}`,
-      description:
-        index === 0
-          ? "Primeira cena da galeria 360 cadastrada no painel do hotel."
-          : `Imagem ${index + 1} cadastrada na galeria 360 do painel administrativo.`,
-      image,
-    })) ?? [];
-  const tourScenes = (customTourScenes.length ? customTourScenes : [
-    {
-      id: "tour-primary",
-      title: "Piscina panoramica",
-      description: "Cena principal do tour 360 com preview panoramico da area externa.",
-      image: primaryTourImage,
-    },
-    ...fallbackTourScenes,
-  ])
-    .filter(
-      (scene, index, allScenes) =>
-        Boolean(scene.image) &&
-        allScenes.findIndex((item) => item.image === scene.image) === index,
-    )
-    .slice(0, 4);
+  const tourScenes = (tour.scenes ?? []).slice(0, 6);
+  const primaryTourImage = tourScenes[0]?.image || tour.heroImage || heroImage;
   const hotelSchema = {
     "@context": "https://schema.org",
     "@type": "Hotel",
