@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import {
-  MapPin,
+  Mail,
   Phone,
   PlusSquare,
 } from "lucide-react";
@@ -82,11 +82,13 @@ function ContactChannelsForm({
       <input type="hidden" name="favicon" value={settings.favicon ?? ""} />
       <input type="hidden" name="instagram" value={instagram} />
       <input type="hidden" name="facebook" value={facebook} />
+      <input type="hidden" name="address" value={settings.address} />
+      <input type="hidden" name="mapEmbed" value={settings.mapEmbed ?? ""} />
       <input type="hidden" name="seoTitle" value={settings.seoTitle ?? ""} />
       <input type="hidden" name="seoDescription" value={settings.seoDescription ?? ""} />
       <input type="hidden" name="institutionalBio" value={settings.institutionalBio ?? ""} />
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <label className="grid gap-2 text-sm text-slate-600">
           <FieldLabel>WhatsApp</FieldLabel>
           <Input name="whatsapp" defaultValue={settings.whatsapp} />
@@ -101,21 +103,7 @@ function ContactChannelsForm({
           <FieldLabel>E-mail</FieldLabel>
           <Input name="email" type="email" defaultValue={settings.email} />
         </label>
-
-        <label className="grid gap-2 text-sm text-slate-600">
-          <FieldLabel>Endereco</FieldLabel>
-          <Input name="address" defaultValue={settings.address} />
-        </label>
       </div>
-
-      <label className="grid gap-2 text-sm text-slate-600">
-        <FieldLabel>Mapa embed</FieldLabel>
-        <Textarea
-          name="mapEmbed"
-          defaultValue={settings.mapEmbed ?? ""}
-          className="min-h-[170px] rounded-[1.6rem]"
-        />
-      </label>
 
       <div className="flex justify-end rounded-[1.35rem] border border-slate-200 bg-white px-4 py-3">
         <SubmitButton className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm">
@@ -199,7 +187,7 @@ export default async function AdminContactPage() {
           <div className="space-y-6">
             <EditorShell
               eyebrow="Canais"
-              title="Dados de contato"
+              title="Infos de contato"
               icon={<Phone className="h-4.5 w-4.5" />}
             >
               <ContactChannelsForm
@@ -222,12 +210,12 @@ export default async function AdminContactPage() {
             <section className="rounded-[1.9rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm">
               <div className="flex items-center gap-3">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-                  <MapPin className="h-4.5 w-4.5" />
+                  <Mail className="h-4.5 w-4.5" />
                 </span>
                 <div>
                   <SectionEyebrow>Resumo</SectionEyebrow>
                   <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-slate-950">
-                    Contato publico
+                    Canais publicados
                   </h2>
                 </div>
               </div>
@@ -247,9 +235,9 @@ export default async function AdminContactPage() {
                 </div>
                 <div className="rounded-[1.35rem] border border-slate-200 bg-slate-50/70 px-4 py-3">
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                    Endereco
+                    Telefone
                   </p>
-                  <p className="mt-2 text-sm leading-7 text-slate-700">{settings.address}</p>
+                  <p className="mt-2 text-sm text-slate-700">{settings.phone}</p>
                 </div>
               </div>
             </section>
