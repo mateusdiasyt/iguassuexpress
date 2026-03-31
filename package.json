@@ -12,6 +12,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed-menu": "tsx prisma/seed-menu.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {

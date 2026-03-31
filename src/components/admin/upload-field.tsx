@@ -28,6 +28,7 @@ type UploadFieldProps = {
   hideTriggerButton?: boolean;
   hideLabel?: boolean;
   previewActionLabel?: string;
+  previewFallbackSrc?: string | null;
 };
 
 export function UploadField({
@@ -49,6 +50,7 @@ export function UploadField({
   hideTriggerButton = false,
   hideLabel = false,
   previewActionLabel,
+  previewFallbackSrc,
 }: UploadFieldProps) {
   const inputId = useId();
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
@@ -56,6 +58,7 @@ export function UploadField({
   const [error, setError] = useState("");
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : internalValue;
+  const previewValue = value || previewFallbackSrc || "";
 
   useEffect(() => {
     if (!isControlled) {
@@ -121,16 +124,16 @@ export function UploadField({
           Enviar arquivo
         </label>
       ) : null}
-      {kind === "image" && !hidePreview && (value || hideTriggerButton) ? (
+      {kind === "image" && !hidePreview && (previewValue || hideTriggerButton) ? (
         <div
           className={cn(
             "group/upload relative h-32 overflow-hidden rounded-2xl border border-brand/10 bg-slate-100",
             previewClassName,
           )}
         >
-          {value ? (
+          {previewValue ? (
             <Image
-              src={value}
+              src={previewValue}
               alt={label}
               fill
               className={cn("object-cover", previewImageClassName)}

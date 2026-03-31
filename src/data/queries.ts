@@ -13,6 +13,7 @@ import {
   defaultSiteSettings,
   defaultTour360Content,
 } from "@/data/defaults";
+import { buildDefaultMenuCategories } from "@/data/menu-catalog";
 
 const databaseUrl = process.env.DATABASE_URL ?? "";
 const hasConfiguredDatabase = Boolean(
@@ -26,6 +27,102 @@ function pageFallback(key: string) {
     defaultPages.find((page) => page.key === key) ??
     defaultPages.find((page) => page.key === "home")!
   );
+}
+
+function mapMenuItem(item: {
+  id: string;
+  categoryId: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  price: { toNumber(): number } | number | null;
+  imageUrl: string | null;
+  order: number;
+  isActive: boolean;
+}) {
+  return {
+    id: item.id,
+    categoryId: item.categoryId,
+    name: item.name,
+    slug: item.slug,
+    description: item.description,
+    price:
+      item.price === null
+        ? null
+        : typeof item.price === "number"
+          ? item.price
+          : item.price.toNumber(),
+    imageUrl: item.imageUrl,
+    order: item.order,
+    isActive: item.isActive,
+  };
+}
+
+function mapMenuCategory(category: {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  heroImage: string | null;
+  order: number;
+  isActive: boolean;
+  parentId: string | null;
+  items: Array<{
+    id: string;
+    categoryId: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    price: { toNumber(): number } | number | null;
+    imageUrl: string | null;
+    order: number;
+    isActive: boolean;
+  }>;
+  children: Array<{
+    id: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    heroImage: string | null;
+    order: number;
+    isActive: boolean;
+    parentId: string | null;
+    items: Array<{
+      id: string;
+      categoryId: string;
+      name: string;
+      slug: string;
+      description: string | null;
+      price: { toNumber(): number } | number | null;
+      imageUrl: string | null;
+      order: number;
+      isActive: boolean;
+    }>;
+  }>;
+}) {
+  return {
+    id: category.id,
+    name: category.name,
+    slug: category.slug,
+    description: category.description,
+    heroImage: category.heroImage,
+    order: category.order,
+    isActive: category.isActive,
+    parentId: category.parentId,
+    items: category.items.map(mapMenuItem),
+    children: category.children.map((child) => ({
+      id: child.id,
+      name: child.name,
+      slug: child.slug,
+      description: child.description,
+      heroImage: child.heroImage,
+      order: child.order,
+      isActive: child.isActive,
+      parentId: child.parentId,
+      items: child.items.map(mapMenuItem),
+      children: [],
+    })),
+  };
 }
 
 export async function getSiteSettings() {
@@ -104,6 +201,44 @@ export async function getRestaurantContent() {
     );
   } catch {
     return defaultRestaurantContent;
+  }
+}
+
+export async function getMenuCategories(includeInactive = false) {
+  if (!hasConfiguredDatabase) {
+    return includeInactive
+      ? buildDefaultMenuCategories()
+      : buildDefaultMenuCategories().filter((category) => category.isActive);
+  }
+
+  try {
+    const categories = await prisma.menuCategory.findMany({
+      where: {
+        parentId: null,
+        ...(includeInactive ? {} : { isActive: true }),
+      },
+      include: {
+        items: {
+          where: includeInactive ? undefined : { isActive: true },
+          orderBy: { order: "asc" },
+        },
+        children: {
+          where: includeInactive ? undefined : { isActive: true },
+          include: {
+            items: {
+              where: includeInactive ? undefined : { isActive: true },
+              orderBy: { order: "asc" },
+            },
+          },
+          orderBy: { order: "asc" },
+        },
+      },
+      orderBy: { order: "asc" },
+    });
+
+    return categories.length ? categories.map(mapMenuCategory) : buildDefaultMenuCategories();
+  } catch {
+    return buildDefaultMenuCategories();
   }
 }
 

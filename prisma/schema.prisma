@@ -107,6 +107,37 @@ model RestaurantContent {
   updatedAt           DateTime @updatedAt
 }
 
+model MenuCategory {
+  id          String         @id @default(cuid())
+  name        String
+  slug        String         @unique
+  description String?        @db.Text
+  heroImage   String?
+  order       Int            @default(0)
+  isActive    Boolean        @default(true)
+  parentId    String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  parent      MenuCategory?  @relation("MenuCategoryTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children    MenuCategory[] @relation("MenuCategoryTree")
+  items       MenuItem[]
+}
+
+model MenuItem {
+  id          String       @id @default(cuid())
+  categoryId  String
+  name        String
+  slug        String       @unique
+  description String?      @db.Text
+  price       Decimal?     @db.Decimal(10, 2)
+  imageUrl    String?
+  order       Int          @default(0)
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  category    MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
 model GalleryImage {
   id        String   @id @default(cuid())
   category  String

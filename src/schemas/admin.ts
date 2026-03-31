@@ -71,6 +71,41 @@ export const restaurantSchema = z.object({
   isALaCarteActive: z.boolean(),
 });
 
+const optionalPrice = z.preprocess((value) => {
+  const normalized = String(value ?? "")
+    .trim()
+    .replace(",", ".");
+
+  if (!normalized) {
+    return undefined;
+  }
+
+  const numericValue = Number(normalized);
+  return Number.isFinite(numericValue) ? numericValue : Number.NaN;
+}, z.number().nonnegative().max(999999).optional());
+
+export const menuCategorySchema = z.object({
+  id: optionalString,
+  parentId: optionalString,
+  name: z.string().min(2),
+  slug: z.string().min(2),
+  description: optionalString,
+  heroImage: optionalString,
+  order: z.coerce.number().int().min(0),
+  isActive: z.boolean(),
+});
+
+export const menuItemSchema = z.object({
+  id: optionalString,
+  categoryId: z.string().min(1),
+  name: z.string().min(2),
+  description: optionalString,
+  price: optionalPrice,
+  imageUrl: optionalString,
+  order: z.coerce.number().int().min(0),
+  isActive: z.boolean(),
+});
+
 export const galleryImageSchema = z.object({
   id: optionalString,
   category: z.string().min(2),

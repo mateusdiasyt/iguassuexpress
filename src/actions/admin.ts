@@ -12,6 +12,8 @@ import {
   faqSchema,
   galleryImageSchema,
   locationSchema,
+  menuCategorySchema,
+  menuItemSchema,
   pageContentSchema,
   restaurantSchema,
   roomCategorySchema,
@@ -391,6 +393,121 @@ export async function saveRestaurantAction(formData: FormData) {
   });
 
   refreshSite(["/", "/restaurante", "/admin/restaurante"]);
+}
+
+export async function saveMenuCategoryAction(formData: FormData) {
+  await requireAdmin();
+
+  const parsed = menuCategorySchema.parse({
+    id: getString(formData, "id"),
+    parentId: getString(formData, "parentId"),
+    name: getString(formData, "name"),
+    slug: getString(formData, "slug") || toSlug(getString(formData, "name")),
+    description: getString(formData, "description"),
+    heroImage: getString(formData, "heroImage"),
+    order: getString(formData, "order"),
+    isActive: getBoolean(formData, "isActive"),
+  });
+
+  const data = {
+    parentId: parsed.parentId || null,
+    name: parsed.name,
+    slug: parsed.slug,
+    description: parsed.description || null,
+    heroImage: parsed.heroImage || null,
+    order: parsed.order,
+    isActive: parsed.isActive,
+  };
+
+  if (parsed.id) {
+    await prisma.menuCategory.update({
+      where: { id: parsed.id },
+      data,
+    });
+  } else {
+    await prisma.menuCategory.create({
+      data,
+    });
+  }
+
+  refreshSite(["/restaurante", "/admin/cardapio", "/admin/restaurante"]);
+}
+
+export async function deleteMenuCategoryAction(formData: FormData) {
+  await requireAdmin();
+  const id = getString(formData, "id");
+
+  if (!id) return;
+
+  await prisma.menuCategory.delete({
+    where: { id },
+  });
+
+  refreshSite(["/restaurante", "/admin/cardapio", "/admin/restaurante"]);
+}
+
+export async function saveMenuItemAction(formData: FormData) {
+  await requireAdmin();
+
+  const categoryId = getString(formData, "categoryId");
+  const category = await prisma.menuCategory.findUnique({
+    where: { id: categoryId },
+    select: { slug: true },
+  });
+
+  if (!category) {
+    throw new Error("Categoria do cardapio nao encontrada.");
+  }
+
+  const parsed = menuItemSchema.parse({
+    id: getString(formData, "id"),
+    categoryId,
+    name: getString(formData, "name"),
+    description: getString(formData, "description"),
+    price: getString(formData, "price"),
+    imageUrl: getString(formData, "imageUrl"),
+    order: getString(formData, "order"),
+    isActive: getBoolean(formData, "isActive"),
+  });
+
+  const slug = toSlug(`${category.slug}-${parsed.name}`) || `${category.slug}-${Date.now()}`;
+
+  const data = {
+    categoryId: parsed.categoryId,
+    name: parsed.name,
+    slug,
+    description: parsed.description || null,
+    price: parsed.price ?? null,
+    imageUrl: parsed.imageUrl || null,
+    order: parsed.order,
+    isActive: parsed.isActive,
+  };
+
+  if (parsed.id) {
+    await prisma.menuItem.update({
+      where: { id: parsed.id },
+      data,
+    });
+  } else {
+    await prisma.menuItem.create({
+      data,
+    });
+  }
+
+  refreshSite(["/restaurante", "/admin/cardapio", "/admin/restaurante"]);
+}
+
+export async function deleteMenuItemAction(formData: FormData) {
+  await requireAdmin();
+  const id = getString(formData, "id");
+
+  if (!id) return;
+
+  await prisma.menuItem.delete({
+    where: { id },
+  });
+
+  refreshSite(["/restaurante", "/admin/cardapio", "/admin/restaurante"]);
 }
 
 export async function saveGalleryImageAction(formData: FormData) {
