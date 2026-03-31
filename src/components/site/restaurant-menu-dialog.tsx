@@ -105,16 +105,16 @@ function MenuCategoryButton({
       className={cn(
         "group/menu-nav flex w-full min-w-[220px] items-center gap-3 rounded-[1.35rem] border px-3 py-3 text-left transition-all duration-300 lg:min-w-0",
         isActive
-          ? "border-white/15 bg-white/12 text-white shadow-[0_18px_40px_rgba(2,16,31,0.22)]"
-          : "border-white/8 bg-white/[0.03] text-white/72 hover:border-white/12 hover:bg-white/[0.08]",
+          ? "border-[#b89d74]/45 bg-[linear-gradient(180deg,rgba(255,248,236,0.96)_0%,rgba(244,233,216,0.94)_100%)] text-[#1f2b36] shadow-[0_18px_40px_rgba(70,49,24,0.14)]"
+          : "border-[#d9c9b3] bg-[linear-gradient(180deg,rgba(255,252,247,0.92)_0%,rgba(247,239,227,0.88)_100%)] text-[#4c5a67] hover:border-[#c9b18d] hover:bg-[linear-gradient(180deg,rgba(255,249,240,0.98)_0%,rgba(245,235,219,0.94)_100%)]",
       )}
     >
       <span
         className={cn(
           "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border transition-all duration-300",
           isActive
-            ? "border-white/15 bg-white/14 text-white"
-            : "border-white/10 bg-white/[0.04] text-white/70 group-hover/menu-nav:text-white/85",
+            ? "border-[#dcc8a9] bg-[#f6ecdc] text-[#8d6d42]"
+            : "border-[#e3d7c7] bg-white/72 text-[#8a7961] group-hover/menu-nav:text-[#6d5434]",
         )}
       >
         {getCategoryIcon(category.slug)}
@@ -122,7 +122,7 @@ function MenuCategoryButton({
 
       <div className="min-w-0">
         <p className="truncate text-sm font-semibold tracking-[-0.02em]">{category.name}</p>
-        <p className="mt-1 text-[0.72rem] uppercase tracking-[0.22em] text-white/45">
+        <p className="mt-1 text-[0.72rem] uppercase tracking-[0.22em] text-[#8a7761]">
           {itemCount} {itemCount === 1 ? "item" : "itens"}
         </p>
       </div>
@@ -151,32 +151,32 @@ function MenuItemCard({
       type="button"
       onMouseEnter={onFocusItem}
       onFocus={onFocusItem}
-      className="restaurant-menu-card-enter group relative overflow-hidden rounded-[1.65rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.03)_100%)] p-4 text-left shadow-[0_18px_40px_rgba(1,12,23,0.22)] transition duration-300 hover:-translate-y-1 hover:border-[#c7def1]/18 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.05)_100%)]"
+      className="restaurant-menu-card-enter group relative overflow-hidden rounded-[1.65rem] border border-[#dfd0bb] bg-[linear-gradient(180deg,rgba(255,252,247,0.96)_0%,rgba(247,239,227,0.92)_100%)] p-4 text-left shadow-[0_18px_40px_rgba(70,49,24,0.1)] transition duration-300 hover:-translate-y-1 hover:border-[#c9b18d] hover:shadow-[0_24px_50px_rgba(70,49,24,0.14)]"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,198,162,0.18),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(148,193,222,0.14),transparent_42%)] opacity-0 transition duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,198,162,0.22),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(184,157,116,0.14),transparent_42%)] opacity-0 transition duration-300 group-hover:opacity-100" />
 
       <div className="relative flex items-start gap-4">
         <div className="min-w-0 flex-1">
-          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8fb4ce]">
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
             {categoryName}
           </p>
-          <h3 className="mt-2 text-lg font-semibold tracking-[-0.03em] text-white">
+          <h3 className="mt-2 text-lg font-semibold tracking-[-0.03em] text-[#213243]">
             {item.name}
           </h3>
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/68">{item.description}</p>
+          <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#66727f]">{item.description}</p>
         </div>
 
         {previewImage ? (
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[1.15rem] border border-white/10 bg-white/6">
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[1.15rem] border border-[#e0d2bf] bg-white/70 shadow-[0_10px_18px_rgba(70,49,24,0.08)]">
             <Image src={previewImage} alt={item.name} fill className="object-cover" />
-            <div className="absolute inset-0 bg-slate-950/18" />
+            <div className="absolute inset-0 bg-[#1f2b36]/8" />
           </div>
         ) : null}
       </div>
 
       <div className="relative mt-5 flex items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-[0.72rem] uppercase tracking-[0.2em] text-white/55">
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#e2d3bf] bg-white/78 px-3 py-1.5 text-[0.72rem] uppercase tracking-[0.2em] text-[#766247]">
           Detalhes
           <ChevronRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
         </span>
@@ -186,7 +186,7 @@ function MenuItemCard({
             "inline-flex rounded-full px-3 py-1.5 text-sm font-semibold tracking-[-0.01em]",
             priceLabel
               ? "bg-[#d8c6a2] text-[#1d2733]"
-              : "border border-white/10 bg-white/6 text-white/65",
+              : "border border-[#e2d3bf] bg-white/78 text-[#766247]",
           )}
         >
           {priceLabel ?? "Opcao complementar"}
@@ -275,19 +275,19 @@ export function RestaurantMenuDialog({
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="restaurant-menu-overlay fixed inset-0 z-[90] bg-[#031520]/72 backdrop-blur-xl" />
+        <Dialog.Overlay className="restaurant-menu-overlay fixed inset-0 z-[90] bg-[rgba(48,34,19,0.28)] backdrop-blur-xl" />
 
         <Dialog.Content className="restaurant-menu-shell fixed inset-0 z-[100] p-3 sm:p-5 lg:p-7">
-          <div className="restaurant-menu-panel mx-auto flex h-full max-w-[1380px] overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,#07263a_0%,#041a2a_55%,#03131f_100%)] shadow-[0_36px_110px_rgba(1,12,22,0.5)]">
-            <aside className="hidden w-[280px] shrink-0 border-r border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_100%)] p-5 lg:flex lg:flex-col">
-              <div className="rounded-[1.7rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] p-4 shadow-[0_18px_44px_rgba(1,12,22,0.22)]">
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-[#8fb4ce]">
+          <div className="restaurant-menu-panel mx-auto flex h-full max-w-[1380px] overflow-hidden rounded-[2rem] border border-[#e2d6c6] bg-[linear-gradient(180deg,#fbf5eb_0%,#f4eadc_48%,#efe3d1_100%)] shadow-[0_36px_110px_rgba(65,47,27,0.22)]">
+            <aside className="hidden w-[280px] shrink-0 border-r border-[#e0d0bc] bg-[linear-gradient(180deg,rgba(248,240,228,0.96)_0%,rgba(241,230,213,0.88)_100%)] p-5 lg:flex lg:flex-col">
+              <div className="rounded-[1.7rem] border border-[#e1d3c0] bg-[linear-gradient(160deg,rgba(255,252,247,0.98),rgba(247,237,223,0.92))] p-4 shadow-[0_18px_44px_rgba(70,49,24,0.1)]">
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
                   Menu interativo
                 </p>
-                <h2 className="mt-3 text-[1.65rem] leading-[0.92] font-semibold tracking-[-0.04em] text-white">
+                <h2 className="mt-3 text-[1.65rem] leading-[0.92] font-semibold tracking-[-0.04em] text-[#1f2b36]">
                   Cardapio do restaurante
                 </h2>
-                <p className="mt-3 text-sm leading-6 text-white/65">
+                <p className="mt-3 text-sm leading-6 text-[#6d7882]">
                   Navegue pelas categorias, veja os valores e sinta o ambiente do menu em tela cheia.
                 </p>
               </div>
@@ -303,20 +303,20 @@ export function RestaurantMenuDialog({
                 ))}
               </div>
 
-              <div className="mt-5 grid gap-3 rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-4">
+              <div className="mt-5 grid gap-3 rounded-[1.6rem] border border-[#e1d3c0] bg-[linear-gradient(180deg,rgba(255,252,247,0.9)_0%,rgba(247,237,223,0.78)_100%)] p-4">
                 <div>
-                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8fb4ce]">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                     Servico
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-white/68">
+                  <p className="mt-2 text-sm leading-6 text-[#6d7882]">
                     {breakfastTitle ?? "Cafe da manha"} e {aLaCarteTitle ?? "A la carte"} dentro do hotel.
                   </p>
                 </div>
-                <div className="grid gap-2 text-sm text-white/68">
-                  <div className="rounded-[1.2rem] border border-white/8 bg-white/[0.03] px-3 py-3">
+                <div className="grid gap-2 text-sm text-[#6d7882]">
+                  <div className="rounded-[1.2rem] border border-[#e6dac8] bg-white/76 px-3 py-3">
                     {allCategoryItems.length} opcoes nesta categoria
                   </div>
-                  <div className="rounded-[1.2rem] border border-white/8 bg-white/[0.03] px-3 py-3">
+                  <div className="rounded-[1.2rem] border border-[#e6dac8] bg-white/76 px-3 py-3">
                     Layout pensado para leitura rapida e visual premium
                   </div>
                 </div>
@@ -324,12 +324,12 @@ export function RestaurantMenuDialog({
             </aside>
 
             <div className="flex min-h-0 flex-1 flex-col">
-              <header className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-4 sm:px-5 lg:px-6">
+              <header className="flex items-center justify-between gap-4 border-b border-[#dfd1be] px-4 py-4 sm:px-5 lg:px-6">
                 <div>
-                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8fb4ce]">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
                     Restaurante
                   </p>
-                  <Dialog.Title className="mt-2 text-[1.6rem] font-semibold tracking-[-0.04em] text-white sm:text-[1.9rem]">
+                  <Dialog.Title className="mt-2 text-[1.6rem] font-semibold tracking-[-0.04em] text-[#1f2b36] sm:text-[1.9rem]">
                     Experiencia de cardapio
                   </Dialog.Title>
                 </div>
@@ -337,7 +337,7 @@ export function RestaurantMenuDialog({
                 <Dialog.Close asChild>
                   <button
                     type="button"
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/8 text-white/80 transition hover:border-white/18 hover:bg-white/12 hover:text-white"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#dfcfb8] bg-white/82 text-[#786347] transition hover:border-[#c9b18d] hover:bg-white hover:text-[#3b4b5a]"
                     aria-label="Fechar cardapio"
                   >
                     <X className="h-4.5 w-4.5" />
@@ -361,34 +361,34 @@ export function RestaurantMenuDialog({
                   <div className="restaurant-menu-scroll min-h-0 space-y-4 overflow-y-auto pr-2">
                     <section
                       key={selectedCategory.slug}
-                      className="overflow-hidden rounded-[1.95rem] border border-white/10 bg-[linear-gradient(140deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.03)_100%)] shadow-[0_24px_60px_rgba(1,12,22,0.26)]"
+                      className="overflow-hidden rounded-[1.95rem] border border-[#dfd0bc] bg-[linear-gradient(140deg,rgba(255,252,247,0.98)_0%,rgba(246,236,220,0.94)_100%)] shadow-[0_24px_60px_rgba(70,49,24,0.1)]"
                     >
                       <div className="grid gap-5 p-5 xl:grid-cols-[minmax(0,1.02fr)_390px] xl:p-6">
                         <div className="flex flex-col justify-between">
                           <div>
-                            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-[#8fb4ce]">
+                            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-[#8d6d42]">
                               Categoria selecionada
                             </p>
-                            <h3 className="mt-4 text-[2.2rem] leading-[0.92] font-semibold tracking-[-0.05em] text-white sm:text-[2.9rem]">
+                            <h3 className="mt-4 text-[2.2rem] leading-[0.92] font-semibold tracking-[-0.05em] text-[#1f2b36] sm:text-[2.9rem]">
                               {selectedCategory.name}
                             </h3>
-                            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/68 sm:text-base">
+                            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#68737f] sm:text-base">
                               {selectedCategory.description ??
                                 "Uma selecao pensada para manter o cardapio claro, elegante e facil de explorar no ambiente do hotel."}
                             </p>
                           </div>
 
                           <div className="mt-6 flex flex-wrap gap-2">
-                            <span className="rounded-full border border-white/10 bg-white/6 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-white/65">
+                            <span className="rounded-full border border-[#e2d4c2] bg-white/76 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
                               {allCategoryItems.length} opcoes disponiveis
                             </span>
                             {selectedCategory.children.length ? (
-                              <span className="rounded-full border border-white/10 bg-white/6 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-white/65">
+                              <span className="rounded-full border border-[#e2d4c2] bg-white/76 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
                                 {selectedCategory.children.length} blocos internos
                               </span>
                             ) : null}
                             {priceRange ? (
-                              <span className="rounded-full border border-[#d8c6a2]/30 bg-[#d8c6a2]/12 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-[#f6e8cb]">
+                              <span className="rounded-full border border-[#cfb58e] bg-[#f2e1c5] px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-[#755a33]">
                                 De {currencyFormatter.format(priceRange.min)} a{" "}
                                 {currencyFormatter.format(priceRange.max)}
                               </span>
@@ -396,7 +396,7 @@ export function RestaurantMenuDialog({
                           </div>
                         </div>
 
-                        <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#09273a]">
+                        <div className="relative overflow-hidden rounded-[1.75rem] border border-[#ddcbb4] bg-[#f4e8d7] shadow-[0_16px_34px_rgba(70,49,24,0.1)]">
                           {previewImage ? (
                             <Image
                               src={previewImage}
@@ -405,11 +405,11 @@ export function RestaurantMenuDialog({
                               className="object-cover transition duration-500"
                             />
                           ) : null}
-                          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,19,31,0.08)_0%,rgba(3,19,31,0.55)_72%,rgba(3,19,31,0.9)_100%)]" />
-                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(215,198,162,0.28),transparent_30%),radial-gradient(circle_at_right,rgba(143,180,206,0.18),transparent_34%)]" />
+                          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,248,236,0.08)_0%,rgba(37,50,66,0.18)_55%,rgba(31,43,54,0.72)_100%)]" />
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,244,225,0.32),transparent_28%),radial-gradient(circle_at_right,rgba(215,198,162,0.2),transparent_34%)]" />
 
                           <div className="relative flex h-full min-h-[300px] flex-col justify-end p-5">
-                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#c7def1]">
+                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#f1dec1]">
                               Destaque do momento
                             </p>
                             <h4 className="mt-3 text-[1.7rem] leading-[0.95] font-semibold tracking-[-0.04em] text-white">
@@ -426,7 +426,7 @@ export function RestaurantMenuDialog({
                                   {currencyFormatter.format(previewItem.price)}
                                 </span>
                               ) : null}
-                              <span className="inline-flex rounded-full border border-white/12 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.24em] text-white/62">
+                              <span className="inline-flex rounded-full border border-white/14 bg-white/14 px-4 py-2 text-xs uppercase tracking-[0.24em] text-white/72">
                                 Passe o mouse ou toque nos cards
                               </span>
                             </div>
@@ -439,10 +439,10 @@ export function RestaurantMenuDialog({
                       <section className="space-y-4">
                         <div className="flex items-center justify-between gap-3">
                           <div>
-                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8fb4ce]">
+                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                               Itens principais
                             </p>
-                            <h4 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-white">
+                            <h4 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-[#1f2b36]">
                               Selecoes desta categoria
                             </h4>
                           </div>
@@ -467,20 +467,20 @@ export function RestaurantMenuDialog({
                       <section key={child.id} className="space-y-4">
                         <div className="flex items-center justify-between gap-3">
                           <div>
-                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8fb4ce]">
+                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                               Bloco complementar
                             </p>
-                            <h4 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-white">
+                            <h4 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-[#1f2b36]">
                               {child.name}
                             </h4>
                           </div>
-                          <span className="rounded-full border border-white/10 bg-white/6 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-white/58">
+                          <span className="rounded-full border border-[#e2d4c2] bg-white/76 px-3 py-2 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
                             {child.items.length} opcoes
                           </span>
                         </div>
 
                         {child.description ? (
-                          <p className="max-w-2xl text-sm leading-7 text-white/62">{child.description}</p>
+                          <p className="max-w-2xl text-sm leading-7 text-[#68737f]">{child.description}</p>
                         ) : null}
 
                         <div className="grid gap-4 xl:grid-cols-2">
@@ -500,47 +500,47 @@ export function RestaurantMenuDialog({
                   </div>
 
                   <aside className="hidden xl:block">
-                    <div className="sticky top-0 space-y-4 rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.03)_100%)] p-4 shadow-[0_20px_48px_rgba(1,12,22,0.22)]">
+                    <div className="sticky top-0 space-y-4 rounded-[1.8rem] border border-[#e0d0bc] bg-[linear-gradient(180deg,rgba(248,240,228,0.96)_0%,rgba(241,230,213,0.88)_100%)] p-4 shadow-[0_20px_48px_rgba(70,49,24,0.1)]">
                       <div>
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8fb4ce]">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                           Leitura rapida
                         </p>
-                        <h4 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-white">
+                        <h4 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-[#1f2b36]">
                           Resumo da categoria
                         </h4>
                       </div>
 
                       <div className="grid gap-3">
-                        <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.05] p-4">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white/45">
+                        <div className="rounded-[1.35rem] border border-[#e4d7c6] bg-white/78 p-4">
+                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
                             Nome
                           </p>
-                          <p className="mt-2 text-base font-semibold text-white">{selectedCategory.name}</p>
+                          <p className="mt-2 text-base font-semibold text-[#213243]">{selectedCategory.name}</p>
                         </div>
 
-                        <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.05] p-4">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white/45">
+                        <div className="rounded-[1.35rem] border border-[#e4d7c6] bg-white/78 p-4">
+                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
                             Total de itens
                           </p>
-                          <p className="mt-2 text-base font-semibold text-white">{allCategoryItems.length}</p>
+                          <p className="mt-2 text-base font-semibold text-[#213243]">{allCategoryItems.length}</p>
                         </div>
 
-                        <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.05] p-4">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white/45">
+                        <div className="rounded-[1.35rem] border border-[#e4d7c6] bg-white/78 p-4">
+                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
                             Faixa de preco
                           </p>
-                          <p className="mt-2 text-base font-semibold text-white">
+                          <p className="mt-2 text-base font-semibold text-[#213243]">
                             {priceRange
                               ? `${currencyFormatter.format(priceRange.min)} - ${currencyFormatter.format(priceRange.max)}`
                               : "Itens complementares"}
                           </p>
                         </div>
 
-                        <div className="rounded-[1.35rem] border border-white/10 bg-white/[0.05] p-4">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white/45">
+                        <div className="rounded-[1.35rem] border border-[#e4d7c6] bg-white/78 p-4">
+                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
                             Servico
                           </p>
-                          <p className="mt-2 text-sm leading-6 text-white/68">
+                          <p className="mt-2 text-sm leading-6 text-[#6d7882]">
                             Cardapio pensado para leitura rapida em recepcao, quarto ou restaurante.
                           </p>
                         </div>
