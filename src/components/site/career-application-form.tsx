@@ -94,7 +94,9 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
         <label className="grid gap-2 text-sm text-slate-600">
           <FieldLabel>Vaga</FieldLabel>
           <Select name="jobId" defaultValue="" className="h-12 rounded-[1.25rem] bg-white/95">
-            <option value="">Banco de talentos</option>
+            <option value="">
+              {jobs.length ? "Selecionar vaga (opcional)" : "Banco de talentos"}
+            </option>
             {jobs.map((job) => (
               <option key={job.id} value={job.id}>
                 {job.title}
