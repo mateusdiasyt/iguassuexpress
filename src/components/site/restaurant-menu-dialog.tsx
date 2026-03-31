@@ -364,7 +364,7 @@ export function RestaurantMenuDialog({
                   ))}
                 </div>
 
-                <div className="grid min-h-0 flex-1 gap-6 xl:grid-cols-[minmax(0,1fr)_320px] xl:px-2 xl:pb-2">
+                <div className="min-h-0 flex-1 xl:px-2 xl:pb-2">
                   <div className="restaurant-menu-scroll min-h-0 space-y-5 overflow-y-auto pr-2">
                     <section
                       key={selectedCategory.slug}
@@ -505,55 +505,6 @@ export function RestaurantMenuDialog({
                       </section>
                     ))}
                   </div>
-
-                  <aside className="hidden xl:block">
-                    <div className="sticky top-0 space-y-4 rounded-[1.9rem] border border-[#eadfce] bg-[linear-gradient(180deg,rgba(250,244,236,0.96)_0%,rgba(244,235,222,0.88)_100%)] p-5 shadow-[0_20px_48px_rgba(84,61,33,0.08)]">
-                      <div>
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
-                          Leitura rapida
-                        </p>
-                        <h4 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-[#1f2b36]">
-                          Resumo da categoria
-                        </h4>
-                      </div>
-
-                      <div className="grid gap-3">
-                        <div className="rounded-[1.45rem] border border-[#e6dacb] bg-white/82 p-4 shadow-[0_8px_18px_rgba(84,61,33,0.04)]">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
-                            Nome
-                          </p>
-                          <p className="mt-2 text-base font-semibold text-[#213243]">{selectedCategory.name}</p>
-                        </div>
-
-                        <div className="rounded-[1.45rem] border border-[#e6dacb] bg-white/82 p-4 shadow-[0_8px_18px_rgba(84,61,33,0.04)]">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
-                            Total de itens
-                          </p>
-                          <p className="mt-2 text-base font-semibold text-[#213243]">{allCategoryItems.length}</p>
-                        </div>
-
-                        <div className="rounded-[1.45rem] border border-[#e6dacb] bg-white/82 p-4 shadow-[0_8px_18px_rgba(84,61,33,0.04)]">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
-                            Faixa de preco
-                          </p>
-                          <p className="mt-2 text-base font-semibold text-[#213243]">
-                            {priceRange
-                              ? `${currencyFormatter.format(priceRange.min)} - ${currencyFormatter.format(priceRange.max)}`
-                              : "Itens complementares"}
-                          </p>
-                        </div>
-
-                        <div className="rounded-[1.45rem] border border-[#e6dacb] bg-white/82 p-4 shadow-[0_8px_18px_rgba(84,61,33,0.04)]">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a7761]">
-                            Servico
-                          </p>
-                          <p className="mt-2 text-sm leading-6 text-[#6d7882]">
-                            Cardapio pensado para leitura rapida em recepcao, quarto ou restaurante.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </aside>
                 </div>
               </div>
             </div>
