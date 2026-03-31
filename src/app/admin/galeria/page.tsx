@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
+import { BriefcaseBusiness, ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { GalleryImageEditorCard } from "@/components/admin/personalization/gallery-image-editor-card";
 import { getGalleryImages, getPageContent, getRestaurantContent } from "@/data/queries";
@@ -129,14 +129,26 @@ function ReferenceItem({ label, children }: ReferenceItemProps) {
   );
 }
 
-function GalleryBannerReference({ page }: { page: PageContentItem }) {
+function PageBannerReference({
+  eyebrow,
+  title,
+  label,
+  page,
+  icon,
+}: {
+  eyebrow: string;
+  title: string;
+  label: string;
+  page: PageContentItem;
+  icon: LucideIcon;
+}) {
   return (
     <ReferenceCard
-      eyebrow="Coluna"
-      title="Galeria de fotos"
-      icon={ImageIcon}
+      eyebrow={eyebrow}
+      title={title}
+      icon={icon}
     >
-      <ReferenceItem label="Banner da galeria">
+      <ReferenceItem label={label}>
         <PreviewFrame
           src={page.bannerImage}
           alt={`Banner da pagina ${page.title}`}
@@ -199,8 +211,9 @@ function RestaurantReference({ restaurant }: { restaurant: RestaurantContentItem
 
 export default async function AdminGalleryPage() {
   const session = await requireAdmin();
-  const [galleryPage, restaurant, images] = await Promise.all([
+  const [galleryPage, careersPage, restaurant, images] = await Promise.all([
     getPageContent("gallery"),
+    getPageContent("careers"),
     getRestaurantContent(),
     getGalleryImages(true),
   ]);
@@ -227,8 +240,21 @@ export default async function AdminGalleryPage() {
           </span>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          <GalleryBannerReference page={galleryPage} />
+        <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+          <PageBannerReference
+            eyebrow="Coluna"
+            title="Galeria de fotos"
+            label="Banner da galeria"
+            page={galleryPage}
+            icon={ImageIcon}
+          />
+          <PageBannerReference
+            eyebrow="Coluna"
+            title="Carreiras"
+            label="Banner de carreiras"
+            page={careersPage}
+            icon={BriefcaseBusiness}
+          />
           <RestaurantReference restaurant={restaurant} />
         </div>
 
