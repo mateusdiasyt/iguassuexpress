@@ -11,6 +11,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import {
   getBlogPosts,
   getFaqItems,
+  getMenuCategories,
   getPageContent,
   getRestaurantContent,
   getRoomCategories,
@@ -53,12 +54,13 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const [settings, homePage, roomCategories, restaurant, tour, blogPosts, faqs] =
+  const [settings, homePage, roomCategories, restaurant, menuCategories, tour, blogPosts, faqs] =
     await Promise.all([
       getSiteSettings(),
       getPageContent("home"),
       getRoomCategories(),
       getRestaurantContent(),
+      getMenuCategories(),
       getTour360Content(),
       getBlogPosts(),
       getFaqItems(),
@@ -67,6 +69,11 @@ export default async function HomePage() {
   const heroCards = getHeroCards(homePage.content);
   const hasHeroCards = heroCards.length > 0;
   const heroImage = resolveHomeHeroImage(homePage.bannerImage);
+  const totalMenuItems = menuCategories.reduce(
+    (total, category) =>
+      total + category.items.length + category.children.reduce((childTotal, child) => childTotal + child.items.length, 0),
+    0,
+  );
   const tourDescription = resolveTourDescription(tour.description);
   const tourScenes = (tour.scenes ?? []).slice(0, 6);
   const primaryTourImage = tourScenes[0]?.image || tour.heroImage || heroImage;
@@ -123,6 +130,10 @@ export default async function HomePage() {
               "Cafe da manha, opcao a la carte e um ambiente acolhedor para completar a hospedagem."
             }
             image={restaurant.heroImage}
+            categoryCount={menuCategories.length}
+            itemCount={totalMenuItems}
+            breakfastTitle={restaurant.breakfastTitle}
+            aLaCarteTitle={restaurant.aLaCarteTitle}
           />
         </div>
 

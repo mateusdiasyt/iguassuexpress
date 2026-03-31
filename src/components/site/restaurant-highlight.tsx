@@ -1,57 +1,121 @@
-import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-import { SectionHeading } from "@/components/ui/section-heading";
+import Link from "next/link";
+import { ArrowUpRight, ScrollText } from "lucide-react";
 
 type RestaurantHighlightProps = {
   title: string;
   description: string;
   image?: string | null;
+  categoryCount: number;
+  itemCount: number;
+  breakfastTitle?: string | null;
+  aLaCarteTitle?: string | null;
 };
 
 export function RestaurantHighlight({
   title,
   description,
   image,
+  categoryCount,
+  itemCount,
+  breakfastTitle,
+  aLaCarteTitle,
 }: RestaurantHighlightProps) {
-  return (
-    <section className="grid gap-10 md:grid-cols-[minmax(300px,0.9fr)_minmax(0,1.1fr)] md:items-center">
-      <div className="relative mx-auto w-full max-w-[520px]">
-        <div
-          className="relative aspect-[0.96] overflow-hidden bg-slate-100 shadow-[0_24px_60px_rgba(15,23,42,0.12)] ring-1 ring-slate-200/70"
-          style={{ clipPath: "polygon(0 12%, 14% 0, 100% 0, 100% 88%, 86% 100%, 0 100%)" }}
-        >
-          {image ? (
-            <Image src={image} alt={title} fill className="object-cover" />
-          ) : (
-            <div className="h-full w-full bg-[linear-gradient(145deg,#dfe9f2,#c8d7e4_48%,#aac0d3)]" />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/34 via-slate-950/8 to-white/10" />
-        </div>
+  const serviceLine = [breakfastTitle, aLaCarteTitle].filter(Boolean).join(" + ");
 
-        <div className="absolute -right-2 bottom-6 rounded-full border border-slate-200/80 bg-white/92 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-600 shadow-[0_10px_24px_rgba(15,23,42,0.08)] backdrop-blur-md">
-          Cafe da manha + a la carte
+  return (
+    <section className="grid gap-8 lg:grid-cols-[minmax(320px,0.92fr)_minmax(0,1.08fr)] lg:items-center">
+      <div className="relative mx-auto w-full max-w-[540px]">
+        <div className="relative overflow-hidden rounded-[2rem] border border-slate-200/80 bg-slate-100 shadow-[0_28px_70px_rgba(15,23,42,0.12)]">
+          <div className="relative aspect-[1.02]">
+            {image ? (
+              <Image src={image} alt={title} fill className="object-cover" sizes="540px" />
+            ) : (
+              <div className="h-full w-full bg-[linear-gradient(145deg,#dfe9f2,#c8d7e4_48%,#aac0d3)]" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/42 via-slate-950/8 to-white/12" />
+          </div>
+
+          <div className="absolute inset-x-5 top-5 flex items-center justify-between gap-3">
+            <span className="rounded-full border border-white/35 bg-white/18 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_10px_24px_rgba(15,23,42,0.14)] backdrop-blur-md">
+              Cardapio Smart Express
+            </span>
+            <span className="rounded-full border border-white/35 bg-white/14 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white/88 backdrop-blur-md">
+              Restaurante
+            </span>
+          </div>
+
+          <div className="absolute inset-x-5 bottom-5 rounded-[1.5rem] border border-white/18 bg-slate-950/34 p-4 shadow-[0_18px_40px_rgba(15,23,42,0.18)] backdrop-blur-xl">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/62">
+              Leitura premium
+            </p>
+            <p className="mt-2 max-w-[16rem] text-lg font-semibold leading-tight text-white">
+              Categorias, valores e destaques do menu em uma experiencia visual mais forte.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="rounded-full border border-white/12 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/84">
+                {categoryCount} categorias
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/84">
+                {itemCount} itens
+              </span>
+            </div>
+          </div>
         </div>
-        <div className="absolute -left-3 top-8 h-16 w-16 rounded-full border border-white/70 bg-white/80 blur-[1px]" />
       </div>
 
       <div className="flex flex-col justify-center">
-          <SectionHeading
-            eyebrow="Restaurante"
-            title={title}
-            description={description}
-            layout="stacked"
-            className="max-w-none [&_h2]:max-w-none [&_h2]:text-[2.5rem] [&_h2]:leading-[0.94] md:[&_h2]:text-[3.2rem] [&_p]:max-w-[34rem] [&_p]:text-slate-600"
-          />
+        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-brand/75">
+          Restaurante
+        </p>
+        <h3 className="mt-4 max-w-[12ch] text-[2.5rem] leading-[0.92] font-extrabold tracking-[-0.05em] text-slate-950 md:text-[3.3rem]">
+          Cardapio Smart Express
+        </h3>
+        <p className="mt-5 max-w-[34rem] text-base leading-8 text-slate-600">
+          Explore o restaurante do hotel em um menu interativo, com categorias, imagens, precos e destaque visual para cada momento da estada.
+        </p>
+        <p className="mt-4 max-w-[34rem] text-sm leading-7 text-slate-500">
+          {description}
+        </p>
 
-        <div className="mt-8">
-            <Link
-              href="/restaurante"
-              className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.22em] text-brand transition-all duration-300 hover:gap-4 hover:text-brand-deep"
-            >
-              Explorar restaurante
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-[1.4rem] border border-slate-200/80 bg-white/82 px-4 py-4 shadow-[0_14px_30px_rgba(15,23,42,0.05)]">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/70">
+              Nome
+            </p>
+            <p className="mt-2 text-base font-semibold text-slate-950">{title}</p>
+          </div>
+          <div className="rounded-[1.4rem] border border-slate-200/80 bg-white/82 px-4 py-4 shadow-[0_14px_30px_rgba(15,23,42,0.05)]">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/70">
+              Estrutura
+            </p>
+            <p className="mt-2 text-base font-semibold text-slate-950">
+              {categoryCount} categorias
+            </p>
+          </div>
+          <div className="rounded-[1.4rem] border border-slate-200/80 bg-white/82 px-4 py-4 shadow-[0_14px_30px_rgba(15,23,42,0.05)]">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/70">
+              Servico
+            </p>
+            <p className="mt-2 text-base font-semibold text-slate-950">
+              {serviceLine || "Cafe da manha + a la carte"}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-7 flex flex-wrap items-center gap-3">
+          <Link
+            href="/restaurante"
+            className="inline-flex h-12 items-center justify-center gap-3 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-[0_18px_38px_rgba(9,77,122,0.28)] transition-all duration-300 hover:bg-brand-deep hover:shadow-[0_22px_42px_rgba(6,45,71,0.3)]"
+          >
+            Abrir cardapio smart
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+
+          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/84 px-4 py-2 text-sm text-slate-600">
+            <ScrollText className="h-4 w-4 text-brand" />
+            {itemCount} itens em leitura interativa
+          </span>
         </div>
       </div>
     </section>
