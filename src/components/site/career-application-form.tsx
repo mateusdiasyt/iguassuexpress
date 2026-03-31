@@ -45,7 +45,7 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
             Envie seu curriculo
           </h2>
           <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-            Escolha uma vaga especifica ou envie seu perfil para o banco de talentos.
+            Escolha a vaga aberta que mais combina com o seu perfil e envie sua candidatura.
           </p>
         </div>
 
@@ -93,9 +93,9 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
 
         <label className="grid gap-2 text-sm text-slate-600">
           <FieldLabel>Vaga</FieldLabel>
-          <Select name="jobId" defaultValue="" className="h-12 rounded-[1.25rem] bg-white/95">
-            <option value="">
-              {jobs.length ? "Selecionar vaga (opcional)" : "Banco de talentos"}
+          <Select name="jobId" defaultValue="" required className="h-12 rounded-[1.25rem] bg-white/95">
+            <option value="" disabled>
+              Selecione uma vaga
             </option>
             {jobs.map((job) => (
               <option key={job.id} value={job.id}>
@@ -155,9 +155,7 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
             }}
           />
 
-          <p className="text-sm text-slate-500">
-            Se preferir, deixe a vaga em branco e envie para o banco de talentos.
-          </p>
+          <p className="text-sm text-slate-500">Anexe o curriculo referente a vaga selecionada.</p>
         </div>
       </div>
 

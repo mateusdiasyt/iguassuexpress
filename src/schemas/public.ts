@@ -62,7 +62,7 @@ export const contactFormSchema = z.object({
 });
 
 export const careerApplicationSchema = z.object({
-  jobId: z.string().optional(),
+  jobId: z.string().min(1, "Selecione uma vaga."),
   name: z.string().min(2, "Informe seu nome."),
   phone: z.string().min(8, "Informe um telefone valido."),
   email: z.string().email("Informe um e-mail valido."),

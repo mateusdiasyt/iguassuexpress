@@ -85,7 +85,6 @@ export async function submitCareerApplication(
     await prisma.careerApplication.create({
       data: {
         ...parsed.data,
-        jobId: parsed.data.jobId || null,
         resumeUrl,
       },
     });
