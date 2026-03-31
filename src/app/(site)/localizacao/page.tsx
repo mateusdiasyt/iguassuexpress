@@ -141,11 +141,11 @@ function LocationMap({
 }) {
   return mapEmbed ? (
     <div
-      className="map-embed soft-card min-h-[420px] overflow-hidden rounded-[1.9rem] md:min-h-[520px]"
+      className="map-embed soft-card h-[340px] overflow-hidden rounded-[1.9rem] md:h-[420px] xl:h-[520px] [&>iframe]:block [&>iframe]:h-full [&>iframe]:w-full [&>div]:h-full [&>div]:w-full [&_iframe]:block [&_iframe]:h-full [&_iframe]:w-full"
       dangerouslySetInnerHTML={{ __html: mapEmbed }}
     />
   ) : (
-    <article className="soft-card flex min-h-[420px] items-center justify-center rounded-[1.9rem] p-8 text-center md:min-h-[520px]">
+    <article className="soft-card flex h-[340px] items-center justify-center rounded-[1.9rem] p-8 text-center md:h-[420px] xl:h-[520px]">
       <div>
         <SectionEyebrow>Mapa</SectionEyebrow>
         <h3 className="mt-3 text-[2rem] leading-[0.95] font-semibold text-slate-950">
@@ -207,17 +207,14 @@ export default async function LocationPage() {
         </div>
       </section>
 
-      <section className="grid gap-8 xl:grid-cols-[minmax(0,1.02fr)_minmax(340px,0.98fr)] xl:items-start">
+      <section className="grid gap-8 xl:grid-cols-[minmax(0,1.04fr)_minmax(320px,0.96fr)] xl:items-start">
         <div className="space-y-6">
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(240px,0.6fr)] lg:items-end">
-            <div>
-              <SectionEyebrow>Mapa e acesso</SectionEyebrow>
-              <h2 className="mt-3 text-[2.15rem] leading-[0.94] font-semibold text-slate-950 md:text-[3rem]">
-                Veja a regiao e organize o trajeto com antecedencia.
-              </h2>
-            </div>
-
-            <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8">
+          <div className="max-w-4xl space-y-4">
+            <SectionEyebrow>Mapa e acesso</SectionEyebrow>
+            <h2 className="max-w-3xl text-[2.15rem] leading-[0.94] font-semibold text-slate-950 md:text-[3rem]">
+              Veja a regiao e organize o trajeto com antecedencia.
+            </h2>
+            <p className="max-w-2xl text-sm leading-7 text-slate-600 md:text-base md:leading-8">
               A localizacao do hotel favorece deslocamentos para turismo, compras e compromissos corporativos em Foz do Iguacu.
             </p>
           </div>
