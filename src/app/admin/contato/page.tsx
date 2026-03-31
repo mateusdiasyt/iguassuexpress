@@ -1,10 +1,6 @@
 import type { ReactNode } from "react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import {
-  Mail,
   MapPin,
-  MessageSquareText,
   Phone,
   PlusSquare,
 } from "lucide-react";
@@ -13,7 +9,7 @@ import { AdminShell } from "@/components/admin/admin-shell";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Textarea } from "@/components/ui/textarea";
-import { getContactMessages, getPageContent, getSiteSettings } from "@/data/queries";
+import { getPageContent, getSiteSettings } from "@/data/queries";
 import { requireAdmin } from "@/lib/auth";
 import { buildMetadata } from "@/lib/seo";
 import { stringifyJson } from "@/lib/utils";
@@ -27,8 +23,6 @@ export const metadata = buildMetadata({
 
 type SiteSettings = Awaited<ReturnType<typeof getSiteSettings>>;
 type PageContent = Awaited<ReturnType<typeof getPageContent>>;
-type ContactMessages = Awaited<ReturnType<typeof getContactMessages>>;
-type ContactMessage = ContactMessages[number];
 
 function SectionEyebrow({ children }: { children: ReactNode }) {
   return (
@@ -171,53 +165,11 @@ function ContactPageForm({ page }: { page: PageContent }) {
   );
 }
 
-function MessageCard({ message }: { message: ContactMessage }) {
-  const hasPhone = Boolean(message.phone?.trim());
-
-  return (
-    <article className="rounded-[1.55rem] border border-slate-200/80 bg-slate-50/75 p-4">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="truncate text-base font-semibold text-slate-950">{message.name}</h3>
-          <p className="mt-1 text-sm text-slate-500">
-            {format(message.createdAt, "dd/MM/yyyy - HH:mm", { locale: ptBR })}
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          <a
-            href={`mailto:${message.email}`}
-            className="inline-flex h-9 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 text-sm text-slate-700 transition hover:border-slate-300 hover:text-slate-950"
-          >
-            <Mail className="h-3.5 w-3.5" />
-            {message.email}
-          </a>
-
-          {hasPhone ? (
-            <a
-              href={`https://wa.me/${String(message.phone).replace(/\D/g, "")}`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-9 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 text-sm text-slate-700 transition hover:border-slate-300 hover:text-slate-950"
-            >
-              <Phone className="h-3.5 w-3.5" />
-              {message.phone}
-            </a>
-          ) : null}
-        </div>
-      </div>
-
-      <p className="mt-4 whitespace-pre-line text-sm leading-7 text-slate-600">{message.message}</p>
-    </article>
-  );
-}
-
 export default async function AdminContactPage() {
   const session = await requireAdmin();
-  const [settings, page, messages] = await Promise.all([
+  const [settings, page] = await Promise.all([
     getSiteSettings(),
     getPageContent("contact"),
-    getContactMessages(),
   ]);
 
   const socialLinks = (settings.socialLinks as { instagram?: string; facebook?: string } | null) ?? {};
@@ -299,30 +251,6 @@ export default async function AdminContactPage() {
                   </p>
                   <p className="mt-2 text-sm leading-7 text-slate-700">{settings.address}</p>
                 </div>
-              </div>
-            </section>
-
-            <section className="rounded-[1.9rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-                  <MessageSquareText className="h-4.5 w-4.5" />
-                </span>
-                <div>
-                  <SectionEyebrow>Inbox</SectionEyebrow>
-                  <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-slate-950">
-                    Mensagens recebidas
-                  </h2>
-                </div>
-              </div>
-
-              <div className="mt-5 space-y-4">
-                {messages.length ? (
-                  messages.map((message) => <MessageCard key={message.id} message={message} />)
-                ) : (
-                  <article className="rounded-[1.45rem] border border-dashed border-slate-200 bg-slate-50/60 px-5 py-8 text-center">
-                    <p className="text-sm text-slate-500">Nenhuma mensagem recebida ainda.</p>
-                  </article>
-                )}
               </div>
             </section>
           </aside>
