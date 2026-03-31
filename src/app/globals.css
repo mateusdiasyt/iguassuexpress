@@ -277,6 +277,29 @@ select {
   animation: restaurant-menu-card-in 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.restaurant-menu-loader-glow {
+  animation: restaurant-menu-loader-glow 1600ms ease-in-out infinite;
+}
+
+.restaurant-menu-loader-mark {
+  animation: restaurant-menu-loader-mark 1200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.restaurant-menu-loader-ring {
+  animation: restaurant-menu-loader-ring 1800ms linear infinite;
+}
+
+.restaurant-menu-loader-dot {
+  height: 0.6rem;
+  width: 0.6rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(190, 160, 115, 0.96), rgba(141, 109, 66, 0.94));
+  box-shadow:
+    0 10px 18px rgba(84, 61, 33, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  animation: restaurant-menu-loader-dot 900ms ease-in-out infinite;
+}
+
 .restaurant-menu-scroll {
   scrollbar-width: thin;
   scrollbar-color: rgba(182, 153, 108, 0.92) rgba(255, 249, 240, 0.94);
@@ -398,13 +421,61 @@ select {
   }
 }
 
+@keyframes restaurant-menu-loader-glow {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes restaurant-menu-loader-mark {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes restaurant-menu-loader-ring {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes restaurant-menu-loader-dot {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translateY(0) scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chat-bubble-in,
   .nav-left-dock,
   .nav-left-dock.is-visible,
   .restaurant-menu-overlay,
   .restaurant-menu-panel,
-  .restaurant-menu-card-enter {
+  .restaurant-menu-card-enter,
+  .restaurant-menu-loader-glow,
+  .restaurant-menu-loader-mark,
+  .restaurant-menu-loader-ring,
+  .restaurant-menu-loader-dot {
     animation: none;
   }
 }

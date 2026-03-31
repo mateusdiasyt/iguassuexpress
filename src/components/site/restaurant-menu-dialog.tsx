@@ -1,7 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { startTransition, useDeferredValue, useEffect, useMemo, useState } from "react";
+import { startTransition, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   Beer,
@@ -214,6 +214,9 @@ export function RestaurantMenuDialog({
   const [selectedSlug, setSelectedSlug] = useState(categories[0]?.slug ?? "");
   const deferredSelectedSlug = useDeferredValue(selectedSlug);
   const [focusedItemSlug, setFocusedItemSlug] = useState<string | null>(null);
+  const [introPhase, setIntroPhase] = useState<"hidden" | "loading" | "closing">("hidden");
+  const introTimerRef = useRef<number | null>(null);
+  const introHideTimerRef = useRef<number | null>(null);
 
   const selectedCategory = useMemo(
     () =>
@@ -256,6 +259,40 @@ export function RestaurantMenuDialog({
     });
   }
 
+  function clearIntroTimers() {
+    if (introTimerRef.current) {
+      window.clearTimeout(introTimerRef.current);
+      introTimerRef.current = null;
+    }
+
+    if (introHideTimerRef.current) {
+      window.clearTimeout(introHideTimerRef.current);
+      introHideTimerRef.current = null;
+    }
+  }
+
+  function handleOpenChange(nextOpen: boolean) {
+    clearIntroTimers();
+    setOpen(nextOpen);
+
+    if (!nextOpen) {
+      setIntroPhase("hidden");
+      return;
+    }
+
+    setIntroPhase("loading");
+
+    introTimerRef.current = window.setTimeout(() => {
+      setIntroPhase("closing");
+      introTimerRef.current = null;
+    }, 1180);
+
+    introHideTimerRef.current = window.setTimeout(() => {
+      setIntroPhase("hidden");
+      introHideTimerRef.current = null;
+    }, 1580);
+  }
+
   useEffect(() => {
     if (!open) {
       return;
@@ -269,13 +306,19 @@ export function RestaurantMenuDialog({
     };
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      clearIntroTimers();
+    };
+  }, []);
+
   if (!categories.length || !selectedCategory) {
     return null;
   }
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-        <Dialog.Trigger asChild>
+    <Dialog.Root open={open} onOpenChange={handleOpenChange}>
+      <Dialog.Trigger asChild>
         <Button className="h-12 px-5 text-sm normal-case tracking-normal shadow-[0_18px_38px_rgba(9,77,122,0.28)]">
           Ver cardápio
         </Button>
@@ -286,6 +329,48 @@ export function RestaurantMenuDialog({
 
         <Dialog.Content className="restaurant-menu-shell fixed inset-0 z-[100] p-3 sm:p-5 lg:p-7">
           <div className="restaurant-menu-panel relative mx-auto flex h-full max-w-[1460px] overflow-hidden rounded-[2rem] border border-[#e9dece] bg-[linear-gradient(180deg,#f6efe3_0%,#f1e5d5_52%,#eadcc8_100%)] shadow-[0_36px_110px_rgba(65,47,27,0.16)]">
+            {introPhase !== "hidden" ? (
+              <div
+                className={cn(
+                  "absolute inset-0 z-[70] flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,252,247,0.98),rgba(243,231,214,0.94)_52%,rgba(232,215,192,0.9)_100%)] px-6 text-center transition-opacity duration-500",
+                  introPhase === "loading" ? "opacity-100" : "opacity-0",
+                )}
+              >
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(9,77,122,0.08),transparent_24%),radial-gradient(circle_at_82%_20%,rgba(190,163,123,0.18),transparent_28%),linear-gradient(90deg,rgba(208,186,154,0.12)_0,rgba(208,186,154,0.12)_1px,transparent_1px,transparent_100%)] bg-[length:auto,auto,240px_100%]" />
+                <div className="restaurant-menu-loader-glow absolute h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(189,157,110,0.2),transparent_68%)] blur-3xl" />
+
+                <div className="relative z-10 flex max-w-[28rem] flex-col items-center">
+                  <div className="restaurant-menu-loader-mark relative flex h-32 w-32 items-center justify-center rounded-full border border-[#dcc7a4]/70 bg-white/72 shadow-[0_22px_44px_rgba(84,61,33,0.12)]">
+                    <span className="restaurant-menu-loader-ring absolute inset-2 rounded-full border border-[#d9c3a0]/75" />
+                    <Image
+                      src="/logo-hotel-principal.png"
+                      alt="Iguassu Express Hotel"
+                      width={168}
+                      height={68}
+                      className="h-auto w-[7.6rem] object-contain"
+                      priority
+                    />
+                  </div>
+
+                  <p className="mt-8 text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-[#8d6d42]">
+                    Restaurante
+                  </p>
+                  <h2 className="mt-3 text-[2.15rem] leading-[0.94] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.75rem]">
+                    Cardápio Smart carregando
+                  </h2>
+                  <p className="mt-4 max-w-[24rem] text-sm leading-7 text-[#5c6974] sm:text-base">
+                    Preparando a experiência do restaurante com categorias, destaques e leitura interativa.
+                  </p>
+
+                  <div className="mt-7 flex items-center gap-2">
+                    <span className="restaurant-menu-loader-dot" />
+                    <span className="restaurant-menu-loader-dot" style={{ animationDelay: "140ms" }} />
+                    <span className="restaurant-menu-loader-dot" style={{ animationDelay: "280ms" }} />
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
             <aside className="hidden w-[280px] shrink-0 border-r border-[#eadfce] bg-[linear-gradient(180deg,rgba(250,244,236,0.94)_0%,rgba(244,235,222,0.82)_100%)] p-7 lg:flex lg:flex-col">
               <div className="rounded-[1.8rem] border border-[#e9dece] bg-[linear-gradient(160deg,rgba(255,253,250,0.98),rgba(248,240,228,0.92))] p-5 shadow-[0_20px_46px_rgba(84,61,33,0.08)]">
                 <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
