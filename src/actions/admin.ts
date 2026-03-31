@@ -707,6 +707,28 @@ export async function saveFaqAction(formData: FormData) {
   refreshSite(["/", "/admin/faq"]);
 }
 
+export async function reorderFaqItemsAction(formData: FormData) {
+  await requireAdmin();
+
+  const ids = formData
+    .getAll("ids")
+    .map((value) => String(value))
+    .filter(Boolean);
+
+  if (!ids.length) return;
+
+  await prisma.$transaction(
+    ids.map((id, index) =>
+      prisma.faqItem.update({
+        where: { id },
+        data: { order: index },
+      }),
+    ),
+  );
+
+  refreshSite(["/", "/admin/faq"]);
+}
+
 export async function deleteFaqAction(formData: FormData) {
   await requireAdmin();
   const id = getString(formData, "id");
