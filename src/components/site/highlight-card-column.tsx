@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CalendarCheck2, Gem, MapPinned, Volume2, VolumeX } from "lucide-react";
+import { CalendarCheck2, Gem, MapPinned } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type HighlightCardColumnProps = {
@@ -41,89 +41,8 @@ const WHATSAPP_MESSAGES = [
   },
 ];
 
-type YouTubePlayer = {
-  playVideo: () => void;
-  pauseVideo: () => void;
-  setVolume: (volume: number) => void;
-  mute: () => void;
-  unMute: () => void;
-  destroy: () => void;
-};
-
-type YouTubeNamespace = {
-  Player: new (
-    target: HTMLElement,
-    options: {
-      videoId: string;
-      playerVars?: Record<string, number | string>;
-      events?: {
-        onReady?: (event: { target: YouTubePlayer }) => void;
-      };
-    },
-  ) => YouTubePlayer;
-};
-
-declare global {
-  interface Window {
-    YT?: YouTubeNamespace;
-    onYouTubeIframeAPIReady?: () => void;
-  }
-}
-
-let youtubeApiPromise: Promise<YouTubeNamespace> | null = null;
-
-function getControllablePlayer(player: YouTubePlayer | null | undefined) {
-  if (
-    !player ||
-    typeof player.playVideo !== "function" ||
-    typeof player.pauseVideo !== "function" ||
-    typeof player.setVolume !== "function" ||
-    typeof player.mute !== "function" ||
-    typeof player.unMute !== "function"
-  ) {
-    return null;
-  }
-
-  return player;
-}
-
-function loadYouTubeApi() {
-  if (typeof window === "undefined") {
-    return Promise.reject(new Error("YouTube API indisponivel no servidor."));
-  }
-
-  if (window.YT?.Player) {
-    return Promise.resolve(window.YT);
-  }
-
-  if (youtubeApiPromise) {
-    return youtubeApiPromise;
-  }
-
-  youtubeApiPromise = new Promise((resolve) => {
-    const existingScript = document.querySelector(
-      'script[src="https://www.youtube.com/iframe_api"]',
-    ) as HTMLScriptElement | null;
-    const previousReady = window.onYouTubeIframeAPIReady;
-
-    window.onYouTubeIframeAPIReady = () => {
-      previousReady?.();
-
-      if (window.YT) {
-        resolve(window.YT);
-      }
-    };
-
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.src = "https://www.youtube.com/iframe_api";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  });
-
-  return youtubeApiPromise;
-}
+const PREMIUM_VIDEO_ID = "YxJpctY88sI";
+const PREMIUM_VIDEO_EMBED_URL = `https://www.youtube.com/embed/${PREMIUM_VIDEO_ID}?autoplay=1&mute=1&controls=1&rel=0&playsinline=1&modestbranding=1`;
 
 export function HighlightCardColumn({
   cards,
@@ -133,15 +52,10 @@ export function HighlightCardColumn({
   const icons = [MapPinned, CalendarCheck2, Gem];
   const [activePreviewIndex, setActivePreviewIndex] = useState<number | null>(null);
   const [chatTick, setChatTick] = useState(0);
-  const [premiumVolume, setPremiumVolume] = useState(50);
-  const [isPremiumPlayerReady, setIsPremiumPlayerReady] = useState(false);
+  const [isPremiumVideoLoaded, setIsPremiumVideoLoaded] = useState(false);
   const closePreviewTimerRef = useRef<number | null>(null);
-  const premiumPlayerContainerRef = useRef<HTMLDivElement | null>(null);
-  const premiumPlayerInstanceRef = useRef<YouTubePlayer | null>(null);
-  const premiumPlayerRef = useRef<YouTubePlayer | null>(null);
 
   const isReservationPreviewActive = activePreviewIndex === 1;
-  const isPremiumPreviewActive = activePreviewIndex === 2;
 
   function clearCloseTimer() {
     if (closePreviewTimerRef.current) {
@@ -155,12 +69,16 @@ export function HighlightCardColumn({
     if (index === 1) {
       setChatTick(0);
     }
+    setIsPremiumVideoLoaded(false);
     setActivePreviewIndex(index);
   }
 
   function scheduleClosePreview(index: number) {
     clearCloseTimer();
     closePreviewTimerRef.current = window.setTimeout(() => {
+      if (index === 2) {
+        setIsPremiumVideoLoaded(false);
+      }
       setActivePreviewIndex((current) => (current === index ? null : current));
     }, 120);
   }
@@ -180,102 +98,6 @@ export function HighlightCardColumn({
 
     return () => window.clearInterval(timer);
   }, [isReservationPreviewActive]);
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    if (!isPremiumPreviewActive) {
-      getControllablePlayer(premiumPlayerRef.current)?.pauseVideo();
-      return;
-    }
-
-    async function setupPremiumPlayer() {
-      const playerRoot = premiumPlayerContainerRef.current;
-      if (!playerRoot) {
-        return;
-      }
-
-      const YT = await loadYouTubeApi();
-      if (isCancelled || !premiumPlayerContainerRef.current) {
-        return;
-      }
-
-      if (!premiumPlayerInstanceRef.current) {
-        premiumPlayerInstanceRef.current = new YT.Player(playerRoot, {
-          videoId: "YxJpctY88sI",
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            rel: 0,
-            playsinline: 1,
-            modestbranding: 1,
-            iv_load_policy: 3,
-          },
-          events: {
-            onReady: (event) => {
-              if (isCancelled) {
-                return;
-              }
-
-              const player = getControllablePlayer(event.target);
-              if (!player) {
-                return;
-              }
-
-              premiumPlayerRef.current = player;
-              player.unMute();
-              player.setVolume(50);
-              player.playVideo();
-              setPremiumVolume(50);
-              setIsPremiumPlayerReady(true);
-            },
-          },
-        });
-
-        return;
-      }
-
-      const player = getControllablePlayer(premiumPlayerRef.current);
-      if (!player) {
-        return;
-      }
-
-      player.unMute();
-      player.setVolume(premiumVolume);
-      player.playVideo();
-      setIsPremiumPlayerReady(true);
-    }
-
-    void setupPremiumPlayer();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [isPremiumPreviewActive, premiumVolume]);
-
-  useEffect(() => {
-    const player = getControllablePlayer(premiumPlayerRef.current);
-    if (!player) {
-      return;
-    }
-
-    if (premiumVolume <= 0) {
-      player.mute();
-      player.setVolume(0);
-      return;
-    }
-
-    player.unMute();
-    player.setVolume(premiumVolume);
-  }, [premiumVolume]);
-
-  useEffect(() => {
-    return () => {
-      premiumPlayerInstanceRef.current?.destroy();
-      premiumPlayerInstanceRef.current = null;
-      premiumPlayerRef.current = null;
-    };
-  }, []);
 
   const chatSequence = [1, 2, 3, 4, WHATSAPP_MESSAGES.length, WHATSAPP_MESSAGES.length, WHATSAPP_MESSAGES.length];
   const chatStep = isReservationPreviewActive ? chatSequence[chatTick % chatSequence.length] : 1;
@@ -408,38 +230,29 @@ export function HighlightCardColumn({
                     </p>
                   </div>
                   <div className="relative mt-2 overflow-visible">
-                    <div className="absolute -right-14 top-1/2 z-30 flex h-[9.75rem] w-[3rem] -translate-y-1/2 flex-col items-center gap-2 rounded-[1rem] border border-white/20 bg-slate-950/62 px-2 py-2 shadow-[0_18px_32px_rgba(2,14,26,0.32)] backdrop-blur-xl">
-                      {premiumVolume <= 0 ? (
-                        <VolumeX className="h-3.5 w-3.5 text-white/80" />
-                      ) : (
-                        <Volume2 className="h-3.5 w-3.5 text-white/80" />
-                      )}
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="1"
-                        value={premiumVolume}
-                        aria-label="Controlar volume do video"
-                        onChange={(event) => {
-                          setPremiumVolume(Number(event.target.value));
-                        }}
-                        className="mt-1 h-20 w-20 -rotate-90 cursor-pointer accent-white"
-                      />
-                    </div>
                     <div className="relative h-56 w-full overflow-hidden rounded-[0.95rem] bg-slate-950/20">
-                      <div
-                        ref={premiumPlayerContainerRef}
-                        className="h-full w-full"
-                      />
-                      {!isPremiumPlayerReady ? (
-                        <div className="absolute inset-0 flex items-center justify-center bg-white/8 text-sm text-slate-200/75">
-                          {isPremiumPreviewActive ? "Carregando preview..." : "Passe o mouse para assistir"}
+                      {isPreviewOpen ? (
+                        <iframe
+                          key={PREMIUM_VIDEO_EMBED_URL}
+                          src={PREMIUM_VIDEO_EMBED_URL}
+                          title="Preview de video da experiencia premium"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                          onLoad={() => setIsPremiumVideoLoaded(true)}
+                          className="h-full w-full border-0"
+                        />
+                      ) : null}
+                      {!isPremiumVideoLoaded ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/8 text-center text-sm text-slate-200/75">
+                          {isPreviewOpen ? "Carregando vídeo..." : "Passe o mouse para assistir"}
                         </div>
                       ) : null}
-                      {!isPremiumPreviewActive && isPremiumPlayerReady ? (
-                        <div className="absolute inset-0 bg-slate-950/18" />
-                      ) : null}
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-slate-950/68 via-slate-950/18 to-transparent px-4 py-3">
+                        <span className="rounded-full border border-white/16 bg-white/12 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/78">
+                          Vídeo com controles
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
