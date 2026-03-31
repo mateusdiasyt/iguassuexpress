@@ -285,12 +285,12 @@ export function RestaurantMenuDialog({
     introTimerRef.current = window.setTimeout(() => {
       setIntroPhase("closing");
       introTimerRef.current = null;
-    }, 1180);
+    }, 2600);
 
     introHideTimerRef.current = window.setTimeout(() => {
       setIntroPhase("hidden");
       introHideTimerRef.current = null;
-    }, 1580);
+    }, 3000);
   }
 
   useEffect(() => {
@@ -342,14 +342,16 @@ export function RestaurantMenuDialog({
                 <div className="relative z-10 flex max-w-[28rem] flex-col items-center">
                   <div className="restaurant-menu-loader-mark relative flex h-32 w-32 items-center justify-center rounded-full border border-[#dcc7a4]/70 bg-white/72 shadow-[0_22px_44px_rgba(84,61,33,0.12)]">
                     <span className="restaurant-menu-loader-ring absolute inset-2 rounded-full border border-[#d9c3a0]/75" />
-                    <Image
-                      src="/logo-hotel-principal.png"
-                      alt="Iguassu Express Hotel"
-                      width={168}
-                      height={68}
-                      className="h-auto w-[7.6rem] object-contain"
-                      priority
-                    />
+                    <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-brand-deep shadow-[0_18px_32px_rgba(6,45,71,0.26)]">
+                      <Image
+                        src="/favicon-hotel.png"
+                        alt="Iguassu Express Hotel"
+                        width={40}
+                        height={40}
+                        className="h-10 w-10 object-contain"
+                        priority
+                      />
+                    </span>
                   </div>
 
                   <p className="mt-8 text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-[#8d6d42]">
