@@ -7,7 +7,6 @@ import {
   MessageSquareText,
   Phone,
   PlusSquare,
-  ScanSearch,
 } from "lucide-react";
 import { savePageContentAction, saveSiteSettingsAction } from "@/actions/admin";
 import { AdminShell } from "@/components/admin/admin-shell";
@@ -240,7 +239,7 @@ export default async function AdminContactPage() {
           </div>
 
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-            {messages.length} {messages.length === 1 ? "mensagem" : "mensagens"}
+            Inbox
           </span>
         </div>
 
@@ -321,8 +320,7 @@ export default async function AdminContactPage() {
                   messages.map((message) => <MessageCard key={message.id} message={message} />)
                 ) : (
                   <article className="rounded-[1.45rem] border border-dashed border-slate-200 bg-slate-50/60 px-5 py-8 text-center">
-                    <ScanSearch className="mx-auto h-5 w-5 text-slate-400" />
-                    <p className="mt-3 text-sm text-slate-500">Nenhuma mensagem recebida ainda.</p>
+                    <p className="text-sm text-slate-500">Nenhuma mensagem recebida ainda.</p>
                   </article>
                 )}
               </div>
