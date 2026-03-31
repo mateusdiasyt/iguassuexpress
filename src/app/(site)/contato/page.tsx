@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { Mail, MessageCircle, PhoneCall, Sparkles } from "lucide-react";
-import { ContactForm } from "@/components/site/contact-form";
 import { PageHero } from "@/components/site/page-hero";
 import { RichText } from "@/components/ui/rich-text";
 import { getPageContent, getSiteSettings } from "@/data/queries";
@@ -48,28 +47,35 @@ function ContactChannelCard({
       rel={href.startsWith("http") ? "noreferrer" : undefined}
       className={
         highlight
-          ? "rounded-[1.7rem] border border-emerald-200/70 bg-emerald-50/80 p-5 shadow-[0_16px_30px_rgba(16,185,129,0.15)] transition-transform duration-300 hover:-translate-y-0.5"
-          : "soft-card rounded-[1.7rem] p-5 transition-transform duration-300 hover:-translate-y-0.5"
+          ? "rounded-[1.7rem] border border-emerald-200/70 bg-emerald-50/80 p-6 shadow-[0_16px_30px_rgba(16,185,129,0.15)] transition-transform duration-300 hover:-translate-y-0.5 md:p-7"
+          : "soft-card rounded-[1.7rem] p-6 transition-transform duration-300 hover:-translate-y-0.5 md:p-7"
       }
     >
-      <div className="flex items-start justify-between gap-4">
-        <span
-          className={
-            highlight
-              ? "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700"
-              : "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-brand"
-          }
-        >
-          <Icon className="h-5 w-5" />
-        </span>
+      <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-start gap-4">
+          <span
+            className={
+              highlight
+                ? "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700"
+                : "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-brand"
+            }
+          >
+            <Icon className="h-5 w-5" />
+          </span>
 
-        <span className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
-          {eyebrow}
+          <div className="min-w-0">
+            <span className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+              {eyebrow}
+            </span>
+            <h3 className="mt-4 text-[1.8rem] leading-[0.96] font-semibold text-slate-950">{title}</h3>
+            <p className="mt-3 break-words text-sm leading-7 text-slate-600">{value}</p>
+          </div>
+        </div>
+
+        <span className="inline-flex w-fit items-center rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-sm font-medium text-slate-700">
+          Abrir canal
         </span>
       </div>
-
-      <h3 className="mt-5 text-[1.55rem] leading-[0.96] font-semibold text-slate-950">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{value}</p>
     </a>
   );
 }
@@ -117,54 +123,50 @@ export default async function ContactPage() {
             description="Use WhatsApp, telefone ou e-mail para tirar duvidas, pedir suporte e alinhar detalhes da sua estada."
           />
           <SupportNote
-            title="Retorno mais claro"
-            description="Se preferir escrever com mais contexto, use o formulario abaixo para enviar uma mensagem completa para nossa equipe."
+            title="Tudo em um so lugar"
+            description="A pagina agora concentra apenas os canais oficiais de contato, sem mapa e sem etapas extras."
           />
         </div>
       </section>
 
-      <section className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.96fr)] xl:items-start">
-        <div className="space-y-6">
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(240px,0.6fr)] lg:items-end">
-            <div>
-              <SectionEyebrow>Canais diretos</SectionEyebrow>
-              <h2 className="mt-3 text-[2.15rem] leading-[0.94] font-semibold text-slate-950 md:text-[3rem]">
-                WhatsApp, telefone e e-mail em um so lugar.
-              </h2>
-            </div>
-
-            <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-              Escolha o formato que funciona melhor para voce e fale com o hotel sem precisar navegar por outras areas.
-            </p>
+      <section className="space-y-6">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(240px,0.6fr)] lg:items-end">
+          <div>
+            <SectionEyebrow>Canais diretos</SectionEyebrow>
+            <h2 className="mt-3 text-[2.15rem] leading-[0.94] font-semibold text-slate-950 md:text-[3rem]">
+              WhatsApp, telefone e e-mail em largura total.
+            </h2>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            <ContactChannelCard
-              eyebrow="WhatsApp"
-              title="Atendimento oficial"
-              value={settings.whatsapp}
-              href={formatWhatsAppHref(settings.whatsapp, "Ola! Gostaria de falar com a equipe do hotel.")}
-              icon={MessageCircle}
-              highlight
-            />
-            <ContactChannelCard
-              eyebrow="Telefone"
-              title="Ligacao direta"
-              value={settings.phone}
-              href={formatPhoneHref(settings.phone)}
-              icon={PhoneCall}
-            />
-            <ContactChannelCard
-              eyebrow="E-mail"
-              title="Mensagem por escrito"
-              value={settings.email}
-              href={`mailto:${settings.email}`}
-              icon={Mail}
-            />
-          </div>
+          <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8">
+            Escolha o formato que funciona melhor para voce e fale com o hotel sem precisar passar por outras colunas.
+          </p>
         </div>
 
-        <ContactForm />
+        <div className="grid gap-4">
+          <ContactChannelCard
+            eyebrow="WhatsApp"
+            title="Atendimento oficial"
+            value={settings.whatsapp}
+            href={formatWhatsAppHref(settings.whatsapp, "Ola! Gostaria de falar com a equipe do hotel.")}
+            icon={MessageCircle}
+            highlight
+          />
+          <ContactChannelCard
+            eyebrow="Telefone"
+            title="Ligacao direta"
+            value={settings.phone}
+            href={formatPhoneHref(settings.phone)}
+            icon={PhoneCall}
+          />
+          <ContactChannelCard
+            eyebrow="E-mail"
+            title="Mensagem por escrito"
+            value={settings.email}
+            href={`mailto:${settings.email}`}
+            icon={Mail}
+          />
+        </div>
       </section>
     </div>
   );
