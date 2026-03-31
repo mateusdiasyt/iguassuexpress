@@ -234,7 +234,35 @@ select {
 }
 
 .restaurant-menu-panel {
+  position: relative;
   will-change: transform, opacity;
+}
+
+.restaurant-menu-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(208, 186, 154, 0.14) 0, rgba(208, 186, 154, 0.14) 1px, transparent 1px, transparent 100%),
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.92), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(230, 213, 187, 0.26), transparent 26%),
+    radial-gradient(circle at 50% 84%, rgba(221, 202, 171, 0.2), transparent 34%);
+  background-size: 280px 100%, auto, auto, auto;
+  opacity: 0.72;
+}
+
+.restaurant-menu-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 8% 26%, rgba(189, 163, 128, 0.16), transparent 18%),
+    radial-gradient(circle at 14% 74%, rgba(188, 163, 129, 0.12), transparent 24%),
+    radial-gradient(circle at 91% 64%, rgba(255, 255, 255, 0.4), transparent 24%);
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
 }
 
 .restaurant-menu-shell[data-state="open"] .restaurant-menu-panel {
