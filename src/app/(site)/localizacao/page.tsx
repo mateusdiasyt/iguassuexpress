@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   CarFront,
@@ -166,7 +165,6 @@ export default async function LocationPage() {
     getSiteSettings(),
   ]);
 
-  const locationImage = location.heroImage ?? page.bannerImage;
   const mapEmbed = location.mapEmbed ?? settings.mapEmbed ?? "";
 
   return (
@@ -223,20 +221,6 @@ export default async function LocationPage() {
         </div>
 
         <div className="space-y-6 xl:sticky xl:top-28">
-          {locationImage ? (
-            <article className="soft-card overflow-hidden rounded-[1.9rem]">
-              <div className="relative aspect-[4/3] w-full">
-                <Image
-                  src={locationImage}
-                  alt={location.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1280px) 100vw, 420px"
-                />
-              </div>
-            </article>
-          ) : null}
-
           <ActionCard whatsapp={settings.whatsapp} phone={settings.phone} address={settings.address} />
         </div>
       </section>
