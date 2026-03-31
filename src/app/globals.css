@@ -244,12 +244,12 @@ select {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(208, 186, 154, 0.14) 0, rgba(208, 186, 154, 0.14) 1px, transparent 1px, transparent 100%),
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.92), transparent 28%),
-    radial-gradient(circle at 88% 12%, rgba(230, 213, 187, 0.26), transparent 26%),
-    radial-gradient(circle at 50% 84%, rgba(221, 202, 171, 0.2), transparent 34%);
+    linear-gradient(90deg, rgba(208, 186, 154, 0.1) 0, rgba(208, 186, 154, 0.1) 1px, transparent 1px, transparent 100%),
+    radial-gradient(circle at 12% 18%, rgba(252, 246, 237, 0.52), transparent 26%),
+    radial-gradient(circle at 88% 12%, rgba(230, 213, 187, 0.16), transparent 24%),
+    radial-gradient(circle at 50% 84%, rgba(221, 202, 171, 0.12), transparent 30%);
   background-size: 280px 100%, auto, auto, auto;
-  opacity: 0.72;
+  opacity: 0.48;
 }
 
 .restaurant-menu-panel::after {
@@ -258,11 +258,11 @@ select {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 8% 26%, rgba(189, 163, 128, 0.16), transparent 18%),
-    radial-gradient(circle at 14% 74%, rgba(188, 163, 129, 0.12), transparent 24%),
-    radial-gradient(circle at 91% 64%, rgba(255, 255, 255, 0.4), transparent 24%);
+    radial-gradient(circle at 8% 26%, rgba(189, 163, 128, 0.1), transparent 18%),
+    radial-gradient(circle at 14% 74%, rgba(188, 163, 129, 0.08), transparent 22%),
+    radial-gradient(circle at 91% 64%, rgba(255, 255, 255, 0.16), transparent 22%);
   mix-blend-mode: soft-light;
-  opacity: 0.55;
+  opacity: 0.38;
 }
 
 .restaurant-menu-shell[data-state="open"] .restaurant-menu-panel {

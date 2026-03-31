@@ -285,7 +285,7 @@ export function RestaurantMenuDialog({
         <Dialog.Overlay className="restaurant-menu-overlay fixed inset-0 z-[90] bg-[rgba(48,34,19,0.28)] backdrop-blur-xl" />
 
         <Dialog.Content className="restaurant-menu-shell fixed inset-0 z-[100] p-3 sm:p-5 lg:p-7">
-          <div className="restaurant-menu-panel relative mx-auto flex h-full max-w-[1460px] overflow-hidden rounded-[2rem] border border-[#e9dece] bg-[linear-gradient(180deg,#fdf9f2_0%,#f6ede1_52%,#f2e6d6_100%)] shadow-[0_36px_110px_rgba(65,47,27,0.16)]">
+          <div className="restaurant-menu-panel relative mx-auto flex h-full max-w-[1460px] overflow-hidden rounded-[2rem] border border-[#e9dece] bg-[linear-gradient(180deg,#f6efe3_0%,#f1e5d5_52%,#eadcc8_100%)] shadow-[0_36px_110px_rgba(65,47,27,0.16)]">
             <aside className="hidden w-[280px] shrink-0 border-r border-[#eadfce] bg-[linear-gradient(180deg,rgba(250,244,236,0.94)_0%,rgba(244,235,222,0.82)_100%)] p-7 lg:flex lg:flex-col">
               <div className="rounded-[1.8rem] border border-[#e9dece] bg-[linear-gradient(160deg,rgba(255,253,250,0.98),rgba(248,240,228,0.92))] p-5 shadow-[0_20px_46px_rgba(84,61,33,0.08)]">
                 <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
@@ -336,7 +336,7 @@ export function RestaurantMenuDialog({
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
                     Restaurante
                   </p>
-                  <Dialog.Title className="mt-2 text-[1.85rem] font-semibold tracking-[-0.05em] text-[#1f2b36] sm:text-[2.05rem]">
+                  <Dialog.Title className="mt-2 text-[1.85rem] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.05rem]">
                     Experiencia de cardapio
                   </Dialog.Title>
                 </div>
@@ -376,10 +376,10 @@ export function RestaurantMenuDialog({
                             <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-[#8d6d42]">
                               Categoria selecionada
                             </p>
-                            <h3 className="mt-4 text-[2.2rem] leading-[0.92] font-semibold tracking-[-0.05em] text-[#1f2b36] sm:text-[2.9rem]">
+                            <h3 className="mt-4 text-[2.2rem] leading-[0.92] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.9rem]">
                               {selectedCategory.name}
                             </h3>
-                            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#68737f] sm:text-base">
+                            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#58636f] sm:text-base">
                               {selectedCategory.description ??
                                 "Uma selecao pensada para manter o cardapio claro, elegante e facil de explorar no ambiente do hotel."}
                             </p>
@@ -449,7 +449,7 @@ export function RestaurantMenuDialog({
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                               Itens principais
                             </p>
-                            <h4 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-[#1f2b36]">
+                            <h4 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-[#182633]">
                               Selecoes desta categoria
                             </h4>
                           </div>
@@ -477,7 +477,7 @@ export function RestaurantMenuDialog({
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                               Bloco complementar
                             </p>
-                            <h4 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-[#1f2b36]">
+                            <h4 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-[#182633]">
                               {child.name}
                             </h4>
                           </div>
