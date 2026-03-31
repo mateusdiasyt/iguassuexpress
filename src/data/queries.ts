@@ -234,14 +234,14 @@ export async function getBlogPostBySlug(slug: string) {
   }
 }
 
-export async function getFaqItems() {
+export async function getFaqItems(includeInactive = false) {
   if (!hasConfiguredDatabase) {
-    return defaultFaqItems;
+    return includeInactive ? defaultFaqItems : defaultFaqItems.filter((item) => item.isActive);
   }
 
   try {
     const faqs = await prisma.faqItem.findMany({
-      where: { isActive: true },
+      where: includeInactive ? undefined : { isActive: true },
       orderBy: { order: "asc" },
     });
 
