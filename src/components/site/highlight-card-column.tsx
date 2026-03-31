@@ -72,6 +72,21 @@ declare global {
 
 let youtubeApiPromise: Promise<YouTubeNamespace> | null = null;
 
+function getControllablePlayer(player: YouTubePlayer | null | undefined) {
+  if (
+    !player ||
+    typeof player.playVideo !== "function" ||
+    typeof player.pauseVideo !== "function" ||
+    typeof player.setVolume !== "function" ||
+    typeof player.mute !== "function" ||
+    typeof player.unMute !== "function"
+  ) {
+    return null;
+  }
+
+  return player;
+}
+
 function loadYouTubeApi() {
   if (typeof window === "undefined") {
     return Promise.reject(new Error("YouTube API indisponivel no servidor."));
@@ -122,6 +137,7 @@ export function HighlightCardColumn({
   const [isPremiumPlayerReady, setIsPremiumPlayerReady] = useState(false);
   const closePreviewTimerRef = useRef<number | null>(null);
   const premiumPlayerContainerRef = useRef<HTMLDivElement | null>(null);
+  const premiumPlayerInstanceRef = useRef<YouTubePlayer | null>(null);
   const premiumPlayerRef = useRef<YouTubePlayer | null>(null);
 
   const isReservationPreviewActive = activePreviewIndex === 1;
@@ -169,7 +185,7 @@ export function HighlightCardColumn({
     let isCancelled = false;
 
     if (!isPremiumPreviewActive) {
-      premiumPlayerRef.current?.pauseVideo();
+      getControllablePlayer(premiumPlayerRef.current)?.pauseVideo();
       return;
     }
 
@@ -184,8 +200,8 @@ export function HighlightCardColumn({
         return;
       }
 
-      if (!premiumPlayerRef.current) {
-        premiumPlayerRef.current = new YT.Player(playerRoot, {
+      if (!premiumPlayerInstanceRef.current) {
+        premiumPlayerInstanceRef.current = new YT.Player(playerRoot, {
           videoId: "YxJpctY88sI",
           playerVars: {
             autoplay: 1,
@@ -201,9 +217,15 @@ export function HighlightCardColumn({
                 return;
               }
 
-              event.target.unMute();
-              event.target.setVolume(50);
-              event.target.playVideo();
+              const player = getControllablePlayer(event.target);
+              if (!player) {
+                return;
+              }
+
+              premiumPlayerRef.current = player;
+              player.unMute();
+              player.setVolume(50);
+              player.playVideo();
               setPremiumVolume(50);
               setIsPremiumPlayerReady(true);
             },
@@ -213,9 +235,14 @@ export function HighlightCardColumn({
         return;
       }
 
-      premiumPlayerRef.current.unMute();
-      premiumPlayerRef.current.setVolume(premiumVolume);
-      premiumPlayerRef.current.playVideo();
+      const player = getControllablePlayer(premiumPlayerRef.current);
+      if (!player) {
+        return;
+      }
+
+      player.unMute();
+      player.setVolume(premiumVolume);
+      player.playVideo();
       setIsPremiumPlayerReady(true);
     }
 
@@ -227,23 +254,25 @@ export function HighlightCardColumn({
   }, [isPremiumPreviewActive, premiumVolume]);
 
   useEffect(() => {
-    if (!premiumPlayerRef.current) {
+    const player = getControllablePlayer(premiumPlayerRef.current);
+    if (!player) {
       return;
     }
 
     if (premiumVolume <= 0) {
-      premiumPlayerRef.current.mute();
-      premiumPlayerRef.current.setVolume(0);
+      player.mute();
+      player.setVolume(0);
       return;
     }
 
-    premiumPlayerRef.current.unMute();
-    premiumPlayerRef.current.setVolume(premiumVolume);
+    player.unMute();
+    player.setVolume(premiumVolume);
   }, [premiumVolume]);
 
   useEffect(() => {
     return () => {
-      premiumPlayerRef.current?.destroy();
+      premiumPlayerInstanceRef.current?.destroy();
+      premiumPlayerInstanceRef.current = null;
       premiumPlayerRef.current = null;
     };
   }, []);
