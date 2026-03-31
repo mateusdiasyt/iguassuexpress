@@ -182,9 +182,9 @@ export function Tour360Modal({
               </div>
 
               <div className="relative z-10 mt-6 flex-1 overflow-hidden rounded-[2rem] border border-white/12 bg-[#08111c] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_30px_80px_rgba(0,0,0,0.34)]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_46%)]" />
-                <div className="absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#08111c] via-[#08111c]/35 to-transparent" />
-                <div className="absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#08111c] via-[#08111c]/35 to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_46%)]" />
+                <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#08111c] via-[#08111c]/35 to-transparent" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#08111c] via-[#08111c]/35 to-transparent" />
 
                 <Panorama360Viewer
                   src={activeScene.image}
@@ -192,9 +192,9 @@ export function Tour360Modal({
                   className="absolute inset-0 rounded-none"
                   showHint
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,28,0.08),rgba(8,17,28,0.06)_36%,rgba(8,17,28,0.6))]" />
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,28,0.08),rgba(8,17,28,0.06)_36%,rgba(8,17,28,0.6))]" />
 
-                <div className="absolute inset-x-6 bottom-6 z-20 flex flex-col gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/30 p-5 backdrop-blur-xl md:flex-row md:items-end md:justify-between">
+                <div className="pointer-events-none absolute inset-x-6 bottom-6 z-20 flex flex-col gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/30 p-5 backdrop-blur-xl md:flex-row md:items-end md:justify-between">
                   <div>
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-sky-100/75">
                       Cena ativa

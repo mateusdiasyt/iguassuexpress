@@ -59,9 +59,9 @@ export function TourLocationSection({
       </div>
 
       <div className="group relative min-h-[420px] overflow-hidden rounded-[2.4rem] border border-slate-200/80 bg-white shadow-[0_28px_70px_rgba(15,23,42,0.08)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.74),transparent_30%)]" />
-        <div className="absolute inset-y-0 left-0 z-10 w-28 bg-gradient-to-r from-white/72 to-transparent" />
-        <div className="absolute inset-y-0 right-0 z-10 w-28 bg-gradient-to-l from-white/72 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.74),transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-28 bg-gradient-to-r from-white/72 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-28 bg-gradient-to-l from-white/72 to-transparent" />
 
         <Panorama360Viewer
           src={primaryScene.image}
@@ -69,7 +69,7 @@ export function TourLocationSection({
           className="absolute inset-0 rounded-none"
           showHint={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/34 via-slate-950/10 to-white/8" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/34 via-slate-950/10 to-white/8" />
 
         <div className="absolute inset-x-5 top-5 z-20 flex items-start justify-between gap-4">
           <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-slate-700 shadow-[0_8px_22px_rgba(15,23,42,0.08)] backdrop-blur-md">
