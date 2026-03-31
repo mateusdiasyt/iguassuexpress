@@ -68,7 +68,7 @@ function ToggleField({
   label: string;
 }) {
   return (
-    <label className="flex items-center justify-between gap-4 rounded-[1.2rem] border border-slate-200 bg-slate-50/85 px-4 py-3">
+    <label className="flex items-center justify-between gap-4 rounded-[1.2rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(244,249,253,0.9)_0%,rgba(237,244,250,0.82)_100%)] px-4 py-3">
       <div>
         <p className="text-sm font-medium text-slate-900">{label}</p>
       </div>
@@ -123,8 +123,8 @@ function ItemEditorRow({
   const priceLabel = item.price === null ? "Sem preco" : `R$ ${item.price.toFixed(2)}`;
 
   return (
-    <details className="group rounded-[1.45rem] border border-slate-200 bg-white/96 shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[1.45rem] px-4 py-3 transition hover:bg-slate-50/80 [&::-webkit-details-marker]:hidden">
+    <details className="group rounded-[1.45rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(247,251,254,0.98)_0%,rgba(240,247,252,0.9)_100%)] shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[1.45rem] px-4 py-3 transition hover:bg-white/55 [&::-webkit-details-marker]:hidden">
         <div className="flex min-w-0 items-center gap-3">
           <PreviewThumb src={item.imageUrl ?? fallbackImage} alt={item.name} size="sm" />
           <div className="min-w-0">
@@ -147,13 +147,13 @@ function ItemEditorRow({
         </div>
       </summary>
 
-      <div className="border-t border-slate-200 px-4 py-4">
+      <div className="border-t border-brand/10 px-4 py-4">
         <form action={saveMenuItemAction} className="grid gap-4">
           <input type="hidden" name="id" value={item.id} />
           <input type="hidden" name="categoryId" value={categoryId} />
 
           <div className="grid gap-4 xl:grid-cols-[220px_minmax(0,1fr)]">
-            <div className="rounded-[1.35rem] border border-slate-200 bg-slate-50/70 p-4">
+            <div className="rounded-[1.35rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(241,247,252,0.9)_0%,rgba(235,244,250,0.82)_100%)] p-4">
               <SectionEyebrow>Imagem</SectionEyebrow>
               <div className="mt-3">
                 <UploadField
@@ -170,7 +170,7 @@ function ItemEditorRow({
             </div>
 
             <div className="grid gap-4">
-              <div className="rounded-[1.35rem] border border-slate-200 bg-white p-4">
+              <div className="rounded-[1.35rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(250,253,255,0.98)_0%,rgba(244,249,253,0.9)_100%)] p-4">
                 <SectionEyebrow>Dados do item</SectionEyebrow>
                 <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_130px_160px]">
                   <label className="grid gap-2 text-sm text-slate-600">
@@ -204,7 +204,7 @@ function ItemEditorRow({
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-end gap-3 rounded-[1.2rem] border border-slate-200 bg-slate-50/80 px-4 py-3">
+          <div className="flex flex-wrap justify-end gap-3 rounded-[1.2rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(242,248,252,0.92)_0%,rgba(235,244,250,0.84)_100%)] px-4 py-3">
             <Button
               type="submit"
               form={deleteFormId}
@@ -235,8 +235,8 @@ function NewItemPanel({
   nextOrder: number;
 }) {
   return (
-    <details className="group rounded-[1.45rem] border border-dashed border-slate-300 bg-slate-50/70 p-4">
-      <summary className="inline-flex cursor-pointer list-none items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-950 transition hover:border-slate-300 hover:bg-slate-50 [&::-webkit-details-marker]:hidden">
+    <details className="group rounded-[1.45rem] border border-dashed border-brand/20 bg-[linear-gradient(180deg,rgba(245,250,253,0.88)_0%,rgba(239,246,251,0.78)_100%)] p-4">
+      <summary className="inline-flex cursor-pointer list-none items-center gap-3 rounded-full border border-brand/10 bg-white/88 px-4 py-3 text-sm font-medium text-slate-950 transition hover:border-brand/20 hover:bg-white [&::-webkit-details-marker]:hidden">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition group-open:bg-slate-900 group-open:text-white">
           <ListPlus className="h-4 w-4" />
         </span>
@@ -264,7 +264,7 @@ function NewItemPanel({
           </div>
 
           <div className="grid gap-4">
-            <div className="rounded-[1.35rem] border border-slate-200 bg-white p-4">
+            <div className="rounded-[1.35rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(250,253,255,0.98)_0%,rgba(243,249,253,0.9)_100%)] p-4">
               <SectionEyebrow>Novo item</SectionEyebrow>
               <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_130px_160px]">
                 <label className="grid gap-2 text-sm text-slate-600">
@@ -293,13 +293,13 @@ function NewItemPanel({
               </label>
             </div>
 
-            <div className="rounded-[1.2rem] border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-500">
+            <div className="rounded-[1.2rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(245,250,253,0.94)_0%,rgba(239,246,251,0.84)_100%)] px-4 py-3 text-sm leading-6 text-slate-500">
               Deixe o preco vazio quando esse cadastro for apenas uma opcao complementar.
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end rounded-[1.2rem] border border-slate-200 bg-white px-4 py-3">
+        <div className="flex justify-end rounded-[1.2rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(245,250,253,0.94)_0%,rgba(239,246,251,0.84)_100%)] px-4 py-3">
           <SubmitButton className="h-10 px-4 text-sm normal-case tracking-normal shadow-sm">
             Adicionar item
           </SubmitButton>
@@ -357,13 +357,13 @@ function CategoryEditorCard({
         </div>
       </summary>
 
-      <div className="mt-5 space-y-5">
+      <div className="mt-5 space-y-5 rounded-[1.55rem] bg-brand/[0.03] p-1.5">
         <form action={saveMenuCategoryAction} className="grid gap-4">
           <input type="hidden" name="id" value={category.id} />
           <input type="hidden" name="parentId" value={category.parentId ?? ""} />
 
           <div className="grid gap-5 xl:grid-cols-[280px_minmax(0,1fr)]">
-            <div className="rounded-[1.45rem] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.94)_0%,rgba(248,250,252,0.84)_100%)] p-4">
+            <div className="rounded-[1.45rem] border border-brand/12 bg-[linear-gradient(180deg,rgba(244,249,253,0.98)_0%,rgba(236,245,251,0.9)_100%)] p-4">
               <SectionEyebrow>Mídia</SectionEyebrow>
               <div className="mt-3">
                 <UploadField
@@ -386,7 +386,7 @@ function CategoryEditorCard({
               </div>
             </div>
 
-            <div className="rounded-[1.45rem] border border-slate-200 bg-white p-4">
+            <div className="rounded-[1.45rem] border border-brand/12 bg-[linear-gradient(180deg,rgba(250,253,255,0.98)_0%,rgba(242,248,252,0.9)_100%)] p-4">
               <SectionEyebrow>Configuracao</SectionEyebrow>
               <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_130px]">
                 <label className="grid gap-2 text-sm text-slate-600">
@@ -416,7 +416,7 @@ function CategoryEditorCard({
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-end gap-3 rounded-[1.25rem] border border-slate-200 bg-slate-50/80 px-4 py-3">
+          <div className="flex flex-wrap justify-end gap-3 rounded-[1.25rem] border border-brand/12 bg-[linear-gradient(180deg,rgba(243,248,252,0.94)_0%,rgba(236,245,251,0.88)_100%)] px-4 py-3">
             <Button
               type="submit"
               form={deleteFormId}
@@ -436,7 +436,7 @@ function CategoryEditorCard({
         </form>
 
         {category.children.length ? (
-          <section className="space-y-4 rounded-[1.45rem] border border-slate-200 bg-slate-50/75 p-4">
+          <section className="space-y-4 rounded-[1.45rem] border border-brand/12 bg-[linear-gradient(180deg,rgba(243,248,252,0.9)_0%,rgba(236,244,250,0.82)_100%)] p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <SectionEyebrow>Subcategorias</SectionEyebrow>
@@ -455,7 +455,7 @@ function CategoryEditorCard({
           </section>
         ) : null}
 
-        <section className="space-y-4 rounded-[1.45rem] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.94)_0%,rgba(248,250,252,0.84)_100%)] p-4">
+        <section className="space-y-4 rounded-[1.45rem] border border-brand/12 bg-[linear-gradient(180deg,rgba(244,249,253,0.96)_0%,rgba(236,245,251,0.88)_100%)] p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <SectionEyebrow>{depth > 0 ? "Itens da subcategoria" : "Itens da categoria"}</SectionEyebrow>
