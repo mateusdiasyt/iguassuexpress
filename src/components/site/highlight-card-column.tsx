@@ -32,7 +32,7 @@ const WHATSAPP_MESSAGES = [
   {
     id: "hotel-2",
     side: "right" as const,
-    text: "Claro. Ja vou enviar o link com disponibilidade em tempo real.",
+    text: "Claro. Já vou enviar o link com disponibilidade em tempo real.",
   },
   {
     id: "guest-3",
@@ -151,10 +151,10 @@ export function HighlightCardColumn({
                 <div className="relative overflow-hidden rounded-[1.25rem] border border-white/20 bg-[linear-gradient(140deg,rgba(28,62,92,0.88),rgba(12,31,49,0.88))] p-2 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
                   <div className="flex items-center justify-between rounded-[0.95rem] bg-white/10 px-3 py-2">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-sky-100">
-                      Localizacao
+                      Localização
                     </p>
                     <span className="text-[0.65rem] font-medium text-sky-100/80">
-                      Foz do Iguacu
+                      Foz do Iguaçu
                     </span>
                   </div>
                   {mapEmbed ? (
@@ -226,7 +226,7 @@ export function HighlightCardColumn({
                 <div className="relative overflow-visible rounded-[1.25rem] border border-white/20 bg-[linear-gradient(140deg,rgba(30,63,91,0.88),rgba(12,31,49,0.88))] p-2 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
                   <div className="rounded-[0.95rem] bg-white/10 px-3 py-2">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.23em] text-indigo-100">
-                      Experiencia Premium
+                      Experiência Premium
                     </p>
                   </div>
                   <div className="relative mt-2 overflow-visible">
@@ -235,7 +235,7 @@ export function HighlightCardColumn({
                         <iframe
                           key={PREMIUM_VIDEO_EMBED_URL}
                           src={PREMIUM_VIDEO_EMBED_URL}
-                          title="Preview de video da experiencia premium"
+                          title="Preview de vídeo da experiência premium"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           referrerPolicy="strict-origin-when-cross-origin"
                           allowFullScreen

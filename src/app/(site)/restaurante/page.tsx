@@ -72,10 +72,10 @@ function SmartSummaryCard({
   return (
     <aside className="flex h-full flex-col rounded-[1.65rem] border border-[#e5d8c6] bg-[linear-gradient(160deg,rgba(255,247,236,0.98)_0%,rgba(246,231,206,0.9)_100%)] p-5 shadow-[0_18px_40px_rgba(125,89,43,0.08)]">
       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#9a6c2c]">
-        Cardapio Smart
+        Cardápio Smart
       </p>
       <h2 className="mt-2 text-[1.4rem] leading-[0.95] font-semibold tracking-[-0.04em] text-slate-950">
-        Leitura rapida
+        Leitura rápida
       </h2>
 
       <div className="mt-4 flex flex-wrap gap-2">
@@ -88,7 +88,7 @@ function SmartSummaryCard({
       </div>
 
       <p className="mt-4 max-w-[24rem] text-sm leading-7 text-slate-600">
-        Experiencia interativa em tela cheia com foco em categorias, imagens e valores.
+        Experiência interativa em tela cheia com foco em categorias, imagens e valores.
       </p>
     </aside>
   );
@@ -168,14 +168,14 @@ export default async function RestaurantPage() {
 
       <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_300px]">
         <ServiceCard
-          eyebrow="Cafe da manha"
+          eyebrow="Café da manhã"
           title={restaurant.breakfastTitle}
           description={restaurant.breakfastDescription}
           icon={<Coffee className="h-5 w-5" />}
           toneClass="border-[#efe4cf] bg-[linear-gradient(160deg,rgba(255,251,243,0.98)_0%,rgba(248,239,220,0.9)_100%)]"
         />
         <ServiceCard
-          eyebrow="A la carte"
+          eyebrow="À la carte"
           title={restaurant.aLaCarteTitle}
           description={restaurant.aLaCarteDescription}
           icon={<UtensilsCrossed className="h-5 w-5" />}
@@ -194,9 +194,9 @@ export default async function RestaurantPage() {
           <div className="relative grid gap-8 lg:grid-cols-[minmax(0,0.86fr)_minmax(420px,1fr)] lg:items-center">
             <div>
               <SectionHeading
-                eyebrow="Cardapio interativo"
-                title="Abra o menu completo e explore a experiencia do restaurante."
-                description="Um pop-up imersivo apresenta categorias, destaques e valores em uma leitura mais sofisticada do cardapio."
+                eyebrow="Cardápio interativo"
+                title="Abra o menu completo e explore a experiência do restaurante."
+                description="Um pop-up imersivo apresenta categorias, destaques e valores em uma leitura mais sofisticada do cardápio."
                 layout="stacked"
                 className="[&_h2]:max-w-[26rem] [&_h2]:text-[2.3rem] [&_h2]:leading-[0.95] md:[&_h2]:text-[3rem]"
               />
@@ -211,19 +211,19 @@ export default async function RestaurantPage() {
                 />
                 <FeatureIconPill
                   icon={<ScrollText className="h-4 w-4" />}
-                  label="Cardapio completo"
+                  label="Cardápio completo"
                 />
                 <FeatureIconPill
                   icon={<Expand className="h-4 w-4" />}
-                  label="Navegacao em tela cheia"
+                  label="Navegação em tela cheia"
                 />
                 <FeatureIconPill
                   icon={<ImagePlay className="h-4 w-4" />}
-                  label="Leitura visual do cardapio"
+                  label="Leitura visual do cardápio"
                 />
                 <FeatureIconPill
                   icon={<Sparkles className="h-4 w-4" />}
-                  label="Experiencia mais imersiva"
+                  label="Experiência mais imersiva"
                 />
               </div>
             </div>
@@ -240,7 +240,7 @@ export default async function RestaurantPage() {
 
                 <div className="absolute inset-x-5 top-5 flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-white/18 bg-white/16 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
-                    Cardapio Smart Express
+                    Cardápio Smart Express
                   </span>
                   <span className="rounded-full border border-white/18 bg-white/16 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white/88 backdrop-blur-md">
                     Restaurante
@@ -254,10 +254,10 @@ export default async function RestaurantPage() {
                         Destaque visual
                       </p>
                       <p className="mt-2 max-w-[22rem] text-[1.7rem] leading-[0.96] font-semibold tracking-[-0.04em] text-white">
-                        Cardapio Smart Express com uma leitura mais elegante e imersiva.
+                        Cardápio Smart Express com uma leitura mais elegante e imersiva.
                       </p>
                       <p className="mt-4 max-w-[28rem] text-sm leading-7 text-white/80">
-                        O menu abre com categorias, imagens, destaques e valores em uma experiencia pensada para parecer produto real.
+                        O menu abre com categorias, imagens, destaques e valores em uma experiência pensada para parecer um produto real.
                       </p>
                     </div>
 

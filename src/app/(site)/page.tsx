@@ -35,7 +35,7 @@ function resolveHomeHeroImage(value?: string | null) {
 
 function resolveTourDescription(value?: string | null) {
   if (!value || !value.trim() || value.includes(OLD_TOUR_DESCRIPTION_TOKEN)) {
-    return "Gire as fotos panoramicas do hotel para olhar os ambientes em 360 e antecipar a atmosfera da sua hospedagem.";
+    return "Gire as fotos panorâmicas do hotel para observar os ambientes em 360 e antecipar a atmosfera da sua hospedagem.";
   }
 
   return value;
@@ -114,9 +114,9 @@ export default async function HomePage() {
 
         <section className="mx-auto max-w-6xl space-y-10">
           <SectionHeading
-            eyebrow="Acomodacoes"
+            eyebrow="Acomodações"
             title="Quartos organizados por categoria"
-            description="Escolha entre as categorias Standard e Superior, depois explore os detalhes de cada acomodacao em um modal elegante."
+            description="Escolha entre as categorias Standard e Superior e depois explore os detalhes de cada acomodação em um modal elegante."
             layout="split"
           />
           <RoomCatalog categories={roomCategories} />
@@ -127,7 +127,7 @@ export default async function HomePage() {
             title={restaurant.teaserTitle ?? "Sabores para a sua estada"}
             description={
               restaurant.teaserDescription ??
-              "Cafe da manha, opcao a la carte e um ambiente acolhedor para completar a hospedagem."
+              "Café da manhã, opção à la carte e um ambiente acolhedor para completar a hospedagem."
             }
             image={restaurant.heroImage}
             categoryCount={menuCategories.length}
@@ -147,8 +147,8 @@ export default async function HomePage() {
         <section className="mx-auto max-w-6xl space-y-10">
           <SectionHeading
             eyebrow="Blog"
-            title="Conteudo editorial para inspirar a viagem"
-            description="Guias, dicas e pautas de Foz do Iguacu para alimentar o SEO local e ajudar o visitante a planejar a estada."
+            title="Conteúdo editorial para inspirar a viagem"
+            description="Guias, dicas e pautas de Foz do Iguaçu para fortalecer o SEO local e ajudar o visitante a planejar a estada."
           />
           <div className="grid gap-6 lg:grid-cols-3">
             {blogPosts.slice(0, 3).map((post) => (
@@ -161,7 +161,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="FAQ"
             title="Perguntas frequentes"
-            description="Informacoes essenciais para acelerar a decisao de reserva e reduzir duvidas no primeiro contato."
+            description="Informações essenciais para acelerar a decisão de reserva e reduzir dúvidas no primeiro contato."
           />
           <FaqAccordion items={faqs} />
         </section>

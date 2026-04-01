@@ -78,7 +78,7 @@ export function RoomModal({ open, onOpenChange, room }: RoomModalProps) {
 
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Button asChild>
-                    <Link href="/#reserva">Reservar esta acomodacao</Link>
+                    <Link href="/#reserva">Reservar esta acomodação</Link>
                   </Button>
                   <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
                     Fechar

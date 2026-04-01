@@ -197,7 +197,7 @@ function MenuItemCard({
               : "border border-[#e2d3bf] bg-white/78 text-[#766247]",
           )}
         >
-          {priceLabel ?? "Opcao complementar"}
+          {priceLabel ?? "Opção complementar"}
         </span>
       </div>
     </button>

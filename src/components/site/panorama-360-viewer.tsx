@@ -254,7 +254,7 @@ export function Panorama360Viewer({
             {status === "error" ? (
               <>
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/58">
-                  Panorama indisponivel
+            Panorama indisponível
                 </p>
                 <p className="text-sm leading-7 text-white/76">
                   Nao foi possivel carregar esta foto 360. Tente outra cena.

@@ -42,7 +42,7 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
             Candidatura
           </p>
           <h2 className="mt-3 text-[2rem] leading-[0.95] font-semibold text-slate-950">
-            Envie seu curriculo
+            Envie seu currículo
           </h2>
           <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base md:leading-8">
             Escolha a vaga aberta que mais combina com o seu perfil e envie sua candidatura.
@@ -85,7 +85,7 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
           <Input
             type="email"
             name="email"
-            placeholder="voce@exemplo.com"
+            placeholder="nome@exemplo.com"
             required
             className="h-12 rounded-[1.25rem] bg-white/95"
           />
@@ -111,14 +111,14 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
           <FieldLabel>Mensagem</FieldLabel>
           <Textarea
             name="message"
-            placeholder="Conte brevemente sobre sua experiencia, area de interesse e disponibilidade."
+            placeholder="Conte brevemente sobre sua experiência, área de interesse e disponibilidade."
             required
             className="min-h-[180px] rounded-[1.6rem] bg-white/95"
           />
         </label>
 
         <div className="grid gap-2">
-          <FieldLabel>Curriculo</FieldLabel>
+          <FieldLabel>Currículo</FieldLabel>
 
           <label
             htmlFor={fileInputId}
@@ -155,7 +155,7 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
             }}
           />
 
-          <p className="text-sm text-slate-500">Anexe o curriculo referente a vaga selecionada.</p>
+          <p className="text-sm text-slate-500">Anexe o currículo referente à vaga selecionada.</p>
         </div>
       </div>
 
@@ -175,12 +175,12 @@ export function CareerApplicationForm({ jobs }: CareerApplicationFormProps) {
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm leading-7 text-slate-500">
-            Seus dados sao usados apenas para retorno sobre oportunidades profissionais.
+            Seus dados são usados apenas para retorno sobre oportunidades profissionais.
           </p>
 
           <SubmitButton className="h-12 gap-2 px-5 text-sm normal-case tracking-normal shadow-[0_16px_34px_rgba(9,77,122,0.22)]">
             <Send className="h-4 w-4" />
-            Enviar curriculo
+            Enviar currículo
           </SubmitButton>
         </div>
       </div>

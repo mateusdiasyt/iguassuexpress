@@ -8,7 +8,7 @@ const OLD_TOUR_DESCRIPTION_TOKEN = "Publique aqui o tour virtual oficial do hote
 
 function resolveTourDescription(value?: string | null) {
   if (!value || !value.trim() || value.includes(OLD_TOUR_DESCRIPTION_TOKEN)) {
-    return "Gire as fotos panoramicas do hotel para olhar os ambientes em 360 e sentir a atmosfera de cada espaco antes da reserva.";
+    return "Gire as fotos panorâmicas do hotel para observar os ambientes em 360 e sentir a atmosfera de cada espaço antes da reserva.";
   }
 
   return value;
@@ -48,7 +48,7 @@ export default async function Tour360Page() {
         <SectionHeading
           eyebrow="Street View do hotel"
           title="Olhe para os lados em 360 e sinta a atmosfera de cada ambiente."
-          description="Agora o tour usa fotos panoramicas reais: voce arrasta a cena, gira o ponto de vista e explora o hotel sem sair do mesmo lugar."
+          description="Agora o tour usa fotos panorâmicas reais: você arrasta a cena, gira o ponto de vista e explora o hotel sem sair do mesmo lugar."
         />
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -57,7 +57,7 @@ export default async function Tour360Page() {
               Movimento
             </p>
             <h3 className="mt-3 text-xl leading-tight font-bold text-slate-950">
-              Rotacao livre na mesma cena
+              Rotação livre na mesma cena
             </h3>
             <p className="mt-3 text-sm leading-7 text-slate-600">
               O visitante gira o panorama com o mouse ou com o toque, sem mudar de ambiente.
@@ -69,10 +69,10 @@ export default async function Tour360Page() {
               Leitura
             </p>
             <h3 className="mt-3 text-xl leading-tight font-bold text-slate-950">
-              Mais proximo do Street View
+                    Mais próximo do Street View
             </h3>
             <p className="mt-3 text-sm leading-7 text-slate-600">
-              A experiencia foi pensada para olhar em volta, com foco total na percepcao do espaco.
+              A experiência foi pensada para olhar em volta, com foco total na percepção do espaço.
             </p>
           </article>
 
@@ -84,7 +84,7 @@ export default async function Tour360Page() {
               {tourScenes.length} ambientes publicados
             </h3>
             <p className="mt-3 text-sm leading-7 text-slate-600">
-              Cada foto cadastrada no painel vira uma cena panoramica pronta para ser explorada.
+              Cada foto cadastrada no painel vira uma cena panorâmica pronta para ser explorada.
             </p>
           </article>
         </div>
@@ -98,10 +98,10 @@ export default async function Tour360Page() {
             Tour 360
           </p>
           <h2 className="mt-4 text-4xl leading-none text-slate-950">
-            Nenhuma cena panoramica foi publicada ainda
+            Nenhuma cena panorâmica foi publicada ainda
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600">
-            Assim que as fotos 360 forem cadastradas no painel, esta pagina passa a mostrar a navegacao panoramica completa.
+            Assim que as fotos 360 forem cadastradas no painel, esta página passa a mostrar a navegação panorâmica completa.
           </p>
         </section>
       )}

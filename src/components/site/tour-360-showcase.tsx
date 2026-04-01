@@ -36,7 +36,7 @@ export function Tour360Showcase({
     <section className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
       <aside className="rounded-[1.8rem] border border-brand/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.9)_0%,rgba(247,249,251,0.86)_100%)] p-6 shadow-[0_20px_48px_rgba(15,23,42,0.06)]">
         <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-brand/75">
-          Navegacao panoramica
+          Navegação panorâmica
         </p>
         <h3 className="mt-3 text-[2rem] leading-[0.94] font-extrabold tracking-[-0.04em] text-slate-950">
           {title}
@@ -56,7 +56,7 @@ export function Tour360Showcase({
             </div>
           </div>
           <p className="mt-4 text-sm leading-7 text-slate-500">
-            Arraste a cena para olhar o ambiente em todas as direcoes, no ritmo de uma visita mais livre e contemplativa.
+            Arraste a cena para observar o ambiente em todas as direções, no ritmo de uma visita mais livre e contemplativa.
           </p>
         </div>
 
@@ -168,7 +168,7 @@ export function Tour360Showcase({
           </div>
 
           <p className="text-sm leading-7 text-slate-300">
-            A experiencia gira dentro da mesma cena, no estilo Street View, sem modo de caminhada.
+            A experiência gira dentro da mesma cena, no estilo Street View, sem modo de caminhada.
           </p>
         </div>
       </div>

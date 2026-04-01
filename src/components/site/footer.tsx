@@ -24,12 +24,12 @@ export function Footer({
             {hotelName}
           </p>
           <p className="mt-5 text-sm leading-7 text-white/72">
-            Hotel institucional com foco em reserva direta, hospitalidade contemporanea e SEO local em Foz do Iguacu.
+            Hotel institucional com foco em reserva direta, hospitalidade contemporânea e SEO local em Foz do Iguaçu.
           </p>
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
-            Navegacao
+            Navegação
           </p>
           <div className="mt-4 grid gap-3 text-sm text-white/75">
             <Link href="/apartamentos">Apartamentos</Link>
@@ -50,7 +50,7 @@ export function Footer({
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
-            Localizacao
+            Localização
           </p>
           <p className="mt-4 text-sm leading-7 text-white/75">{address}</p>
         </div>

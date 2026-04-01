@@ -34,7 +34,8 @@ export function ContactForm() {
             Escreva para nossa equipe
           </h2>
           <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-            Use o formulario para enviar uma duvida, solicitar suporte ou falar com o hotel com mais contexto.
+            Use o formulário para enviar uma dúvida, solicitar suporte ou falar com o hotel com
+            mais contexto.
           </p>
         </div>
 
@@ -73,7 +74,7 @@ export function ContactForm() {
           <Input
             type="email"
             name="email"
-            placeholder="voce@exemplo.com"
+            placeholder="nome@exemplo.com"
             required
             className="h-12 rounded-[1.25rem] bg-white/95"
           />
@@ -112,7 +113,8 @@ export function ContactForm() {
               <Mail className="h-4 w-4" />
             </span>
             <p>
-              Mensagens enviadas por aqui ajudam a centralizar o atendimento quando voce precisa explicar melhor o contexto.
+              Mensagens enviadas por aqui ajudam a centralizar o atendimento quando você precisa
+              explicar melhor o contexto.
             </p>
           </div>
 

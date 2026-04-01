@@ -24,17 +24,11 @@ function resolveFaviconUrl(value?: string | null) {
 
   const raw = value.trim();
 
-  if (
-    raw.startsWith("http://") ||
-    raw.startsWith("https://") ||
-    raw.startsWith("data:")
-  ) {
+  if (raw.startsWith("http://") || raw.startsWith("https://") || raw.startsWith("data:")) {
     return raw;
   }
 
-  const normalized = raw
-    .replaceAll("\\", "/")
-    .replace(/^\.?\/?public\//i, "");
+  const normalized = raw.replaceAll("\\", "/").replace(/^\.?\/?public\//i, "");
   const withSlash = normalized.startsWith("/") ? normalized : `/${normalized}`;
   return encodeURI(withSlash);
 }
@@ -45,15 +39,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const faviconUrl = resolveFaviconUrl(settings.favicon);
 
   return {
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-    ),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
     title: {
       default: hotelName,
       template: `%s | ${hotelName}`,
     },
     description:
-      "Hotel em Foz do Iguacu com reservas diretas, restaurante, apartamentos confortaveis e localizacao estrategica.",
+      "Hotel em Foz do Iguaçu com reservas diretas, restaurante, apartamentos confortáveis e localização estratégica.",
     icons: {
       icon: [{ url: faviconUrl }],
       shortcut: [{ url: faviconUrl }],
@@ -69,9 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${bodyFont.variable} ${headingFont.variable} antialiased`}>
-        {children}
-      </body>
+      <body className={`${bodyFont.variable} ${headingFont.variable} antialiased`}>{children}</body>
     </html>
   );
 }

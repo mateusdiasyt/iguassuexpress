@@ -35,7 +35,7 @@ export default async function ApartmentsPage() {
         <SectionHeading
           eyebrow="Categorias"
           title="Standard e Superior com navegação intuitiva"
-          description="Selecione a categoria desejada e descubra os detalhes completos de cada acomodacao em uma experiencia visual premium."
+          description="Selecione a categoria desejada e descubra os detalhes completos de cada acomodação em uma experiência visual premium."
         />
         <RoomCatalog categories={roomCategories} />
       </section>

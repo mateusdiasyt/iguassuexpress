@@ -60,8 +60,8 @@ export function TourLocationSection({
       : [
           {
             id: "pool-scene",
-            title: "Piscina panoramica",
-            description: "Deck externo, espelho d'agua e atmosfera de descanso do hotel.",
+            title: "Piscina panorâmica",
+            description: "Deck externo, espelho d'água e atmosfera de descanso do hotel.",
             image: previewImage,
           },
         ];
@@ -76,10 +76,10 @@ export function TourLocationSection({
     <section className="grid gap-8 lg:grid-cols-[minmax(280px,0.82fr)_minmax(0,1.18fr)] lg:items-center">
       <div className="space-y-5 lg:pb-3">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-brand/75">
-          Experiencia 360
+          Experiência 360
         </p>
         <h3 className="max-w-md text-[2.1rem] leading-[0.94] font-extrabold text-slate-950 md:text-[3rem]">
-          Explore o hotel com fotos panoramicas reais em 360
+          Explore o hotel com fotos panorâmicas reais em 360
         </h3>
         <p className="max-w-md text-base leading-8 text-slate-600">
           Gire a cena, olhe para os lados e sinta a atmosfera do hotel em um panorama 360 mais limpo e imersivo.
@@ -107,7 +107,7 @@ export function TourLocationSection({
           />
           <FeaturePill
             icon={<ScanSearch className="h-4 w-4" />}
-            label="Exploracao na mesma cena"
+            label="Exploração na mesma cena"
           />
         </div>
 
@@ -129,7 +129,7 @@ export function TourLocationSection({
 
         <div className="absolute inset-x-5 top-5 z-20 flex items-start justify-between gap-4">
           <span className="rounded-full border border-white/70 bg-white/85 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-slate-700 shadow-[0_8px_22px_rgba(15,23,42,0.08)] backdrop-blur-md">
-            Foto panoramica 360
+            Foto panorâmica 360
           </span>
           <span className="hidden items-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-slate-500 backdrop-blur-md md:inline-flex">
             <MoveHorizontal className="h-3.5 w-3.5" />
@@ -143,14 +143,14 @@ export function TourLocationSection({
               {tourTitle}
             </h3>
             <p className="mt-3 max-w-md text-sm leading-7 text-white/82 md:text-base">
-              Olhe em volta com mais precisao e abra a experiencia completa quando quiser.
+              Olhe em volta com mais precisão e abra a experiência completa quando quiser.
             </p>
           </div>
 
           <div className="flex flex-col items-start gap-3 md:items-end">
             <div className="inline-flex items-center gap-3 rounded-full border border-white/28 bg-white/16 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/88 shadow-[0_14px_30px_rgba(15,23,42,0.14)] backdrop-blur-md">
               <Compass className="h-4 w-4" />
-              Street View estatico
+              Street View estático
             </div>
           </div>
         </div>

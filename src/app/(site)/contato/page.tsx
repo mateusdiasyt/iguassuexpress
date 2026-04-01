@@ -113,12 +113,12 @@ export default async function ContactPage() {
 
         <div className="grid gap-4">
           <SupportNote
-            title="Contato direto e rapido"
-            description="Use WhatsApp, telefone ou e-mail para tirar duvidas, pedir suporte e alinhar detalhes da sua estada."
+            title="Contato direto e rápido"
+            description="Use WhatsApp, telefone ou e-mail para tirar dúvidas, pedir suporte e alinhar detalhes da sua estada."
           />
           <SupportNote
-            title="Tudo em um so lugar"
-            description="A pagina agora concentra apenas os canais oficiais de contato, sem mapa e sem etapas extras."
+            title="Tudo em um só lugar"
+            description="A página agora concentra apenas os canais oficiais de contato, sem mapa e sem etapas extras."
           />
         </div>
       </section>
@@ -133,7 +133,7 @@ export default async function ContactPage() {
           </div>
 
           <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-            Escolha o formato que funciona melhor para voce e fale com o hotel sem precisar passar por outras colunas.
+            Escolha o formato que funciona melhor para você e fale com o hotel sem precisar passar por outras colunas.
           </p>
         </div>
 
@@ -148,7 +148,7 @@ export default async function ContactPage() {
           />
           <ContactChannelCard
             eyebrow="Telefone"
-            title="Ligacao direta"
+            title="Ligação direta"
             value={settings.phone}
             href={formatPhoneHref(settings.phone)}
             icon={PhoneCall}

@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
   if (!post) {
     return buildMetadata({
-      title: "Post nao encontrado",
-      description: "Conteudo indisponivel.",
+      title: "Post não encontrado",
+      description: "Conteúdo indisponível.",
       path: `/blog/${slug}`,
       noIndex: true,
     });

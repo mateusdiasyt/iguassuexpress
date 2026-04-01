@@ -26,7 +26,7 @@ export default async function AboutPage() {
         <article className="soft-card rounded-[1.8rem] p-8">
           <SectionHeading
             eyebrow="Hospitalidade"
-            title="Uma proposta contemporanea para lazer e negocios"
+            title="Uma proposta contemporânea para lazer e negócios"
             description={settings.institutionalBio ?? page.subtitle ?? ""}
           />
         </article>

@@ -98,7 +98,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Vinhos",
     slug: "vinhos",
-    description: "Rotulos selecionados para acompanhar pratos com mais profundidade e equilibrio.",
+    description: "Rótulos selecionados para acompanhar pratos com mais profundidade e equilíbrio.",
     heroImage: menuMedia.vinhos,
     items: [
       {
@@ -108,7 +108,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       },
       {
         name: "Vinho Tinto Cabernet Sauvignon",
-        description: "Vinho tinto classico, equilibrado e intenso.",
+        description: "Vinho tinto clássico, equilibrado e intenso.",
         price: 100,
       },
       {
@@ -121,7 +121,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Cervejas",
     slug: "cervejas",
-    description: "Opcoes leves, puro malte e rotulos premium para pedidos descontraidos.",
+    description: "Opções leves, puro malte e rótulos premium para pedidos descontraídos.",
     heroImage: menuMedia.cervejas,
     items: [
       { name: "Skol Lata", description: "Cerveja leve e refrescante.", price: 9 },
@@ -134,7 +134,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       },
       {
         name: "Spaten 600ml",
-        description: "Cerveja estilo alemao, sabor marcante.",
+        description: "Cerveja estilo alemão, sabor marcante.",
         price: 18,
       },
       {
@@ -152,13 +152,13 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Uisques",
     slug: "uisques",
-    description: "Doses classicas para um momento mais intenso e elegante.",
+    description: "Doses clássicas para um momento mais intenso e elegante.",
     heroImage: menuMedia.uisques,
     items: [
-      { name: "Red Label", description: "Whisky escoces blended, sabor intenso.", price: 18 },
+      { name: "Red Label", description: "Whisky escocês blended, sabor intenso.", price: 18 },
       {
         name: "Black Label",
-        description: "Whisky escoces premium, envelhecido.",
+        description: "Whisky escocês premium, envelhecido.",
         price: 24,
       },
     ],
@@ -169,15 +169,15 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
     description: "Misturas refrescantes para acompanhar o clima leve do restaurante.",
     heroImage: menuMedia.caipirinhas,
     items: [
-      { name: "Caipirinha", description: "Limao, acucar e cachaca.", price: 14 },
+      { name: "Caipirinha", description: "Limão, açúcar e cachaça.", price: 14 },
       {
         name: "Caipiroska Nacional",
-        description: "Limao, acucar e vodka nacional.",
+        description: "Limão, açúcar e vodka nacional.",
         price: 16,
       },
       {
         name: "Caipiroska Importada",
-        description: "Limao, acucar e vodka importada.",
+        description: "Limão, açúcar e vodka importada.",
         price: 18,
       },
     ],
@@ -185,7 +185,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Frigobar",
     slug: "frigobar",
-    description: "Pequenos snacks e conveniencias para pedidos rapidos no quarto.",
+    description: "Pequenos snacks e conveniências para pedidos rápidos no quarto.",
     heroImage: menuMedia.frigobar,
     items: [
       { name: "Batata Chips", description: "Batata crocante.", price: 8.75 },
@@ -198,29 +198,29 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Pratos Principais",
     slug: "pratos-principais",
-    description: "Refeicoes completas com foco em conforto, sabor e boa apresentacao.",
+    description: "Refeições completas com foco em conforto, sabor e boa apresentação.",
     heroImage: menuMedia.pratos,
     items: [
       {
-        name: "File Mignon ao Molho de Pimenta Verde",
+        name: "Filé Mignon ao Molho de Pimenta Verde",
         description:
-          "File grelhado ao molho cremoso de pimenta verde, servido com arroz branco, batatas fritas, risoto de tomate seco e legumes.",
+          "Filé grelhado ao molho cremoso de pimenta verde, servido com arroz branco, batatas fritas, risoto de tomate seco e legumes.",
         price: 75,
       },
       {
-        name: "File Mignon ao Molho Madeira",
+        name: "Filé Mignon ao Molho Madeira",
         description:
-          "File grelhado com molho madeira, servido com arroz, risoto de parmesao e batatas.",
+          "Filé grelhado com molho madeira, servido com arroz, risoto de parmesão e batatas.",
         price: 75,
       },
       {
-        name: "File a Parmegiana (Carne)",
+        name: "Filé à Parmegiana (Carne)",
         description:
-          "File empanado coberto com molho de tomate e queijo, acompanhado de arroz e fritas.",
+          "Filé empanado coberto com molho de tomate e queijo, acompanhado de arroz e fritas.",
         price: 70,
       },
       {
-        name: "File a Parmegiana (Frango)",
+        name: "Filé à Parmegiana (Frango)",
         description:
           "Peito de frango empanado com molho e queijo, servido com arroz e fritas.",
         price: 50,
@@ -238,17 +238,17 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       },
       {
         name: "Peito de Frango",
-        description: "File de peito grelhado com acompanhamentos do dia.",
+        description: "Filé de peito grelhado com acompanhamentos do dia.",
         price: 50,
       },
       {
-        name: "Tilapia da Casa",
-        description: "File de tilapia grelhado, servido com arroz, pure e legumes.",
+        name: "Tilápia da Casa",
+        description: "Filé de tilápia grelhado, servido com arroz, purê e legumes.",
         price: 60,
       },
       {
-        name: "File de Peixe com Alcaparras",
-        description: "File de peixe grelhado ao molho de alcaparras, com arroz e legumes.",
+        name: "Filé de Peixe com Alcaparras",
+        description: "Filé de peixe grelhado ao molho de alcaparras, com arroz e legumes.",
         price: 60,
       },
     ],
@@ -266,7 +266,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       },
       {
         name: "Picadinho Especial (1 pessoa)",
-        description: "Picadinho de carne com arroz, feijao, fritas e farofa.",
+        description: "Picadinho de carne com arroz, feijão, fritas e farofa.",
         price: 75,
       },
       {
@@ -279,7 +279,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Saladas",
     slug: "saladas",
-    description: "Combinacoes leves e frescas para entradas ou refeicoes mais suaves.",
+    description: "Combinações leves e frescas para entradas ou refeições mais suaves.",
     heroImage: menuMedia.saladas,
     items: [
       {
@@ -289,7 +289,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       },
       {
         name: "Salada com Bruschetta",
-        description: "Salada com pao tostado, tomate e temperos.",
+        description: "Salada com pão tostado, tomate e temperos.",
         price: 35,
       },
       {
@@ -302,13 +302,13 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Sopas",
     slug: "sopas",
-    description: "Opcoes quentes e aconchegantes para pedidos mais reconfortantes.",
+    description: "Opções quentes e aconchegantes para pedidos mais reconfortantes.",
     heroImage: menuMedia.sopas,
     items: [
       { name: "Canja", description: "Caldo de frango com legumes e arroz.", price: 30 },
       {
         name: "Creme de Ervilha com Bacon",
-        description: "Creme de ervilha com pedacos de bacon.",
+        description: "Creme de ervilha com pedaços de bacon.",
         price: 30,
       },
     ],
@@ -322,7 +322,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       {
         name: "Tapioca (sabores variados)",
         description:
-          "Tapioca recheada com opcoes como calabresa, frango, queijo, banana com canela, entre outros.",
+          "Tapioca recheada com opções como calabresa, frango, queijo, banana com canela, entre outros.",
         price: 30,
       },
     ],
@@ -330,7 +330,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Extras",
     slug: "extras",
-    description: "Complementos prontos para uma refeicao rapida ou reforco fora de hora.",
+    description: "Complementos prontos para uma refeição rápida ou reforço fora de hora.",
     heroImage: menuMedia.extras,
     items: [
       {
@@ -343,42 +343,42 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Lanches",
     slug: "lanches",
-    description: "Sanduiches e combinacoes praticas para matar a fome com rapidez.",
+    description: "Sanduíches e combinações práticas para matar a fome com rapidez.",
     heroImage: menuMedia.lanches,
     items: [
       {
         name: "X-SALADA",
         description:
-          "Pao de hamburguer, hamburguer, queijo, presunto, alface, tomate, milho e maionese.",
+          "Pão de hambúrguer, hambúrguer, queijo, presunto, alface, tomate, milho e maionese.",
         price: 20,
       },
       {
         name: "X-BACON",
         description:
-          "Pao de hamburguer, hamburguer, bacon, queijo, presunto, alface, tomate, milho e maionese.",
+          "Pão de hambúrguer, hambúrguer, bacon, queijo, presunto, alface, tomate, milho e maionese.",
         price: 20,
       },
       {
         name: "X-IGUASSU",
         description:
-          "Pao baguete, file grelhado, maionese, queijo mussarela, bacon, cheddar, alface e tomate.",
+          "Pão baguete, filé grelhado, maionese, queijo mussarela, bacon, cheddar, alface e tomate.",
         price: 45,
       },
       {
         name: "X-EGG",
         description:
-          "Pao de hamburguer, hamburguer, ovo, queijo, presunto, alface, tomate, milho e maionese.",
+          "Pão de hambúrguer, hambúrguer, ovo, queijo, presunto, alface, tomate, milho e maionese.",
         price: 20,
       },
       {
         name: "CLUBE EXPRESS",
         description:
-          "Pao preto, requeijao, frango desfiado, bacon, alface, tomate e milho.",
+          "Pão preto, requeijão, frango desfiado, bacon, alface, tomate e milho.",
         price: 20,
       },
       {
         name: "MISTO QUENTE",
-        description: "Pao de forma tostado, queijo, presunto e maionese.",
+        description: "Pão de forma tostado, queijo, presunto e maionese.",
         price: 10,
       },
     ],
@@ -386,17 +386,17 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Pizzas",
     slug: "pizzas",
-    description: "Sabores classicos para compartilhar ou resolver a refeicao com praticidade.",
+    description: "Sabores clássicos para compartilhar ou resolver a refeição com praticidade.",
     heroImage: menuMedia.pizzas,
     items: [
       {
         name: "CALABRESA",
-        description: "Molho, mussarela, calabresa, cebola, azeitonas e oregano.",
+        description: "Molho, mussarela, calabresa, cebola, azeitonas e orégano.",
         price: 35,
       },
       {
         name: "MUSSARELA",
-        description: "Molho, mussarela, tomate e oregano.",
+        description: "Molho, mussarela, tomate e orégano.",
         price: 30,
       },
       {
@@ -407,35 +407,35 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       {
         name: "PORTUGUESA",
         description:
-          "Molho, mussarela, presunto, ovos, cebola, tomate, azeitona e oregano.",
+          "Molho, mussarela, presunto, ovos, cebola, tomate, azeitona e orégano.",
         price: 45,
       },
       {
         name: "QUATRO QUEIJOS",
-        description: "Molho, mussarela, provolone, catupiry e parmesao.",
+        description: "Molho, mussarela, provolone, catupiry e parmesão.",
         price: 45,
       },
     ],
   },
   {
-    name: "Porcoes",
+    name: "Porções",
     slug: "porcoes",
     description: "Petiscos ideais para dividir, acompanhar bebidas ou completar o pedido.",
     heroImage: menuMedia.porcoes,
     items: [
       {
         name: "BATATA FRITA",
-        description: "Porcao de batata frita crocante.",
+        description: "Porção de batata frita crocante.",
         price: 25,
       },
       {
-        name: "FILEZINHO FRANGO",
+        name: "FILÉZINHO FRANGO",
         description: "Tiras de frango empanado.",
         price: 40,
       },
       {
         name: "FRANGO A PASSARINHO",
-        description: "Frango frito em pedacos.",
+        description: "Frango frito em pedaços.",
         price: 40,
       },
       {
@@ -449,8 +449,8 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
         price: 45,
       },
       {
-        name: "ISCAS DE TILAPIA",
-        description: "Tilapia empanada.",
+        name: "ISCAS DE TILÁPIA",
+        description: "Tilápia empanada.",
         price: 50,
       },
     ],
@@ -477,8 +477,8 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
           { name: "Bolonhesa", description: "Molho de carne tradicional." },
           { name: "Quatro Queijos", description: "Mistura de queijos." },
           { name: "Molho ao Sugo", description: "Molho de tomate." },
-          { name: "Alho e Oleo com Bacon", description: "Alho, oleo e bacon." },
-          { name: "Pesto", description: "Manjericao, azeite e parmesao." },
+          { name: "Alho e Óleo com Bacon", description: "Alho, óleo e bacon." },
+          { name: "Pesto", description: "Manjericão, azeite e parmesão." },
         ],
       },
     ],
@@ -486,17 +486,17 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Pratos Infantis",
     slug: "pratos-infantis",
-    description: "Porcoes pensadas para os pequenos com combinacoes classicas e praticas.",
+    description: "Porções pensadas para os pequenos com combinações clássicas e práticas.",
     heroImage: menuMedia.infantis,
     items: [
       {
-        name: "JUNIOR FILE",
-        description: "File com arroz, feijao e batata frita.",
+        name: "JUNIOR FILÉ",
+        description: "Filé com arroz, feijão e batata frita.",
         price: 45,
       },
       {
         name: "JUNIOR FRANGO",
-        description: "Frango com arroz, feijao e batata frita.",
+        description: "Frango com arroz, feijão e batata frita.",
         price: 38,
       },
     ],
@@ -504,12 +504,12 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Pratos Executivos",
     slug: "pratos-executivos",
-    description: "Pratos diretos e completos para o almoco ou jantar do dia a dia.",
+        description: "Pratos diretos e completos para o almoço ou jantar do dia a dia.",
     heroImage: menuMedia.executivos,
     items: [
       {
         name: "SERENO",
-        description: "File de tilapia empanado com arroz e fritas.",
+        description: "Filé de tilápia empanado com arroz e fritas.",
         price: 45,
       },
       {
@@ -522,7 +522,7 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
   {
     name: "Sobremesas",
     slug: "sobremesas",
-    description: "Encerramentos doces para completar a experiencia a mesa.",
+    description: "Encerramentos doces para completar a experiência à mesa.",
     heroImage: menuMedia.sobremesas,
     items: [
       {
@@ -542,44 +542,44 @@ export const menuCatalogSeed: MenuCatalogSeedCategory[] = [
       },
       {
         name: "PRATO DE FRUTAS",
-        description: "Frutas da estacao.",
+        description: "Frutas da estação.",
         price: 15,
       },
       {
         name: "PALETAS",
-        description: "Picole premium.",
+        description: "Picolé premium.",
         price: 12,
       },
     ],
   },
   {
-    name: "Agua",
+    name: "Água",
     slug: "agua",
     description: "Hidratacao simples e essencial para acompanhar qualquer pedido.",
     heroImage: menuMedia.agua,
     items: [
-      { name: "AGUA SEM GAS", description: "Agua mineral sem gas.", price: 5 },
-      { name: "AGUA COM GAS", description: "Agua mineral com gas.", price: 5 },
-      { name: "AGUA TONICA", description: "Agua tonica.", price: 7 },
+      { name: "ÁGUA SEM GÁS", description: "Água mineral sem gas.", price: 5 },
+      { name: "ÁGUA COM GÁS", description: "Água mineral com gas.", price: 5 },
+      { name: "ÁGUA TÔNICA", description: "Água tônica.", price: 7 },
     ],
   },
   {
     name: "Refrigerantes",
     slug: "refrigerantes",
-    description: "Latas classicas e refrescantes para pedidos rapidos e familiares.",
+    description: "Latas clássicas e refrescantes para pedidos rápidos e familiares.",
     heroImage: menuMedia.refrigerantes,
     items: [
       { name: "COCA-COLA", description: "Refrigerante Coca-Cola.", price: 7 },
       { name: "COCA ZERO", description: "Refrigerante Coca-Cola zero.", price: 7 },
       { name: "FANTA LARANJA", description: "Refrigerante sabor laranja.", price: 7 },
-      { name: "GUARANA", description: "Refrigerante guarana.", price: 7 },
+      { name: "GUARANÁ", description: "Refrigerante guaraná.", price: 7 },
       { name: "SPRITE", description: "Refrigerante Sprite.", price: 7 },
     ],
   },
   {
     name: "Sucos",
     slug: "sucos",
-    description: "Versoes naturais em copo ou jarra para pedidos individuais e compartilhados.",
+    description: "Versões naturais em copo ou jarra para pedidos individuais e compartilhados.",
     heroImage: menuMedia.sucos,
     items: [
       {

@@ -87,17 +87,17 @@ function ActionCard({
   phone: string;
   address: string;
 }) {
-  const mapsQuery = encodeURIComponent(address || "Iguassu Express Hotel Foz do Iguacu");
+  const mapsQuery = encodeURIComponent(address || "Iguassu Express Hotel Foz do Iguaçu");
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 
   return (
     <article className="soft-card rounded-[1.9rem] p-6 md:p-7">
       <SectionEyebrow>Como chegar</SectionEyebrow>
       <h3 className="mt-3 text-[2rem] leading-[0.95] font-semibold text-slate-950">
-        Escolha o melhor caminho ate o hotel.
+        Escolha o melhor caminho até o hotel.
       </h3>
       <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-        Use o mapa para visualizar a regiao e fale com nossa equipe se quiser ajuda com rota, taxi ou acesso por aplicativo.
+        Use o mapa para visualizar a região e fale com nossa equipe se quiser ajuda com rota, táxi ou acesso por aplicativo.
       </p>
 
       <div className="mt-6 space-y-3">
@@ -112,13 +112,13 @@ function ActionCard({
         </Link>
 
         <Link
-          href={formatWhatsAppHref(whatsapp, "Ola! Gostaria de ajuda para chegar ao hotel.")}
+          href={formatWhatsAppHref(whatsapp, "Olá! Gostaria de ajuda para chegar ao hotel.")}
           target="_blank"
           rel="noreferrer"
           className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-50"
         >
           <MessageCircle className="h-4 w-4" />
-          Pedir orientacao no WhatsApp
+          Pedir orientação no WhatsApp
         </Link>
 
         <Link
@@ -148,10 +148,10 @@ function LocationMap({
       <div>
         <SectionEyebrow>Mapa</SectionEyebrow>
         <h3 className="mt-3 text-[2rem] leading-[0.95] font-semibold text-slate-950">
-          Mapa indisponivel no momento
+          Mapa indisponível no momento
         </h3>
         <p className="mt-4 max-w-md text-sm leading-7 text-slate-600">
-          Nossa equipe pode orientar sua chegada por WhatsApp ou telefone enquanto o mapa nao estiver disponivel.
+          Nossa equipe pode orientar sua chegada por WhatsApp ou telefone enquanto o mapa não estiver disponível.
         </p>
       </div>
     </article>
@@ -169,13 +169,13 @@ export default async function LocationPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-12 md:space-y-16">
-      <PageHero title={page.title} subtitle={page.subtitle} image={page.bannerImage} badge="Localizacao" />
+      <PageHero title={page.title} subtitle={page.subtitle} image={page.bannerImage} badge="Localização" />
 
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.92fr)]">
         <article className="soft-card rounded-[2rem] p-6 md:p-8 lg:p-10">
-          <SectionEyebrow>Endereco estrategico</SectionEyebrow>
+          <SectionEyebrow>Endereço estratégico</SectionEyebrow>
           <h2 className="mt-4 max-w-3xl text-[2.2rem] leading-[0.94] font-semibold text-slate-950 md:text-[3.2rem]">
-            Estar bem localizado muda a experiencia inteira da viagem.
+            Estar bem localizado muda a experiência inteira da viagem.
           </h2>
 
           <div className="mt-6 max-w-3xl">
@@ -200,7 +200,7 @@ export default async function LocationPage() {
             icon={CarFront}
             eyebrow="Acesso"
             title="Chegada mais simples"
-            description="Saidas praticas para aeroporto, atrativos e corredores importantes da cidade, com deslocamento facilitado."
+            description="Saídas práticas para aeroporto, atrativos e corredores importantes da cidade, com deslocamento facilitado."
           />
         </div>
       </section>
@@ -210,10 +210,10 @@ export default async function LocationPage() {
           <div className="max-w-4xl space-y-4">
             <SectionEyebrow>Mapa e acesso</SectionEyebrow>
             <h2 className="max-w-3xl text-[2.15rem] leading-[0.94] font-semibold text-slate-950 md:text-[3rem]">
-              Veja a regiao e organize o trajeto com antecedencia.
+              Veja a região e organize o trajeto com antecedência.
             </h2>
             <p className="max-w-2xl text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-              A localizacao do hotel favorece deslocamentos para turismo, compras e compromissos corporativos em Foz do Iguacu.
+              A localização do hotel favorece deslocamentos para turismo, compras e compromissos corporativos em Foz do Iguaçu.
             </p>
           </div>
 
@@ -228,14 +228,14 @@ export default async function LocationPage() {
       <section className="space-y-6">
         <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(240px,0.6fr)] lg:items-end">
           <div>
-            <SectionEyebrow>Pontos proximos</SectionEyebrow>
+            <SectionEyebrow>Pontos próximos</SectionEyebrow>
             <h2 className="mt-3 text-[2.15rem] leading-[0.94] font-semibold text-slate-950 md:text-[3rem]">
-              Referencias importantes ao redor do hotel.
+              Referências importantes ao redor do hotel.
             </h2>
           </div>
 
           <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-            Estes pontos ajudam a entender a conveniencia da regiao e a facilidade de circulacao durante a estada.
+            Estes pontos ajudam a entender a conveniência da região e a facilidade de circulação durante a estada.
           </p>
         </div>
 

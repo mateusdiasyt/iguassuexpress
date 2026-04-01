@@ -104,12 +104,12 @@ export default async function CareersPage() {
           <InsightCard
             icon={HeartHandshake}
             title="Equipe acolhedora e profissional"
-            description="Buscamos pessoas com atencao aos detalhes, postura colaborativa e foco genuino em hospitalidade."
+            description="Buscamos pessoas com atenção aos detalhes, postura colaborativa e foco genuíno em hospitalidade."
           />
           <InsightCard
             icon={Sparkles}
             title="Processo simples e direto"
-            description="Escolha uma vaga aberta, apresente sua experiencia e envie a candidatura em poucos minutos."
+            description="Escolha uma vaga aberta, apresente sua experiência e envie a candidatura em poucos minutos."
           />
         </div>
       </section>
@@ -126,7 +126,7 @@ export default async function CareersPage() {
 
             <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8">
               Veja as vagas publicadas abaixo e candidate-se diretamente para a oportunidade que faz
-              sentido para voce.
+              sentido para você.
             </p>
           </div>
 
@@ -143,8 +143,8 @@ export default async function CareersPage() {
                 Nenhuma vaga publicada no momento
               </h3>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-                Quando novas oportunidades forem abertas, elas aparecerao aqui com a descricao da vaga
-                e o formulario de candidatura correspondente.
+                Quando novas oportunidades forem abertas, elas aparecerão aqui com a descrição da vaga
+                e o formulário de candidatura correspondente.
               </p>
             </article>
           )}
@@ -156,11 +156,11 @@ export default async function CareersPage() {
           <article className="soft-card rounded-[2rem] p-7 md:p-8 xl:sticky xl:top-28">
             <SectionEyebrow>Candidaturas</SectionEyebrow>
             <h3 className="mt-3 text-[2rem] leading-[0.95] font-semibold text-slate-950">
-              Formulario indisponivel no momento
+                Formulário indisponível no momento
             </h3>
             <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-              O envio de curriculo fica disponivel assim que existir pelo menos uma vaga ativa para
-              candidatura nesta pagina.
+              O envio de currículo fica disponível assim que existir pelo menos uma vaga ativa para
+              candidatura nesta página.
             </p>
           </article>
         )}

@@ -48,7 +48,7 @@ export function Tour360Modal({
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-sky-200/82">
-                    Tour panoramico
+                    Tour panorâmico
                   </p>
                   <Dialog.Title className="mt-4 max-w-sm text-[2rem] leading-[0.92] font-extrabold tracking-[-0.05em] text-white">
                     {title}
@@ -128,7 +128,7 @@ export function Tour360Modal({
                   href="/tour-360"
                   className="inline-flex items-center gap-3 rounded-full border border-white/12 bg-white/[0.06] px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-white/[0.1]"
                 >
-                  Ver pagina completa
+                  Ver página completa
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -207,7 +207,7 @@ export function Tour360Modal({
                 </div>
 
                 <p className="text-sm leading-7 text-slate-300">
-                  Cada cena pode receber um nome proprio no painel e aparece assim em toda a experiencia do tour.
+                  Cada cena pode receber um nome próprio no painel e aparece assim em toda a experiência do tour.
                 </p>
               </div>
             </div>

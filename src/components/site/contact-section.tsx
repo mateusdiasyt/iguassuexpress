@@ -19,7 +19,7 @@ export function ContactSection({
         <SectionHeading
           eyebrow="Contato"
           title="Fale com nossa equipe"
-          description="Atendimento direto e rapido para tirar duvidas e iniciar sua reserva."
+          description="Atendimento direto e rápido para tirar dúvidas e iniciar sua reserva."
           layout="stacked"
         />
 

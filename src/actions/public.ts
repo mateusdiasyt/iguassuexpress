@@ -29,7 +29,7 @@ export async function submitContactMessage(
   if (!parsed.success) {
     return {
       success: false,
-      message: parsed.error.issues[0]?.message ?? "Nao foi possivel enviar sua mensagem.",
+      message: parsed.error.issues[0]?.message ?? "Não foi possível enviar sua mensagem.",
     };
   }
 
@@ -40,12 +40,12 @@ export async function submitContactMessage(
 
     return {
       success: true,
-      message: "Mensagem enviada com sucesso. Nossa equipe retornara em breve.",
+      message: "Mensagem enviada com sucesso. Nossa equipe retornará em breve.",
     };
   } catch {
     return {
       success: false,
-      message: "Nao foi possivel enviar agora. Tente novamente em instantes.",
+      message: "Não foi possível enviar agora. Tente novamente em instantes.",
     };
   }
 }
@@ -68,14 +68,14 @@ export async function submitCareerApplication(
   if (!parsed.success) {
     return {
       success: false,
-      message: parsed.error.issues[0]?.message ?? "Confira os campos do formulario.",
+      message: parsed.error.issues[0]?.message ?? "Confira os campos do formulário.",
     };
   }
 
   if (!(resume instanceof File) || resume.size === 0) {
     return {
       success: false,
-      message: "Anexe um curriculo em PDF ou DOC.",
+      message: "Anexe um currículo em PDF ou DOC.",
     };
   }
 
@@ -91,7 +91,7 @@ export async function submitCareerApplication(
 
     return {
       success: true,
-      message: "Curriculo enviado com sucesso. Obrigado pelo interesse.",
+      message: "Currículo enviado com sucesso. Obrigado pelo interesse.",
     };
   } catch (error) {
     return {
@@ -99,7 +99,7 @@ export async function submitCareerApplication(
       message:
         error instanceof Error
           ? error.message
-          : "Nao foi possivel enviar seu curriculo agora.",
+          : "Não foi possível enviar seu currículo agora.",
     };
   }
 }

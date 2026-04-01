@@ -43,9 +43,9 @@ export const defaultSiteSettings = {
   whatsapp: "+55 45 99999-0000",
   phone: "+55 45 3025-1900",
   email: "reservas@iguassuexpresshotel.com.br",
-  address: "Rua Jorge Sanwais, 448, Foz do Iguacu - PR",
+  address: "Rua Jorge Sanwais, 448, Foz do Iguaçu - PR",
   mapEmbed:
-    '<iframe src="https://www.google.com/maps?q=Foz%20do%20Iguacu&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+    '<iframe src="https://www.google.com/maps?q=Foz%20do%20Igua%C3%A7u&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
   omnibeesHotelId: "2458",
   omnibeesBaseUrl: "https://book.omnibees.com/hotelresults",
   logo: "/logo-hotel-principal.png",
@@ -54,11 +54,11 @@ export const defaultSiteSettings = {
     instagram: "https://instagram.com/iguassuexpresshotel",
     facebook: "https://facebook.com/iguassuexpresshotel",
   },
-  seoTitle: "Iguassu Express Hotel | Hotel em Foz do Iguacu",
+  seoTitle: "Iguassu Express Hotel | Hotel em Foz do Iguaçu",
   seoDescription:
-    "Hotel em Foz do Iguacu com localizacao estrategica, restaurante, conforto e reserva direta integrada com Omnibees.",
+    "Hotel em Foz do Iguaçu com localização estratégica, restaurante, conforto e reserva direta integrada com Omnibees.",
   institutionalBio:
-    "O Iguassu Express Hotel recebe viajantes de lazer e negocios com uma proposta contemporanea, funcional e acolhedora em Foz do Iguacu.",
+    "O Iguassu Express Hotel recebe viajantes de lazer e negócios com uma proposta contemporânea, funcional e acolhedora em Foz do Iguaçu.",
 };
 
 export const defaultPages: PageRecord[] = [
@@ -66,25 +66,25 @@ export const defaultPages: PageRecord[] = [
     key: "home",
     title: "Ponto de Partida <p> para a melhor experiência",
     subtitle:
-      "Conforto, localizacao estrategica e reservas diretas para quem quer aproveitar o melhor da fronteira com praticidade e elegancia.",
+      "Conforto, localização estratégica e reservas diretas para quem quer aproveitar o melhor da fronteira com praticidade e elegância.",
     bannerImage: media.hero,
-    seoTitle: "Iguassu Express Hotel | Hotel em Foz do Iguacu",
+    seoTitle: "Iguassu Express Hotel | Hotel em Foz do Iguaçu",
     seoDescription:
-      "Hotel em Foz do Iguacu com localizacao estrategica, restaurante, quartos confortaveis e reserva direta integrada com Omnibees.",
+      "Hotel em Foz do Iguaçu com localização estratégica, restaurante, quartos confortáveis e reserva direta integrada com Omnibees.",
     isPublished: true,
     content: {
-      body: "Bem-vindo ao Iguassu Express Hotel, um ponto de partida elegante para experiencias memoraveis em Foz do Iguacu.",
+      body: "Bem-vindo ao Iguassu Express Hotel, um ponto de partida elegante para experiências memoráveis em Foz do Iguaçu.",
       heroCards: [
         {
-          title: "Localizacao estrategica",
-          description: "Acesso rapido ao aeroporto, atrativos e centros comerciais.",
+          title: "Localização estratégica",
+          description: "Acesso rápido ao aeroporto, atrativos e centros comerciais.",
         },
         {
           title: "Reserva direta",
-          description: "Fluxo simples, rapido e conectado ao motor Omnibees.",
+          description: "Fluxo simples, rápido e conectado ao motor Omnibees.",
         },
         {
-          title: "Experiencia premium",
+          title: "Experiência premium",
           description: "Design contemporaneo, atendimento acolhedor e excelente custo-beneficio.",
         },
       ],
@@ -98,10 +98,10 @@ export const defaultPages: PageRecord[] = [
     bannerImage: media.superior,
     seoTitle: "Apartamentos | Iguassu Express Hotel",
     seoDescription:
-      "Conheca os apartamentos Standard e Superior do Iguassu Express Hotel em Foz do Iguacu.",
+      "Conheça os apartamentos Standard e Superior do Iguassu Express Hotel em Foz do Iguaçu.",
     isPublished: true,
     content: {
-      body: "Escolha a acomodacao ideal e descubra detalhes completos em um fluxo simples e inspirador.",
+      body: "Escolha a acomodação ideal e descubra detalhes completos em um fluxo simples e inspirador.",
     },
   },
     {
@@ -122,48 +122,48 @@ export const defaultPages: PageRecord[] = [
     key: "gallery",
     title: "Galeria de fotos",
     subtitle:
-      "Um olhar sobre os ambientes, acomodoacoes e experiencia visual do Iguassu Express Hotel.",
+      "Um olhar sobre os ambientes, acomodações e experiência visual do Iguassu Express Hotel.",
     bannerImage: media.gallery,
     seoTitle: "Galeria de Fotos | Iguassu Express Hotel",
     seoDescription:
       "Veja fotos dos ambientes, apartamentos e estrutura do Iguassu Express Hotel.",
     isPublished: true,
     content: {
-      body: "Use esta galeria para destacar estrutura, quartos e areas de convivencia com material profissional.",
+      body: "Use esta galeria para destacar estrutura, quartos e áreas de convivência com material profissional.",
     },
   },
   {
     key: "tour-360",
     title: "Explore cada detalhe antes da chegada",
     subtitle:
-      "Ofereca uma visita imersiva para elevar a confianca na reserva direta e reduzir objeccoes.",
+      "Ofereça uma visita imersiva para elevar a confiança na reserva direta e reduzir objeções.",
     bannerImage: media.hero,
     seoTitle: "Tour 360 | Iguassu Express Hotel",
     seoDescription: "Visite virtualmente o Iguassu Express Hotel com o tour 360.",
     isPublished: true,
     content: {
-      body: "Quando o material estiver disponivel, o embed ficara em destaque com mensagem clara e elegante.",
+      body: "Quando o material estiver disponível, o embed ficará em destaque com mensagem clara e elegante.",
     },
   },
   {
     key: "location",
-    title: "Localizacao estrategica em Foz do Iguacu",
+    title: "Localização estratégica em Foz do Iguaçu",
     subtitle:
       "Perto dos principais acessos da cidade, com deslocamento facilitado para turismo e viagens corporativas.",
     bannerImage: media.location,
-    seoTitle: "Localizacao | Iguassu Express Hotel",
+    seoTitle: "Localização | Iguassu Express Hotel",
     seoDescription:
-      "Descubra a localizacao estrategica do Iguassu Express Hotel em Foz do Iguacu.",
+      "Descubra a localização estratégica do Iguassu Express Hotel em Foz do Iguaçu.",
     isPublished: true,
     content: {
-      body: "A localizacao foi pensada para otimizar tempo e ampliar a conveniencia do viajante moderno.",
+      body: "A localização foi pensada para otimizar tempo e ampliar a conveniência do viajante moderno.",
     },
   },
   {
     key: "about",
     title: "Sobre o hotel",
     subtitle:
-      "Hospitalidade contemporanea com foco em conforto, praticidade e atendimento proximo.",
+      "Hospitalidade contemporânea com foco em conforto, praticidade e atendimento próximo.",
     bannerImage: media.hero,
     seoTitle: "Sobre o Hotel | Iguassu Express Hotel",
     seoDescription:
@@ -177,11 +177,11 @@ export const defaultPages: PageRecord[] = [
     key: "contact",
     title: "Fale com nossa equipe",
     subtitle:
-      "Estamos prontos para atender duvidas, grupos, parcerias e necessidades especiais de hospedagem.",
+      "Estamos prontos para atender dúvidas, grupos, parcerias e necessidades especiais de hospedagem.",
     bannerImage: media.location,
     seoTitle: "Contato | Iguassu Express Hotel",
     seoDescription:
-      "Entre em contato com o Iguassu Express Hotel por WhatsApp, telefone, e-mail ou formulario.",
+      "Entre em contato com o Iguassu Express Hotel por WhatsApp, telefone, e-mail ou formulário.",
     isPublished: true,
     content: {
       body: "Escolha o canal mais conveniente e fale com o time do hotel em poucos minutos.",
@@ -189,13 +189,13 @@ export const defaultPages: PageRecord[] = [
   },
   {
     key: "blog",
-    title: "Blog e guia de Foz do Iguacu",
+    title: "Blog e guia de Foz do Iguaçu",
     subtitle:
-      "Conteudo editorial para inspirar a viagem, responder duvidas e ampliar o alcance organico do hotel.",
+      "Conteúdo editorial para inspirar a viagem, responder dúvidas e ampliar o alcance orgânico do hotel.",
     bannerImage: media.blog,
     seoTitle: "Blog | Iguassu Express Hotel",
     seoDescription:
-      "Dicas de viagem, gastronomia e experiencias em Foz do Iguacu no blog do Iguassu Express Hotel.",
+      "Dicas de viagem, gastronomia e experiências em Foz do Iguaçu no blog do Iguassu Express Hotel.",
     isPublished: true,
     content: {
       body: "Publique guias locais, roteiros e novidades do hotel com foco em SEO regional.",
@@ -205,14 +205,14 @@ export const defaultPages: PageRecord[] = [
     key: "careers",
     title: "Carreiras no Iguassu Express Hotel",
     subtitle:
-      "Junte-se a uma equipe que valoriza hospitalidade, atencao aos detalhes e crescimento profissional.",
+      "Junte-se a uma equipe que valoriza hospitalidade, atenção aos detalhes e crescimento profissional.",
     bannerImage: media.careers,
     seoTitle: "Carreiras | Iguassu Express Hotel",
     seoDescription:
-      "Veja vagas abertas e envie seu curriculo para o Iguassu Express Hotel.",
+      "Veja vagas abertas e envie seu currículo para o Iguassu Express Hotel.",
     isPublished: true,
     content: {
-      body: "Buscamos pessoas comprometidas com uma experiencia de hospedagem acolhedora, organizada e memoravel.",
+      body: "Buscamos pessoas comprometidas com uma experiência de hospedagem acolhedora, organizada e memorável.",
     },
   },
 ];
@@ -224,7 +224,7 @@ export const defaultRoomCategories = [
     slug: "standard",
     badge: "Mais reservado",
     description:
-      "Acomodacoes reformadas para quem busca praticidade, conforto e excelente custo-beneficio.",
+      "Acomodações reformadas para quem busca praticidade, conforto e excelente custo-benefício.",
     heroImage: media.standard,
     order: 1,
     isActive: true,
@@ -236,7 +236,7 @@ export const defaultRoomCategories = [
         occupancy: 1,
         shortDescription: "Ideal para viagens solo com conforto na medida certa.",
         fullDescription:
-          "Uma acomodacao funcional e aconchegante, pensada para quem valoriza descanso, boa conectividade e servicos essenciais durante a estada.",
+          "Uma acomodação funcional e aconchegante, pensada para quem valoriza descanso, boa conectividade e serviços essenciais durante a estada.",
         features: [
           "Reformado",
           "Cama box",
@@ -245,7 +245,7 @@ export const defaultRoomCategories = [
           "Telefone",
           "TV LCD 32 polegadas a cabo",
           "Frigobar",
-          "Aquecimento de agua",
+          "Aquecimento de água",
           "Servico de quarto",
         ],
         coverImage: media.standard,
@@ -260,7 +260,7 @@ export const defaultRoomCategories = [
         occupancy: 2,
         shortDescription: "Hospedagem equilibrada para casal ou dupla de viagem.",
         fullDescription:
-          "Entrega uma experiencia acolhedora com visual limpo, boa circulacao e todos os itens essenciais para uma estada sem complicacoes.",
+          "Entrega uma experiência acolhedora com visual limpo, boa circulação e todos os itens essenciais para uma estada sem complicações.",
         features: [
           "Reformado",
           "Cama box",
@@ -269,7 +269,7 @@ export const defaultRoomCategories = [
           "Telefone",
           "TV LCD 32 polegadas a cabo",
           "Frigobar",
-          "Aquecimento de agua",
+          "Aquecimento de água",
           "Servico de quarto",
         ],
         coverImage: media.standard,
@@ -282,9 +282,9 @@ export const defaultRoomCategories = [
         title: "Triplo Standard",
         slug: "triplo-standard",
         occupancy: 3,
-        shortDescription: "Boa opcao para pequenas familias ou grupos compactos.",
+        shortDescription: "Boa opção para pequenas famílias ou grupos compactos.",
         fullDescription:
-          "Mantem o conforto da categoria Standard com configuracao inteligente para tres hospedes.",
+          "Mantém o conforto da categoria Standard com configuração inteligente para três hóspedes.",
         features: [
           "Reformado",
           "Cama box",
@@ -293,7 +293,7 @@ export const defaultRoomCategories = [
           "Telefone",
           "TV LCD 32 polegadas a cabo",
           "Frigobar",
-          "Aquecimento de agua",
+          "Aquecimento de água",
           "Servico de quarto",
         ],
         coverImage: media.standard,
@@ -306,9 +306,9 @@ export const defaultRoomCategories = [
         title: "Standard Quadruplo",
         slug: "standard-quadruplo",
         occupancy: 4,
-        shortDescription: "Praticidade para grupos e familias com excelente aproveitamento.",
+        shortDescription: "Praticidade para grupos e famílias com excelente aproveitamento.",
         fullDescription:
-          "Uma configuracao versatil para quatro pessoas, com atmosfera acolhedora e servicos essenciais do hotel.",
+          "Uma configuração versátil para quatro pessoas, com atmosfera acolhedora e serviços essenciais do hotel.",
         features: [
           "Reformado",
           "Cama box",
@@ -317,7 +317,7 @@ export const defaultRoomCategories = [
           "Telefone",
           "TV LCD 32 polegadas a cabo",
           "Frigobar",
-          "Aquecimento de agua",
+          "Aquecimento de água",
           "Servico de quarto",
         ],
         coverImage: media.standard,
@@ -343,9 +343,9 @@ export const defaultRoomCategories = [
         title: "Individual Superior",
         slug: "individual-superior",
         occupancy: 1,
-        shortDescription: "Design renovado para uma experiencia solo ainda mais agradavel.",
+        shortDescription: "Design renovado para uma experiência solo ainda mais agradável.",
         fullDescription:
-          "Uma hospedagem com atmosfera contemporanea, acabamento atual e itens que elevam a sensacao de conforto.",
+          "Uma hospedagem com atmosfera contemporânea, acabamento atual e itens que elevam a sensação de conforto.",
         features: [
           "Novo",
           "Cama box nova",
@@ -354,7 +354,7 @@ export const defaultRoomCategories = [
           "Telefone",
           "TV LCD 32 polegadas a cabo",
           "Frigobar",
-          "Aquecimento de agua",
+          "Aquecimento de água",
           "Servico de quarto",
         ],
         coverImage: media.superior,
@@ -369,7 +369,7 @@ export const defaultRoomCategories = [
         occupancy: 2,
         shortDescription: "Conforto elevado para casal ou dupla que busca mais refinamento.",
         fullDescription:
-          "Entrega uma experiencia mais premium com renovacao visual, climatizacao split e excelente funcionalidade.",
+          "Entrega uma experiência mais premium com renovação visual, climatização split e excelente funcionalidade.",
         features: [
           "Novo",
           "Cama box nova",
@@ -378,7 +378,7 @@ export const defaultRoomCategories = [
           "Telefone",
           "TV LCD 32 polegadas a cabo",
           "Frigobar",
-          "Aquecimento de agua",
+          "Aquecimento de água",
           "Servico de quarto",
         ],
         coverImage: media.superior,
@@ -391,9 +391,9 @@ export const defaultRoomCategories = [
         title: "Triplo Superior",
         slug: "triplo-superior",
         occupancy: 3,
-        shortDescription: "Espaco inteligente com acabamento moderno para tres hospedes.",
+        shortDescription: "Espaço inteligente com acabamento moderno para três hóspedes.",
         fullDescription:
-          "A categoria Superior em configuracao tripla une praticidade, visual renovado e maior sensacao de exclusividade.",
+          "A categoria Superior em configuração tripla une praticidade, visual renovado e maior sensação de exclusividade.",
         features: [
           "Novo",
           "Cama box nova",
@@ -402,7 +402,7 @@ export const defaultRoomCategories = [
           "Telefone",
           "TV LCD 32 polegadas a cabo",
           "Frigobar",
-          "Aquecimento de agua",
+          "Aquecimento de água",
           "Servico de quarto",
         ],
         coverImage: media.superior,
@@ -434,21 +434,21 @@ export const defaultRestaurantContent = {
 export const defaultGalleryImages = [
   { id: "hotel-1", category: "Hotel", imageUrl: media.hero, altText: "Fachada do hotel", order: 1, isActive: true },
   { id: "restaurante-4", category: "Restaurante", imageUrl: media.restaurant, altText: "Ambiente do restaurante", order: 2, isActive: true },
-  { id: "cafe-5", category: "Cafe da manha", imageUrl: media.breakfast, altText: "Buffet de cafe da manha", order: 3, isActive: true },
+  { id: "cafe-5", category: "Café da manhã", imageUrl: media.breakfast, altText: "Buffet de café da manhã", order: 3, isActive: true },
 ];
 
 export const defaultTour360Content = {
   id: 1,
   title: "Tour 360 do Iguassu Express Hotel",
   description:
-    "Gire as fotos panoramicas do hotel para olhar os ambientes em 360 e antecipar a atmosfera da hospedagem.",
+    "Gire as fotos panorâmicas do hotel para olhar os ambientes em 360 e antecipar a atmosfera da hospedagem.",
   embedUrl: "",
   heroImage: media.hero,
   gallery: [media.hero, media.gallery, media.location],
   scenes: [
     {
       id: "tour-scene-1",
-      title: "Piscina panoramica",
+      title: "Piscina panorâmica",
       description:
         "Gire a imagem para observar a area externa do hotel em um panorama mais imersivo.",
       image: media.hero,
@@ -457,7 +457,7 @@ export const defaultTour360Content = {
       id: "tour-scene-2",
       title: "Ambiente interno 360",
       description:
-        "Cena panoramica complementar para apresentar os interiores do hotel com mais profundidade.",
+        "Cena panorâmica complementar para apresentar os interiores do hotel com mais profundidade.",
       image: media.gallery,
     },
     {
@@ -473,54 +473,54 @@ export const defaultTour360Content = {
 
 export const defaultLocationContent = {
   id: 1,
-  title: "Acesso rapido aos principais pontos de Foz do Iguacu",
+  title: "Acesso rápido aos principais pontos de Foz do Iguaçu",
   description:
-    "Uma base estrategica para turismo, compras e compromissos corporativos na cidade e regiao de fronteira.",
+    "Uma base estratégica para turismo, compras e compromissos corporativos na cidade e região de fronteira.",
   mapEmbed:
-    '<iframe src="https://www.google.com/maps?q=Foz%20do%20Iguacu&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+    '<iframe src="https://www.google.com/maps?q=Foz%20do%20Igua%C3%A7u&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
   nearbyPoints: [
-    "Aeroporto Internacional de Foz do Iguacu",
-    "Cataratas do Iguacu",
-    "Centro comercial de Foz do Iguacu",
+    "Aeroporto Internacional de Foz do Iguaçu",
+    "Cataratas do Iguaçu",
+    "Centro comercial de Foz do Iguaçu",
     "Ponte da Amizade",
   ],
   heroImage: media.location,
   accessDetails:
-    "A localizacao facilita deslocamentos por carro, taxi ou aplicativos, com saidas praticas para os principais atrativos e corredores da cidade.",
+    "A localização facilita deslocamentos por carro, táxi ou aplicativos, com saídas práticas para os principais atrativos e corredores da cidade.",
 };
 
 export const defaultBlogCategories = [
-  { id: "foz-do-iguacu", name: "Foz do Iguacu", slug: "foz-do-iguacu" },
+  { id: "foz-do-iguacu", name: "Foz do Iguaçu", slug: "foz-do-iguacu" },
 ];
 
 export const defaultBlogPosts = [
   {
     id: "o-que-fazer-em-foz",
-    title: "O que fazer em Foz do Iguacu em um fim de semana",
+    title: "O que fazer em Foz do Iguaçu em um fim de semana",
     slug: "o-que-fazer-em-foz-do-iguacu-em-um-fim-de-semana",
     excerpt:
       "Um roteiro enxuto para quem quer aproveitar os principais destaques da cidade com conforto e praticidade.",
-    content: `## Um roteiro eficiente\n\nFoz do Iguacu permite combinar natureza, gastronomia e compras em poucos dias.\n\n### Dia 1\n\n- Chegada e check-in no hotel\n- Jantar leve no restaurante\n- Passeio noturno pela cidade\n\n### Dia 2\n\n- Visita as Cataratas do Iguacu\n- Almoco regional\n- Retorno para descanso no hotel\n\n### Dia 3\n\n- Compras e retorno`,
+    content: `## Um roteiro eficiente\n\nFoz do Iguaçu permite combinar natureza, gastronomia e compras em poucos dias.\n\n### Dia 1\n\n- Chegada e check-in no hotel\n- Jantar leve no restaurante\n- Passeio noturno pela cidade\n\n### Dia 2\n\n- Visita as Cataratas do Iguaçu\n- Almoço regional\n- Retorno para descanso no hotel\n\n### Dia 3\n\n- Compras e retorno`,
     featuredImage: media.blog,
     categoryId: "foz-do-iguacu",
-    seoTitle: "O que fazer em Foz do Iguacu em um fim de semana",
+    seoTitle: "O que fazer em Foz do Iguaçu em um fim de semana",
     seoDescription:
-      "Roteiro de fim de semana em Foz do Iguacu com dicas para aproveitar melhor a viagem.",
+      "Roteiro de fim de semana em Foz do Iguaçu com dicas para aproveitar melhor a viagem.",
     publishedAt: new Date(),
     status: BlogPostStatus.PUBLISHED,
   },
   {
     id: "como-escolher-hotel",
-    title: "Como escolher o melhor hotel em Foz do Iguacu",
+    title: "Como escolher o melhor hotel em Foz do Iguaçu",
     slug: "como-escolher-o-melhor-hotel-em-foz-do-iguacu",
     excerpt:
-      "Veja quais criterios fazem diferenca na hora de reservar sua hospedagem na cidade.",
-    content: `## O que analisar antes de reservar\n\nProcure por localizacao, conforto, motor de reserva direto e uma experiencia visual que transmita confianca.\n\n### Pontos importantes\n\n- Proximidade dos acessos\n- Tipos de apartamentos\n- Cafe da manha\n- Atendimento e canais de contato`,
+      "Veja quais critérios fazem diferença na hora de reservar sua hospedagem na cidade.",
+    content: `## O que analisar antes de reservar\n\nProcure por localização, conforto, motor de reserva direto e uma experiência visual que transmita confiança.\n\n### Pontos importantes\n\n- Proximidade dos acessos\n- Tipos de apartamentos\n- Café da manhã\n- Atendimento e canais de contato`,
     featuredImage: media.hero,
     categoryId: "foz-do-iguacu",
-    seoTitle: "Como escolher hotel em Foz do Iguacu",
+    seoTitle: "Como escolher hotel em Foz do Iguaçu",
     seoDescription:
-      "Descubra os criterios mais importantes para escolher onde se hospedar em Foz do Iguacu.",
+      "Descubra os critérios mais importantes para escolher onde se hospedar em Foz do Iguaçu.",
     publishedAt: new Date(),
     status: BlogPostStatus.PUBLISHED,
   },
@@ -529,9 +529,9 @@ export const defaultBlogPosts = [
 export const defaultFaqItems = [
   {
     id: "faq-1",
-    question: "O hotel possui cafe da manha incluso?",
+    question: "O hotel possui café da manhã incluso?",
     answer:
-      "Sim. O hotel oferece cafe da manha em ambiente acolhedor, com apresentacao elegante e foco em praticidade para comecar bem o dia.",
+      "Sim. O hotel oferece café da manhã em ambiente acolhedor, com apresentação elegante e foco em praticidade para começar bem o dia.",
     order: 1,
     isActive: true,
   },
@@ -539,15 +539,15 @@ export const defaultFaqItems = [
     id: "faq-2",
     question: "Como funciona a reserva online?",
     answer:
-      "A busca valida as datas e ocupacao, monta automaticamente a URL da Omnibees e leva voce ao fluxo oficial de reserva direta.",
+      "A busca valida as datas e ocupação, monta automaticamente a URL da Omnibees e leva você ao fluxo oficial de reserva direta.",
     order: 2,
     isActive: true,
   },
   {
     id: "faq-3",
-    question: "Quais tipos de apartamentos estao disponiveis?",
+    question: "Quais tipos de apartamentos estão disponíveis?",
     answer:
-      "As categorias iniciais sao Standard e Superior, com opcoes para uma, duas, tres ou quatro pessoas conforme a configuracao.",
+      "As categorias iniciais são Standard e Superior, com opções para uma, duas, três ou quatro pessoas conforme a configuração.",
     order: 3,
     isActive: true,
   },
@@ -555,7 +555,7 @@ export const defaultFaqItems = [
     id: "faq-4",
     question: "O hotel possui restaurante?",
     answer:
-      "Sim. A estrutura conta com cafe da manha e opcao de servico a la carte, ambos administraveis pelo painel.",
+      "Sim. A estrutura conta com café da manhã e opção de serviço à la carte, ambos administráveis pelo painel.",
     order: 4,
     isActive: true,
   },

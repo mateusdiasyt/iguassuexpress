@@ -13,7 +13,7 @@ type TourSceneLike = Partial<TourScene> & {
 };
 
 function getSceneTitle(index: number) {
-  return index === 0 ? "Piscina panoramica" : `Cena 360 ${index + 1}`;
+  return index === 0 ? "Piscina panorâmica" : `Cena 360 ${index + 1}`;
 }
 
 function getSceneDescription(index: number, fallbackDescription?: string) {
@@ -21,7 +21,7 @@ function getSceneDescription(index: number, fallbackDescription?: string) {
     return fallbackDescription.trim();
   }
 
-  return `Cena panoramica ${index + 1} publicada para apresentar o hotel com uma leitura mais imersiva.`;
+  return `Cena panorâmica ${index + 1} publicada para apresentar o hotel com uma leitura mais imersiva.`;
 }
 
 function normalizeScene(raw: unknown, index: number, fallbackDescription?: string): TourScene | null {

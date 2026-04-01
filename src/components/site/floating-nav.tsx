@@ -23,7 +23,7 @@ const navItems = [
   { href: "/restaurante", label: "Restaurante", icon: UtensilsCrossed },
   { href: "/galeria-de-fotos", label: "Galeria", icon: Images },
   { href: "/tour-360", label: "Tour 360", icon: Compass },
-  { href: "/localizacao", label: "Localizacao", icon: MapPinned },
+  { href: "/localizacao", label: "Localização", icon: MapPinned },
   { href: "/blog", label: "Blog", icon: BookOpenText },
   { href: "/contato", label: "Contato", icon: Phone },
   { href: "/trabalhe-conosco", label: "Carreiras", icon: BriefcaseBusiness },

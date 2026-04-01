@@ -9,10 +9,11 @@ export default function NotFound() {
           404
         </p>
         <h1 className="mt-5 text-5xl leading-none text-slate-950">
-          Conteudo nao encontrado
+          Conteúdo não encontrado
         </h1>
         <p className="mt-5 text-sm leading-8 text-slate-600">
-          A pagina solicitada nao esta disponivel. Volte para a home e continue navegando pelo site do hotel.
+          A página solicitada não está disponível. Volte para a home e continue navegando pelo site
+          do hotel.
         </p>
         <div className="mt-8">
           <Button asChild>

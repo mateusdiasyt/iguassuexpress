@@ -56,7 +56,7 @@ export function HeroSection({
                 <a href="#reserva">Reserve Agora</a>
               </Button>
               <Button asChild variant="ghost" className="border border-white/20">
-                <a href="/apartamentos">Ver acomodacoes</a>
+                <a href="/apartamentos">Ver acomodações</a>
               </Button>
             </div>
           </div>
