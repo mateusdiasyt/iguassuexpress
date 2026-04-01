@@ -166,9 +166,6 @@ export default async function RestaurantPage() {
                   breakfastTitle={restaurant.breakfastTitle}
                   aLaCarteTitle={restaurant.aLaCarteTitle}
                 />
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-3">
                 <FeatureIconPill
                   icon={<ScrollText className="h-4 w-4" />}
                   label="Cardapio completo"
