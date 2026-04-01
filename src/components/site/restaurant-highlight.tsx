@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ScrollText } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 type RestaurantHighlightProps = {
   title: string;
@@ -106,16 +106,11 @@ export function RestaurantHighlight({
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link
             href="/restaurante"
-            className="inline-flex h-12 items-center justify-center gap-3 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-[0_18px_38px_rgba(9,77,122,0.28)] transition-all duration-300 hover:bg-brand-deep hover:shadow-[0_22px_42px_rgba(6,45,71,0.3)]"
+            className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-brand px-6 text-base font-semibold text-white shadow-[0_20px_42px_rgba(9,77,122,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-deep hover:shadow-[0_24px_46px_rgba(6,45,71,0.32)]"
           >
-            Abrir cardapio smart
+            Ver Cardapio Smart
             <ArrowUpRight className="h-4 w-4" />
           </Link>
-
-          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/84 px-4 py-2 text-sm text-slate-600">
-            <ScrollText className="h-4 w-4 text-brand" />
-            {itemCount} itens em leitura interativa
-          </span>
         </div>
       </div>
     </section>
