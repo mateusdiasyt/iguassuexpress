@@ -12,6 +12,7 @@ import {
   Leaf,
   Martini,
   Pizza,
+  Play,
   Sandwich,
   ScrollText,
   Soup,
@@ -319,8 +320,11 @@ export function RestaurantMenuDialog({
   return (
     <Dialog.Root open={open} onOpenChange={handleOpenChange}>
       <Dialog.Trigger asChild>
-        <Button className="h-12 px-5 text-sm normal-case tracking-normal shadow-[0_18px_38px_rgba(9,77,122,0.28)]">
-          Ver cardápio
+        <Button className="h-14 gap-3 rounded-full pl-2 pr-6 text-sm normal-case tracking-normal shadow-[0_18px_38px_rgba(9,77,122,0.28)]">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/16 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+            <Play className="ml-0.5 h-4 w-4 fill-current" />
+          </span>
+          <span className="text-base font-semibold text-white">Iniciar cardápio</span>
         </Button>
       </Dialog.Trigger>
 
