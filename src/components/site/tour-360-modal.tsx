@@ -42,8 +42,8 @@ export function Tour360Modal({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[90] bg-slate-950/76 backdrop-blur-xl" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 z-[100] h-[min(880px,calc(100vh-1.5rem))] w-[min(1460px,calc(100vw-1.5rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(12,19,31,0.96),rgba(18,31,47,0.94))] text-white shadow-[0_46px_140px_rgba(2,8,18,0.58)] md:h-[min(880px,calc(100vh-4rem))] md:w-[min(1460px,calc(100vw-4rem))]">
-          <div className="grid h-full min-h-[80vh] lg:grid-cols-[560px_minmax(0,1fr)]">
+        <Dialog.Content className="fixed top-1/2 left-1/2 z-[100] h-[min(880px,calc(100vh-1.5rem))] w-[min(1520px,calc(100vw-1.5rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(12,19,31,0.96),rgba(18,31,47,0.94))] text-white shadow-[0_46px_140px_rgba(2,8,18,0.58)] md:h-[min(880px,calc(100vh-4rem))] md:w-[min(1520px,calc(100vw-4rem))]">
+          <div className="grid h-full min-h-[80vh] lg:grid-cols-[500px_minmax(0,1fr)] xl:grid-cols-[470px_minmax(0,1fr)]">
             <aside className="relative flex min-h-0 flex-col border-b border-white/10 bg-white/[0.03] p-6 lg:border-r lg:border-b-0 lg:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -166,22 +166,24 @@ export function Tour360Modal({
                 />
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,28,0.08),rgba(8,17,28,0.06)_36%,rgba(8,17,28,0.6))]" />
 
-                <div className="pointer-events-none absolute inset-x-5 bottom-5 z-20 grid gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/32 p-4 backdrop-blur-xl md:inset-x-6 md:bottom-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:p-5">
+                <div className="pointer-events-none absolute inset-x-5 bottom-5 z-20 flex flex-col gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/32 p-4 backdrop-blur-xl md:inset-x-6 md:bottom-6 md:p-5">
                   <div className="min-w-0">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-sky-100/75">
                       Cena ativa
                     </p>
-                    <h4 className="mt-2 text-[1.55rem] leading-tight font-extrabold tracking-[-0.04em] text-white md:text-[2rem]">
+                    <h4 className="mt-2 text-[1.55rem] leading-tight font-extrabold tracking-[-0.04em] text-white md:text-[2.15rem]">
                       {activeScene.title}
                     </h4>
-                    <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-200/82">
+                    <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-200/82 md:text-[0.95rem]">
                       {activeScene.description}
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-3 rounded-full border border-white/12 bg-white/[0.05] px-4 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200/90">
-                    <Compass className="h-4 w-4 text-sky-100" />
-                    Olhe em 360 na mesma cena
+                  <div className="self-start rounded-full border border-white/12 bg-white/[0.05] px-4 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200/90">
+                    <div className="flex items-center gap-3">
+                      <Compass className="h-4 w-4 text-sky-100" />
+                      Olhe em 360 na mesma cena
+                    </div>
                   </div>
                 </div>
               </div>
