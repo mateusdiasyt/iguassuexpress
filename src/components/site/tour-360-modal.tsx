@@ -42,7 +42,7 @@ export function Tour360Modal({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[90] bg-slate-950/76 backdrop-blur-xl" />
-        <Dialog.Content className="fixed inset-3 z-[100] overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(12,19,31,0.96),rgba(18,31,47,0.94))] text-white shadow-[0_40px_120px_rgba(2,8,18,0.5)] md:inset-6">
+        <Dialog.Content className="fixed top-1/2 left-1/2 z-[100] h-[min(860px,calc(100vh-1.5rem))] w-[min(1380px,calc(100vw-1.5rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(12,19,31,0.96),rgba(18,31,47,0.94))] text-white shadow-[0_46px_140px_rgba(2,8,18,0.58)] md:h-[min(860px,calc(100vh-4rem))] md:w-[min(1380px,calc(100vw-4rem))]">
           <div className="grid h-full min-h-[80vh] lg:grid-cols-[500px_minmax(0,1fr)]">
             <aside className="relative flex min-h-0 flex-col border-b border-white/10 bg-white/[0.03] p-6 lg:border-r lg:border-b-0 lg:p-8">
               <div className="flex items-start justify-between gap-4">
