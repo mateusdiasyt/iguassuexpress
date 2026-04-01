@@ -3,9 +3,11 @@ import Image from "next/image";
 import {
   Coffee,
   Expand,
+  LayoutGrid,
   ImagePlay,
   ScrollText,
   Sparkles,
+  Utensils,
   UtensilsCrossed,
 } from "lucide-react";
 import { PageHero } from "@/components/site/page-hero";
@@ -116,6 +118,32 @@ function FeatureIconPill({
   );
 }
 
+function OverlayInfoPill({
+  icon,
+  value,
+  label,
+}: {
+  icon: ReactNode;
+  value: string;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      className="group inline-flex h-12 items-center self-start rounded-full border border-white/16 bg-white/12 px-3 text-white/82 backdrop-blur-md transition-all duration-300 hover:bg-white/18"
+      aria-label={`${value} ${label}`}
+      title={`${value} ${label}`}
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/12 text-white">
+        {icon}
+      </span>
+      <span className="ml-0 max-w-0 overflow-hidden whitespace-nowrap text-sm font-medium opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:max-w-[180px] group-hover:opacity-100">
+        {value} {label}
+      </span>
+    </button>
+  );
+}
+
 export default async function RestaurantPage() {
   const [page, restaurant, menuCategories] = await Promise.all([
     getPageContent("restaurant"),
@@ -220,15 +248,32 @@ export default async function RestaurantPage() {
                 </div>
 
                 <div className="absolute inset-x-5 bottom-5 rounded-[1.5rem] border border-white/18 bg-slate-950/34 p-5 shadow-[0_18px_40px_rgba(15,23,42,0.18)] backdrop-blur-xl">
-                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/62">
-                    Destaque visual
-                  </p>
-                  <p className="mt-2 max-w-[22rem] text-[1.7rem] leading-[0.96] font-semibold tracking-[-0.04em] text-white">
-                    Cardapio Smart Express com uma leitura mais elegante e imersiva.
-                  </p>
-                  <p className="mt-4 max-w-[28rem] text-sm leading-7 text-white/80">
-                    O menu abre com categorias, imagens, destaques e valores em uma experiencia pensada para parecer produto real.
-                  </p>
+                  <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+                    <div>
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/62">
+                        Destaque visual
+                      </p>
+                      <p className="mt-2 max-w-[22rem] text-[1.7rem] leading-[0.96] font-semibold tracking-[-0.04em] text-white">
+                        Cardapio Smart Express com uma leitura mais elegante e imersiva.
+                      </p>
+                      <p className="mt-4 max-w-[28rem] text-sm leading-7 text-white/80">
+                        O menu abre com categorias, imagens, destaques e valores em uma experiencia pensada para parecer produto real.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 md:max-w-[220px] md:justify-end">
+                      <OverlayInfoPill
+                        icon={<LayoutGrid className="h-4 w-4" />}
+                        value={String(menuCategories.length)}
+                        label="categorias"
+                      />
+                      <OverlayInfoPill
+                        icon={<Utensils className="h-4 w-4" />}
+                        value={String(totalMenuItems)}
+                        label="itens"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
