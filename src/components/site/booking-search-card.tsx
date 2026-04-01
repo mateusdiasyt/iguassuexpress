@@ -56,7 +56,7 @@ export function BookingSearchCard({
       }
 
       const rect = node.getBoundingClientRect();
-      const shouldFloat = window.scrollY > 180 && rect.bottom < 120;
+      const shouldFloat = window.scrollY > 24 || rect.bottom < window.innerHeight - 180;
 
       setIsFloatingVisible(shouldFloat);
 
@@ -265,7 +265,7 @@ export function BookingSearchCard({
 
       <div
         className={cn(
-          "pointer-events-none fixed right-5 bottom-[5.35rem] z-40 transition-all duration-300 sm:right-[5.35rem] sm:bottom-5",
+          "pointer-events-none fixed right-5 bottom-[5.35rem] z-40 transition-all duration-300 sm:right-[6.1rem] sm:bottom-5",
           isFloatingVisible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0",
         )}
       >
