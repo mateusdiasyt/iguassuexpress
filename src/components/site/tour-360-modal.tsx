@@ -166,7 +166,7 @@ export function Tour360Modal({
                 />
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,28,0.08),rgba(8,17,28,0.06)_36%,rgba(8,17,28,0.6))]" />
 
-                <div className="pointer-events-none absolute inset-x-5 bottom-5 z-20 flex flex-col gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/32 p-4 backdrop-blur-xl md:inset-x-6 md:bottom-6 md:p-5">
+                <div className="pointer-events-none absolute inset-x-5 bottom-7 z-20 flex flex-col gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/32 p-4 backdrop-blur-xl md:inset-x-6 md:bottom-8 md:p-5">
                   <div className="min-w-0">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-sky-100/75">
                       Cena ativa
