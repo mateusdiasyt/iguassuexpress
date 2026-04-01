@@ -49,14 +49,7 @@ export function BookingSearchCard({
 
   useEffect(() => {
     function syncFloatingState() {
-      const node = cardRef.current;
-
-      if (!node) {
-        return;
-      }
-
-      const rect = node.getBoundingClientRect();
-      const shouldFloat = window.scrollY > 24 || rect.bottom < window.innerHeight - 180;
+      const shouldFloat = window.scrollY > 36;
 
       setIsFloatingVisible(shouldFloat);
 
