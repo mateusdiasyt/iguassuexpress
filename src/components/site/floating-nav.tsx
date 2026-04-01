@@ -8,6 +8,7 @@ import {
   BookOpenText,
   BriefcaseBusiness,
   Compass,
+  House,
   Images,
   MapPinned,
   Menu,
@@ -18,12 +19,12 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/", label: "Home", icon: Compass },
+  { href: "/", label: "Home", icon: House, special: true },
   { href: "/apartamentos", label: "Apartamentos", icon: BedDouble },
   { href: "/restaurante", label: "Restaurante", icon: UtensilsCrossed },
   { href: "/galeria-de-fotos", label: "Galeria", icon: Images },
   { href: "/tour-360", label: "Tour 360", icon: Compass },
-  { href: "/localizacao", label: "Localização", icon: MapPinned },
+  { href: "/localizacao", label: "Localizacao", icon: MapPinned },
   { href: "/blog", label: "Blog", icon: BookOpenText },
   { href: "/contato", label: "Contato", icon: Phone },
   { href: "/trabalhe-conosco", label: "Carreiras", icon: BriefcaseBusiness },
@@ -49,6 +50,7 @@ function resolveAssetSrc(value: string | null | undefined, fallback: string) {
     .replaceAll("\\", "/")
     .replace(/^\.?\/?public\//i, "");
   const lower = normalized.toLowerCase();
+
   if (
     lower.endsWith("/logo-hotel.png") ||
     lower === "logo-hotel.png" ||
@@ -59,8 +61,98 @@ function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   ) {
     return DEFAULT_LOGO_SRC;
   }
+
   const withSlash = normalized.startsWith("/") ? normalized : `/${normalized}`;
   return encodeURI(withSlash);
+}
+
+function getTopNavItemClasses(isDark: boolean, isActive: boolean, isHomeItem: boolean) {
+  if (isHomeItem) {
+    return isDark
+      ? cn(
+          "border border-[#e5c894]/35 bg-[linear-gradient(135deg,rgba(212,177,126,0.28),rgba(18,63,97,0.34))] text-white shadow-[0_12px_30px_rgba(7,27,42,0.24)]",
+          isActive
+            ? "border-[#f1dbb4]/45 bg-[linear-gradient(135deg,rgba(229,200,148,0.34),rgba(18,63,97,0.48))]"
+            : "hover:border-[#f1dbb4]/45 hover:bg-[linear-gradient(135deg,rgba(229,200,148,0.3),rgba(18,63,97,0.42))]",
+        )
+      : cn(
+          "border border-[#d6b37d]/45 bg-[#f6ead6] text-[#855f31] shadow-[0_10px_24px_rgba(135,100,53,0.12)]",
+          isActive
+            ? "border-[#c59451] bg-[#efddbb] text-[#6f4b21]"
+            : "hover:border-[#c59451] hover:bg-[#f1e1c4]",
+        );
+  }
+
+  return isDark
+    ? cn(
+        "border border-white/15 bg-slate-950/18 shadow-[0_8px_22px_rgba(4,18,32,0.22)]",
+        isActive
+          ? "border-white/24 bg-white/16"
+          : "hover:border-white/24 hover:bg-white/12",
+      )
+    : cn(
+        "border border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_26px_rgba(15,23,42,0.12)]",
+        isActive
+          ? "border-brand/40 bg-brand/12 text-brand"
+          : "hover:border-brand/30 hover:bg-white",
+      );
+}
+
+function getDockItemClasses(
+  useDockDarkTone: boolean,
+  useInternalDockDarkTone: boolean,
+  isActive: boolean,
+  isHomeItem: boolean,
+) {
+  if (isHomeItem) {
+    return useDockDarkTone
+      ? cn(
+          "border border-[#e5c894]/28 bg-[linear-gradient(180deg,rgba(229,200,148,0.24),rgba(13,79,125,0.54))] text-white shadow-[0_12px_28px_rgba(10,34,56,0.28)]",
+          isActive
+            ? "border-[#f1dbb4]/40 bg-[linear-gradient(180deg,rgba(229,200,148,0.34),rgba(13,79,125,0.76))]"
+            : "hover:border-[#f1dbb4]/40 hover:bg-[linear-gradient(180deg,rgba(229,200,148,0.3),rgba(13,79,125,0.64))]",
+        )
+      : cn(
+          "border border-[#d6b37d]/45 bg-[#f6ead6] text-[#855f31] shadow-[0_12px_26px_rgba(135,100,53,0.14)]",
+          isActive
+            ? "border-[#c59451] bg-[#efddbb] text-[#6f4b21]"
+            : "hover:border-[#c59451] hover:bg-[#f1e1c4]",
+        );
+  }
+
+  if (useDockDarkTone) {
+    return useInternalDockDarkTone
+      ? cn(
+          "border border-white/10 bg-white/7 text-white/92",
+          isActive
+            ? "border-[#4f9bce]/55 bg-[#0d4f7d]/88 text-white shadow-[0_10px_24px_rgba(6,45,71,0.34)]"
+            : "hover:border-white/18 hover:bg-white/12",
+        )
+      : cn(
+          "border border-white/12 bg-white/6",
+          isActive
+            ? "border-white/24 bg-white/16"
+            : "hover:border-white/24 hover:bg-white/12",
+        );
+  }
+
+  return cn(
+    "border border-slate-300/75 bg-white/66",
+    isActive
+      ? "border-brand/40 bg-brand/12 text-brand"
+      : "hover:border-brand/30 hover:bg-white",
+  );
+}
+
+function getMobileItemClasses(isActive: boolean, isHomeItem: boolean) {
+  if (isHomeItem) {
+    return cn(
+      "bg-[linear-gradient(135deg,rgba(229,200,148,0.24),rgba(13,79,125,0.24))] text-white",
+      isActive ? "ring-1 ring-[#f1dbb4]/25" : "hover:bg-[linear-gradient(135deg,rgba(229,200,148,0.3),rgba(13,79,125,0.3))]",
+    );
+  }
+
+  return isActive ? "bg-white/12" : "hover:bg-white/8";
 }
 
 export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
@@ -136,6 +228,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
+              const isHomeItem = Boolean(item.special);
 
               return (
                 <Link
@@ -143,19 +236,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   href={item.href}
                   className={cn(
                     "group flex h-11 items-center rounded-full px-4 backdrop-blur-xl transition-all duration-300",
-                    useTopDarkTone
-                      ? cn(
-                          "border border-white/15 bg-slate-950/18 shadow-[0_8px_22px_rgba(4,18,32,0.22)]",
-                          isActive
-                            ? "border-white/24 bg-white/16"
-                            : "hover:border-white/24 hover:bg-white/12",
-                        )
-                      : cn(
-                          "border border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_26px_rgba(15,23,42,0.12)]",
-                          isActive
-                            ? "border-brand/40 bg-brand/12 text-brand"
-                            : "hover:border-brand/30 hover:bg-white",
-                        ),
+                    getTopNavItemClasses(useTopDarkTone, isActive, isHomeItem),
                   )}
                 >
                   <Icon className="h-4 w-4 shrink-0" />
@@ -202,6 +283,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
+            const isHomeItem = Boolean(item.special);
 
             return (
               <Link
@@ -210,26 +292,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                 aria-label={item.label}
                 className={cn(
                   "group relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-300",
-                  useDockDarkTone
-                    ? useInternalDockDarkTone
-                      ? cn(
-                          "border border-white/10 bg-white/7 text-white/92",
-                          isActive
-                            ? "border-[#4f9bce]/55 bg-[#0d4f7d]/88 text-white shadow-[0_10px_24px_rgba(6,45,71,0.34)]"
-                            : "hover:border-white/18 hover:bg-white/12",
-                        )
-                      : cn(
-                          "border border-white/12 bg-white/6",
-                          isActive
-                            ? "border-white/24 bg-white/16"
-                            : "hover:border-white/24 hover:bg-white/12",
-                        )
-                    : cn(
-                        "border border-slate-300/75 bg-white/66",
-                        isActive
-                          ? "border-brand/40 bg-brand/12 text-brand"
-                          : "hover:border-brand/30 hover:bg-white",
-                      ),
+                  getDockItemClasses(useDockDarkTone, useInternalDockDarkTone, isActive, isHomeItem),
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />
@@ -247,6 +310,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           <nav className="grid gap-2">
             {navItems.map((item) => {
               const Icon = item.icon;
+              const isHomeItem = Boolean(item.special);
 
               return (
                 <Link
@@ -255,7 +319,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   onClick={() => setOpen(false)}
                   className={cn(
                     "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium",
-                    pathname === item.href ? "bg-white/12" : "hover:bg-white/8",
+                    getMobileItemClasses(pathname === item.href, isHomeItem),
                   )}
                 >
                   <Icon className="h-4 w-4" />
