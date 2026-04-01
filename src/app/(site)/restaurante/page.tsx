@@ -1,6 +1,13 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Coffee, ScrollText, UtensilsCrossed } from "lucide-react";
+import {
+  Coffee,
+  Expand,
+  ImagePlay,
+  ScrollText,
+  Sparkles,
+  UtensilsCrossed,
+} from "lucide-react";
 import { PageHero } from "@/components/site/page-hero";
 import { RestaurantMenuDialog } from "@/components/site/restaurant-menu-dialog";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -46,6 +53,30 @@ function ServiceCard({
         </div>
       </div>
     </article>
+  );
+}
+
+function FeatureIconPill({
+  icon,
+  label,
+}: {
+  icon: ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      className="group inline-flex h-12 items-center rounded-full border border-slate-200/80 bg-white/84 px-3 text-slate-600 shadow-[0_12px_28px_rgba(15,23,42,0.05)] transition-all duration-300 hover:border-brand/20 hover:bg-white hover:text-slate-950"
+      aria-label={label}
+      title={label}
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand/8 text-brand">
+        {icon}
+      </span>
+      <span className="ml-0 max-w-0 overflow-hidden whitespace-nowrap text-sm font-medium opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:max-w-[220px] group-hover:opacity-100">
+        {label}
+      </span>
+    </button>
   );
 }
 
@@ -135,19 +166,25 @@ export default async function RestaurantPage() {
                   breakfastTitle={restaurant.breakfastTitle}
                   aLaCarteTitle={restaurant.aLaCarteTitle}
                 />
-                <span className="inline-flex items-center gap-2 rounded-full border border-brand/10 bg-white/75 px-4 py-2 text-sm text-slate-600">
-                  <ScrollText className="h-4 w-4 text-brand" />
-                  {menuCategories.length} categorias e {totalMenuItems} itens
-                </span>
               </div>
 
-              <div className="mt-5 flex flex-wrap gap-3 text-sm text-slate-600">
-                <span className="rounded-full border border-slate-200/80 bg-white/72 px-4 py-2">
-                  Navegacao em tela cheia
-                </span>
-                <span className="rounded-full border border-slate-200/80 bg-white/72 px-4 py-2">
-                  Leitura visual do cardapio
-                </span>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <FeatureIconPill
+                  icon={<ScrollText className="h-4 w-4" />}
+                  label="Cardapio completo"
+                />
+                <FeatureIconPill
+                  icon={<Expand className="h-4 w-4" />}
+                  label="Navegacao em tela cheia"
+                />
+                <FeatureIconPill
+                  icon={<ImagePlay className="h-4 w-4" />}
+                  label="Leitura visual do cardapio"
+                />
+                <FeatureIconPill
+                  icon={<Sparkles className="h-4 w-4" />}
+                  label="Experiencia mais imersiva"
+                />
               </div>
             </div>
 
