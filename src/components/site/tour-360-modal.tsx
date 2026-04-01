@@ -42,8 +42,8 @@ export function Tour360Modal({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[90] bg-slate-950/76 backdrop-blur-xl" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 z-[100] h-[min(860px,calc(100vh-1.5rem))] w-[min(1380px,calc(100vw-1.5rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(12,19,31,0.96),rgba(18,31,47,0.94))] text-white shadow-[0_46px_140px_rgba(2,8,18,0.58)] md:h-[min(860px,calc(100vh-4rem))] md:w-[min(1380px,calc(100vw-4rem))]">
-          <div className="grid h-full min-h-[80vh] lg:grid-cols-[500px_minmax(0,1fr)]">
+        <Dialog.Content className="fixed top-1/2 left-1/2 z-[100] h-[min(880px,calc(100vh-1.5rem))] w-[min(1460px,calc(100vw-1.5rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(12,19,31,0.96),rgba(18,31,47,0.94))] text-white shadow-[0_46px_140px_rgba(2,8,18,0.58)] md:h-[min(880px,calc(100vh-4rem))] md:w-[min(1460px,calc(100vw-4rem))]">
+          <div className="grid h-full min-h-[80vh] lg:grid-cols-[560px_minmax(0,1fr)]">
             <aside className="relative flex min-h-0 flex-col border-b border-white/10 bg-white/[0.03] p-6 lg:border-r lg:border-b-0 lg:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -75,7 +75,7 @@ export function Tour360Modal({
               </div>
 
               <div className="mt-6 min-h-0 flex-1 overflow-y-auto pr-1 soft-scrollbar">
-                <div className="grid gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   {scenes.map((scene, index) => {
                     const isActive = scene.id === activeScene.id;
 
@@ -85,19 +85,19 @@ export function Tour360Modal({
                         type="button"
                         onClick={() => setSelectedSceneId(scene.id)}
                         className={cn(
-                          "group rounded-[1.55rem] border p-3 text-left transition-all duration-300",
+                          "group rounded-[1.45rem] border p-2.5 text-left transition-all duration-300",
                           isActive
                             ? "border-sky-200/34 bg-sky-300/10 shadow-[0_18px_34px_rgba(15,36,58,0.22)]"
                             : "border-white/10 bg-white/[0.03] hover:border-white/18 hover:bg-white/[0.05]",
                         )}
                       >
-                        <div className="relative aspect-[2/1] overflow-hidden rounded-[1.25rem] border border-white/10">
+                        <div className="relative aspect-[1.45/1] overflow-hidden rounded-[1.15rem] border border-white/10">
                           <Image
                             src={scene.image}
                             alt={scene.title}
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                            sizes="420px"
+                            sizes="280px"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/58 via-slate-950/10 to-transparent" />
                           <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-3">
@@ -112,12 +112,9 @@ export function Tour360Modal({
                           </div>
                         </div>
 
-                        <div className="mt-4 space-y-2 px-1 pb-1">
-                          <p className="text-lg font-semibold leading-tight text-white">
+                        <div className="mt-3 px-1 pb-1">
+                          <p className="line-clamp-2 text-[1rem] font-semibold leading-tight text-white">
                             {scene.title}
-                          </p>
-                          <p className="line-clamp-2 text-sm leading-6 text-slate-300">
-                            {scene.description}
                           </p>
                         </div>
                       </button>
@@ -169,15 +166,15 @@ export function Tour360Modal({
                 />
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,28,0.08),rgba(8,17,28,0.06)_36%,rgba(8,17,28,0.6))]" />
 
-                <div className="pointer-events-none absolute inset-x-6 bottom-6 z-20 flex flex-col gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/30 p-5 backdrop-blur-xl md:flex-row md:items-end md:justify-between">
-                  <div>
+                <div className="pointer-events-none absolute inset-x-5 bottom-5 z-20 grid gap-4 rounded-[1.6rem] border border-white/12 bg-slate-950/32 p-4 backdrop-blur-xl md:inset-x-6 md:bottom-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:p-5">
+                  <div className="min-w-0">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-sky-100/75">
                       Cena ativa
                     </p>
-                    <h4 className="mt-2 text-[1.85rem] leading-[0.94] font-extrabold tracking-[-0.04em] text-white">
+                    <h4 className="mt-2 text-[1.55rem] leading-tight font-extrabold tracking-[-0.04em] text-white md:text-[2rem]">
                       {activeScene.title}
                     </h4>
-                    <p className="mt-3 max-w-xl text-sm leading-7 text-slate-200/82">
+                    <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-200/82">
                       {activeScene.description}
                     </p>
                   </div>
