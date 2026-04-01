@@ -38,6 +38,21 @@ type FloatingNavProps = {
 const DEFAULT_LOGO_SRC = "/logo-hotel-principal.png";
 const TOP_ONLY_THRESHOLD = 6;
 const DOCK_THEME_OFFSET = 84;
+const HOME_TOP_DARK = "border-[#d7b481]/44 bg-[#355f7b]/94 text-white shadow-[0_12px_30px_rgba(7,27,42,0.24)]";
+const HOME_TOP_DARK_ACTIVE = "border-[#edd6b0]/48 bg-[#416f8d]/96";
+const HOME_TOP_DARK_HOVER = "hover:border-[#edd6b0]/48 hover:bg-[#3d6987]/96";
+const HOME_TOP_LIGHT = "border-[#d6b37d]/45 bg-[#f6ead6] text-[#855f31] shadow-[0_10px_24px_rgba(135,100,53,0.12)]";
+const HOME_TOP_LIGHT_ACTIVE = "border-[#c59451] bg-[#efddbb] text-[#6f4b21]";
+const HOME_TOP_LIGHT_HOVER = "hover:border-[#c59451] hover:bg-[#f1e1c4]";
+const HOME_DOCK_DARK = "border-[#d7b481]/36 bg-[#2f5873]/96 text-white shadow-[0_12px_28px_rgba(10,34,56,0.28)]";
+const HOME_DOCK_DARK_ACTIVE = "border-[#edd6b0]/42 bg-[#3b6784]/98";
+const HOME_DOCK_DARK_HOVER = "hover:border-[#edd6b0]/42 hover:bg-[#37627e]/98";
+const HOME_DOCK_LIGHT = "border-[#d6b37d]/45 bg-[#f6ead6] text-[#855f31] shadow-[0_12px_26px_rgba(135,100,53,0.14)]";
+const HOME_DOCK_LIGHT_ACTIVE = "border-[#c59451] bg-[#efddbb] text-[#6f4b21]";
+const HOME_DOCK_LIGHT_HOVER = "hover:border-[#c59451] hover:bg-[#f1e1c4]";
+const HOME_MOBILE = "border border-[#d7b481]/38 bg-[#355f7b]/94 text-white shadow-[0_12px_24px_rgba(7,27,42,0.22)]";
+const HOME_MOBILE_ACTIVE = "ring-1 ring-[#edd6b0]/28";
+const HOME_MOBILE_HOVER = "hover:bg-[#3b6784]/96";
 
 function resolveAssetSrc(value: string | null | undefined, fallback: string) {
   const raw = value?.trim() ? value.trim() : fallback;
@@ -70,16 +85,12 @@ function getTopNavItemClasses(isDark: boolean, isActive: boolean, isHomeItem: bo
   if (isHomeItem) {
     return isDark
       ? cn(
-          "border border-[#e5c894]/35 bg-[linear-gradient(135deg,rgba(212,177,126,0.28),rgba(18,63,97,0.34))] text-white shadow-[0_12px_30px_rgba(7,27,42,0.24)]",
-          isActive
-            ? "border-[#f1dbb4]/45 bg-[linear-gradient(135deg,rgba(229,200,148,0.34),rgba(18,63,97,0.48))]"
-            : "hover:border-[#f1dbb4]/45 hover:bg-[linear-gradient(135deg,rgba(229,200,148,0.3),rgba(18,63,97,0.42))]",
+          HOME_TOP_DARK,
+          isActive ? HOME_TOP_DARK_ACTIVE : HOME_TOP_DARK_HOVER,
         )
       : cn(
-          "border border-[#d6b37d]/45 bg-[#f6ead6] text-[#855f31] shadow-[0_10px_24px_rgba(135,100,53,0.12)]",
-          isActive
-            ? "border-[#c59451] bg-[#efddbb] text-[#6f4b21]"
-            : "hover:border-[#c59451] hover:bg-[#f1e1c4]",
+          HOME_TOP_LIGHT,
+          isActive ? HOME_TOP_LIGHT_ACTIVE : HOME_TOP_LIGHT_HOVER,
         );
   }
 
@@ -107,16 +118,12 @@ function getDockItemClasses(
   if (isHomeItem) {
     return useDockDarkTone
       ? cn(
-          "border border-[#e5c894]/28 bg-[linear-gradient(180deg,rgba(229,200,148,0.24),rgba(13,79,125,0.54))] text-white shadow-[0_12px_28px_rgba(10,34,56,0.28)]",
-          isActive
-            ? "border-[#f1dbb4]/40 bg-[linear-gradient(180deg,rgba(229,200,148,0.34),rgba(13,79,125,0.76))]"
-            : "hover:border-[#f1dbb4]/40 hover:bg-[linear-gradient(180deg,rgba(229,200,148,0.3),rgba(13,79,125,0.64))]",
+          HOME_DOCK_DARK,
+          isActive ? HOME_DOCK_DARK_ACTIVE : HOME_DOCK_DARK_HOVER,
         )
       : cn(
-          "border border-[#d6b37d]/45 bg-[#f6ead6] text-[#855f31] shadow-[0_12px_26px_rgba(135,100,53,0.14)]",
-          isActive
-            ? "border-[#c59451] bg-[#efddbb] text-[#6f4b21]"
-            : "hover:border-[#c59451] hover:bg-[#f1e1c4]",
+          HOME_DOCK_LIGHT,
+          isActive ? HOME_DOCK_LIGHT_ACTIVE : HOME_DOCK_LIGHT_HOVER,
         );
   }
 
@@ -147,8 +154,8 @@ function getDockItemClasses(
 function getMobileItemClasses(isActive: boolean, isHomeItem: boolean) {
   if (isHomeItem) {
     return cn(
-      "bg-[linear-gradient(135deg,rgba(229,200,148,0.24),rgba(13,79,125,0.24))] text-white",
-      isActive ? "ring-1 ring-[#f1dbb4]/25" : "hover:bg-[linear-gradient(135deg,rgba(229,200,148,0.3),rgba(13,79,125,0.3))]",
+      HOME_MOBILE,
+      isActive ? HOME_MOBILE_ACTIVE : HOME_MOBILE_HOVER,
     );
   }
 
