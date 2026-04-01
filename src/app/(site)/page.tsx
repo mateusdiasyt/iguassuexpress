@@ -6,6 +6,7 @@ import { HeroSection } from "@/components/site/hero-section";
 import { HighlightCardColumn } from "@/components/site/highlight-card-column";
 import { RestaurantHighlight } from "@/components/site/restaurant-highlight";
 import { RoomCatalog } from "@/components/site/room-catalog";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { TourLocationSection } from "@/components/site/tour-location-section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import {
@@ -71,7 +72,12 @@ export default async function HomePage() {
   const heroImage = resolveHomeHeroImage(homePage.bannerImage);
   const totalMenuItems = menuCategories.reduce(
     (total, category) =>
-      total + category.items.length + category.children.reduce((childTotal, child) => childTotal + child.items.length, 0),
+      total +
+      category.items.length +
+      category.children.reduce(
+        (childTotal, child) => childTotal + child.items.length,
+        0,
+      ),
     0,
   );
   const tourDescription = resolveTourDescription(tour.description);
@@ -107,72 +113,92 @@ export default async function HomePage() {
         </HeroSection>
 
         {hasHeroCards ? (
-          <section className="mx-auto -mt-10 max-w-6xl lg:-mt-16">
-            <HighlightCardColumn cards={heroCards} mapEmbed={settings.mapEmbed} />
-          </section>
+          <ScrollReveal className="mx-auto -mt-10 max-w-6xl lg:-mt-16" delay={60}>
+            <section>
+              <HighlightCardColumn cards={heroCards} mapEmbed={settings.mapEmbed} />
+            </section>
+          </ScrollReveal>
         ) : null}
 
         <section className="mx-auto max-w-6xl space-y-10">
-          <SectionHeading
-            eyebrow="Acomodações"
-            title="Quartos organizados por categoria"
-            description="Escolha entre as categorias Standard e Superior e depois explore os detalhes de cada acomodação em um modal elegante."
-            layout="split"
-          />
-          <RoomCatalog categories={roomCategories} />
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="Acomodações"
+              title="Quartos organizados por categoria"
+              description="Escolha entre as categorias Standard e Superior e depois explore os detalhes de cada acomodação em um modal elegante."
+              layout="split"
+            />
+          </ScrollReveal>
+          <ScrollReveal delay={120}>
+            <RoomCatalog categories={roomCategories} />
+          </ScrollReveal>
         </section>
 
-        <div className="mx-auto max-w-6xl">
-          <RestaurantHighlight
-            title={restaurant.teaserTitle ?? "Sabores para a sua estada"}
-            description={
-              restaurant.teaserDescription ??
-              "Café da manhã, opção à la carte e um ambiente acolhedor para completar a hospedagem."
-            }
-            image={restaurant.heroImage}
-            categoryCount={menuCategories.length}
-            itemCount={totalMenuItems}
-          />
-        </div>
+        <ScrollReveal className="mx-auto max-w-6xl">
+          <div>
+            <RestaurantHighlight
+              title={restaurant.teaserTitle ?? "Sabores para a sua estada"}
+              description={
+                restaurant.teaserDescription ??
+                "Café da manhã, opção à la carte e um ambiente acolhedor para completar a hospedagem."
+              }
+              image={restaurant.heroImage}
+              categoryCount={menuCategories.length}
+              itemCount={totalMenuItems}
+            />
+          </div>
+        </ScrollReveal>
 
-        <section className="mx-auto max-w-6xl">
-          <TourLocationSection
-            tourTitle={tour.title}
-            tourDescription={tourDescription}
-            previewImage={primaryTourImage}
-            scenes={tourScenes}
-          />
-        </section>
+        <ScrollReveal className="mx-auto max-w-6xl">
+          <section>
+            <TourLocationSection
+              tourTitle={tour.title}
+              tourDescription={tourDescription}
+              previewImage={primaryTourImage}
+              scenes={tourScenes}
+            />
+          </section>
+        </ScrollReveal>
 
         <section className="mx-auto max-w-6xl space-y-10">
-          <SectionHeading
-            eyebrow="Blog"
-            title="Conteúdo editorial para inspirar a viagem"
-            description="Guias, dicas e pautas de Foz do Iguaçu para fortalecer o SEO local e ajudar o visitante a planejar a estada."
-          />
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="Blog"
+              title="Conteúdo editorial para inspirar a viagem"
+              description="Guias, dicas e pautas de Foz do Iguaçu para fortalecer o SEO local e ajudar o visitante a planejar a estada."
+            />
+          </ScrollReveal>
           <div className="grid gap-6 lg:grid-cols-3">
-            {blogPosts.slice(0, 3).map((post) => (
-              <BlogCard key={post.slug} post={post} />
+            {blogPosts.slice(0, 3).map((post, index) => (
+              <ScrollReveal key={post.slug} delay={80 + index * 120} className="h-full">
+                <BlogCard post={post} />
+              </ScrollReveal>
             ))}
           </div>
         </section>
 
         <section className="mx-auto max-w-6xl space-y-10">
-          <SectionHeading
-            eyebrow="FAQ"
-            title="Perguntas frequentes"
-            description="Informações essenciais para acelerar a decisão de reserva e reduzir dúvidas no primeiro contato."
-          />
-          <FaqAccordion items={faqs} />
+          <ScrollReveal>
+            <SectionHeading
+              eyebrow="FAQ"
+              title="Perguntas frequentes"
+              description="Informações essenciais para acelerar a decisão de reserva e reduzir dúvidas no primeiro contato."
+            />
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <FaqAccordion items={faqs} />
+          </ScrollReveal>
         </section>
 
-        <div className="mx-auto max-w-6xl">
-          <ContactSection
-            whatsapp={settings.whatsapp}
-            phone={settings.phone}
-            mapEmbed={settings.mapEmbed}
-          />
-        </div>
+        <ScrollReveal className="mx-auto max-w-6xl" delay={80}>
+          <div>
+            <ContactSection
+              whatsapp={settings.whatsapp}
+              phone={settings.phone}
+              mapEmbed={settings.mapEmbed}
+            />
+          </div>
+        </ScrollReveal>
       </div>
     </>
   );
