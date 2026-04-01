@@ -40,7 +40,7 @@ function ServiceCard({
 }) {
   return (
     <article
-      className={`rounded-[1.65rem] border p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] ${toneClass}`}
+      className={`flex h-full rounded-[1.65rem] border p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] ${toneClass}`}
     >
       <div className="flex items-start gap-4">
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/55 bg-white/70 text-brand shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
@@ -68,7 +68,7 @@ function SmartSummaryCard({
   totalMenuItems: number;
 }) {
   return (
-    <aside className="rounded-[1.65rem] border border-[#e5d8c6] bg-[linear-gradient(160deg,rgba(255,247,236,0.98)_0%,rgba(246,231,206,0.9)_100%)] p-5 shadow-[0_18px_40px_rgba(125,89,43,0.08)]">
+    <aside className="flex h-full flex-col rounded-[1.65rem] border border-[#e5d8c6] bg-[linear-gradient(160deg,rgba(255,247,236,0.98)_0%,rgba(246,231,206,0.9)_100%)] p-5 shadow-[0_18px_40px_rgba(125,89,43,0.08)]">
       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#9a6c2c]">
         Cardapio Smart
       </p>
@@ -138,7 +138,7 @@ export default async function RestaurantPage() {
     <div className="mx-auto max-w-6xl space-y-12">
       <PageHero title={page.title} subtitle={page.subtitle} image={page.bannerImage} />
 
-      <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_300px]">
+      <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_300px]">
         <ServiceCard
           eyebrow="Cafe da manha"
           title={restaurant.breakfastTitle}
