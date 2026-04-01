@@ -75,10 +75,11 @@ export function RestaurantHighlight({
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link
             href="/restaurante"
-            className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[linear-gradient(135deg,#094d7a_0%,#0b5e94_100%)] px-7 text-base font-semibold text-white shadow-[0_20px_42px_rgba(9,77,122,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#062d47_0%,#094d7a_100%)] hover:shadow-[0_24px_46px_rgba(6,45,71,0.32)]"
+            className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[linear-gradient(135deg,#094d7a_0%,#0b5e94_100%)] px-7 text-base font-semibold !text-white [color:#fff] shadow-[0_20px_42px_rgba(9,77,122,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:!text-white hover:[color:#fff] hover:bg-[linear-gradient(135deg,#062d47_0%,#094d7a_100%)] hover:shadow-[0_24px_46px_rgba(6,45,71,0.32)] visited:!text-white visited:[color:#fff]"
+            style={{ color: "#ffffff" }}
           >
             Ver Cardapio Smart
-            <ArrowUpRight className="h-4 w-4 text-white/90" />
+            <ArrowUpRight className="h-4 w-4 !text-white" />
           </Link>
         </div>
       </div>
