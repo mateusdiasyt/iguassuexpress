@@ -1,6 +1,13 @@
 "use client";
 
-import { ArrowUpRight, Compass, MoveHorizontal } from "lucide-react";
+import type { ReactNode } from "react";
+import {
+  Compass,
+  MoveHorizontal,
+  Orbit,
+  Play,
+  ScanSearch,
+} from "lucide-react";
 import { useState } from "react";
 import { Panorama360Viewer } from "@/components/site/panorama-360-viewer";
 import { Tour360Modal } from "@/components/site/tour-360-modal";
@@ -14,6 +21,30 @@ type TourLocationSectionProps = {
 };
 
 const DEFAULT_PREVIEW_IMAGE = "/piscina-hotel-iguassu.jpg";
+
+function FeaturePill({
+  icon,
+  label,
+}: {
+  icon: ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      className="group inline-flex h-12 items-center rounded-full border border-slate-200/80 bg-white/86 px-3 text-slate-600 shadow-[0_12px_28px_rgba(15,23,42,0.05)] transition-all duration-300 hover:border-brand/20 hover:bg-white hover:text-slate-950"
+      aria-label={label}
+      title={label}
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand/8 text-brand">
+        {icon}
+      </span>
+      <span className="ml-0 max-w-0 overflow-hidden whitespace-nowrap text-sm font-medium opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:max-w-[220px] group-hover:opacity-100">
+        {label}
+      </span>
+    </button>
+  );
+}
 
 export function TourLocationSection({
   tourTitle,
@@ -50,12 +81,37 @@ export function TourLocationSection({
         <h3 className="max-w-md text-[2.1rem] leading-[0.94] font-extrabold text-slate-950 md:text-[3rem]">
           Explore o hotel com fotos panoramicas reais em 360
         </h3>
-        <p className="max-w-md text-sm leading-7 text-slate-600 md:text-base md:leading-8">
-          {tourDescription}
+        <p className="max-w-md text-base leading-8 text-slate-600">
+          Gire a cena, olhe para os lados e sinta a atmosfera do hotel em um panorama 360 mais limpo e imersivo.
         </p>
-        <p className="max-w-sm text-sm leading-7 text-slate-500">
-          A experiencia funciona como um Street View estatico: voce arrasta a cena e olha para os lados sem sair do mesmo ponto.
-        </p>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[linear-gradient(135deg,#094d7a_0%,#0b5e94_100%)] px-6 text-sm font-semibold text-white shadow-[0_18px_38px_rgba(9,77,122,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#062d47_0%,#094d7a_100%)]"
+          >
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/16 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+              <Play className="ml-0.5 h-4 w-4 fill-current" />
+            </span>
+            <span className="text-base font-semibold text-white">Iniciar tour</span>
+          </button>
+
+          <FeaturePill
+            icon={<MoveHorizontal className="h-4 w-4" />}
+            label="Arraste para olhar"
+          />
+          <FeaturePill
+            icon={<Orbit className="h-4 w-4" />}
+            label="Panorama 360 real"
+          />
+          <FeaturePill
+            icon={<ScanSearch className="h-4 w-4" />}
+            label="Exploracao na mesma cena"
+          />
+        </div>
+
+        <p className="max-w-sm text-sm leading-7 text-slate-500">{tourDescription}</p>
       </div>
 
       <div className="group relative min-h-[420px] overflow-hidden rounded-[2.4rem] border border-slate-200/80 bg-white shadow-[0_28px_70px_rgba(15,23,42,0.08)]">
@@ -87,7 +143,7 @@ export function TourLocationSection({
               {tourTitle}
             </h3>
             <p className="mt-3 max-w-md text-sm leading-7 text-white/82 md:text-base">
-              Abra o viewer completo para girar a cena com mais precisao e explorar os ambientes em um panorama 360 de verdade.
+              Olhe em volta com mais precisao e abra a experiencia completa quando quiser.
             </p>
           </div>
 
@@ -96,14 +152,6 @@ export function TourLocationSection({
               <Compass className="h-4 w-4" />
               Street View estatico
             </div>
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              className="inline-flex h-12 items-center gap-3 rounded-full border border-white/35 bg-white/18 px-5 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-[0_14px_30px_rgba(15,23,42,0.14)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/24"
-            >
-              Abrir tour 360
-              <ArrowUpRight className="h-4 w-4" />
-            </button>
           </div>
         </div>
       </div>
