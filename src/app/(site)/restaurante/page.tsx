@@ -30,29 +30,65 @@ function ServiceCard({
   title,
   description,
   icon,
+  toneClass,
 }: {
   eyebrow: string;
   title: string;
   description: string;
   icon: ReactNode;
+  toneClass: string;
 }) {
   return (
-    <article className="soft-card rounded-[1.75rem] p-6">
+    <article
+      className={`rounded-[1.65rem] border p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] ${toneClass}`}
+    >
       <div className="flex items-start gap-4">
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/8 text-brand">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/55 bg-white/70 text-brand shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
           {icon}
         </span>
         <div>
           <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-brand/70">
             {eyebrow}
           </p>
-          <h2 className="mt-2 text-[1.6rem] leading-[0.95] font-semibold tracking-[-0.04em] text-slate-950">
+          <h2 className="mt-2 text-[1.4rem] leading-[0.95] font-semibold tracking-[-0.04em] text-slate-950">
             {title}
           </h2>
-          <p className="mt-4 text-sm leading-7 text-slate-600">{description}</p>
+          <p className="mt-3 max-w-[28rem] text-sm leading-7 text-slate-600">{description}</p>
         </div>
       </div>
     </article>
+  );
+}
+
+function SmartSummaryCard({
+  categoryCount,
+  totalMenuItems,
+}: {
+  categoryCount: number;
+  totalMenuItems: number;
+}) {
+  return (
+    <aside className="rounded-[1.65rem] border border-[#e5d8c6] bg-[linear-gradient(160deg,rgba(255,247,236,0.98)_0%,rgba(246,231,206,0.9)_100%)] p-5 shadow-[0_18px_40px_rgba(125,89,43,0.08)]">
+      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#9a6c2c]">
+        Cardapio Smart
+      </p>
+      <h2 className="mt-2 text-[1.4rem] leading-[0.95] font-semibold tracking-[-0.04em] text-slate-950">
+        Leitura rapida
+      </h2>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <span className="rounded-full border border-white/70 bg-white/72 px-3 py-2 text-sm font-medium text-slate-700">
+          {categoryCount} categorias
+        </span>
+        <span className="rounded-full border border-white/70 bg-white/72 px-3 py-2 text-sm font-medium text-slate-700">
+          {totalMenuItems} itens
+        </span>
+      </div>
+
+      <p className="mt-4 max-w-[24rem] text-sm leading-7 text-slate-600">
+        Experiencia interativa em tela cheia com foco em categorias, imagens e valores.
+      </p>
+    </aside>
   );
 }
 
@@ -102,46 +138,25 @@ export default async function RestaurantPage() {
     <div className="mx-auto max-w-6xl space-y-12">
       <PageHero title={page.title} subtitle={page.subtitle} image={page.bannerImage} />
 
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_280px]">
+      <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_300px]">
         <ServiceCard
           eyebrow="Cafe da manha"
           title={restaurant.breakfastTitle}
           description={restaurant.breakfastDescription}
           icon={<Coffee className="h-5 w-5" />}
+          toneClass="border-[#efe4cf] bg-[linear-gradient(160deg,rgba(255,251,243,0.98)_0%,rgba(248,239,220,0.9)_100%)]"
         />
         <ServiceCard
           eyebrow="A la carte"
           title={restaurant.aLaCarteTitle}
           description={restaurant.aLaCarteDescription}
           icon={<UtensilsCrossed className="h-5 w-5" />}
+          toneClass="border-[#dbe5ef] bg-[linear-gradient(160deg,rgba(247,251,255,0.98)_0%,rgba(230,240,249,0.92)_100%)]"
         />
-
-        <aside className="soft-card rounded-[1.75rem] p-6">
-          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-brand/70">
-            Cardapio Smart
-          </p>
-          <h2 className="mt-2 text-[1.6rem] leading-[0.95] font-semibold tracking-[-0.04em] text-slate-950">
-            Leitura rapida
-          </h2>
-
-          <div className="mt-5 grid gap-3">
-            <div className="rounded-[1.2rem] border border-brand/10 bg-white/84 px-4 py-4">
-              <p className="text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                Categorias
-              </p>
-              <p className="mt-1 text-lg font-semibold text-slate-900">{menuCategories.length}</p>
-            </div>
-            <div className="rounded-[1.2rem] border border-brand/10 bg-white/84 px-4 py-4">
-              <p className="text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                Itens
-              </p>
-              <p className="mt-1 text-lg font-semibold text-slate-900">{totalMenuItems}</p>
-            </div>
-            <div className="rounded-[1.2rem] border border-brand/10 bg-white/84 px-4 py-4 text-sm leading-7 text-slate-600">
-              Experiencia interativa em tela cheia com foco em categorias, imagens e valores.
-            </div>
-          </div>
-        </aside>
+        <SmartSummaryCard
+          categoryCount={menuCategories.length}
+          totalMenuItems={totalMenuItems}
+        />
       </section>
 
       <section>
