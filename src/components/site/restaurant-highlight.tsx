@@ -8,8 +8,6 @@ type RestaurantHighlightProps = {
   image?: string | null;
   categoryCount: number;
   itemCount: number;
-  breakfastTitle?: string | null;
-  aLaCarteTitle?: string | null;
 };
 
 export function RestaurantHighlight({
@@ -18,11 +16,7 @@ export function RestaurantHighlight({
   image,
   categoryCount,
   itemCount,
-  breakfastTitle,
-  aLaCarteTitle,
 }: RestaurantHighlightProps) {
-  const serviceLine = [breakfastTitle, aLaCarteTitle].filter(Boolean).join(" + ");
-
   return (
     <section className="grid gap-8 lg:grid-cols-[minmax(320px,0.92fr)_minmax(0,1.08fr)] lg:items-center">
       <div className="relative mx-auto w-full max-w-[540px]">
@@ -78,38 +72,13 @@ export function RestaurantHighlight({
           {description}
         </p>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-[1.4rem] border border-slate-200/80 bg-white/82 px-4 py-4 shadow-[0_14px_30px_rgba(15,23,42,0.05)]">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/70">
-              Nome
-            </p>
-            <p className="mt-2 text-base font-semibold text-slate-950">{title}</p>
-          </div>
-          <div className="rounded-[1.4rem] border border-slate-200/80 bg-white/82 px-4 py-4 shadow-[0_14px_30px_rgba(15,23,42,0.05)]">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/70">
-              Estrutura
-            </p>
-            <p className="mt-2 text-base font-semibold text-slate-950">
-              {categoryCount} categorias
-            </p>
-          </div>
-          <div className="rounded-[1.4rem] border border-slate-200/80 bg-white/82 px-4 py-4 shadow-[0_14px_30px_rgba(15,23,42,0.05)]">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand/70">
-              Servico
-            </p>
-            <p className="mt-2 text-base font-semibold text-slate-950">
-              {serviceLine || "Cafe da manha + a la carte"}
-            </p>
-          </div>
-        </div>
-
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <Link
             href="/restaurante"
-            className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-brand px-6 text-base font-semibold text-white shadow-[0_20px_42px_rgba(9,77,122,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-deep hover:shadow-[0_24px_46px_rgba(6,45,71,0.32)]"
+            className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[linear-gradient(135deg,#094d7a_0%,#0b5e94_100%)] px-7 text-base font-semibold text-white shadow-[0_20px_42px_rgba(9,77,122,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#062d47_0%,#094d7a_100%)] hover:shadow-[0_24px_46px_rgba(6,45,71,0.32)]"
           >
             Ver Cardapio Smart
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight className="h-4 w-4 text-white/90" />
           </Link>
         </div>
       </div>

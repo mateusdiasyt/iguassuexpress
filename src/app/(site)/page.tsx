@@ -132,8 +132,6 @@ export default async function HomePage() {
             image={restaurant.heroImage}
             categoryCount={menuCategories.length}
             itemCount={totalMenuItems}
-            breakfastTitle={restaurant.breakfastTitle}
-            aLaCarteTitle={restaurant.aLaCarteTitle}
           />
         </div>
 
