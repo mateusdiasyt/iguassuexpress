@@ -57,7 +57,7 @@ export function Footer({
       </div>
 
       <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/65 md:flex-row md:items-center md:justify-between">
-        <p>© 2026 O Que Fazer em Foz. Todos os direitos reservados.</p>
+        <p>© 2026 Hotel Iguassu Express. Todos os direitos reservados.</p>
         <p className="text-white/75">
           Desenvolvido por{" "}
           <a
