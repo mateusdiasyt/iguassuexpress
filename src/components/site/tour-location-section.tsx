@@ -30,19 +30,21 @@ function FeaturePill({
   label: string;
 }) {
   return (
-    <button
-      type="button"
-      className="group inline-flex h-12 items-center rounded-full border border-slate-200/80 bg-white/86 px-3 text-slate-600 shadow-[0_12px_28px_rgba(15,23,42,0.05)] transition-all duration-300 hover:border-brand/20 hover:bg-white hover:text-slate-950"
-      aria-label={label}
-      title={label}
-    >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand/8 text-brand">
-        {icon}
-      </span>
-      <span className="ml-0 max-w-0 overflow-hidden whitespace-nowrap text-sm font-medium opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:max-w-[220px] group-hover:opacity-100">
+    <div className="group relative inline-flex">
+      <button
+        type="button"
+        className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200/80 bg-white/86 text-slate-600 shadow-[0_12px_28px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/20 hover:bg-white hover:text-slate-950"
+        aria-label={label}
+        title={label}
+      >
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand/8 text-brand">
+          {icon}
+        </span>
+      </button>
+      <span className="pointer-events-none absolute right-1/2 bottom-[calc(100%+0.75rem)] z-20 translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full border border-slate-200/80 bg-white/94 px-3 py-2 text-sm font-medium text-slate-700 opacity-0 shadow-[0_16px_32px_rgba(15,23,42,0.08)] backdrop-blur-md transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         {label}
       </span>
-    </button>
+    </div>
   );
 }
 
