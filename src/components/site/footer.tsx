@@ -55,6 +55,21 @@ export function Footer({
           <p className="mt-4 text-sm leading-7 text-white/75">{address}</p>
         </div>
       </div>
+
+      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/65 md:flex-row md:items-center md:justify-between">
+        <p>© 2026 O Que Fazer em Foz. Todos os direitos reservados.</p>
+        <p className="text-white/75">
+          Desenvolvido por{" "}
+          <a
+            href="https://www.instagram.com/devmateusmendoza/"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-white transition-colors hover:text-[#d8c6a2]"
+          >
+            Mateus Mendoza
+          </a>
+        </p>
+      </div>
     </footer>
   );
 }
