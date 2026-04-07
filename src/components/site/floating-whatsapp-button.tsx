@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Facebook, Instagram, MessageCircle } from "lucide-react";
 import type { SocialLinks } from "@/lib/social-links";
 import {
@@ -23,28 +22,16 @@ export function FloatingWhatsAppButton({
     {
       label: "WhatsApp",
       href: whatsappHref,
-      tone: "bg-emerald-500 text-white hover:bg-emerald-600",
-      icon: (
-        <Image
-          src="/whatsapp.png"
-          alt=""
-          width={18}
-          height={18}
-          aria-hidden="true"
-          className="h-[18px] w-[18px] object-contain"
-        />
-      ),
+      icon: <MessageCircle className="h-4 w-4" />,
     },
     {
       label: "Instagram",
       href: normalizeExternalUrl(socialLinks?.instagram),
-      tone: "bg-[#d9467a] text-white hover:bg-[#c23369]",
       icon: <Instagram className="h-4 w-4" />,
     },
     {
       label: "Facebook",
       href: normalizeExternalUrl(socialLinks?.facebook),
-      tone: "bg-[#2f6fd6] text-white hover:bg-[#245bb3]",
       icon: <Facebook className="h-4 w-4" />,
     },
   ].filter((action) => action.href);
@@ -60,8 +47,7 @@ export function FloatingWhatsAppButton({
             rel="noreferrer"
             aria-label={action.label}
             className={cn(
-              "flex h-11 w-11 translate-y-3 scale-90 items-center justify-center rounded-full shadow-[0_16px_34px_rgba(15,23,42,0.22)] ring-1 ring-white/30 backdrop-blur-xl transition-all duration-300 group-hover:translate-y-0 group-hover:scale-100 group-focus-within:translate-y-0 group-focus-within:scale-100",
-              action.tone,
+              "flex h-11 w-11 translate-y-3 scale-90 items-center justify-center rounded-full border border-white/80 bg-white/95 text-brand-deep shadow-[0_16px_34px_rgba(15,23,42,0.22)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/20 hover:bg-brand hover:text-white group-hover:translate-y-0 group-hover:scale-100 group-focus-within:translate-y-0 group-focus-within:scale-100",
             )}
             style={{ transitionDelay: `${index * 45}ms` }}
           >
@@ -75,7 +61,7 @@ export function FloatingWhatsAppButton({
         target="_blank"
         rel="noreferrer"
         aria-label="Abrir canais de contato"
-        className="flex h-14 w-14 items-center justify-center rounded-full border border-white/18 bg-brand-deep text-white shadow-[0_22px_46px_rgba(6,45,71,0.28)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:bg-brand focus-visible:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/25"
+        className="flex h-14 w-14 items-center justify-center rounded-full border border-white/80 bg-white/95 text-brand-deep shadow-[0_22px_46px_rgba(6,45,71,0.26)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-brand/20 hover:bg-white focus-visible:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
       >
         <MessageCircle className="h-6 w-6" />
       </a>
