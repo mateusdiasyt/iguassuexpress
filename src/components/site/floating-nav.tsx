@@ -356,7 +356,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
           <div
             className={cn(
-              "hidden items-center gap-1 rounded-full border p-1 backdrop-blur-xl transition-all duration-300 md:flex",
+              "hidden h-9 items-center gap-0.5 rounded-full border p-0.5 backdrop-blur-xl transition-all duration-300 md:flex",
               useTopDarkTone
                 ? "border-white/14 bg-slate-950/18 text-white shadow-[0_8px_22px_rgba(4,18,32,0.18)]"
                 : "border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.1)]",
@@ -372,7 +372,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   type="button"
                   onClick={() => handleLanguageChange(language.code)}
                   className={cn(
-                    "rounded-full px-3 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] transition-all duration-300",
+                    "h-8 rounded-full px-2.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] transition-all duration-300",
                     isActive
                       ? useTopDarkTone
                         ? "bg-white/18 text-white"
