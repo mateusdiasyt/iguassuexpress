@@ -30,6 +30,12 @@ const navItems = [
   { href: "/trabalhe-conosco", label: "Carreiras", icon: BriefcaseBusiness },
 ];
 
+const languageOptions = [
+  { label: "PT-BR", code: "pt" },
+  { label: "EN", code: "en" },
+  { label: "ESP", code: "es" },
+];
+
 type FloatingNavProps = {
   hotelName: string;
   logo?: string | null;
@@ -170,10 +176,15 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const [scrollY, setScrollY] = useState(0);
   const [useDockDarkTone, setUseDockDarkTone] = useState(true);
   const [logoSrc, setLogoSrc] = useState(() => resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
+  const [currentUrl, setCurrentUrl] = useState("");
 
   useEffect(() => {
     setLogoSrc(resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
   }, [logo]);
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, [pathname]);
 
   useEffect(() => {
     function getDockDarkBoundary() {
@@ -209,6 +220,16 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
   const useTopDarkTone = scrollY <= TOP_ONLY_THRESHOLD;
   const useInternalDockDarkTone = !isHomePage;
+
+  function getLanguageHref(code: string) {
+    if (code === "pt") {
+      return pathname || "/";
+    }
+
+    const targetUrl = currentUrl || pathname || "/";
+
+    return `https://translate.google.com/translate?sl=pt&tl=${code}&u=${encodeURIComponent(targetUrl)}`;
+  }
 
   return (
     <>
@@ -254,6 +275,40 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
               );
             })}
           </nav>
+
+          <div
+            className={cn(
+              "hidden items-center gap-1 rounded-full border p-1 backdrop-blur-xl transition-all duration-300 md:flex",
+              useTopDarkTone
+                ? "border-white/14 bg-slate-950/18 text-white shadow-[0_8px_22px_rgba(4,18,32,0.18)]"
+                : "border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.1)]",
+            )}
+            aria-label="Selecionar idioma"
+          >
+            {languageOptions.map((language) => {
+              const isActive = language.code === "pt";
+
+              return (
+                <a
+                  key={language.code}
+                  href={getLanguageHref(language.code)}
+                  className={cn(
+                    "rounded-full px-3 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] transition-all duration-300",
+                    isActive
+                      ? useTopDarkTone
+                        ? "bg-white/18 text-white"
+                        : "bg-brand/10 text-brand"
+                      : useTopDarkTone
+                        ? "text-white/62 hover:bg-white/10 hover:text-white"
+                        : "text-slate-500 hover:bg-white hover:text-brand",
+                  )}
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  {language.label}
+                </a>
+              );
+            })}
+          </div>
 
           <button
             type="button"
@@ -335,6 +390,33 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
               );
             })}
           </nav>
+
+          <div className="mt-4 rounded-[1.4rem] border border-white/10 bg-white/5 p-2">
+            <p className="px-3 pb-2 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/45">
+              Idioma
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              {languageOptions.map((language) => {
+                const isActive = language.code === "pt";
+
+                return (
+                  <a
+                    key={`mobile-${language.code}`}
+                    href={getLanguageHref(language.code)}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "rounded-full px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.14em] transition",
+                      isActive
+                        ? "bg-white text-brand"
+                        : "bg-white/8 text-white/70 hover:bg-white/14 hover:text-white",
+                    )}
+                  >
+                    {language.label}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         </div>
       ) : null}
     </>
