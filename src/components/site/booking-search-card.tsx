@@ -49,7 +49,11 @@ export function BookingSearchCard({
 
   useEffect(() => {
     function syncFloatingState() {
-      const shouldFloat = window.scrollY > 36;
+      const node = cardRef.current;
+      const rect = node?.getBoundingClientRect();
+      const enoughScroll = window.scrollY > Math.min(220, window.innerHeight * 0.24);
+      const inlineCardIsClear = rect ? rect.bottom < window.innerHeight * 0.58 : enoughScroll;
+      const shouldFloat = enoughScroll && inlineCardIsClear;
 
       setIsFloatingVisible(shouldFloat);
 
@@ -258,7 +262,7 @@ export function BookingSearchCard({
 
       <div
         className={cn(
-          "pointer-events-none fixed right-5 bottom-[5.35rem] z-40 transition-all duration-300 sm:right-[6.1rem] sm:bottom-5",
+          "pointer-events-none fixed right-[5.35rem] bottom-5 z-40 transition-all duration-300",
           isFloatingVisible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0",
         )}
       >
