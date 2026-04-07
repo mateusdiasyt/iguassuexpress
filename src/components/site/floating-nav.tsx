@@ -36,6 +36,20 @@ const languageOptions = [
   { label: "ESP", code: "es" },
 ];
 
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: {
+      translate?: {
+        TranslateElement?: new (
+          options: { pageLanguage: string; includedLanguages: string; autoDisplay: boolean },
+          element: string,
+        ) => void;
+      };
+    };
+  }
+}
+
 type FloatingNavProps = {
   hotelName: string;
   logo?: string | null;
@@ -168,6 +182,20 @@ function getMobileItemClasses(isActive: boolean, isHomeItem: boolean) {
   return isActive ? "bg-white/12" : "hover:bg-white/8";
 }
 
+function writeTranslateCookie(code: string) {
+  const value = code === "pt" ? "" : `/pt/${code}`;
+  const maxAge = code === "pt" ? "0" : "31536000";
+  const hostname = window.location.hostname;
+  const domains = [hostname, `.${hostname}`];
+  const cookieBase = `googtrans=${value};path=/;max-age=${maxAge};SameSite=Lax`;
+
+  window.document.cookie = cookieBase;
+
+  domains.forEach((domain) => {
+    window.document.cookie = `googtrans=${value};domain=${domain};path=/;max-age=${maxAge};SameSite=Lax`;
+  });
+}
+
 export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
@@ -176,15 +204,11 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
   const [scrollY, setScrollY] = useState(0);
   const [useDockDarkTone, setUseDockDarkTone] = useState(true);
   const [logoSrc, setLogoSrc] = useState(() => resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
-  const [currentUrl, setCurrentUrl] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("pt");
 
   useEffect(() => {
     setLogoSrc(resolveAssetSrc(logo, DEFAULT_LOGO_SRC));
   }, [logo]);
-
-  useEffect(() => {
-    setCurrentUrl(window.location.href);
-  }, [pathname]);
 
   useEffect(() => {
     function getDockDarkBoundary() {
@@ -218,17 +242,71 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
     };
   }, [isHomePage, pathname]);
 
+  useEffect(() => {
+    const translatedLanguage = document.cookie
+      .split("; ")
+      .find((cookie) => cookie.startsWith("googtrans="))
+      ?.split("/")
+      .at(-1);
+
+    if (translatedLanguage === "en" || translatedLanguage === "es") {
+      setSelectedLanguage(translatedLanguage);
+    }
+
+    if (!document.getElementById("google-translate-element")) {
+      const element = document.createElement("div");
+      element.id = "google-translate-element";
+      element.className = "pointer-events-none fixed -left-[9999px] -top-[9999px] h-0 w-0 overflow-hidden";
+      document.body.appendChild(element);
+    }
+
+    window.googleTranslateElementInit = () => {
+      if (!window.google?.translate?.TranslateElement) {
+        return;
+      }
+
+      new window.google.translate.TranslateElement(
+        {
+          pageLanguage: "pt",
+          includedLanguages: "pt,en,es",
+          autoDisplay: false,
+        },
+        "google-translate-element",
+      );
+    };
+
+    if (!document.querySelector("script[data-google-translate='true']")) {
+      const script = document.createElement("script");
+      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      script.dataset.googleTranslate = "true";
+      document.body.appendChild(script);
+    } else {
+      window.googleTranslateElementInit();
+    }
+  }, []);
+
   const useTopDarkTone = scrollY <= TOP_ONLY_THRESHOLD;
   const useInternalDockDarkTone = !isHomePage;
 
-  function getLanguageHref(code: string) {
+  function handleLanguageChange(code: string) {
+    setSelectedLanguage(code);
+    writeTranslateCookie(code);
+
     if (code === "pt") {
-      return pathname || "/";
+      window.location.reload();
+      return;
     }
 
-    const targetUrl = currentUrl || pathname || "/";
+    const combo = document.querySelector<HTMLSelectElement>(".goog-te-combo");
 
-    return `https://translate.google.com/translate?sl=pt&tl=${code}&u=${encodeURIComponent(targetUrl)}`;
+    if (!combo) {
+      window.location.reload();
+      return;
+    }
+
+    combo.value = code;
+    combo.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
   return (
@@ -286,12 +364,13 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
             aria-label="Selecionar idioma"
           >
             {languageOptions.map((language) => {
-              const isActive = language.code === "pt";
+              const isActive = language.code === selectedLanguage;
 
               return (
-                <a
+                <button
                   key={language.code}
-                  href={getLanguageHref(language.code)}
+                  type="button"
+                  onClick={() => handleLanguageChange(language.code)}
                   className={cn(
                     "rounded-full px-3 py-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] transition-all duration-300",
                     isActive
@@ -305,7 +384,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   aria-current={isActive ? "true" : undefined}
                 >
                   {language.label}
-                </a>
+                </button>
               );
             })}
           </div>
@@ -397,13 +476,16 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
             </p>
             <div className="grid grid-cols-3 gap-2">
               {languageOptions.map((language) => {
-                const isActive = language.code === "pt";
+                const isActive = language.code === selectedLanguage;
 
                 return (
-                  <a
+                  <button
                     key={`mobile-${language.code}`}
-                    href={getLanguageHref(language.code)}
-                    onClick={() => setOpen(false)}
+                    type="button"
+                    onClick={() => {
+                      setOpen(false);
+                      handleLanguageChange(language.code);
+                    }}
                     className={cn(
                       "rounded-full px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.14em] transition",
                       isActive
@@ -412,7 +494,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                     )}
                   >
                     {language.label}
-                  </a>
+                  </button>
                 );
               })}
             </div>
