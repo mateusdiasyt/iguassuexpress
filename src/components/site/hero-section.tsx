@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 
 type HeroSectionProps = {
   title: string;
@@ -51,18 +50,10 @@ export function HeroSection({
             <p className="hero-intro hero-intro-delay-3 mt-5 max-w-xl text-sm leading-7 text-white/78 md:text-base md:leading-8">
               {subtitle}
             </p>
-            <div className="hero-intro hero-intro-delay-4 mt-9 flex flex-wrap gap-4">
-              <Button asChild>
-                <a href="#reserva">Reserve Agora</a>
-              </Button>
-              <Button asChild variant="ghost" className="border border-white/20">
-                <a href="/apartamentos">Ver acomodações</a>
-              </Button>
-            </div>
           </div>
           <div
             id="reserva"
-            className="hero-intro hero-intro-delay-5 w-full lg:justify-self-end lg:self-center"
+            className="hero-intro hero-intro-delay-4 w-full lg:justify-self-end lg:self-center"
           >
             {children}
           </div>
