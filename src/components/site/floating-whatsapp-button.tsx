@@ -48,7 +48,7 @@ export function FloatingWhatsAppButton({
 
   return (
     <div className="group fixed right-5 bottom-5 z-50 flex items-end justify-end">
-      <div className="pointer-events-none absolute right-0 bottom-16 flex flex-col items-end gap-2 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+      <div className="pointer-events-none absolute right-0 bottom-14 flex flex-col items-end gap-2 pb-2 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
         {actions.map((action, index) => (
           <a
             key={action.label}
