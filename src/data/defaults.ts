@@ -51,8 +51,10 @@ export const defaultSiteSettings = {
   logo: "/logo-hotel-principal.png",
   favicon: "/favicon-hotel.png",
   socialLinks: {
+    whatsapp: "https://wa.me/5545999990000",
     instagram: "https://instagram.com/iguassuexpresshotel",
     facebook: "https://facebook.com/iguassuexpresshotel",
+    youtube: "",
   },
   seoTitle: "Iguassu Express Hotel | Hotel em Foz do Iguaçu",
   seoDescription:

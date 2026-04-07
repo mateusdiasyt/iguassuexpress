@@ -19,7 +19,6 @@ export const metadata = buildMetadata({
 export default async function AdminSettingsPage() {
   const session = await requireAdmin();
   const settings = await getSiteSettings();
-  const socialLinks = (settings.socialLinks as { instagram?: string; facebook?: string } | null) ?? {};
 
   return (
     <AdminShell
@@ -76,17 +75,6 @@ export default async function AdminSettingsPage() {
           <div className="grid gap-6 md:grid-cols-2">
             <UploadField name="logo" label="Logo" defaultValue={settings.logo} />
             <UploadField name="favicon" label="Favicon" defaultValue={settings.favicon} />
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="grid gap-2 text-sm text-slate-600">
-              Instagram
-              <Input name="instagram" defaultValue={socialLinks.instagram ?? ""} />
-            </label>
-            <label className="grid gap-2 text-sm text-slate-600">
-              Facebook
-              <Input name="facebook" defaultValue={socialLinks.facebook ?? ""} />
-            </label>
           </div>
 
           <div className="grid gap-4">

@@ -19,9 +19,11 @@ import {
   roomCategorySchema,
   roomSchema,
   siteSettingsSchema,
+  socialLinksSchema,
   tour360Schema,
 } from "@/schemas/admin";
 import { buildTourScenes } from "@/components/site/tour-360-types";
+import { defaultSiteSettings } from "@/data/defaults";
 
 function getBoolean(formData: FormData, key: string) {
   return formData.get(key) === "on" || formData.get(key) === "true";
@@ -126,8 +128,6 @@ export async function saveSiteSettingsAction(formData: FormData) {
     omnibeesBaseUrl: getString(formData, "omnibeesBaseUrl"),
     logo: getString(formData, "logo"),
     favicon: getString(formData, "favicon"),
-    instagram: getString(formData, "instagram"),
-    facebook: getString(formData, "facebook"),
     seoTitle: getString(formData, "seoTitle"),
     seoDescription: getString(formData, "seoDescription"),
     institutionalBio: getString(formData, "institutionalBio"),
@@ -146,10 +146,6 @@ export async function saveSiteSettingsAction(formData: FormData) {
       omnibeesBaseUrl: parsed.omnibeesBaseUrl,
       logo: parsed.logo || null,
       favicon: parsed.favicon || null,
-      socialLinks: {
-        instagram: parsed.instagram,
-        facebook: parsed.facebook,
-      },
       seoTitle: parsed.seoTitle || null,
       seoDescription: parsed.seoDescription || null,
       institutionalBio: parsed.institutionalBio || null,
@@ -166,10 +162,7 @@ export async function saveSiteSettingsAction(formData: FormData) {
       omnibeesBaseUrl: parsed.omnibeesBaseUrl,
       logo: parsed.logo || null,
       favicon: parsed.favicon || null,
-      socialLinks: {
-        instagram: parsed.instagram,
-        facebook: parsed.facebook,
-      },
+      socialLinks: defaultSiteSettings.socialLinks,
       seoTitle: parsed.seoTitle || null,
       seoDescription: parsed.seoDescription || null,
       institutionalBio: parsed.institutionalBio || null,
@@ -177,6 +170,45 @@ export async function saveSiteSettingsAction(formData: FormData) {
   });
 
   refreshSite(["/", "/contato", "/admin/configuracoes", "/admin/seo"]);
+}
+
+export async function saveSocialLinksAction(formData: FormData) {
+  await requireAdmin();
+
+  const parsed = socialLinksSchema.parse({
+    whatsapp: getString(formData, "whatsapp"),
+    instagram: getString(formData, "instagram"),
+    facebook: getString(formData, "facebook"),
+    youtube: getString(formData, "youtube"),
+  });
+
+  await prisma.siteSettings.upsert({
+    where: { id: 1 },
+    update: {
+      socialLinks: {
+        whatsapp: parsed.whatsapp,
+        instagram: parsed.instagram,
+        facebook: parsed.facebook,
+        youtube: parsed.youtube,
+      },
+    },
+    create: {
+      ...defaultSiteSettings,
+      socialLinks: {
+        whatsapp: parsed.whatsapp,
+        instagram: parsed.instagram,
+        facebook: parsed.facebook,
+        youtube: parsed.youtube,
+      },
+    },
+  });
+
+  refreshSite([
+    "/",
+    "/contato",
+    "/admin/redes-sociais",
+    "/admin/configuracoes",
+  ]);
 }
 
 export async function savePageContentAction(formData: FormData) {

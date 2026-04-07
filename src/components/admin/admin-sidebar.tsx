@@ -10,6 +10,7 @@ import {
   PhoneCall,
   ScrollText,
   Settings,
+  Share2,
   Video,
 } from "lucide-react";
 import Image from "next/image";
@@ -24,6 +25,7 @@ const items = [
   { href: "/admin/galeria", label: "Personalizacao", icon: Images },
   { href: "/admin/tour-360", label: "Tour 360", icon: Video },
   { href: "/admin/contato", label: "Contato", icon: PhoneCall },
+  { href: "/admin/redes-sociais", label: "Redes sociais", icon: Share2 },
   { href: "/admin/blog", label: "Blog", icon: BookOpenText },
   { href: "/admin/faq", label: "FAQ", icon: MessageCircleQuestion },
   { href: "/admin/trabalhe-conosco", label: "Carreiras", icon: BriefcaseBusiness },

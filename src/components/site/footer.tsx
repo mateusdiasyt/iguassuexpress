@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { Facebook, Instagram, Youtube } from "lucide-react";
+import type { SocialLinks } from "@/lib/social-links";
+import { normalizeExternalUrl } from "@/lib/social-links";
 import { formatPhoneHref, formatWhatsAppHref } from "@/lib/utils";
 
 type FooterProps = {
@@ -7,6 +10,7 @@ type FooterProps = {
   phone: string;
   email: string;
   address: string;
+  socialLinks?: SocialLinks;
 };
 
 export function Footer({
@@ -15,7 +19,26 @@ export function Footer({
   phone,
   email,
   address,
+  socialLinks,
 }: FooterProps) {
+  const socialItems = [
+    {
+      label: "Instagram",
+      href: normalizeExternalUrl(socialLinks?.instagram),
+      icon: Instagram,
+    },
+    {
+      label: "Facebook",
+      href: normalizeExternalUrl(socialLinks?.facebook),
+      icon: Facebook,
+    },
+    {
+      label: "YouTube",
+      href: normalizeExternalUrl(socialLinks?.youtube),
+      icon: Youtube,
+    },
+  ].filter((item) => item.href);
+
   return (
     <footer className="mt-24 rounded-[2rem] bg-brand-deep px-6 py-10 text-white shadow-[0_35px_90px_rgba(6,45,71,0.28)] md:px-8">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-4">
@@ -26,6 +49,26 @@ export function Footer({
           <p className="mt-5 text-sm leading-7 text-white/72">
             Hotel institucional com foco em reserva direta, hospitalidade contemporânea e SEO local em Foz do Iguaçu.
           </p>
+          {socialItems.length ? (
+            <div className="mt-6 flex items-center gap-2">
+              {socialItems.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={item.label}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white/72 transition hover:-translate-y-0.5 hover:border-white/22 hover:bg-white hover:text-brand-deep"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">

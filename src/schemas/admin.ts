@@ -14,11 +14,16 @@ export const siteSettingsSchema = z.object({
   omnibeesBaseUrl: z.url(),
   logo: optionalString,
   favicon: optionalString,
-  instagram: optionalString,
-  facebook: optionalString,
   seoTitle: optionalString,
   seoDescription: optionalString,
   institutionalBio: optionalString,
+});
+
+export const socialLinksSchema = z.object({
+  whatsapp: optionalString,
+  instagram: optionalString,
+  facebook: optionalString,
+  youtube: optionalString,
 });
 
 export const pageContentSchema = z.object({

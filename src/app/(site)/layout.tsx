@@ -2,6 +2,7 @@ import { Footer } from "@/components/site/footer";
 import { FloatingNav } from "@/components/site/floating-nav";
 import { FloatingWhatsAppButton } from "@/components/site/floating-whatsapp-button";
 import { getSiteSettings } from "@/data/queries";
+import { getSocialLinks } from "@/lib/social-links";
 
 export default async function SiteLayout({
   children,
@@ -9,6 +10,7 @@ export default async function SiteLayout({
   children: React.ReactNode;
 }>) {
   const settings = await getSiteSettings();
+  const socialLinks = getSocialLinks(settings.socialLinks);
 
   return (
     <div className="site-shell pb-10">
@@ -24,9 +26,10 @@ export default async function SiteLayout({
           phone={settings.phone}
           email={settings.email}
           address={settings.address}
+          socialLinks={socialLinks}
         />
       </div>
-      <FloatingWhatsAppButton phone={settings.whatsapp} />
+      <FloatingWhatsAppButton phone={settings.whatsapp} socialLinks={socialLinks} />
     </div>
   );
 }
