@@ -311,21 +311,21 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-6">
+      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:flex md:justify-center md:px-6">
         <div
           className={cn(
-            "inline-flex items-center gap-4 transition-all duration-500 md:gap-8",
+            "flex w-full items-center justify-between transition-all duration-500 md:inline-flex md:w-auto md:justify-center md:gap-8",
             useTopDarkTone ? "text-white" : "text-slate-700",
             isDockedLeft
               ? "pointer-events-none -translate-y-6 scale-95 opacity-0"
               : "translate-y-0 scale-100 opacity-100",
           )}
         >
-          <Link href="/" className="flex shrink-0 items-center">
+          <Link href="/" className="flex min-w-0 shrink-0 items-center">
             <img
               src={logoSrc}
               alt={hotelName}
-              className="h-10 w-auto max-w-[170px] object-contain drop-shadow-[0_10px_18px_rgba(2,14,26,0.5)] md:h-11 md:max-w-[240px]"
+              className="h-10 w-auto max-w-[180px] object-contain drop-shadow-[0_10px_18px_rgba(2,14,26,0.5)] md:h-11 md:max-w-[240px]"
               onError={() => setLogoSrc(DEFAULT_LOGO_SRC)}
             />
           </Link>
@@ -392,7 +392,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           <button
             type="button"
             className={cn(
-              "inline-flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-xl md:hidden",
+              "ml-4 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full backdrop-blur-xl md:hidden",
               useTopDarkTone
                 ? "border border-white/20 bg-slate-950/22 shadow-[0_8px_22px_rgba(4,18,32,0.22)]"
                 : "border border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.12)]",
@@ -447,8 +447,8 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
       </aside>
 
       {open ? (
-        <div className="fixed inset-x-4 top-20 z-40 rounded-[2rem] border border-white/15 bg-slate-950/85 p-4 text-white shadow-2xl backdrop-blur-2xl md:hidden">
-          <nav className="grid gap-2">
+        <div className="fixed inset-x-4 top-[5.1rem] z-40 rounded-[2rem] border border-white/15 bg-slate-950/88 p-3.5 text-white shadow-2xl backdrop-blur-2xl md:hidden">
+          <nav className="grid gap-1.5">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isHomeItem = Boolean(item.special);
@@ -459,22 +459,22 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   href={item.href}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium",
+                    "flex items-center gap-3 rounded-[1.35rem] px-3.5 py-3 text-[0.95rem] font-medium",
                     getMobileItemClasses(pathname === item.href, isHomeItem),
                   )}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-[15px] w-[15px]" />
                   {item.label}
                 </Link>
               );
             })}
           </nav>
 
-          <div className="mt-4 rounded-[1.4rem] border border-white/10 bg-white/5 p-2">
-            <p className="px-3 pb-2 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/45">
+          <div className="mt-4 rounded-[1.4rem] border border-white/10 bg-white/5 px-3 py-3">
+            <p className="px-1 pb-2 text-[0.58rem] font-semibold uppercase tracking-[0.24em] text-white/40">
               Idioma
             </p>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="flex items-center gap-1.5">
               {languageOptions.map((language) => {
                 const isActive = language.code === selectedLanguage;
 
@@ -487,7 +487,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                       handleLanguageChange(language.code);
                     }}
                     className={cn(
-                      "rounded-full px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.14em] transition",
+                      "flex h-8 min-w-[3.05rem] items-center justify-center rounded-full px-2 text-center text-[0.6rem] font-semibold uppercase tracking-[0.12em] transition",
                       isActive
                         ? "bg-white text-brand"
                         : "bg-white/8 text-white/70 hover:bg-white/14 hover:text-white",
