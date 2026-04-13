@@ -17,6 +17,7 @@ type RoomCategory = {
     fullDescription: string;
     occupancy: number;
     coverImage?: string | null;
+    gallery: string[];
     features: string[];
   }>;
 };
@@ -29,13 +30,41 @@ export function RoomCatalog({ categories }: RoomCatalogProps) {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]?.slug ?? "");
   const [activeRoomId, setActiveRoomId] = useState<string | null>(null);
 
+  function buildRoomImages(room: {
+    coverImage?: string | null;
+    gallery: string[];
+  }) {
+    const seen = new Set<string>();
+
+    return [room.coverImage, ...room.gallery]
+      .map((item) => item?.trim() ?? "")
+      .filter(Boolean)
+      .filter((item) => {
+        const key = item.toLowerCase();
+
+        if (seen.has(key)) {
+          return false;
+        }
+
+        seen.add(key);
+        return true;
+      })
+      .slice(0, 3);
+  }
+
   const currentCategory =
     categories.find((category) => category.slug === selectedCategory) ?? categories[0];
 
   const activeRoom = useMemo(() => {
     if (!currentCategory) return null;
     const room = currentCategory.rooms.find((item) => item.id === activeRoomId);
-    return room ? { ...room, category: { name: currentCategory.name } } : null;
+    return room
+      ? {
+          ...room,
+          coverImage: buildRoomImages(room)[0] ?? room.coverImage ?? null,
+          category: { name: currentCategory.name },
+        }
+      : null;
   }, [activeRoomId, currentCategory]);
 
   if (!categories.length) {
@@ -52,7 +81,11 @@ export function RoomCatalog({ categories }: RoomCatalogProps) {
         />
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6">
           {currentCategory.rooms.map((room) => (
-            <RoomCard key={room.id} room={room} onClick={() => setActiveRoomId(room.id)} />
+            <RoomCard
+              key={room.id}
+              room={{ ...room, images: buildRoomImages(room) }}
+              onClick={() => setActiveRoomId(room.id)}
+            />
           ))}
         </div>
       </div>

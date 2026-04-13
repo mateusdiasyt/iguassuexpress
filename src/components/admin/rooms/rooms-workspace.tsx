@@ -5,7 +5,7 @@ import { type FormEvent, useDeferredValue, useMemo, useState } from "react";
 import { ArrowUpRight, PencilLine, Plus, Search, Trash2, Users, X } from "lucide-react";
 import { AdminCard } from "@/components/admin/admin-card";
 import { RoomFeaturesField } from "@/components/admin/rooms/room-features-field";
-import { UploadField } from "@/components/admin/upload-field";
+import { RoomImagesField } from "@/components/admin/rooms/room-images-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -64,7 +64,6 @@ type RoomDraft = {
   fullDescription: string;
   features: string;
   gallery: string;
-  coverImage: string;
   isActive: boolean;
 };
 
@@ -95,9 +94,47 @@ function emptyRoomDraft(defaultCategoryId = ""): RoomDraft {
     fullDescription: "",
     features: "",
     gallery: "",
-    coverImage: "",
     isActive: true,
   };
+}
+
+function buildRoomImageList(room: Pick<AdminRoomItem, "coverImage" | "gallery">) {
+  const seen = new Set<string>();
+
+  return [room.coverImage, ...room.gallery]
+    .map((item) => item?.trim() ?? "")
+    .filter(Boolean)
+    .filter((item) => {
+      const key = item.toLowerCase();
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 3);
+}
+
+function parseRoomImageList(value: string) {
+  const seen = new Set<string>();
+
+  return value
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .filter((item) => {
+      const key = item.toLowerCase();
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 3);
 }
 
 function roomDraftFromItem(room: AdminRoomItem): RoomDraft {
@@ -111,8 +148,7 @@ function roomDraftFromItem(room: AdminRoomItem): RoomDraft {
     shortDescription: room.shortDescription,
     fullDescription: room.fullDescription,
     features: room.features.join("\n"),
-    gallery: room.gallery.join("\n"),
-    coverImage: room.coverImage ?? "",
+    gallery: buildRoomImageList(room).join("\n"),
     isActive: room.isActive,
   };
 }
@@ -177,7 +213,7 @@ function RoomActiveToggle({
 }
 
 function getRoomPreviewImage(room: AdminRoomItem) {
-  return room.coverImage || room.gallery[0] || "/piscina-hotel-iguassu.jpg";
+  return buildRoomImageList(room)[0] || "/piscina-hotel-iguassu.jpg";
 }
 
 function RoomHoverPreview({ room }: { room: AdminRoomItem }) {
@@ -303,6 +339,7 @@ export function RoomsWorkspace({
       }),
     [sortedRooms, deferredSearch, statusFilter, categoryFilter],
   );
+  const roomGalleryItems = useMemo(() => parseRoomImageList(roomDraft.gallery), [roomDraft.gallery]);
 
   function updateRoomDraft<Key extends keyof RoomDraft>(field: Key, value: RoomDraft[Key]) {
     setRoomDraft((current) => ({
@@ -735,18 +772,21 @@ export function RoomsWorkspace({
                       suggestions={roomFeatureSuggestions}
                       onValueChange={(value) => updateRoomDraft("features", value)}
                     />
-                    <input type="hidden" name="gallery" value={roomDraft.gallery} readOnly />
 
-                    <UploadField
-                      name="coverImage"
-                      label="Imagem de capa"
-                      value={roomDraft.coverImage}
-                      hideTextInput
-                      className="rounded-[1.6rem] border border-slate-200/80 bg-white p-4 shadow-[0_18px_38px_rgba(15,23,42,0.05)] xl:sticky xl:top-4"
-                      previewClassName="h-52 rounded-[1.2rem] border border-slate-200/80"
-                      previewImageClassName="object-cover"
-                      onValueChange={(value) => updateRoomDraft("coverImage", value)}
-                    />
+                    <div className="xl:sticky xl:top-4">
+                      <input
+                        type="hidden"
+                        name="coverImage"
+                        value={roomGalleryItems[0] ?? ""}
+                        readOnly
+                      />
+                      <RoomImagesField
+                        name="gallery"
+                        label="Fotos do quarto"
+                        value={roomDraft.gallery}
+                        onValueChange={(value) => updateRoomDraft("gallery", value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-end gap-3 pt-1">

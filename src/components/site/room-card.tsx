@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -8,13 +11,36 @@ type RoomCardProps = {
     shortDescription: string;
     occupancy: number;
     coverImage?: string | null;
+    images?: string[];
     features: string[];
   };
   onClick: () => void;
   className?: string;
 };
 
+function normalizeRoomImages(room: RoomCardProps["room"]) {
+  const seen = new Set<string>();
+
+  return [room.coverImage, ...(room.images ?? [])]
+    .map((item) => item?.trim() ?? "")
+    .filter(Boolean)
+    .filter((item) => {
+      const key = item.toLowerCase();
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 3);
+}
+
 export function RoomCard({ room, onClick, className }: RoomCardProps) {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const roomImages = useMemo(() => normalizeRoomImages(room), [room]);
   const shortPreview =
     room.shortDescription.length > 95
       ? `${room.shortDescription.slice(0, 95).trimEnd()}...`
@@ -23,6 +49,18 @@ export function RoomCard({ room, onClick, className }: RoomCardProps) {
     room.shortDescription.length > 54
       ? `${room.shortDescription.slice(0, 54).trimEnd()}...`
       : room.shortDescription;
+
+  useEffect(() => {
+    if (roomImages.length <= 1) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setActiveImageIndex((current) => (current + 1) % roomImages.length);
+    }, 3200);
+
+    return () => window.clearInterval(interval);
+  }, [roomImages.length]);
 
   return (
     <button
@@ -34,13 +72,29 @@ export function RoomCard({ room, onClick, className }: RoomCardProps) {
       )}
     >
       <div className="absolute inset-0">
-        {room.coverImage ? (
-          <Image
-            src={room.coverImage}
-            alt={room.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
+        {roomImages.length ? (
+          roomImages.map((image, index) => (
+            <div
+              key={`${image}-${index}`}
+              className={cn(
+                "absolute inset-0 transition-opacity duration-700 ease-out",
+                index === activeImageIndex ? "opacity-100" : "opacity-0",
+              )}
+            >
+              <Image
+                src={image}
+                alt={room.title}
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 420px"
+                className={cn(
+                  "object-cover transition-transform duration-[3200ms] ease-out",
+                  index === activeImageIndex
+                    ? "scale-100 group-hover:scale-105"
+                    : "scale-[1.035]",
+                )}
+              />
+            </div>
+          ))
         ) : (
           <div className="h-full w-full bg-[radial-gradient(circle_at_top,#224b67,#0f2234_56%,#0b1a28)]" />
         )}

@@ -339,6 +339,13 @@ export async function saveRoomAction(formData: FormData) {
     isActive: getBoolean(formData, "isActive"),
   });
 
+  const galleryItems = parseList(parsed.gallery ?? "").slice(0, 3);
+  const roomImages = galleryItems.length
+    ? galleryItems
+    : parsed.coverImage
+      ? [parsed.coverImage]
+      : [];
+
   const data = {
     categoryId: parsed.categoryId,
     title: parsed.title,
@@ -347,8 +354,8 @@ export async function saveRoomAction(formData: FormData) {
     shortDescription: parsed.shortDescription,
     fullDescription: parsed.fullDescription,
     features: parseList(parsed.features),
-    coverImage: parsed.coverImage || null,
-    gallery: parseList(parsed.gallery ?? ""),
+    coverImage: roomImages[0] || null,
+    gallery: roomImages,
     order: parsed.order,
     isActive: parsed.isActive,
   };
