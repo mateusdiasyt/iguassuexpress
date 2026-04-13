@@ -2,7 +2,6 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
-import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -77,9 +76,6 @@ export function RoomModal({ open, onOpenChange, room }: RoomModalProps) {
                 </div>
 
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <Button asChild>
-                    <Link href="/#reserva">Reservar esta acomodação</Link>
-                  </Button>
                   <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
                     Fechar
                   </Button>
