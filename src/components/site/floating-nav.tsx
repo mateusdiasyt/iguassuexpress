@@ -447,7 +447,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
       </aside>
 
       {open ? (
-        <div className="fixed left-6 right-6 top-[5.25rem] z-40 rounded-[2rem] border border-white/15 bg-slate-950/88 p-4 text-white shadow-2xl backdrop-blur-2xl md:hidden">
+        <div className="fixed left-6 top-[5.25rem] z-40 w-[min(20.75rem,calc(100vw-4.75rem))] rounded-[2rem] border border-white/15 bg-slate-950/88 p-4 text-white shadow-2xl backdrop-blur-2xl md:hidden">
           <nav className="grid gap-1.5">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -459,7 +459,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   href={item.href}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 rounded-[1.35rem] px-4 py-3 text-[0.95rem] font-medium",
+                    "flex items-center gap-3 rounded-[1.35rem] px-4 py-2.5 text-[0.92rem] font-medium",
                     getMobileItemClasses(pathname === item.href, isHomeItem),
                   )}
                 >
