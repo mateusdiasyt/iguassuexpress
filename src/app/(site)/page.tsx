@@ -168,10 +168,13 @@ export default async function HomePage() {
               description="Guias, dicas e pautas de Foz do Iguaçu para fortalecer o SEO local e ajudar o visitante a planejar a estada."
             />
           </ScrollReveal>
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6">
             {blogPosts.slice(0, 3).map((post, index) => (
               <ScrollReveal key={post.slug} delay={80 + index * 120} className="h-full">
-                <BlogCard post={post} />
+                <BlogCard
+                  post={post}
+                  className={index === 2 ? "hidden lg:block" : undefined}
+                />
               </ScrollReveal>
             ))}
           </div>
