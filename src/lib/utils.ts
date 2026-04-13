@@ -51,6 +51,13 @@ export function getContentBody(value: unknown) {
 }
 
 export function getHeroCards(value: unknown) {
+  const fallbackCards = [
+    {
+      title: "Pet friendly",
+      description: "Hospedagem acolhedora para quem viaja com seu pet e quer mais praticidade.",
+    },
+  ];
+
   if (!value || typeof value !== "object" || !("heroCards" in value)) {
     return [];
   }
@@ -61,7 +68,7 @@ export function getHeroCards(value: unknown) {
     return [];
   }
 
-  return cards.filter(
+  const normalizedCards = cards.filter(
     (card): card is { title: string; description: string } =>
       Boolean(card) &&
       typeof card === "object" &&
@@ -70,6 +77,12 @@ export function getHeroCards(value: unknown) {
       "description" in card &&
       typeof card.description === "string",
   );
+
+  const hasPetFriendlyCard = normalizedCards.some((card) =>
+    card.title.trim().toLowerCase().includes("pet"),
+  );
+
+  return hasPetFriendlyCard ? normalizedCards : [...normalizedCards, ...fallbackCards];
 }
 
 export function absoluteUrl(path = "/") {

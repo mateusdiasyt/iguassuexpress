@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CalendarCheck2, Gem, MapPinned } from "lucide-react";
+import { CalendarCheck2, Gem, MapPinned, PawPrint } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type HighlightCardColumnProps = {
@@ -49,7 +49,7 @@ export function HighlightCardColumn({
   mapEmbed,
   className,
 }: HighlightCardColumnProps) {
-  const icons = [MapPinned, CalendarCheck2, Gem];
+  const icons = [MapPinned, CalendarCheck2, Gem, PawPrint];
   const [activePreviewIndex, setActivePreviewIndex] = useState<number | null>(null);
   const [chatTick, setChatTick] = useState(0);
   const [isPremiumVideoLoaded, setIsPremiumVideoLoaded] = useState(false);
@@ -144,7 +144,7 @@ export function HighlightCardColumn({
   }
 
   return (
-    <aside className={cn("grid gap-6 md:grid-cols-3 lg:gap-8", className)}>
+    <aside className={cn("grid grid-cols-2 gap-6 md:grid-cols-4 lg:gap-8", className)}>
       {cards.map((card, index) => {
         const Icon = icons[index] ?? Gem;
         const isPreviewOpen = activePreviewIndex === index;
@@ -266,6 +266,25 @@ export function HighlightCardColumn({
                     </div>
                   </div>
                 ) : null}
+
+                {index > 2 ? (
+                  <div className="bg-[linear-gradient(145deg,rgba(24,57,84,0.92),rgba(10,28,44,0.92))] p-3">
+                    <div className="rounded-[1rem] border border-white/10 bg-white/8 p-4 text-white">
+                      <div className="flex items-center gap-3">
+                        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-white">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <div>
+                          <p className="text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-white/68">
+                            Diferencial
+                          </p>
+                          <p className="mt-1 text-base font-semibold">{card.title}</p>
+                        </div>
+                      </div>
+                      <p className="mt-4 text-sm leading-7 text-white/78">{card.description}</p>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
 
@@ -381,6 +400,32 @@ export function HighlightCardColumn({
                         </span>
                       </div>
                     </div>
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
+                </div>
+              </div>
+            ) : null}
+
+            {index > 2 ? (
+              <div
+                className={previewClassName}
+                onMouseEnter={() => openPreview(index)}
+                onMouseLeave={() => scheduleClosePreview(index)}
+              >
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-white/20 bg-[linear-gradient(145deg,rgba(24,57,84,0.92),rgba(10,28,44,0.92))] p-4 shadow-[0_30px_64px_rgba(2,14,26,0.44)] backdrop-blur-2xl">
+                  <div className="rounded-[1rem] border border-white/10 bg-white/8 p-4">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-white">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-sky-100/80">
+                          Diferencial
+                        </p>
+                        <p className="mt-1 text-lg font-semibold text-white">{card.title}</p>
+                      </div>
+                    </div>
+                    <p className="mt-4 text-sm leading-7 text-slate-200/82">{card.description}</p>
                   </div>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
                 </div>

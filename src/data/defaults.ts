@@ -89,6 +89,10 @@ export const defaultPages: PageRecord[] = [
           title: "Experiência premium",
           description: "Design contemporaneo, atendimento acolhedor e excelente custo-beneficio.",
         },
+        {
+          title: "Pet friendly",
+          description: "Hospedagem acolhedora para quem viaja com seu pet e quer mais praticidade.",
+        },
       ],
     },
   },
