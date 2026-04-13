@@ -41,8 +41,8 @@ export function Footer({
 
   return (
     <footer className="mt-24 rounded-[2rem] bg-brand-deep px-5 py-8 pb-28 text-white shadow-[0_35px_90px_rgba(6,45,71,0.28)] sm:px-6 sm:py-10 sm:pb-28 md:px-8 md:pb-10">
-      <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="sm:col-span-2 xl:col-span-1">
+      <div className="mx-auto max-w-6xl space-y-8 xl:grid xl:grid-cols-[1.15fr_1.85fr] xl:gap-8 xl:space-y-0">
+        <div>
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-white/60">
             {hotelName}
           </p>
@@ -72,51 +72,53 @@ export function Footer({
           ) : null}
         </div>
 
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
-            Navegação
-          </p>
-          <div className="mt-4 grid gap-3 text-sm text-white/75">
-            <Link className="transition-colors hover:text-white" href="/apartamentos">
-              Apartamentos
-            </Link>
-            <Link className="transition-colors hover:text-white" href="/restaurante">
-              Restaurante
-            </Link>
-            <Link className="transition-colors hover:text-white" href="/blog">
-              Blog
-            </Link>
-            <Link className="transition-colors hover:text-white" href="/trabalhe-conosco">
-              Carreiras
-            </Link>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 xl:grid-cols-3 xl:gap-x-8">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
+              Navegação
+            </p>
+            <div className="mt-4 grid gap-3 text-sm text-white/75">
+              <Link className="transition-colors hover:text-white" href="/apartamentos">
+                Apartamentos
+              </Link>
+              <Link className="transition-colors hover:text-white" href="/restaurante">
+                Restaurante
+              </Link>
+              <Link className="transition-colors hover:text-white" href="/blog">
+                Blog
+              </Link>
+              <Link className="transition-colors hover:text-white" href="/trabalhe-conosco">
+                Carreiras
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
-            Contatos
-          </p>
-          <div className="mt-4 grid gap-3 text-sm text-white/75">
-            <a className="transition-colors hover:text-white" href={formatWhatsAppHref(whatsapp)}>
-              {whatsapp}
-            </a>
-            <a className="transition-colors hover:text-white" href={formatPhoneHref(phone)}>
-              {phone}
-            </a>
-            <a
-              className="break-all transition-colors hover:text-white sm:break-normal"
-              href={`mailto:${email}`}
-            >
-              {email}
-            </a>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
+              Contatos
+            </p>
+            <div className="mt-4 grid gap-3 text-sm text-white/75">
+              <a className="transition-colors hover:text-white" href={formatWhatsAppHref(whatsapp)}>
+                {whatsapp}
+              </a>
+              <a className="transition-colors hover:text-white" href={formatPhoneHref(phone)}>
+                {phone}
+              </a>
+              <a
+                className="break-all transition-colors hover:text-white sm:break-normal"
+                href={`mailto:${email}`}
+              >
+                {email}
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div className="sm:col-span-2 xl:col-span-1">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
-            Localização
-          </p>
-          <p className="mt-4 max-w-sm text-sm leading-7 text-white/75">{address}</p>
+          <div className="col-span-2 xl:col-span-1">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
+              Localização
+            </p>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-white/75">{address}</p>
+          </div>
         </div>
       </div>
 
