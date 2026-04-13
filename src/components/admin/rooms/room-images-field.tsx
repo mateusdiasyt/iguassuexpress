@@ -12,6 +12,7 @@ type RoomImagesFieldProps = {
   label: string;
   value: string;
   onValueChange: (value: string) => void;
+  onPrimaryImageSelect?: (value: string) => void;
   maxItems?: number;
   className?: string;
 };
@@ -42,6 +43,7 @@ export function RoomImagesField({
   label,
   value,
   onValueChange,
+  onPrimaryImageSelect,
   maxItems = 3,
   className,
 }: RoomImagesFieldProps) {
@@ -71,7 +73,9 @@ export function RoomImagesField({
     const nextItems = [...items];
     const [selected] = nextItems.splice(index, 1);
     nextItems.unshift(selected);
-    updateItems(nextItems);
+    const serialized = serializeRoomImages(normalizeRoomImages(nextItems, maxItems));
+    onValueChange(serialized);
+    onPrimaryImageSelect?.(serialized);
   }
 
   async function handleUpload(fileList?: FileList | null) {

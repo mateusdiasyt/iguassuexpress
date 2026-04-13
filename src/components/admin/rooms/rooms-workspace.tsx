@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { type FormEvent, useDeferredValue, useMemo, useState } from "react";
+import { type FormEvent, useDeferredValue, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, PencilLine, Plus, Search, Trash2, Users, X } from "lucide-react";
 import { AdminCard } from "@/components/admin/admin-card";
 import { RoomFeaturesField } from "@/components/admin/rooms/room-features-field";
@@ -277,6 +277,7 @@ export function RoomsWorkspace({
   saveCategoryAction,
   deleteCategoryAction,
 }: RoomsWorkspaceProps) {
+  const roomFormRef = useRef<HTMLFormElement>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"ALL" | "ACTIVE" | "INACTIVE">("ALL");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
@@ -365,6 +366,18 @@ export function RoomsWorkspace({
 
   function generateRoomSlug() {
     updateRoomDraft("slug", toSlug(roomDraft.title));
+  }
+
+  function handlePrimaryRoomImageSelect(nextGallery: string) {
+    updateRoomDraft("gallery", nextGallery);
+
+    if (!roomDraft.id) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      roomFormRef.current?.requestSubmit();
+    });
   }
 
   function confirmDeleteRoom(
@@ -647,7 +660,7 @@ export function RoomsWorkspace({
             className="mx-auto max-h-[94vh] w-full max-w-[980px] overflow-y-auto rounded-[1.8rem] border border-brand/15 bg-slate-50 p-4 shadow-2xl md:p-6"
             onClick={(event) => event.stopPropagation()}
           >
-            <form action={saveRoomAction} className="space-y-6">
+            <form ref={roomFormRef} action={saveRoomAction} className="space-y-6">
               <input type="hidden" name="id" value={roomDraft.id} />
 
               <AdminCard
@@ -785,6 +798,7 @@ export function RoomsWorkspace({
                         label="Fotos do quarto"
                         value={roomDraft.gallery}
                         onValueChange={(value) => updateRoomDraft("gallery", value)}
+                        onPrimaryImageSelect={handlePrimaryRoomImageSelect}
                       />
                     </div>
                   </div>
