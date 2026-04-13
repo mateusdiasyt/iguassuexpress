@@ -311,7 +311,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:flex md:justify-center md:px-6">
+      <header className="fixed inset-x-0 top-0 z-50 px-5 pt-4 md:flex md:justify-center md:px-6">
         <div
           className={cn(
             "flex w-full items-center justify-between transition-all duration-500 md:inline-flex md:w-auto md:justify-center md:gap-8",
@@ -392,7 +392,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
           <button
             type="button"
             className={cn(
-              "ml-4 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full backdrop-blur-xl md:hidden",
+              "mr-0.5 ml-4 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full backdrop-blur-xl md:hidden",
               useTopDarkTone
                 ? "border border-white/20 bg-slate-950/22 shadow-[0_8px_22px_rgba(4,18,32,0.22)]"
                 : "border border-slate-300/75 bg-white/76 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.12)]",
@@ -447,7 +447,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
       </aside>
 
       {open ? (
-        <div className="fixed inset-x-4 top-[5.1rem] z-40 rounded-[2rem] border border-white/15 bg-slate-950/88 p-3.5 text-white shadow-2xl backdrop-blur-2xl md:hidden">
+        <div className="fixed inset-x-5 top-[5.1rem] z-40 rounded-[2rem] border border-white/15 bg-slate-950/88 p-4 text-white shadow-2xl backdrop-blur-2xl md:hidden">
           <nav className="grid gap-1.5">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -459,7 +459,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
                   href={item.href}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 rounded-[1.35rem] px-3.5 py-3 text-[0.95rem] font-medium",
+                    "flex items-center gap-3 rounded-[1.35rem] px-4 py-3 text-[0.95rem] font-medium",
                     getMobileItemClasses(pathname === item.href, isHomeItem),
                   )}
                 >
@@ -470,7 +470,7 @@ export function FloatingNav({ hotelName, logo }: FloatingNavProps) {
             })}
           </nav>
 
-          <div className="mt-4 rounded-[1.4rem] border border-white/10 bg-white/5 px-3 py-3">
+          <div className="mt-5 rounded-[1.4rem] border border-white/10 bg-white/5 px-3.5 py-3.5">
             <p className="px-1 pb-2 text-[0.58rem] font-semibold uppercase tracking-[0.24em] text-white/40">
               Idioma
             </p>
