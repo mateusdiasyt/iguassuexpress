@@ -53,6 +53,7 @@ export function HighlightCardColumn({
   const [activePreviewIndex, setActivePreviewIndex] = useState<number | null>(null);
   const [chatTick, setChatTick] = useState(0);
   const [isPremiumVideoLoaded, setIsPremiumVideoLoaded] = useState(false);
+  const [isTouchLayout, setIsTouchLayout] = useState(false);
   const closePreviewTimerRef = useRef<number | null>(null);
 
   const isReservationPreviewActive = activePreviewIndex === 1;
@@ -88,6 +89,22 @@ export function HighlightCardColumn({
   }, []);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+
+    const syncLayout = () => {
+      setIsTouchLayout(mediaQuery.matches);
+      setActivePreviewIndex(null);
+      setIsPremiumVideoLoaded(false);
+    };
+
+    syncLayout();
+
+    mediaQuery.addEventListener("change", syncLayout);
+
+    return () => mediaQuery.removeEventListener("change", syncLayout);
+  }, []);
+
+  useEffect(() => {
     if (!isReservationPreviewActive) {
       return;
     }
@@ -104,6 +121,23 @@ export function HighlightCardColumn({
   const visibleMessages = WHATSAPP_MESSAGES.slice(0, chatStep);
   const hiddenCount = Math.max(0, visibleMessages.length - 3);
   const chatOffset = hiddenCount * 78;
+
+  function toggleTouchPreview(index: number) {
+    clearCloseTimer();
+    setActivePreviewIndex((current) => {
+      const nextValue = current === index ? null : index;
+
+      if (nextValue === 1) {
+        setChatTick(0);
+      }
+
+      if (nextValue !== 2) {
+        setIsPremiumVideoLoaded(false);
+      }
+
+      return nextValue;
+    });
+  }
 
   if (!cards.length) {
     return null;
@@ -126,10 +160,15 @@ export function HighlightCardColumn({
           <article
             key={card.title}
             className="group relative"
-            onMouseEnter={() => openPreview(index)}
-            onMouseLeave={() => scheduleClosePreview(index)}
+            onMouseEnter={isTouchLayout ? undefined : () => openPreview(index)}
+            onMouseLeave={isTouchLayout ? undefined : () => scheduleClosePreview(index)}
           >
-            <div className="relative flex min-h-[136px] items-center justify-center px-4 py-6">
+            <button
+              type="button"
+              className="relative flex min-h-[136px] w-full items-center justify-center px-4 py-6 text-center"
+              onClick={isTouchLayout ? () => toggleTouchPreview(index) : undefined}
+              aria-expanded={isTouchLayout ? isPreviewOpen : undefined}
+            >
               <div className="flex flex-col items-center gap-4 text-center">
                 <div className="relative flex h-14 w-14 items-center justify-center">
                   <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(9,77,122,0.18),rgba(9,77,122,0))] opacity-0 blur-md transition-all duration-300 group-hover:scale-125 group-hover:opacity-100" />
@@ -139,6 +178,94 @@ export function HighlightCardColumn({
                   {card.title}
                 </h3>
                 <span className="h-px w-16 bg-slate-200/90 transition-all duration-300 group-hover:w-24 group-hover:bg-brand/45" />
+                <p className="max-w-[14rem] text-sm leading-6 text-slate-500 lg:hidden">
+                  {card.description}
+                </p>
+                <span className="rounded-full border border-slate-200/90 bg-white/90 px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-slate-500 lg:hidden">
+                  {isPreviewOpen ? "Toque para recolher" : "Toque para abrir"}
+                </span>
+              </div>
+            </button>
+
+            <div
+              className={cn(
+                "overflow-hidden px-3 transition-all duration-300 lg:hidden",
+                isPreviewOpen ? "max-h-[32rem] pb-4 opacity-100" : "max-h-0 pb-0 opacity-0",
+              )}
+            >
+              <div className="overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white/88 shadow-[0_18px_44px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+                {index === 0 ? (
+                  mapEmbed ? (
+                    <div
+                      className="map-embed h-48"
+                      dangerouslySetInnerHTML={{ __html: mapEmbed }}
+                    />
+                  ) : (
+                    <div className="flex h-48 items-center justify-center bg-slate-100 text-sm text-slate-500">
+                      Mapa em breve
+                    </div>
+                  )
+                ) : null}
+
+                {index === 1 ? (
+                  <div className="bg-[#ecf8ed] p-3">
+                    <div className="rounded-[1rem] bg-[#0f7d6e] px-3 py-2 text-white shadow-[0_8px_18px_rgba(5,66,58,0.18)]">
+                      <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-white/82">
+                        Atendimento WhatsApp
+                      </p>
+                      <p className="mt-1 text-sm font-semibold">Iguassu Express Hotel</p>
+                    </div>
+                    <div className="mt-3 rounded-[1rem] bg-[#dcf8c6] p-2.5">
+                      <div className="chat-feed-window h-40 overflow-hidden rounded-[0.85rem] bg-[#d7f3c1] p-2.5">
+                        <div
+                          className="chat-feed-track space-y-2.5 transition-transform duration-500 ease-out"
+                          style={{ transform: `translateY(-${chatOffset}px)` }}
+                        >
+                          {visibleMessages.map((message, messageIndex) => (
+                            <div
+                              key={`${message.id}-${messageIndex}-mobile`}
+                              className={cn(
+                                "max-w-[84%] min-h-[70px] rounded-2xl px-3 py-2.5 text-[0.72rem] leading-5 text-slate-700 shadow-sm",
+                                message.side === "left"
+                                  ? "bg-white"
+                                  : "ml-auto bg-[#ebfff1]",
+                                messageIndex === visibleMessages.length - 1 && chatStep > 1
+                                  ? "chat-bubble-in"
+                                  : null,
+                              )}
+                            >
+                              {message.text}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {index === 2 ? (
+                  <div className="bg-[linear-gradient(140deg,rgba(30,63,91,0.88),rgba(12,31,49,0.88))] p-3">
+                    <div className="relative h-56 overflow-hidden rounded-[1rem] bg-slate-950/20">
+                      {isPreviewOpen ? (
+                        <iframe
+                          key={`${PREMIUM_VIDEO_EMBED_URL}-mobile`}
+                          src={PREMIUM_VIDEO_EMBED_URL}
+                          title="Preview de vídeo da experiência premium"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                          onLoad={() => setIsPremiumVideoLoaded(true)}
+                          className="h-full w-full border-0"
+                        />
+                      ) : null}
+                      {!isPremiumVideoLoaded ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/8 px-6 text-center text-sm text-slate-200/75">
+                          Toque para ver a prévia da experiência premium
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
 
