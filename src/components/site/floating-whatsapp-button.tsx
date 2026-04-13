@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Facebook, Instagram, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, MessageCircleMore } from "lucide-react";
 import type { SocialLinks } from "@/lib/social-links";
 import {
   normalizeExternalUrl,
@@ -71,7 +71,7 @@ export function FloatingWhatsAppButton({
         aria-label="Mostrar canais de contato"
         className="flex h-14 w-14 items-center justify-center rounded-full border border-white/80 bg-white/95 text-brand-deep shadow-[0_22px_46px_rgba(6,45,71,0.26)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-brand/20 hover:bg-white focus-visible:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircleMore className="h-[1.35rem] w-[1.35rem] shrink-0 overflow-visible stroke-[2.1]" />
       </button>
     </div>
   );

@@ -264,9 +264,9 @@ export function BookingSearchCard({
   }
 
   const floatingBubble = (
-    <div
-      className={cn(
-        "pointer-events-none fixed right-[5.35rem] bottom-5 z-40 transition-all duration-300 max-[520px]:right-5 max-[520px]:bottom-[5.35rem]",
+      <div
+        className={cn(
+        "pointer-events-none fixed right-[5.35rem] bottom-5 z-40 transition-all duration-300 max-[640px]:right-[5.25rem] max-[640px]:bottom-5",
         isFloatingVisible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0",
       )}
     >
@@ -285,7 +285,7 @@ export function BookingSearchCard({
         <button
           type="button"
           onClick={() => setIsFloatingOpen((current) => !current)}
-          className="pointer-events-auto flex items-center gap-3 rounded-full border border-white/10 bg-slate-950/82 px-3 py-3 text-left text-white shadow-[0_20px_70px_rgba(6,18,31,0.45)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-900/88"
+          className="pointer-events-auto flex items-center gap-3 rounded-full border border-white/10 bg-slate-950/82 px-3 py-3 text-left text-white shadow-[0_20px_70px_rgba(6,18,31,0.45)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-900/88 max-[640px]:h-14 max-[640px]:w-14 max-[640px]:justify-center max-[640px]:gap-0 max-[640px]:rounded-full max-[640px]:px-0 max-[640px]:py-0"
           aria-expanded={isFloatingOpen}
           aria-label={isFloatingOpen ? "Fechar reserva direta" : "Abrir reserva direta"}
         >
@@ -293,14 +293,14 @@ export function BookingSearchCard({
             <CalendarDays className="h-[1.125rem] w-[1.125rem]" />
           </div>
 
-          <div className="min-w-[7.5rem]">
+          <div className="min-w-[7.5rem] max-[640px]:hidden">
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/45">
               Reserva direta
             </p>
             <p className="text-sm font-semibold text-white">{floatingSummary}</p>
           </div>
 
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/6">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/6 max-[640px]:hidden">
             <ChevronUp
               className={cn(
                 "h-4 w-4 transition-transform duration-300",

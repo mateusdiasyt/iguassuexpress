@@ -40,14 +40,15 @@ export function Footer({
   ].filter((item) => item.href);
 
   return (
-    <footer className="mt-24 rounded-[2rem] bg-brand-deep px-6 py-10 text-white shadow-[0_35px_90px_rgba(6,45,71,0.28)] md:px-8">
-      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
+    <footer className="mt-24 rounded-[2rem] bg-brand-deep px-5 py-8 pb-28 text-white shadow-[0_35px_90px_rgba(6,45,71,0.28)] sm:px-6 sm:py-10 sm:pb-28 md:px-8 md:pb-10">
+      <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="sm:col-span-2 xl:col-span-1">
+          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-white/60">
             {hotelName}
           </p>
-          <p className="mt-5 text-sm leading-7 text-white/72">
-            Hotel institucional com foco em reserva direta, hospitalidade contemporânea e SEO local em Foz do Iguaçu.
+          <p className="mt-4 max-w-md text-sm leading-7 text-white/72">
+            Hotel institucional com foco em reserva direta, hospitalidade contemporânea e
+            SEO local em Foz do Iguaçu.
           </p>
           {socialItems.length ? (
             <div className="mt-6 flex items-center gap-2">
@@ -70,36 +71,56 @@ export function Footer({
             </div>
           ) : null}
         </div>
+
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
             Navegação
           </p>
           <div className="mt-4 grid gap-3 text-sm text-white/75">
-            <Link href="/apartamentos">Apartamentos</Link>
-            <Link href="/restaurante">Restaurante</Link>
-            <Link href="/blog">Blog</Link>
-            <Link href="/trabalhe-conosco">Carreiras</Link>
+            <Link className="transition-colors hover:text-white" href="/apartamentos">
+              Apartamentos
+            </Link>
+            <Link className="transition-colors hover:text-white" href="/restaurante">
+              Restaurante
+            </Link>
+            <Link className="transition-colors hover:text-white" href="/blog">
+              Blog
+            </Link>
+            <Link className="transition-colors hover:text-white" href="/trabalhe-conosco">
+              Carreiras
+            </Link>
           </div>
         </div>
+
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
             Contatos
           </p>
           <div className="mt-4 grid gap-3 text-sm text-white/75">
-            <a href={formatWhatsAppHref(whatsapp)}>{whatsapp}</a>
-            <a href={formatPhoneHref(phone)}>{phone}</a>
-            <a href={`mailto:${email}`}>{email}</a>
+            <a className="transition-colors hover:text-white" href={formatWhatsAppHref(whatsapp)}>
+              {whatsapp}
+            </a>
+            <a className="transition-colors hover:text-white" href={formatPhoneHref(phone)}>
+              {phone}
+            </a>
+            <a
+              className="break-all transition-colors hover:text-white sm:break-normal"
+              href={`mailto:${email}`}
+            >
+              {email}
+            </a>
           </div>
         </div>
-        <div>
+
+        <div className="sm:col-span-2 xl:col-span-1">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/65">
             Localização
           </p>
-          <p className="mt-4 text-sm leading-7 text-white/75">{address}</p>
+          <p className="mt-4 max-w-sm text-sm leading-7 text-white/75">{address}</p>
         </div>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/65 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-3 border-t border-white/10 pt-6 text-[0.95rem] leading-6 text-white/65 md:mt-10 md:flex-row md:items-center md:justify-between">
         <p>© 2026 Hotel Iguassu Express. Todos os direitos reservados.</p>
         <p className="text-white/75">
           Desenvolvido por{" "}
