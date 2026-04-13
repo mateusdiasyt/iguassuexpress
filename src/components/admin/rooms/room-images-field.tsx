@@ -189,15 +189,9 @@ export function RoomImagesField({
                   index === 0 && "ring-2 ring-brand/25",
                 )}
               >
-                <button
-                  type="button"
-                  onClick={() => moveToFirst(index)}
-                  className="relative block h-24 w-full text-left"
-                  aria-label={
-                    index === 0
-                      ? "Foto principal do quarto"
-                      : `Definir foto ${index + 1} como principal`
-                  }
+                <div
+                  className="relative block h-24 w-full"
+                  aria-label={index === 0 ? "Foto principal do quarto" : `Foto ${index + 1} do quarto`}
                 >
                   <Image
                     src={item}
@@ -206,12 +200,12 @@ export function RoomImagesField({
                     className="object-cover transition duration-300 group-hover/thumb:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent" />
-                </button>
+                </div>
 
                 <button
                   type="button"
                   className={cn(
-                    "absolute left-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/40 bg-white/90 p-0 text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.12)] backdrop-blur-md transition hover:bg-white",
+                    "absolute left-2 top-2 z-20 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/40 bg-white/92 p-0 text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.12)] backdrop-blur-md transition hover:scale-[1.03] hover:bg-white",
                     index === 0 && "border-brand/20 bg-brand text-white hover:bg-brand",
                   )}
                   onClick={() => moveToFirst(index)}
@@ -229,7 +223,7 @@ export function RoomImagesField({
                   <Pin className="h-3.5 w-3.5" />
                 </button>
 
-                <div className="absolute bottom-2 right-2 flex items-center justify-end">
+                <div className="absolute right-2 bottom-2 z-20 flex items-center justify-end">
                   <Button
                     type="button"
                     variant="outline"
@@ -247,7 +241,7 @@ export function RoomImagesField({
 
         {items.length > 1 ? (
           <p className="text-xs leading-6 text-slate-400">
-            Toque em uma miniatura para torna-la a primeira imagem do slider.
+            Use o pin para definir qual foto fica em destaque no card.
           </p>
         ) : null}
 
