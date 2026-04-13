@@ -19,13 +19,17 @@ export function RoomCard({ room, onClick, className }: RoomCardProps) {
     room.shortDescription.length > 95
       ? `${room.shortDescription.slice(0, 95).trimEnd()}...`
       : room.shortDescription;
+  const compactPreview =
+    room.shortDescription.length > 54
+      ? `${room.shortDescription.slice(0, 54).trimEnd()}...`
+      : room.shortDescription;
 
   return (
     <button
       type="button"
       onClick={onClick}
       className={cn(
-        "group relative min-h-[27rem] overflow-hidden rounded-[1.85rem] border border-white/72 bg-white/10 text-left text-white ring-1 ring-white/35 shadow-[0_18px_42px_rgba(8,36,58,0.22)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-[0_24px_52px_rgba(8,36,58,0.28)]",
+        "group relative min-h-[22rem] overflow-hidden rounded-[1.55rem] border border-white/72 bg-white/10 text-left text-white ring-1 ring-white/35 shadow-[0_18px_42px_rgba(8,36,58,0.22)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-[0_24px_52px_rgba(8,36,58,0.28)] sm:min-h-[24.5rem] sm:rounded-[1.75rem] lg:min-h-[27rem] lg:rounded-[1.85rem]",
         className,
       )}
     >
@@ -44,37 +48,44 @@ export function RoomCard({ room, onClick, className }: RoomCardProps) {
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/84 to-transparent" />
       </div>
 
-      <span className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/25 backdrop-blur-md transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-        <ArrowUpRight className="h-4 w-4" />
+      <span className="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/25 backdrop-blur-md transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:top-4 sm:right-4 sm:h-11 sm:w-11">
+        <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
       </span>
 
-      <div className="relative flex h-full flex-col justify-end p-6">
-        <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/14 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white/95 ring-1 ring-white/22 backdrop-blur-md">
-          <Users className="h-3.5 w-3.5" />
+      <div className="relative flex h-full flex-col justify-end p-4 sm:p-5 lg:p-6">
+        <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/14 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.17em] text-white/95 ring-1 ring-white/22 backdrop-blur-md sm:gap-2 sm:px-3 sm:py-1.5 sm:text-[0.68rem] sm:tracking-[0.2em]">
+          <Users className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           {room.occupancy} pessoa{room.occupancy > 1 ? "s" : ""}
         </div>
 
-        <h3 className="mt-4 max-w-[13rem] text-[2.05rem] leading-[0.92] font-extrabold tracking-[-0.04em] text-white md:text-[2.35rem]">
+        <h3 className="mt-3 max-w-[8rem] text-[1.5rem] leading-[0.9] font-extrabold tracking-[-0.04em] text-white sm:mt-4 sm:max-w-[10rem] sm:text-[1.75rem] md:max-w-[11rem] md:text-[2rem] lg:max-w-[13rem] lg:text-[2.35rem]">
           {room.title}
         </h3>
 
-        <p className="mt-3 max-w-[22rem] text-sm leading-6 text-white/84">
+        <p className="mt-2 text-[0.88rem] leading-5 text-white/84 sm:hidden">
+          {compactPreview}
+        </p>
+
+        <p className="mt-3 hidden max-w-[22rem] text-sm leading-6 text-white/84 sm:block">
           {shortPreview}
         </p>
 
-        <div className="mt-5 flex flex-wrap gap-2">
-          {room.features.slice(0, 2).map((feature) => (
+        <div className="mt-4 flex flex-wrap gap-2 sm:mt-5">
+          {room.features.slice(0, 2).map((feature, featureIndex) => (
             <span
               key={feature}
-              className="rounded-full bg-white/16 px-3 py-1.5 text-[0.67rem] font-medium uppercase tracking-[0.16em] text-white/88 ring-1 ring-white/22 backdrop-blur-md"
+              className={cn(
+                "rounded-full bg-white/16 px-2.5 py-1.5 text-[0.58rem] font-medium uppercase tracking-[0.14em] text-white/88 ring-1 ring-white/22 backdrop-blur-md sm:px-3 sm:text-[0.67rem] sm:tracking-[0.16em]",
+                featureIndex > 0 ? "hidden sm:inline-flex" : "inline-flex",
+              )}
             >
               {feature}
             </span>
           ))}
         </div>
 
-        <div className="mt-6">
-          <span className="inline-flex h-10 min-w-[9.8rem] items-center justify-center rounded-full bg-white px-6 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[0_8px_24px_rgba(255,255,255,0.25)] transition group-hover:bg-slate-50">
+        <div className="mt-5 sm:mt-6">
+          <span className="inline-flex h-9 min-w-[7.9rem] items-center justify-center rounded-full bg-white px-4 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-slate-900 shadow-[0_8px_24px_rgba(255,255,255,0.25)] transition group-hover:bg-slate-50 sm:h-10 sm:min-w-[9.8rem] sm:px-6 sm:text-xs sm:tracking-[0.2em]">
             Ver detalhes
           </span>
         </div>
