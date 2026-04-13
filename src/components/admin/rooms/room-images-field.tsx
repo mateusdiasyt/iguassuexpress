@@ -206,41 +206,30 @@ export function RoomImagesField({
                     className="object-cover transition duration-300 group-hover/thumb:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent" />
-                  {index === 0 ? (
-                    <span
-                      className="absolute left-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.12)]"
-                      aria-label="Imagem em destaque"
-                      title="Imagem em destaque"
-                    >
-                      <Pin className="h-3.5 w-3.5" />
-                    </span>
-                  ) : null}
                 </button>
 
-                <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className={cn(
-                      "h-7 w-7 rounded-full border-white/40 bg-white/88 p-0 text-slate-700 hover:bg-white",
-                      index === 0 && "border-brand/20 bg-brand text-white hover:bg-brand",
-                    )}
-                    onClick={() => moveToFirst(index)}
-                    disabled={index === 0}
-                    aria-label={
-                      index === 0
-                        ? "Imagem em destaque"
-                        : `Definir foto ${index + 1} como destaque`
-                    }
-                    title={
-                      index === 0
-                        ? "Imagem em destaque"
-                        : "Fixar como imagem principal"
-                    }
-                  >
-                    <Pin className="h-3.5 w-3.5" />
-                  </Button>
+                <button
+                  type="button"
+                  className={cn(
+                    "absolute left-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/40 bg-white/90 p-0 text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.12)] backdrop-blur-md transition hover:bg-white",
+                    index === 0 && "border-brand/20 bg-brand text-white hover:bg-brand",
+                  )}
+                  onClick={() => moveToFirst(index)}
+                  aria-label={
+                    index === 0
+                      ? "Imagem em destaque"
+                      : `Definir foto ${index + 1} como destaque`
+                  }
+                  title={
+                    index === 0
+                      ? "Imagem em destaque"
+                      : "Fixar como imagem principal"
+                  }
+                >
+                  <Pin className="h-3.5 w-3.5" />
+                </button>
 
+                <div className="absolute bottom-2 right-2 flex items-center justify-end">
                   <Button
                     type="button"
                     variant="outline"
