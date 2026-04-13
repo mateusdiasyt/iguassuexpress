@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ImagePlus, LoaderCircle, Star, Trash2, Upload } from "lucide-react";
+import { ImagePlus, LoaderCircle, Pin, Trash2, Upload } from "lucide-react";
 import { uploadAssetFromClient } from "@/lib/client-upload";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -147,9 +147,15 @@ export function RoomImagesField({
               </div>
             )}
           </div>
-          <div className="absolute left-3 top-3 rounded-full bg-slate-950/72 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
-            Foto principal
-          </div>
+          {items[0] ? (
+            <div
+              className="absolute left-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-950/72 text-white backdrop-blur-md"
+              aria-label="Imagem principal"
+              title="Imagem principal"
+            >
+              <Pin className="h-4 w-4" />
+            </div>
+          ) : null}
         </div>
 
         <label
@@ -200,27 +206,40 @@ export function RoomImagesField({
                     className="object-cover transition duration-300 group-hover/thumb:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent" />
-                  <span className="absolute left-2 top-2 rounded-full bg-white/88 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-slate-700">
-                    {index === 0 ? "Capa" : `Foto ${index + 1}`}
-                  </span>
+                  {index === 0 ? (
+                    <span
+                      className="absolute left-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.12)]"
+                      aria-label="Imagem em destaque"
+                      title="Imagem em destaque"
+                    >
+                      <Pin className="h-3.5 w-3.5" />
+                    </span>
+                  ) : null}
                 </button>
 
                 <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-2">
-                  {index > 0 ? (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="h-7 rounded-full border-white/40 bg-white/88 px-2 text-[0.62rem] font-semibold tracking-[0.12em] text-slate-700 hover:bg-white"
-                      onClick={() => moveToFirst(index)}
-                    >
-                      <Star className="mr-1 h-3 w-3" />
-                      Principal
-                    </Button>
-                  ) : (
-                    <span className="rounded-full bg-emerald-500/88 px-2 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-white">
-                      Slider 1
-                    </span>
-                  )}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className={cn(
+                      "h-7 w-7 rounded-full border-white/40 bg-white/88 p-0 text-slate-700 hover:bg-white",
+                      index === 0 && "border-brand/20 bg-brand text-white hover:bg-brand",
+                    )}
+                    onClick={() => moveToFirst(index)}
+                    disabled={index === 0}
+                    aria-label={
+                      index === 0
+                        ? "Imagem em destaque"
+                        : `Definir foto ${index + 1} como destaque`
+                    }
+                    title={
+                      index === 0
+                        ? "Imagem em destaque"
+                        : "Fixar como imagem principal"
+                    }
+                  >
+                    <Pin className="h-3.5 w-3.5" />
+                  </Button>
 
                   <Button
                     type="button"
