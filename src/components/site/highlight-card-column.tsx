@@ -44,6 +44,21 @@ const WHATSAPP_MESSAGES = [
 const PREMIUM_VIDEO_ID = "YxJpctY88sI";
 const PREMIUM_VIDEO_EMBED_URL = `https://www.youtube.com/embed/${PREMIUM_VIDEO_ID}?autoplay=1&mute=1&controls=1&rel=0&playsinline=1&modestbranding=1`;
 
+function splitTitleInTwoLines(title: string) {
+  const words = title.trim().split(/\s+/);
+
+  if (words.length <= 1) {
+    return [title, ""];
+  }
+
+  const midpoint = Math.ceil(words.length / 2);
+
+  return [
+    words.slice(0, midpoint).join(" "),
+    words.slice(midpoint).join(" "),
+  ];
+}
+
 export function HighlightCardColumn({
   cards,
   mapEmbed,
@@ -148,6 +163,7 @@ export function HighlightCardColumn({
       {cards.map((card, index) => {
         const Icon = icons[index] ?? Gem;
         const isPreviewOpen = activePreviewIndex === index;
+        const [titleLineOne, titleLineTwo] = splitTitleInTwoLines(card.title);
         const previewClassName = cn(
           "absolute left-1/2 bottom-[calc(100%+0.9rem)] z-40 hidden -translate-x-1/2 transition-all duration-300 ease-out lg:block",
           isPreviewOpen
@@ -174,8 +190,9 @@ export function HighlightCardColumn({
                   <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(9,77,122,0.18),rgba(9,77,122,0))] opacity-0 blur-md transition-all duration-300 group-hover:scale-125 group-hover:opacity-100" />
                   <Icon className="relative h-9 w-9 text-slate-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:scale-110 group-hover:text-brand" />
                 </div>
-                <h3 className="max-w-[12rem] text-[1.4rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 transition-colors duration-300 group-hover:text-brand md:text-[1.55rem]">
-                  {card.title}
+                <h3 className="flex min-h-[4.8rem] max-w-[12rem] flex-col items-center justify-start text-[1.4rem] leading-[0.96] font-extrabold tracking-[-0.04em] text-slate-950 transition-colors duration-300 group-hover:text-brand md:min-h-[5.2rem] md:text-[1.55rem]">
+                  <span className="block">{titleLineOne}</span>
+                  <span className="block">{titleLineTwo || "\u00A0"}</span>
                 </h3>
                 <span className="h-px w-16 bg-slate-200/90 transition-all duration-300 group-hover:w-24 group-hover:bg-brand/45" />
                 <p className="max-w-[14rem] text-sm leading-6 text-slate-500 lg:hidden">
