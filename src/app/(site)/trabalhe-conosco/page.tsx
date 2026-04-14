@@ -62,15 +62,15 @@ export default async function CareersPage() {
 
       <section className="grid gap-8 xl:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.98fr)] xl:items-start">
         <div className="space-y-6">
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(240px,0.6fr)] lg:items-end">
-            <div>
+          <div className="flex flex-col gap-4 xl:grid xl:grid-cols-[minmax(0,0.9fr)_minmax(260px,0.62fr)] xl:items-end">
+            <div className="max-w-2xl">
               <SectionEyebrow>Vagas abertas</SectionEyebrow>
               <h2 className="mt-3 text-[2.15rem] leading-[0.94] font-semibold text-slate-950 md:text-[3rem]">
                 Oportunidades para crescer com a equipe.
               </h2>
             </div>
 
-            <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8">
+            <p className="max-w-lg text-sm leading-7 text-slate-600 md:text-base md:leading-8 xl:justify-self-end">
               Veja as vagas publicadas abaixo e candidate-se diretamente para a oportunidade que faz
               sentido para você.
             </p>
