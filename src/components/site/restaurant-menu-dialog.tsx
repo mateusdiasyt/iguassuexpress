@@ -104,7 +104,7 @@ function MenuCategoryButton({
       type="button"
       onClick={onSelect}
       className={cn(
-        "group/menu-nav flex w-full min-w-[220px] items-center gap-3 rounded-[1.35rem] border px-4 py-3 text-left transition-all duration-300 lg:min-w-0",
+        "group/menu-nav flex w-full min-w-0 items-center gap-2.5 rounded-[1.15rem] border px-3 py-2.5 text-left transition-all duration-300 sm:gap-3 sm:rounded-[1.35rem] sm:px-4 sm:py-3",
         isActive
           ? "border-[#cdb28d] bg-[linear-gradient(180deg,rgba(255,252,248,0.98)_0%,rgba(247,238,226,0.96)_100%)] text-[#1f2b36] shadow-[0_18px_40px_rgba(84,61,33,0.12)]"
           : "border-[#eadfce] bg-[linear-gradient(180deg,rgba(255,253,250,0.96)_0%,rgba(249,242,233,0.92)_100%)] text-[#53616d] hover:border-[#d4b891] hover:bg-[linear-gradient(180deg,rgba(255,252,248,1)_0%,rgba(247,239,228,0.96)_100%)] hover:shadow-[0_14px_30px_rgba(84,61,33,0.08)]",
@@ -112,7 +112,7 @@ function MenuCategoryButton({
     >
       <span
         className={cn(
-          "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border transition-all duration-300",
+          "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border transition-all duration-300 sm:h-11 sm:w-11",
           isActive
             ? "border-[#dcc8a9] bg-[#f6ecdc] text-[#8d6d42]"
             : "border-[#e3d7c7] bg-white/72 text-[#8a7961] group-hover/menu-nav:text-[#6d5434]",
@@ -123,7 +123,7 @@ function MenuCategoryButton({
 
       <div className="min-w-0">
         <p className="truncate text-sm font-semibold tracking-[-0.02em]">{category.name}</p>
-        <p className="mt-1 text-[0.72rem] uppercase tracking-[0.22em] text-[#8a7761]">
+        <p className="mt-1 text-[0.68rem] uppercase tracking-[0.16em] text-[#8a7761] sm:text-[0.72rem] sm:tracking-[0.22em]">
           {itemCount} {itemCount === 1 ? "item" : "itens"}
         </p>
       </div>
@@ -331,8 +331,8 @@ export function RestaurantMenuDialog({
       <Dialog.Portal>
         <Dialog.Overlay className="restaurant-menu-overlay fixed inset-0 z-[90] bg-[rgba(48,34,19,0.28)] backdrop-blur-xl" />
 
-        <Dialog.Content className="restaurant-menu-shell fixed inset-0 z-[100] p-3 sm:p-5 lg:p-7">
-          <div className="restaurant-menu-panel relative mx-auto flex h-full max-w-[1460px] overflow-hidden rounded-[2rem] border border-[#e9dece] bg-[linear-gradient(180deg,#f6efe3_0%,#f1e5d5_52%,#eadcc8_100%)] shadow-[0_36px_110px_rgba(65,47,27,0.16)]">
+        <Dialog.Content className="restaurant-menu-shell fixed inset-0 z-[100] p-2 sm:p-5 lg:p-7">
+          <div className="restaurant-menu-panel relative mx-auto flex h-full max-w-[1460px] overflow-hidden rounded-[1.6rem] border border-[#e9dece] bg-[linear-gradient(180deg,#f6efe3_0%,#f1e5d5_52%,#eadcc8_100%)] shadow-[0_36px_110px_rgba(65,47,27,0.16)] sm:rounded-[2rem]">
             {introPhase !== "hidden" ? (
               <div
                 className={cn(
@@ -432,12 +432,12 @@ export function RestaurantMenuDialog({
                 introPhase !== "hidden" ? "scale-[0.99] blur-[10px] opacity-35" : "scale-100 blur-0 opacity-100",
               )}
             >
-              <header className="flex items-center justify-between gap-4 border-b border-[#eadfce] px-6 py-7 sm:px-7 lg:px-9">
+              <header className="flex items-start justify-between gap-3 border-b border-[#eadfce] px-4 py-5 sm:items-center sm:gap-4 sm:px-7 sm:py-7 lg:px-9">
                 <div>
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8d6d42]">
                     Restaurante
                   </p>
-                  <Dialog.Title className="mt-2 text-[1.85rem] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.05rem]">
+                  <Dialog.Title className="mt-2 text-[1.45rem] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.05rem]">
                     Experiência de cardápio
                   </Dialog.Title>
                 </div>
@@ -453,8 +453,8 @@ export function RestaurantMenuDialog({
                 </Dialog.Close>
               </header>
 
-              <div className="flex min-h-0 flex-1 flex-col gap-4 p-4 sm:p-5 lg:p-6">
-                <div className="flex gap-2 overflow-x-auto pb-1 lg:hidden">
+              <div className="flex min-h-0 flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-5 lg:p-6">
+                <div className="restaurant-menu-scroll grid max-h-[12.5rem] grid-cols-1 gap-2 overflow-y-auto pr-1 sm:grid-cols-2 lg:hidden">
                   {categories.map((category) => (
                     <MenuCategoryButton
                       key={category.id}
@@ -466,37 +466,37 @@ export function RestaurantMenuDialog({
                 </div>
 
                 <div className="min-h-0 flex-1 xl:px-2 xl:pb-2">
-                  <div className="restaurant-menu-scroll min-h-0 space-y-5 overflow-y-auto pr-2">
+                  <div className="restaurant-menu-scroll min-h-0 space-y-5 overflow-x-hidden overflow-y-auto pr-2">
                     <section
                       key={selectedCategory.slug}
                       className="overflow-hidden rounded-[2rem] border border-[#eadfce] bg-[linear-gradient(140deg,rgba(255,253,250,0.98)_0%,rgba(249,242,233,0.94)_100%)] shadow-[0_24px_60px_rgba(84,61,33,0.08)]"
                     >
-                      <div className="grid gap-6 p-6 xl:grid-cols-[minmax(0,0.92fr)_420px] xl:p-7">
+                      <div className="grid gap-4 p-4 sm:gap-6 sm:p-6 xl:grid-cols-[minmax(0,0.92fr)_420px] xl:p-7">
                         <div className="flex flex-col justify-between">
                           <div>
                             <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-[#8d6d42]">
                               Categoria selecionada
                             </p>
-                            <h3 className="mt-4 text-[2.2rem] leading-[0.92] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.9rem]">
+                            <h3 className="mt-4 text-[1.9rem] leading-[0.94] font-semibold tracking-[-0.05em] text-[#182633] sm:text-[2.6rem]">
                               {selectedCategory.name}
                             </h3>
-                            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#58636f] sm:text-base">
+                            <p className="mt-4 max-w-2xl text-sm leading-6 text-[#58636f] sm:text-base sm:leading-7">
                               {selectedCategory.description ??
                                 "Uma seleção pensada para manter o cardápio claro, elegante e fácil de explorar no ambiente do hotel."}
                             </p>
                           </div>
 
                           <div className="mt-8 flex flex-wrap gap-3">
-                            <span className="rounded-[1.15rem] border border-[#eadfce] bg-white/80 px-4 py-3 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
+                            <span className="max-w-full break-words rounded-[1.15rem] border border-[#eadfce] bg-white/80 px-4 py-3 text-[0.68rem] uppercase tracking-[0.14em] text-[#6d7882] sm:text-[0.72rem] sm:tracking-[0.2em]">
                               {allCategoryItems.length} opções disponíveis
                             </span>
                             {selectedCategory.children.length ? (
-                              <span className="rounded-[1.15rem] border border-[#eadfce] bg-white/80 px-4 py-3 text-[0.72rem] uppercase tracking-[0.2em] text-[#6d7882]">
+                              <span className="max-w-full break-words rounded-[1.15rem] border border-[#eadfce] bg-white/80 px-4 py-3 text-[0.68rem] uppercase tracking-[0.14em] text-[#6d7882] sm:text-[0.72rem] sm:tracking-[0.2em]">
                                 {selectedCategory.children.length} blocos internos
                               </span>
                             ) : null}
                             {priceRange ? (
-                              <span className="rounded-[1.15rem] border border-[#cfb58e] bg-[#f2e1c5] px-4 py-3 text-[0.72rem] uppercase tracking-[0.2em] text-[#755a33]">
+                              <span className="max-w-full break-words rounded-[1.15rem] border border-[#cfb58e] bg-[#f2e1c5] px-4 py-3 text-[0.68rem] uppercase tracking-[0.14em] text-[#755a33] sm:text-[0.72rem] sm:tracking-[0.2em]">
                                 De {currencyFormatter.format(priceRange.min)} a{" "}
                                 {currencyFormatter.format(priceRange.max)}
                               </span>
@@ -516,11 +516,11 @@ export function RestaurantMenuDialog({
                           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,248,236,0.08)_0%,rgba(37,50,66,0.18)_55%,rgba(31,43,54,0.72)_100%)]" />
                           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,244,225,0.32),transparent_28%),radial-gradient(circle_at_right,rgba(215,198,162,0.2),transparent_34%)]" />
 
-                          <div className="relative flex h-full min-h-[340px] flex-col justify-end p-6">
+                          <div className="relative flex h-full min-h-[280px] flex-col justify-end p-4 sm:min-h-[340px] sm:p-6">
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#f1dec1]">
                               Destaque do momento
                             </p>
-                            <h4 className="mt-3 text-[1.7rem] leading-[0.95] font-semibold tracking-[-0.04em] text-white">
+                            <h4 className="mt-3 text-[1.4rem] leading-[0.96] font-semibold tracking-[-0.04em] text-white sm:text-[1.7rem]">
                               {previewItem?.name ?? selectedCategory.name}
                             </h4>
                             <p className="mt-3 max-w-md text-sm leading-6 text-white/72">
@@ -534,8 +534,9 @@ export function RestaurantMenuDialog({
                                   {currencyFormatter.format(previewItem.price)}
                                 </span>
                               ) : null}
-                              <span className="inline-flex rounded-full border border-white/14 bg-white/14 px-4 py-2 text-xs uppercase tracking-[0.24em] text-white/72">
-                                Passe o mouse ou toque nos cards
+                              <span className="inline-flex max-w-full rounded-full border border-white/14 bg-white/14 px-3 py-2 text-center text-[0.62rem] leading-5 uppercase tracking-[0.14em] text-white/72 sm:px-4 sm:text-xs sm:tracking-[0.24em]">
+                                <span className="sm:hidden">Toque nos cards</span>
+                                <span className="hidden sm:inline">Passe o mouse ou toque nos cards</span>
                               </span>
                             </div>
                           </div>
@@ -550,7 +551,7 @@ export function RestaurantMenuDialog({
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                               Itens principais
                             </p>
-                            <h4 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-[#182633]">
+                            <h4 className="mt-2 text-[1.55rem] font-semibold tracking-[-0.04em] text-[#182633] sm:text-[2rem]">
                               Seleções desta categoria
                             </h4>
                           </div>
@@ -578,7 +579,7 @@ export function RestaurantMenuDialog({
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8d6d42]">
                               Bloco complementar
                             </p>
-                            <h4 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-[#182633]">
+                            <h4 className="mt-2 text-[1.55rem] font-semibold tracking-[-0.04em] text-[#182633] sm:text-[2rem]">
                               {child.name}
                             </h4>
                           </div>
