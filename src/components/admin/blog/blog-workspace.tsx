@@ -1,6 +1,7 @@
 "use client";
 
 import { BlogPostStatus } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import {
   Heading2,
   Heading3,
@@ -130,6 +131,7 @@ export function BlogWorkspace({
   savePostAction,
   deletePostAction,
 }: BlogWorkspaceProps) {
+  const router = useRouter();
   const [editorMode, setEditorMode] = useState<EditorMode>("closed");
   const [selectedId, setSelectedId] = useState<string>("");
   const [draft, setDraft] = useState<BlogEditorDraft>(createEmptyDraft());
@@ -166,6 +168,8 @@ export function BlogWorkspace({
   const isEditorOpen = editorMode !== "closed";
   const submitLabel =
     draft.status === BlogPostStatus.PUBLISHED ? "Publicar post" : "Salvar rascunho";
+  const submitPendingLabel =
+    draft.status === BlogPostStatus.PUBLISHED ? "Postando..." : "Salvando...";
 
   function openCreate() {
     startTransition(() => {
@@ -252,6 +256,12 @@ export function BlogWorkspace({
       seoTitle: current.seoTitle || current.title,
       seoDescription: current.seoDescription || buildSeoDescriptionFromDraft(current),
     }));
+  }
+
+  async function handleSavePost(formData: FormData) {
+    await savePostAction(formData);
+    closeEditor();
+    router.refresh();
   }
 
   return (
@@ -411,7 +421,7 @@ export function BlogWorkspace({
             className="mx-auto max-h-[94vh] w-full max-w-[1180px] overflow-y-auto rounded-[1.8rem] border border-brand/15 bg-slate-50 p-4 shadow-2xl md:p-6"
             onClick={(event) => event.stopPropagation()}
           >
-            <form action={savePostAction} className="space-y-6">
+            <form action={handleSavePost} className="space-y-6">
           <input name="id" type="hidden" value={draft.id} />
 
           <div className="space-y-5">
@@ -712,7 +722,10 @@ export function BlogWorkspace({
                 </section>
 
                 <section className="space-y-3 rounded-[1.4rem] border border-brand/10 bg-white/85 p-4 backdrop-blur">
-                  <SubmitButton className="h-10 w-full normal-case tracking-normal">
+                  <SubmitButton
+                    className="h-10 w-full normal-case tracking-normal"
+                    pendingLabel={submitPendingLabel}
+                  >
                     {submitLabel}
                   </SubmitButton>
 
