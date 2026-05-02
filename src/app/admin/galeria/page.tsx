@@ -22,11 +22,6 @@ export const metadata = buildMetadata({
 type PageContentItem = Awaited<ReturnType<typeof getPageContent>>;
 type RestaurantContentItem = Awaited<ReturnType<typeof getRestaurantContent>>;
 
-function isRestaurantRelated(category: string) {
-  const normalized = category.toLowerCase();
-  return normalized.includes("rest") || normalized.includes("cafe");
-}
-
 type ReferenceCardProps = {
   eyebrow: string;
   title: string;
@@ -220,7 +215,6 @@ export default async function AdminGalleryPage() {
     getRestaurantContent(),
     getGalleryImages(true),
   ]);
-  const mainImages = images.filter((image) => !isRestaurantRelated(image.category));
 
   return (
     <AdminShell
@@ -243,7 +237,7 @@ export default async function AdminGalleryPage() {
           </div>
 
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-            {mainImages.length} {mainImages.length === 1 ? "item" : "itens"}
+            {images.length} {images.length === 1 ? "item" : "itens"}
           </span>
         </div>
 
@@ -292,12 +286,12 @@ export default async function AdminGalleryPage() {
             </p>
           </div>
 
-          {mainImages.length ? (
+          {images.length ? (
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               <GalleryImageCreateCard
-                nextOrder={(Math.max(0, ...mainImages.map((image) => Number(image.order) || 0)) || 0) + 1}
+                nextOrder={(Math.max(0, ...images.map((image) => Number(image.order) || 0)) || 0) + 1}
               />
-              {mainImages.map((image) => (
+              {images.map((image) => (
                 <GalleryImageEditorCard
                   key={`${image.id}-${image.altText}-${image.order}-${image.imageUrl ?? ""}`}
                   image={image}
