@@ -166,40 +166,27 @@ export default async function AdminGalleryPage() {
 
   return (
     <AdminShell
-      title="Personalizacao"
-      description="Galeria institucional e referencias visuais."
+      title="Fotos do site"
       pathname="/admin/galeria"
       userName={session.user.name}
     >
-      <section className="mx-auto max-w-[1180px] space-y-5">
+      <section className="mx-auto max-w-[1180px] space-y-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <SectionEyebrow>Personalizacao</SectionEyebrow>
             <h1 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-slate-950">
               Fotos principais do site
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-              Separe os banners das paginas e o acervo da galeria publica. Assim fica claro
-              onde o visitante ve cada imagem.
-            </p>
           </div>
-
-          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
-            {images.length} {images.length === 1 ? "item" : "itens"}
-          </span>
         </div>
 
         <section className="space-y-4">
-          <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
             <div>
-              <SectionEyebrow>Banner editavel</SectionEyebrow>
-              <h2 className="mt-2 text-[1.7rem] font-semibold tracking-[-0.04em] text-slate-950">
-                Hero principal do site
+              <SectionEyebrow>Home</SectionEyebrow>
+              <h2 className="mt-2 text-[1.6rem] font-semibold tracking-[-0.04em] text-slate-950">
+                Banner principal
               </h2>
             </div>
-            <p className="max-w-lg text-sm leading-7 text-slate-500">
-              Esse bloco controla a imagem principal da Home, que fica por tras do titulo e da busca.
-            </p>
           </div>
 
           <div className="max-w-[430px]">
@@ -217,13 +204,13 @@ export default async function AdminGalleryPage() {
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <SectionEyebrow>Galeria publica</SectionEyebrow>
-              <h2 className="mt-2 text-[1.7rem] font-semibold tracking-[-0.04em] text-slate-950">
+              <h2 className="mt-2 text-[1.6rem] font-semibold tracking-[-0.04em] text-slate-950">
                 Fotos da galeria
               </h2>
             </div>
-            <p className="max-w-lg text-sm leading-7 text-slate-500">
-              Esse grid alimenta diretamente a pagina <span className="font-medium text-slate-700">/galeria-de-fotos</span>.
-            </p>
+            <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
+              {images.length} {images.length === 1 ? "foto" : "fotos"}
+            </span>
           </div>
 
           {images.length ? (
