@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BriefcaseBusiness, ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
+import { BriefcaseBusiness, House, type LucideIcon, UtensilsCrossed } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import {
   GalleryImageCreateCard,
@@ -209,8 +209,8 @@ function RestaurantReference({ restaurant }: { restaurant: RestaurantContentItem
 
 export default async function AdminGalleryPage() {
   const session = await requireAdmin();
-  const [galleryPage, careersPage, restaurant, images] = await Promise.all([
-    getPageContent("gallery"),
+  const [homePage, careersPage, restaurant, images] = await Promise.all([
+    getPageContent("home"),
     getPageContent("careers"),
     getRestaurantContent(),
     getGalleryImages(true),
@@ -256,11 +256,11 @@ export default async function AdminGalleryPage() {
 
           <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
             <PageBannerReference
-              eyebrow="Pagina"
-              title="Galeria de fotos"
-              label="Banner da pagina"
-              page={galleryPage}
-              icon={ImageIcon}
+              eyebrow="Home"
+              title="Banner principal do site"
+              label="Banner da home"
+              page={homePage}
+              icon={House}
             />
             <PageBannerReference
               eyebrow="Pagina"
