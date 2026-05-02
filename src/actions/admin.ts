@@ -14,16 +14,18 @@ import {
   locationSchema,
   menuCategorySchema,
   menuItemSchema,
+  pageSeoSchema,
   pageContentSchema,
   restaurantSchema,
   roomCategorySchema,
   roomSchema,
+  siteSeoSchema,
   siteSettingsSchema,
   socialLinksSchema,
   tour360Schema,
 } from "@/schemas/admin";
 import { buildTourScenes } from "@/components/site/tour-360-types";
-import { defaultSiteSettings } from "@/data/defaults";
+import { defaultPages, defaultSiteSettings } from "@/data/defaults";
 
 function getBoolean(formData: FormData, key: string) {
   return formData.get(key) === "on" || formData.get(key) === "true";
@@ -172,6 +174,42 @@ export async function saveSiteSettingsAction(formData: FormData) {
   refreshSite(["/", "/contato", "/admin/configuracoes", "/admin/seo"]);
 }
 
+export async function saveSiteSeoAction(formData: FormData) {
+  await requireAdmin();
+
+  const parsed = siteSeoSchema.parse({
+    seoTitle: getString(formData, "seoTitle"),
+    seoDescription: getString(formData, "seoDescription"),
+  });
+
+  await prisma.siteSettings.upsert({
+    where: { id: 1 },
+    update: {
+      seoTitle: parsed.seoTitle || null,
+      seoDescription: parsed.seoDescription || null,
+    },
+    create: {
+      ...defaultSiteSettings,
+      seoTitle: parsed.seoTitle || null,
+      seoDescription: parsed.seoDescription || null,
+    },
+  });
+
+  refreshSite([
+    "/",
+    "/apartamentos",
+    "/restaurante",
+    "/galeria-de-fotos",
+    "/tour-360",
+    "/localizacao",
+    "/sobre-o-hotel",
+    "/contato",
+    "/blog",
+    "/trabalhe-conosco",
+    "/admin/seo",
+  ]);
+}
+
 export async function saveSocialLinksAction(formData: FormData) {
   await requireAdmin();
 
@@ -260,6 +298,52 @@ export async function savePageContentAction(formData: FormData) {
     "/blog",
     "/trabalhe-conosco",
     "/admin/paginas",
+    "/admin/seo",
+  ]);
+}
+
+export async function savePageSeoAction(formData: FormData) {
+  await requireAdmin();
+
+  const parsed = pageSeoSchema.parse({
+    key: getString(formData, "key"),
+    seoTitle: getString(formData, "seoTitle"),
+    seoDescription: getString(formData, "seoDescription"),
+    isPublished: getBoolean(formData, "isPublished"),
+  });
+
+  const pageFallback = defaultPages.find((page) => page.key === parsed.key);
+
+  await prisma.pageContent.upsert({
+    where: { key: parsed.key },
+    update: {
+      seoTitle: parsed.seoTitle || null,
+      seoDescription: parsed.seoDescription || null,
+      isPublished: parsed.isPublished,
+    },
+    create: {
+      key: parsed.key,
+      title: pageFallback?.title ?? parsed.key,
+      subtitle: pageFallback?.subtitle ?? null,
+      bannerImage: pageFallback?.bannerImage ?? null,
+      seoTitle: parsed.seoTitle || null,
+      seoDescription: parsed.seoDescription || null,
+      content: pageFallback?.content ?? { body: "" },
+      isPublished: parsed.isPublished,
+    },
+  });
+
+  refreshSite([
+    "/",
+    "/apartamentos",
+    "/restaurante",
+    "/galeria-de-fotos",
+    "/tour-360",
+    "/localizacao",
+    "/sobre-o-hotel",
+    "/contato",
+    "/blog",
+    "/trabalhe-conosco",
     "/admin/seo",
   ]);
 }

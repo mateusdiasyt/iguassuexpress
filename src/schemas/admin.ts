@@ -26,6 +26,11 @@ export const socialLinksSchema = z.object({
   youtube: optionalString,
 });
 
+export const siteSeoSchema = z.object({
+  seoTitle: optionalString,
+  seoDescription: optionalString,
+});
+
 export const pageContentSchema = z.object({
   key: z.string().min(1),
   title: z.string().min(2),
@@ -34,6 +39,13 @@ export const pageContentSchema = z.object({
   seoTitle: optionalString,
   seoDescription: optionalString,
   content: optionalString,
+  isPublished: z.boolean(),
+});
+
+export const pageSeoSchema = z.object({
+  key: z.string().min(1),
+  seoTitle: optionalString,
+  seoDescription: optionalString,
   isPublished: z.boolean(),
 });
 
