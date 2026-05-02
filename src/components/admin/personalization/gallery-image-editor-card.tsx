@@ -157,44 +157,37 @@ function GalleryTile({
   );
 }
 
-function GalleryImageDialog({
-  open,
-  onOpenChange,
+function GalleryImageDialogShell({
   title,
   eyebrow,
   children,
 }: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   title: string;
   eyebrow: string;
   children: ReactNode;
 }) {
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      {children}
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[120] bg-slate-950/52 backdrop-blur-md" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-[130] max-h-[88vh] w-[calc(100vw-2rem)] max-w-4xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-[0_38px_120px_rgba(15,23,42,0.18)] backdrop-blur-xl md:p-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                {eyebrow}
-              </p>
-              <Dialog.Title className="mt-2 text-[1.8rem] leading-[0.94] font-semibold tracking-[-0.04em] text-slate-950 md:text-[2.2rem]">
-                {title}
-              </Dialog.Title>
-            </div>
-
-            <Dialog.Close className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-50">
-              <X className="h-4 w-4" />
-            </Dialog.Close>
+    <Dialog.Portal>
+      <Dialog.Overlay className="fixed inset-0 z-[120] bg-slate-950/52 backdrop-blur-md" />
+      <Dialog.Content className="fixed left-1/2 top-1/2 z-[130] max-h-[88vh] w-[calc(100vw-2rem)] max-w-4xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-[0_38px_120px_rgba(15,23,42,0.18)] backdrop-blur-xl md:p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+              {eyebrow}
+            </p>
+            <Dialog.Title className="mt-2 text-[1.8rem] leading-[0.94] font-semibold tracking-[-0.04em] text-slate-950 md:text-[2.2rem]">
+              {title}
+            </Dialog.Title>
           </div>
 
-          <div className="mt-6">{children}</div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+          <Dialog.Close className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-50">
+            <X className="h-4 w-4" />
+          </Dialog.Close>
+        </div>
+
+        <div className="mt-6">{children}</div>
+      </Dialog.Content>
+    </Dialog.Portal>
   );
 }
 
@@ -252,9 +245,9 @@ export function GalleryImageEditorCard({ image }: { image: GalleryImageRecord })
   const canSave = Boolean(imageUrl.trim() && altText.trim().length >= 2);
 
   return (
-    <GalleryImageDialog open={open} onOpenChange={setOpen} title={altText || "Editar foto"} eyebrow="Galeria publica">
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button type="button" className="text-left">
+        <button type="button" className="block w-full text-left">
           <GalleryTile
             title={altText || "Sem descricao"}
             eyebrow={slotMeta.eyebrow}
@@ -266,65 +259,67 @@ export function GalleryImageEditorCard({ image }: { image: GalleryImageRecord })
         </button>
       </Dialog.Trigger>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(320px,0.78fr)]">
-        <div className="space-y-4">
-          <UploadField
-            name="imageUrl"
-            label="Imagem"
-            value={imageUrl}
-            onValueChange={setImageUrl}
-            hideTextInput
-            hideTriggerButton
-            previewActionLabel="Alterar imagem"
-            previewClassName="aspect-[4/3] h-auto w-full rounded-[1.5rem] border border-slate-200/80 bg-slate-100 shadow-[0_20px_48px_rgba(15,23,42,0.10)]"
-            previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
-          />
+      <GalleryImageDialogShell title={altText || "Editar foto"} eyebrow="Galeria publica">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(320px,0.78fr)]">
+          <div className="space-y-4">
+            <UploadField
+              name="imageUrl"
+              label="Imagem"
+              value={imageUrl}
+              onValueChange={setImageUrl}
+              hideTextInput
+              hideTriggerButton
+              previewActionLabel="Alterar imagem"
+              previewClassName="aspect-[4/3] h-auto w-full rounded-[1.5rem] border border-slate-200/80 bg-slate-100 shadow-[0_20px_48px_rgba(15,23,42,0.10)]"
+              previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
+            />
 
-          <div className="rounded-[1.35rem] border border-slate-200/80 bg-slate-50/70 px-4 py-3 text-sm text-slate-500">
-            Essa imagem aparece na grade publica de <span className="font-medium text-slate-950">/galeria-de-fotos</span>.
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_7.5rem]">
-            <FieldBlock label="Descricao da imagem">
-              <Input value={altText} onChange={(event) => setAltText(event.target.value)} />
-            </FieldBlock>
-
-            <FieldBlock label="Ordem">
-              <Input type="number" value={order} onChange={(event) => setOrder(event.target.value)} />
-            </FieldBlock>
-          </div>
-
-          <div className="rounded-[1.35rem] border border-slate-200/80 bg-white/80 p-4">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Visual atual
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600">
-                {slotMeta.eyebrow}
-              </span>
-              <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600">
-                Ordem {order || "0"}
-              </span>
+            <div className="rounded-[1.35rem] border border-slate-200/80 bg-slate-50/70 px-4 py-3 text-sm text-slate-500">
+              Essa imagem aparece na grade publica de <span className="font-medium text-slate-950">/galeria-de-fotos</span>.
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-3 rounded-[1.4rem] border border-slate-200/80 bg-slate-50/70 p-4">
-            <SaveFeedback saveState={saveState} />
+          <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_7.5rem]">
+              <FieldBlock label="Descricao da imagem">
+                <Input value={altText} onChange={(event) => setAltText(event.target.value)} />
+              </FieldBlock>
 
-            <div className="flex items-center gap-2">
-              <Button variant="outline" type="button" className="h-11 w-11 px-0" onClick={handleDelete}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
-              <Button type="button" disabled={!canSave || saveState === "saving"} onClick={() => void handleSave()}>
-                Salvar
-              </Button>
+              <FieldBlock label="Ordem">
+                <Input type="number" value={order} onChange={(event) => setOrder(event.target.value)} />
+              </FieldBlock>
+            </div>
+
+            <div className="rounded-[1.35rem] border border-slate-200/80 bg-white/80 p-4">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                Visual atual
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600">
+                  {slotMeta.eyebrow}
+                </span>
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600">
+                  Ordem {order || "0"}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 rounded-[1.4rem] border border-slate-200/80 bg-slate-50/70 p-4">
+              <SaveFeedback saveState={saveState} />
+
+              <div className="flex items-center gap-2">
+                <Button variant="outline" type="button" className="h-11 w-11 px-0" onClick={handleDelete}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+                <Button type="button" disabled={!canSave || saveState === "saving"} onClick={() => void handleSave()}>
+                  Salvar
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </GalleryImageDialog>
+      </GalleryImageDialogShell>
+    </Dialog.Root>
   );
 }
 
@@ -368,7 +363,7 @@ export function GalleryImageCreateCard({ nextOrder }: { nextOrder: number }) {
   const canSave = Boolean(imageUrl.trim() && altText.trim().length >= 2);
 
   return (
-    <GalleryImageDialog
+    <Dialog.Root
       open={open}
       onOpenChange={(nextOpen) => {
         setOpen(nextOpen);
@@ -377,11 +372,9 @@ export function GalleryImageCreateCard({ nextOrder }: { nextOrder: number }) {
           resetDraft();
         }
       }}
-      title="Adicionar nova foto"
-      eyebrow="Galeria publica"
     >
       <Dialog.Trigger asChild>
-        <button type="button" className="text-left">
+        <button type="button" className="block w-full text-left">
           <div className="group flex aspect-[4/3] flex-col items-center justify-center rounded-[1.8rem] border border-dashed border-slate-300 bg-white/72 p-6 text-center shadow-[0_18px_36px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1 hover:border-brand/30 hover:bg-white hover:shadow-[0_24px_48px_rgba(15,23,42,0.10)]">
             <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand/8 text-brand transition duration-300 group-hover:scale-105 group-hover:bg-brand/12">
               <Plus className="h-6 w-6" />
@@ -392,45 +385,47 @@ export function GalleryImageCreateCard({ nextOrder }: { nextOrder: number }) {
         </button>
       </Dialog.Trigger>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(320px,0.78fr)]">
-        <div className="space-y-4">
-          <UploadField
-            name="imageUrl"
-            label="Imagem"
-            value={imageUrl}
-            onValueChange={setImageUrl}
-            hideTextInput
-            hideTriggerButton
-            previewActionLabel={imageUrl ? "Alterar imagem" : "Enviar imagem"}
-            previewClassName="aspect-[4/3] h-auto w-full rounded-[1.5rem] border border-slate-200/80 bg-slate-100 shadow-[0_20px_48px_rgba(15,23,42,0.10)]"
-            previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
-          />
+      <GalleryImageDialogShell title="Adicionar nova foto" eyebrow="Galeria publica">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(320px,0.78fr)]">
+          <div className="space-y-4">
+            <UploadField
+              name="imageUrl"
+              label="Imagem"
+              value={imageUrl}
+              onValueChange={setImageUrl}
+              hideTextInput
+              hideTriggerButton
+              previewActionLabel={imageUrl ? "Alterar imagem" : "Enviar imagem"}
+              previewClassName="aspect-[4/3] h-auto w-full rounded-[1.5rem] border border-slate-200/80 bg-slate-100 shadow-[0_20px_48px_rgba(15,23,42,0.10)]"
+              previewImageClassName="object-cover transition duration-300 ease-out group-hover/upload:scale-[1.03] group-focus-within/upload:scale-[1.03]"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_7.5rem]">
+              <FieldBlock label="Descricao da imagem">
+                <Input value={altText} onChange={(event) => setAltText(event.target.value)} placeholder="Ex.: Fachada do hotel" />
+              </FieldBlock>
+
+              <FieldBlock label="Ordem">
+                <Input type="number" value={order} onChange={(event) => setOrder(event.target.value)} />
+              </FieldBlock>
+            </div>
+
+            <div className="rounded-[1.35rem] border border-slate-200/80 bg-slate-50/70 px-4 py-3 text-sm text-slate-500">
+              A nova foto sera publicada na grade de <span className="font-medium text-slate-950">/galeria-de-fotos</span>.
+            </div>
+
+            <div className="flex items-center justify-between gap-3 rounded-[1.4rem] border border-slate-200/80 bg-slate-50/70 p-4">
+              <SaveFeedback saveState={saveState} />
+
+              <Button type="button" disabled={!canSave || saveState === "saving"} onClick={() => void handleCreate()}>
+                Adicionar
+              </Button>
+            </div>
+          </div>
         </div>
-
-        <div className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_7.5rem]">
-            <FieldBlock label="Descricao da imagem">
-              <Input value={altText} onChange={(event) => setAltText(event.target.value)} placeholder="Ex.: Fachada do hotel" />
-            </FieldBlock>
-
-            <FieldBlock label="Ordem">
-              <Input type="number" value={order} onChange={(event) => setOrder(event.target.value)} />
-            </FieldBlock>
-          </div>
-
-          <div className="rounded-[1.35rem] border border-slate-200/80 bg-slate-50/70 px-4 py-3 text-sm text-slate-500">
-            A nova foto sera publicada na grade de <span className="font-medium text-slate-950">/galeria-de-fotos</span>.
-          </div>
-
-          <div className="flex items-center justify-between gap-3 rounded-[1.4rem] border border-slate-200/80 bg-slate-50/70 p-4">
-            <SaveFeedback saveState={saveState} />
-
-            <Button type="button" disabled={!canSave || saveState === "saving"} onClick={() => void handleCreate()}>
-              Adicionar
-            </Button>
-          </div>
-        </div>
-      </div>
-    </GalleryImageDialog>
+      </GalleryImageDialogShell>
+    </Dialog.Root>
   );
 }
