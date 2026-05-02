@@ -3,7 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { BriefcaseBusiness, ImageIcon, type LucideIcon, UtensilsCrossed } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
-import { GalleryImageEditorCard } from "@/components/admin/personalization/gallery-image-editor-card";
+import {
+  GalleryImageCreateCard,
+  GalleryImageEditorCard,
+} from "@/components/admin/personalization/gallery-image-editor-card";
 import { getGalleryImages, getPageContent, getRestaurantContent } from "@/data/queries";
 import { requireAdmin } from "@/lib/auth";
 import { buildMetadata } from "@/lib/seo";
@@ -233,6 +236,10 @@ export default async function AdminGalleryPage() {
             <h1 className="mt-2 text-[2rem] font-semibold tracking-[-0.04em] text-slate-950">
               Fotos principais do site
             </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+              Separe os banners das paginas e o acervo da galeria publica. Assim fica claro
+              onde o visitante ve cada imagem.
+            </p>
           </div>
 
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-500">
@@ -240,35 +247,67 @@ export default async function AdminGalleryPage() {
           </span>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-          <PageBannerReference
-            eyebrow="Coluna"
-            title="Galeria de fotos"
-            label="Banner da galeria"
-            page={galleryPage}
-            icon={ImageIcon}
-          />
-          <PageBannerReference
-            eyebrow="Coluna"
-            title="Carreiras"
-            label="Banner de carreiras"
-            page={careersPage}
-            icon={BriefcaseBusiness}
-          />
-          <RestaurantReference restaurant={restaurant} />
-        </div>
+        <section className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <SectionEyebrow>Banners das paginas</SectionEyebrow>
+              <h2 className="mt-2 text-[1.7rem] font-semibold tracking-[-0.04em] text-slate-950">
+                Referencias visuais
+              </h2>
+            </div>
+            <p className="max-w-lg text-sm leading-7 text-slate-500">
+              Esses blocos mudam o topo das paginas e os destaques institucionais.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+            <PageBannerReference
+              eyebrow="Pagina"
+              title="Galeria de fotos"
+              label="Banner da pagina"
+              page={galleryPage}
+              icon={ImageIcon}
+            />
+            <PageBannerReference
+              eyebrow="Pagina"
+              title="Carreiras"
+              label="Banner da pagina"
+              page={careersPage}
+              icon={BriefcaseBusiness}
+            />
+            <RestaurantReference restaurant={restaurant} />
+          </div>
+        </section>
 
         <section className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <SectionEyebrow>Galeria publica</SectionEyebrow>
+              <h2 className="mt-2 text-[1.7rem] font-semibold tracking-[-0.04em] text-slate-950">
+                Fotos da galeria
+              </h2>
+            </div>
+            <p className="max-w-lg text-sm leading-7 text-slate-500">
+              Esse grid alimenta diretamente a pagina <span className="font-medium text-slate-700">/galeria-de-fotos</span>.
+            </p>
+          </div>
+
           {mainImages.length ? (
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              <GalleryImageCreateCard
+                nextOrder={(Math.max(0, ...mainImages.map((image) => Number(image.order) || 0)) || 0) + 1}
+              />
               {mainImages.map((image) => (
-                <GalleryImageEditorCard key={image.id} image={image} />
+                <GalleryImageEditorCard
+                  key={`${image.id}-${image.altText}-${image.order}-${image.imageUrl ?? ""}`}
+                  image={image}
+                />
               ))}
             </div>
           ) : (
-            <section className="rounded-[2rem] border border-dashed border-slate-200 bg-white px-6 py-10 text-center shadow-[0_24px_60px_rgba(15,23,42,0.06)]">
-              <h2 className="text-lg font-semibold text-slate-950">Nenhuma foto cadastrada</h2>
-            </section>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              <GalleryImageCreateCard nextOrder={1} />
+            </div>
           )}
         </section>
       </section>
