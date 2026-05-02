@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BriefcaseBusiness, House, type LucideIcon, UtensilsCrossed } from "lucide-react";
+import { House, type LucideIcon } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import {
   GalleryImageCreateCard,
   GalleryImageEditorCard,
 } from "@/components/admin/personalization/gallery-image-editor-card";
-import { getGalleryImages, getPageContent, getRestaurantContent } from "@/data/queries";
+import { getGalleryImages, getPageContent } from "@/data/queries";
 import { requireAdmin } from "@/lib/auth";
 import { buildMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -20,8 +20,6 @@ export const metadata = buildMetadata({
 });
 
 type PageContentItem = Awaited<ReturnType<typeof getPageContent>>;
-type RestaurantContentItem = Awaited<ReturnType<typeof getRestaurantContent>>;
-
 type ReferenceCardProps = {
   eyebrow: string;
   title: string;
@@ -159,60 +157,10 @@ function PageBannerReference({
   );
 }
 
-function RestaurantReference({ restaurant }: { restaurant: RestaurantContentItem }) {
-  const images = restaurant.images.filter(Boolean).slice(0, 3);
-
-  return (
-    <ReferenceCard
-      eyebrow="Coluna"
-      title="Restaurante"
-      icon={UtensilsCrossed}
-    >
-      <div className="space-y-3">
-        <ReferenceItem label="Banner restaurante">
-          <PreviewFrame
-            src={restaurant.heroImage}
-            alt="Banner do restaurante"
-            href="/admin/restaurante"
-            actionLabel="Alterar imagem"
-            className="h-32 w-full"
-          />
-        </ReferenceItem>
-
-        <ReferenceItem label="Imagens restaurante">
-          <div className="grid grid-cols-3 gap-2">
-            {images.length ? (
-              images.map((src, index) => (
-                <PreviewFrame
-                  key={`${src}-${index}`}
-                  src={src}
-                  alt={`Imagem ${index + 1} do restaurante`}
-                  href="/admin/restaurante"
-                  actionLabel="Alterar imagem"
-                  className="h-24 w-full"
-                />
-              ))
-            ) : (
-              <PreviewFrame
-                alt="Sem imagens do restaurante"
-                href="/admin/restaurante"
-                actionLabel="Alterar imagem"
-                className="col-span-3 h-24 w-full"
-              />
-            )}
-          </div>
-        </ReferenceItem>
-      </div>
-    </ReferenceCard>
-  );
-}
-
 export default async function AdminGalleryPage() {
   const session = await requireAdmin();
-  const [homePage, careersPage, restaurant, images] = await Promise.all([
+  const [homePage, images] = await Promise.all([
     getPageContent("home"),
-    getPageContent("careers"),
-    getRestaurantContent(),
     getGalleryImages(true),
   ]);
 
@@ -244,32 +192,24 @@ export default async function AdminGalleryPage() {
         <section className="space-y-4">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <SectionEyebrow>Banners das paginas</SectionEyebrow>
+              <SectionEyebrow>Banner editavel</SectionEyebrow>
               <h2 className="mt-2 text-[1.7rem] font-semibold tracking-[-0.04em] text-slate-950">
-                Referencias visuais
+                Hero principal do site
               </h2>
             </div>
             <p className="max-w-lg text-sm leading-7 text-slate-500">
-              Esses blocos mudam o topo das paginas e os destaques institucionais.
+              Esse bloco controla a imagem principal da Home, que fica por tras do titulo e da busca.
             </p>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="max-w-[430px]">
             <PageBannerReference
-              eyebrow="Home"
+              eyebrow="Pagina"
               title="Banner principal do site"
               label="Banner da home"
               page={homePage}
               icon={House}
             />
-            <PageBannerReference
-              eyebrow="Pagina"
-              title="Carreiras"
-              label="Banner da pagina"
-              page={careersPage}
-              icon={BriefcaseBusiness}
-            />
-            <RestaurantReference restaurant={restaurant} />
           </div>
         </section>
 
