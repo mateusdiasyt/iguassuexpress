@@ -39,7 +39,7 @@ type AdminSidebarProps = {
 
 export function AdminSidebar({ pathname }: AdminSidebarProps) {
   return (
-    <aside className="rounded-[2rem] border border-brand/10 bg-white p-3 shadow-sm">
+    <aside className="relative z-30 overflow-visible rounded-[2rem] border border-brand/10 bg-white p-3 shadow-sm">
       <Link
         href="/"
         aria-label="Voltar ao site"
@@ -61,7 +61,7 @@ export function AdminSidebar({ pathname }: AdminSidebarProps) {
           </p>
           <p className="text-sm text-slate-700">Voltar ao site</p>
         </div>
-        <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/site:translate-x-0 lg:group-hover/site:opacity-100">
+        <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:z-50 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/site:translate-x-0 lg:group-hover/site:opacity-100">
           Voltar ao site
         </span>
       </Link>
@@ -84,7 +84,7 @@ export function AdminSidebar({ pathname }: AdminSidebarProps) {
             >
               <Icon className="h-5 w-5 shrink-0" />
               <span className="lg:hidden">{item.label}</span>
-              <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/item:translate-x-0 lg:group-hover/item:opacity-100">
+              <span className="pointer-events-none hidden whitespace-nowrap rounded-xl border border-brand/20 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm transition lg:absolute lg:left-full lg:top-1/2 lg:z-50 lg:ml-3 lg:block lg:-translate-y-1/2 lg:translate-x-1 lg:opacity-0 lg:group-hover/item:translate-x-0 lg:group-hover/item:opacity-100">
                 {item.label}
               </span>
             </Link>
