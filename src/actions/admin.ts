@@ -59,6 +59,30 @@ function normalizePageContent(value: string) {
   return { body: trimmed };
 }
 
+function stripMarkdown(value: string) {
+  return value
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, "$1")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^\s*>\s?/gm, "")
+    .replace(/[*_~]/g, "")
+    .replace(/\r?\n/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildBlogExcerpt(markdown: string, fallbackTitle: string) {
+  const plain = stripMarkdown(markdown);
+
+  if (!plain) {
+    return fallbackTitle.trim();
+  }
+
+  return plain.length > 180 ? `${plain.slice(0, 177).trimEnd()}...` : plain;
+}
+
 function isUniqueSlugConstraintError(error: unknown) {
   if (!error || typeof error !== "object") {
     return false;
@@ -836,16 +860,21 @@ export async function saveBlogPostAction(formData: FormData) {
     toSlug(parsed.slug) || toSlug(parsed.title) || `post-${Date.now()}`;
   const postId = parsed.id || undefined;
   let resolvedSlug = await buildUniqueBlogPostSlug(requestedSlug, postId);
+  const normalizedContent = parsed.content.trim() || parsed.excerpt.trim() || parsed.title.trim();
+  const normalizedExcerpt =
+    parsed.excerpt.trim() || buildBlogExcerpt(normalizedContent, parsed.title);
+  const normalizedSeoDescription =
+    parsed.seoDescription.trim() || buildBlogExcerpt(normalizedContent, parsed.title);
 
   const data = {
     title: parsed.title,
     slug: resolvedSlug,
-    excerpt: parsed.excerpt,
-    content: parsed.content,
+    excerpt: normalizedExcerpt,
+    content: normalizedContent,
     featuredImage: parsed.featuredImage || null,
     categoryId: parsed.categoryId || null,
     seoTitle: parsed.seoTitle || null,
-    seoDescription: parsed.seoDescription || null,
+    seoDescription: normalizedSeoDescription || null,
     status: parsed.status,
     publishedAt:
       parsed.status === BlogPostStatus.PUBLISHED
