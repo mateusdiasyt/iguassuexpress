@@ -196,6 +196,11 @@ select {
   margin-top: 1rem;
 }
 
+.editorial-prose strong {
+  color: var(--brand);
+  font-weight: 800;
+}
+
 .map-embed iframe {
   height: 100%;
   width: 100%;

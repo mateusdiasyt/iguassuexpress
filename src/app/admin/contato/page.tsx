@@ -83,7 +83,6 @@ function ContactChannelsForm({
       <input type="hidden" name="instagram" value={instagram} />
       <input type="hidden" name="facebook" value={facebook} />
       <input type="hidden" name="address" value={settings.address} />
-      <input type="hidden" name="mapEmbed" value={settings.mapEmbed ?? ""} />
       <input type="hidden" name="seoTitle" value={settings.seoTitle ?? ""} />
       <input type="hidden" name="seoDescription" value={settings.seoDescription ?? ""} />
       <input type="hidden" name="institutionalBio" value={settings.institutionalBio ?? ""} />

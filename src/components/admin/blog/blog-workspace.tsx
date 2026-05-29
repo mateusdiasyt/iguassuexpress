@@ -3,6 +3,7 @@
 import { BlogPostStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import {
+  Bold,
   Heading2,
   Heading3,
   Link2,
@@ -81,6 +82,16 @@ const editorBlocks = [
   },
 ];
 
+const inlineFormattingTools = [
+  {
+    label: "Destaque",
+    icon: Bold,
+    prefix: "**",
+    suffix: "**",
+    placeholder: "texto em destaque",
+  },
+];
+
 function formatDate(value: string | null) {
   if (!value) {
     return "Ainda nao publicado";
@@ -138,7 +149,6 @@ export function BlogWorkspace({
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"ALL" | BlogPostStatus>("ALL");
   const [editorTab, setEditorTab] = useState<"write" | "preview">("write");
-  const [targetKeyword, setTargetKeyword] = useState("");
   const [confirmDeletePost, setConfirmDeletePost] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -164,7 +174,7 @@ export function BlogWorkspace({
   );
 
   const selectedPost = posts.find((post) => post.id === selectedId) ?? null;
-  const seo = analyzeSeo(draft, targetKeyword);
+  const seo = analyzeSeo(draft);
   const isEditorOpen = editorMode !== "closed";
   const submitLabel =
     draft.status === BlogPostStatus.PUBLISHED ? "Publicar post" : "Salvar rascunho";
@@ -176,7 +186,6 @@ export function BlogWorkspace({
       setEditorMode("create");
       setSelectedId("");
       setDraft(createEmptyDraft());
-      setTargetKeyword("");
       setEditorTab("write");
       setConfirmDeletePost(false);
     });
@@ -193,7 +202,6 @@ export function BlogWorkspace({
       setEditorMode("edit");
       setSelectedId(post.id);
       setDraft(createDraftFromPost(post));
-      setTargetKeyword("");
       setEditorTab("write");
       setConfirmDeletePost(false);
     });
@@ -204,7 +212,6 @@ export function BlogWorkspace({
       setEditorMode("closed");
       setSelectedId("");
       setDraft(createEmptyDraft());
-      setTargetKeyword("");
       setEditorTab("write");
       setConfirmDeletePost(false);
     });
@@ -258,8 +265,37 @@ export function BlogWorkspace({
     }));
   }
 
+  function wrapSelection(prefix: string, suffix: string, placeholder: string) {
+    const textarea = textareaRef.current;
+
+    if (!textarea) {
+      updateDraft("content", `${draft.content}${prefix}${placeholder}${suffix}`);
+      return;
+    }
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = draft.content.slice(start, end) || placeholder;
+    const nextContent = `${draft.content.slice(0, start)}${prefix}${selectedText}${suffix}${draft.content.slice(end)}`;
+    const selectionStart = start + prefix.length;
+    const selectionEnd = selectionStart + selectedText.length;
+
+    updateDraft("content", nextContent);
+
+    requestAnimationFrame(() => {
+      textarea.focus();
+      textarea.setSelectionRange(selectionStart, selectionEnd);
+    });
+  }
+
   async function handleSavePost(formData: FormData) {
     await savePostAction(formData);
+    closeEditor();
+    router.refresh();
+  }
+
+  async function handleDeletePost(formData: FormData) {
+    await deletePostAction(formData);
     closeEditor();
     router.refresh();
   }
@@ -344,7 +380,7 @@ export function BlogWorkspace({
 
                   <div className="divide-y divide-brand/10">
                     {filteredPosts.map((post) => {
-                      const score = analyzeSeo(createDraftFromPost(post), "").score;
+                      const score = analyzeSeo(createDraftFromPost(post)).score;
 
                       return (
                         <div key={post.id} className="px-4 py-4">
@@ -538,6 +574,22 @@ export function BlogWorkspace({
 
                 <div className="space-y-3">
                   <div className="flex flex-wrap gap-2">
+                    {inlineFormattingTools.map((tool) => {
+                      const Icon = tool.icon;
+
+                      return (
+                        <Button
+                          key={tool.label}
+                          type="button"
+                          variant="outline"
+                          className="h-9 gap-2 px-3 normal-case tracking-normal"
+                          onClick={() => wrapSelection(tool.prefix, tool.suffix, tool.placeholder)}
+                        >
+                          <Icon className="h-3.5 w-3.5" />
+                          {tool.label}
+                        </Button>
+                      );
+                    })}
                     {editorBlocks.map((tool) => {
                       const Icon = tool.icon;
                       return (
@@ -622,9 +674,10 @@ export function BlogWorkspace({
                   <label className="grid gap-2 text-sm text-slate-600">
                     Palavra-chave foco
                     <Input
+                      name="seoFocusKeyword"
                       placeholder="Ex.: hotel em Foz do Iguacu"
-                      value={targetKeyword}
-                      onChange={(event) => setTargetKeyword(event.target.value)}
+                      value={draft.seoFocusKeyword}
+                      onChange={(event) => updateDraft("seoFocusKeyword", event.target.value)}
                     />
                   </label>
                   <Button
@@ -732,14 +785,15 @@ export function BlogWorkspace({
                   {editorMode === "edit" && draft.id ? (
                     confirmDeletePost ? (
                       <div className="grid grid-cols-2 gap-2">
-                        <Button
+                        <SubmitButton
                           className="h-10 gap-2 text-red-600 normal-case tracking-normal hover:bg-red-50"
-                          formAction={deletePostAction}
+                          formAction={handleDeletePost}
+                          pendingLabel="Excluindo..."
                           variant="outline"
                         >
                           <Trash2 className="h-4 w-4" />
                           Confirmar
-                        </Button>
+                        </SubmitButton>
                         <Button
                           type="button"
                           className="h-10 normal-case tracking-normal"

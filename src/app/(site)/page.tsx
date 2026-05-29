@@ -115,7 +115,11 @@ export default async function HomePage() {
         {hasHeroCards ? (
           <ScrollReveal className="mx-auto -mt-10 max-w-6xl lg:-mt-16" delay={60}>
             <section>
-              <HighlightCardColumn cards={heroCards} mapEmbed={settings.mapEmbed} />
+              <HighlightCardColumn
+                cards={heroCards}
+                hotelName={settings.hotelName}
+                address={settings.address}
+              />
             </section>
           </ScrollReveal>
         ) : null}
@@ -196,9 +200,10 @@ export default async function HomePage() {
         <ScrollReveal className="mx-auto max-w-6xl" delay={80}>
           <div>
             <ContactSection
+              hotelName={settings.hotelName}
+              address={settings.address}
               whatsapp={settings.whatsapp}
               phone={settings.phone}
-              mapEmbed={settings.mapEmbed}
             />
           </div>
         </ScrollReveal>

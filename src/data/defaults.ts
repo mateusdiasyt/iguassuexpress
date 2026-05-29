@@ -43,9 +43,7 @@ export const defaultSiteSettings = {
   whatsapp: "+55 45 99999-0000",
   phone: "+55 45 3025-1900",
   email: "reservas@iguassuexpresshotel.com.br",
-  address: "Rua Jorge Sanwais, 448, Foz do Iguaçu - PR",
-  mapEmbed:
-    '<iframe src="https://www.google.com/maps?q=Foz%20do%20Igua%C3%A7u&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+  address: "Av. das Cataratas, 2500, Foz do Iguaçu - PR",
   omnibeesHotelId: "2458",
   omnibeesBaseUrl: "https://book.omnibees.com/hotelresults",
   logo: "/logo-hotel-principal.png",
@@ -482,8 +480,6 @@ export const defaultLocationContent = {
   title: "Acesso rápido aos principais pontos de Foz do Iguaçu",
   description:
     "Uma base estratégica para turismo, compras e compromissos corporativos na cidade e região de fronteira.",
-  mapEmbed:
-    '<iframe src="https://www.google.com/maps?q=Foz%20do%20Igua%C3%A7u&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
   nearbyPoints: [
     "Aeroporto Internacional de Foz do Iguaçu",
     "Cataratas do Iguaçu",
@@ -512,6 +508,7 @@ export const defaultBlogPosts = [
     seoTitle: "O que fazer em Foz do Iguaçu em um fim de semana",
     seoDescription:
       "Roteiro de fim de semana em Foz do Iguaçu com dicas para aproveitar melhor a viagem.",
+    seoFocusKeyword: "Foz do Iguaçu em um fim de semana",
     publishedAt: new Date(),
     status: BlogPostStatus.PUBLISHED,
   },
@@ -527,6 +524,7 @@ export const defaultBlogPosts = [
     seoTitle: "Como escolher hotel em Foz do Iguaçu",
     seoDescription:
       "Descubra os critérios mais importantes para escolher onde se hospedar em Foz do Iguaçu.",
+    seoFocusKeyword: "hotel em Foz do Iguaçu",
     publishedAt: new Date(),
     status: BlogPostStatus.PUBLISHED,
   },

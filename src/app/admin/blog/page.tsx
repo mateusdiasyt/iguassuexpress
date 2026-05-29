@@ -39,6 +39,10 @@ export default async function AdminBlogPage() {
     categoryName: post.category?.name ?? null,
     seoTitle: post.seoTitle ?? null,
     seoDescription: post.seoDescription ?? null,
+    seoFocusKeyword:
+      "seoFocusKeyword" in post && typeof post.seoFocusKeyword === "string"
+        ? post.seoFocusKeyword
+        : null,
     status: post.status,
     publishedAt: post.publishedAt?.toISOString() ?? null,
     createdAt:

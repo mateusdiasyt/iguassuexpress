@@ -19,6 +19,7 @@ export type AdminBlogPostItem = {
   categoryName: string | null;
   seoTitle: string | null;
   seoDescription: string | null;
+  seoFocusKeyword: string | null;
   status: BlogPostStatus;
   publishedAt: string | null;
   updatedAt: string;
@@ -35,6 +36,7 @@ export type BlogEditorDraft = {
   categoryId: string;
   seoTitle: string;
   seoDescription: string;
+  seoFocusKeyword: string;
   status: BlogPostStatus;
 };
 
@@ -56,6 +58,7 @@ export function createEmptyDraft(): BlogEditorDraft {
     categoryId: "",
     seoTitle: "",
     seoDescription: "",
+    seoFocusKeyword: "",
     status: BlogPostStatus.DRAFT,
   };
 }
@@ -71,6 +74,7 @@ export function createDraftFromPost(post: AdminBlogPostItem): BlogEditorDraft {
     categoryId: post.categoryId ?? "",
     seoTitle: post.seoTitle ?? "",
     seoDescription: post.seoDescription ?? "",
+    seoFocusKeyword: post.seoFocusKeyword ?? "",
     status: post.status,
   };
 }
@@ -135,7 +139,7 @@ export function buildPostUrl(slug: string) {
   return absoluteUrl(`/blog/${slug || "novo-post"}`);
 }
 
-export function analyzeSeo(draft: BlogEditorDraft, targetKeyword: string) {
+export function analyzeSeo(draft: BlogEditorDraft, targetKeyword = draft.seoFocusKeyword) {
   const title = buildSeoTitleFromDraft(draft);
   const description = buildSeoDescriptionFromDraft(draft);
   const plainContent = stripMarkdown(draft.content).toLowerCase();

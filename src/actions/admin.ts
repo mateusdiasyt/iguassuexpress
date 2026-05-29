@@ -149,7 +149,6 @@ export async function saveSiteSettingsAction(formData: FormData) {
     phone: getString(formData, "phone"),
     email: getString(formData, "email"),
     address: getString(formData, "address"),
-    mapEmbed: getString(formData, "mapEmbed"),
     omnibeesHotelId: getString(formData, "omnibeesHotelId"),
     omnibeesBaseUrl: getString(formData, "omnibeesBaseUrl"),
     logo: getString(formData, "logo"),
@@ -167,7 +166,6 @@ export async function saveSiteSettingsAction(formData: FormData) {
       phone: parsed.phone,
       email: parsed.email,
       address: parsed.address,
-      mapEmbed: parsed.mapEmbed || null,
       omnibeesHotelId: parsed.omnibeesHotelId,
       omnibeesBaseUrl: parsed.omnibeesBaseUrl,
       logo: parsed.logo || null,
@@ -183,7 +181,6 @@ export async function saveSiteSettingsAction(formData: FormData) {
       phone: parsed.phone,
       email: parsed.email,
       address: parsed.address,
-      mapEmbed: parsed.mapEmbed || null,
       omnibeesHotelId: parsed.omnibeesHotelId,
       omnibeesBaseUrl: parsed.omnibeesBaseUrl,
       logo: parsed.logo || null,
@@ -758,7 +755,6 @@ export async function saveLocationAction(formData: FormData) {
   const parsed = locationSchema.parse({
     title: getString(formData, "title"),
     description: getString(formData, "description"),
-    mapEmbed: getString(formData, "mapEmbed"),
     nearbyPoints: getString(formData, "nearbyPoints"),
     heroImage: getString(formData, "heroImage"),
     accessDetails: getString(formData, "accessDetails"),
@@ -769,7 +765,6 @@ export async function saveLocationAction(formData: FormData) {
     update: {
       title: parsed.title,
       description: parsed.description,
-      mapEmbed: parsed.mapEmbed || null,
       nearbyPoints: parseList(parsed.nearbyPoints ?? ""),
       heroImage: parsed.heroImage || null,
       accessDetails: parsed.accessDetails || null,
@@ -778,7 +773,6 @@ export async function saveLocationAction(formData: FormData) {
       id: 1,
       title: parsed.title,
       description: parsed.description,
-      mapEmbed: parsed.mapEmbed || null,
       nearbyPoints: parseList(parsed.nearbyPoints ?? ""),
       heroImage: parsed.heroImage || null,
       accessDetails: parsed.accessDetails || null,
@@ -843,6 +837,7 @@ export async function saveBlogPostAction(formData: FormData) {
     categoryId: getString(formData, "categoryId"),
     seoTitle: getString(formData, "seoTitle"),
     seoDescription: getString(formData, "seoDescription"),
+    seoFocusKeyword: getString(formData, "seoFocusKeyword"),
     status: (getString(formData, "status") || "DRAFT") as BlogPostStatus,
   });
 
@@ -875,6 +870,7 @@ export async function saveBlogPostAction(formData: FormData) {
     categoryId: parsed.categoryId || null,
     seoTitle: parsed.seoTitle || null,
     seoDescription: normalizedSeoDescription || null,
+    seoFocusKeyword: parsed.seoFocusKeyword || null,
     status: parsed.status,
     publishedAt:
       parsed.status === BlogPostStatus.PUBLISHED

@@ -443,9 +443,7 @@ async function main() {
       whatsapp: "+55 45 99999-0000",
       phone: "+55 45 3025-1900",
       email: "reservas@iguassuexpresshotel.com.br",
-      address: "Rua Jorge Sanwais, 448, Foz do Iguacu - PR",
-      mapEmbed:
-        '<iframe src="https://www.google.com/maps?q=Foz%20do%20Iguacu&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+      address: "Av. das Cataratas, 2500, Foz do Iguacu - PR",
       omnibeesHotelId: "2458",
       omnibeesBaseUrl: "https://book.omnibees.com/hotelresults",
       logo: "/logo-hotel-principal.png",
@@ -466,9 +464,7 @@ async function main() {
       whatsapp: "+55 45 99999-0000",
       phone: "+55 45 3025-1900",
       email: "reservas@iguassuexpresshotel.com.br",
-      address: "Rua Jorge Sanwais, 448, Foz do Iguacu - PR",
-      mapEmbed:
-        '<iframe src="https://www.google.com/maps?q=Foz%20do%20Iguacu&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+      address: "Av. das Cataratas, 2500, Foz do Iguacu - PR",
       omnibeesHotelId: "2458",
       omnibeesBaseUrl: "https://book.omnibees.com/hotelresults",
       logo: "/logo-hotel-principal.png",
@@ -660,8 +656,6 @@ async function main() {
       title: "Acesso rapido aos principais pontos de Foz do Iguacu",
       description:
         "Uma base estrategica para turismo, compras e compromissos corporativos na cidade e regiao de fronteira.",
-      mapEmbed:
-        '<iframe src="https://www.google.com/maps?q=Foz%20do%20Iguacu&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
       nearbyPoints: [
         "Aeroporto Internacional de Foz do Iguacu",
         "Cataratas do Iguacu",
@@ -677,8 +671,6 @@ async function main() {
       title: "Acesso rapido aos principais pontos de Foz do Iguacu",
       description:
         "Uma base estrategica para turismo, compras e compromissos corporativos na cidade e regiao de fronteira.",
-      mapEmbed:
-        '<iframe src="https://www.google.com/maps?q=Foz%20do%20Iguacu&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
       nearbyPoints: [
         "Aeroporto Internacional de Foz do Iguacu",
         "Cataratas do Iguacu",
@@ -708,6 +700,7 @@ async function main() {
       seoTitle: "O que fazer em Foz do Iguacu em um fim de semana",
       seoDescription:
         "Roteiro de fim de semana em Foz do Iguacu com dicas para aproveitar melhor a viagem.",
+      seoFocusKeyword: "Foz do Iguacu em um fim de semana",
       publishedAt: new Date(),
       status: BlogPostStatus.PUBLISHED,
     },
@@ -721,6 +714,7 @@ async function main() {
       seoTitle: "Como escolher hotel em Foz do Iguacu",
       seoDescription:
         "Descubra os criterios mais importantes para escolher onde se hospedar em Foz do Iguacu.",
+      seoFocusKeyword: "hotel em Foz do Iguacu",
       publishedAt: new Date(),
       status: BlogPostStatus.PUBLISHED,
     },

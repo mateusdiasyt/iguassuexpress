@@ -7,6 +7,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { Textarea } from "@/components/ui/textarea";
 import { getSiteSettings } from "@/data/queries";
 import { requireAdmin } from "@/lib/auth";
+import { buildGoogleMapsEmbedUrl, buildHotelMapQuery } from "@/lib/maps";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -19,6 +20,11 @@ export const metadata = buildMetadata({
 export default async function AdminSettingsPage() {
   const session = await requireAdmin();
   const settings = await getSiteSettings();
+  const mapQuery = buildHotelMapQuery({
+    hotelName: settings.hotelName,
+    address: settings.address,
+  });
+  const mapEmbedUrl = buildGoogleMapsEmbedUrl(mapQuery);
 
   return (
     <AdminShell
@@ -51,15 +57,26 @@ export default async function AdminSettingsPage() {
             </label>
           </div>
 
-          <label className="grid gap-2 text-sm text-slate-600">
-            Endereco
-            <Input name="address" defaultValue={settings.address} />
-          </label>
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.8fr)] lg:items-end">
+            <label className="grid gap-2 text-sm text-slate-600">
+              Endereco
+              <Input name="address" defaultValue={settings.address} />
+              <span className="text-xs leading-5 text-slate-400">
+                Este endereco alimenta automaticamente os mapas da home e da pagina de localizacao.
+              </span>
+            </label>
 
-          <label className="grid gap-2 text-sm text-slate-600">
-            Mapa embed
-            <Textarea name="mapEmbed" defaultValue={settings.mapEmbed ?? ""} />
-          </label>
+            <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50 shadow-[0_18px_40px_rgba(15,23,42,0.06)]">
+              <iframe
+                src={mapEmbedUrl}
+                title={`Preview do mapa de ${settings.hotelName}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-48 w-full border-0"
+                allowFullScreen
+              />
+            </div>
+          </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             <label className="grid gap-2 text-sm text-slate-600">

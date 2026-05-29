@@ -93,18 +93,18 @@ model Room {
 }
 
 model RestaurantContent {
-  id                  Int      @id @default(1)
-  heroImage           String?
-  teaserTitle         String?
-  teaserDescription   String?  @db.Text
-  breakfastTitle      String
-  breakfastDescription String  @db.Text
-  aLaCarteTitle       String
-  aLaCarteDescription String   @db.Text
-  images              String[]
-  isBreakfastActive   Boolean  @default(true)
-  isALaCarteActive    Boolean  @default(true)
-  updatedAt           DateTime @updatedAt
+  id                   Int      @id @default(1)
+  heroImage            String?
+  teaserTitle          String?
+  teaserDescription    String?  @db.Text
+  breakfastTitle       String
+  breakfastDescription String   @db.Text
+  aLaCarteTitle        String
+  aLaCarteDescription  String   @db.Text
+  images               String[]
+  isBreakfastActive    Boolean  @default(true)
+  isALaCarteActive     Boolean  @default(true)
+  updatedAt            DateTime @updatedAt
 }
 
 model MenuCategory {
@@ -182,20 +182,21 @@ model BlogCategory {
 }
 
 model BlogPost {
-  id             String         @id @default(cuid())
-  title          String
-  slug           String         @unique
-  excerpt        String         @db.Text
-  content        String         @db.Text
-  featuredImage  String?
-  categoryId     String?
-  seoTitle       String?
-  seoDescription String?        @db.Text
-  publishedAt    DateTime?
-  status         BlogPostStatus @default(DRAFT)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  category       BlogCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  id              String         @id @default(cuid())
+  title           String
+  slug            String         @unique
+  excerpt         String         @db.Text
+  content         String         @db.Text
+  featuredImage   String?
+  categoryId      String?
+  seoTitle        String?
+  seoDescription  String?        @db.Text
+  seoFocusKeyword String?
+  publishedAt     DateTime?
+  status          BlogPostStatus @default(DRAFT)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  category        BlogCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 }
 
 model FaqItem {

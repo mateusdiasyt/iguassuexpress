@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CalendarCheck2, Gem, MapPinned, PawPrint } from "lucide-react";
+import { buildGoogleMapsEmbedUrl, buildHotelMapQuery } from "@/lib/maps";
 import { cn } from "@/lib/utils";
 
 type HighlightCardColumnProps = {
@@ -9,7 +10,8 @@ type HighlightCardColumnProps = {
     title: string;
     description: string;
   }>;
-  mapEmbed?: string | null;
+  hotelName: string;
+  address: string;
   className?: string;
 };
 
@@ -61,7 +63,8 @@ function splitTitleInTwoLines(title: string) {
 
 export function HighlightCardColumn({
   cards,
-  mapEmbed,
+  hotelName,
+  address,
   className,
 }: HighlightCardColumnProps) {
   const icons = [MapPinned, CalendarCheck2, Gem, PawPrint];
@@ -158,6 +161,9 @@ export function HighlightCardColumn({
     return null;
   }
 
+  const mapQuery = buildHotelMapQuery({ hotelName, address });
+  const mapEmbedUrl = buildGoogleMapsEmbedUrl(mapQuery);
+
   return (
     <aside className={cn("grid grid-cols-2 gap-6 md:grid-cols-4 lg:gap-8", className)}>
       {cards.map((card, index) => {
@@ -212,16 +218,16 @@ export function HighlightCardColumn({
             >
               <div className="overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white/88 shadow-[0_18px_44px_rgba(15,23,42,0.08)] backdrop-blur-xl">
                 {index === 0 ? (
-                  mapEmbed ? (
-                    <div
-                      className="map-embed h-48"
-                      dangerouslySetInnerHTML={{ __html: mapEmbed }}
+                  <div className="map-embed h-48">
+                    <iframe
+                      src={mapEmbedUrl}
+                      title={`Mapa de ${hotelName}`}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="h-full w-full border-0"
+                      allowFullScreen
                     />
-                  ) : (
-                    <div className="flex h-48 items-center justify-center bg-slate-100 text-sm text-slate-500">
-                      Mapa em breve
-                    </div>
-                  )
+                  </div>
                 ) : null}
 
                 {index === 1 ? (
@@ -320,16 +326,16 @@ export function HighlightCardColumn({
                       Foz do Iguaçu
                     </span>
                   </div>
-                  {mapEmbed ? (
-                    <div
-                      className="map-embed mt-2 h-52 overflow-hidden rounded-[0.95rem]"
-                      dangerouslySetInnerHTML={{ __html: mapEmbed }}
+                  <div className="map-embed mt-2 h-52 overflow-hidden rounded-[0.95rem]">
+                    <iframe
+                      src={mapEmbedUrl}
+                      title={`Mapa de ${hotelName}`}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="h-full w-full border-0"
+                      allowFullScreen
                     />
-                  ) : (
-                    <div className="mt-2 flex h-52 items-center justify-center rounded-[0.95rem] bg-white/8 text-sm text-slate-200/75">
-                      Mapa em breve
-                    </div>
-                  )}
+                  </div>
                   <div className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-r border-b border-white/20 bg-[#173852]" />
                 </div>
               </div>

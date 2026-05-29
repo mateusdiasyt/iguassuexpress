@@ -9,7 +9,6 @@ export const siteSettingsSchema = z.object({
   phone: z.string().min(8),
   email: z.string().email(),
   address: z.string().min(5),
-  mapEmbed: optionalString,
   omnibeesHotelId: z.string().min(1),
   omnibeesBaseUrl: z.url(),
   logo: optionalString,
@@ -149,7 +148,6 @@ export const tour360Schema = z.object({
 export const locationSchema = z.object({
   title: z.string().min(2),
   description: z.string().min(10),
-  mapEmbed: optionalString,
   nearbyPoints: z.string().optional(),
   heroImage: optionalString,
   accessDetails: optionalString,
@@ -171,6 +169,7 @@ export const blogPostSchema = z.object({
   categoryId: optionalString,
   seoTitle: optionalString,
   seoDescription: optionalString,
+  seoFocusKeyword: optionalString,
   status: z.nativeEnum(BlogPostStatus),
 });
 

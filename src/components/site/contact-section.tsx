@@ -1,18 +1,24 @@
 import { MessageCircle, PhoneCall } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { buildGoogleMapsEmbedUrl, buildHotelMapQuery } from "@/lib/maps";
 import { formatPhoneHref, formatWhatsAppHref } from "@/lib/utils";
 
 type ContactSectionProps = {
+  hotelName: string;
+  address: string;
   whatsapp: string;
   phone: string;
-  mapEmbed?: string | null;
 };
 
 export function ContactSection({
+  hotelName,
+  address,
   whatsapp,
   phone,
-  mapEmbed,
 }: ContactSectionProps) {
+  const mapQuery = buildHotelMapQuery({ hotelName, address });
+  const mapEmbedUrl = buildGoogleMapsEmbedUrl(mapQuery);
+
   return (
     <section className="space-y-6">
       <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
@@ -74,12 +80,16 @@ export function ContactSection({
         </div>
       </div>
 
-      {mapEmbed ? (
-        <div
-          className="map-embed soft-card h-[300px] overflow-hidden rounded-[1.8rem]"
-          dangerouslySetInnerHTML={{ __html: mapEmbed }}
+      <div className="map-embed soft-card h-[300px] overflow-hidden rounded-[1.8rem]">
+        <iframe
+          src={mapEmbedUrl}
+          title={`Mapa de ${hotelName}`}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="h-full w-full border-0"
+          allowFullScreen
         />
-      ) : null}
+      </div>
     </section>
   );
 }

@@ -11,6 +11,7 @@ import {
 import { PageHero } from "@/components/site/page-hero";
 import { RichText } from "@/components/ui/rich-text";
 import { getLocationContent, getPageContent, getSiteSettings } from "@/data/queries";
+import { buildGoogleMapsEmbedUrl, buildGoogleMapsSearchUrl, buildHotelMapQuery } from "@/lib/maps";
 import { buildMetadata } from "@/lib/seo";
 import { formatPhoneHref, formatWhatsAppHref, getContentBody } from "@/lib/utils";
 
@@ -79,16 +80,18 @@ function NearbyPointCard({
 }
 
 function ActionCard({
+  hotelName,
   whatsapp,
   phone,
   address,
 }: {
+  hotelName: string;
   whatsapp: string;
   phone: string;
   address: string;
 }) {
-  const mapsQuery = encodeURIComponent(address || "Iguassu Express Hotel Foz do Iguaçu");
-  const mapsHref = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+  const mapsQuery = buildHotelMapQuery({ hotelName, address });
+  const mapsHref = buildGoogleMapsSearchUrl(mapsQuery);
 
   return (
     <article className="soft-card rounded-[1.9rem] p-6 md:p-7">
@@ -134,27 +137,28 @@ function ActionCard({
 }
 
 function LocationMap({
-  mapEmbed,
+  hotelName,
+  address,
 }: {
-  mapEmbed?: string | null;
+  hotelName: string;
+  address: string;
 }) {
-  return mapEmbed ? (
+  const mapQuery = buildHotelMapQuery({ hotelName, address });
+  const mapEmbedUrl = buildGoogleMapsEmbedUrl(mapQuery);
+
+  return (
     <div
       className="map-embed soft-card h-[340px] overflow-hidden rounded-[1.9rem] md:h-[420px] xl:h-[520px] [&>iframe]:block [&>iframe]:h-full [&>iframe]:w-full [&>div]:h-full [&>div]:w-full [&_iframe]:block [&_iframe]:h-full [&_iframe]:w-full"
-      dangerouslySetInnerHTML={{ __html: mapEmbed }}
-    />
-  ) : (
-    <article className="soft-card flex h-[340px] items-center justify-center rounded-[1.9rem] p-8 text-center md:h-[420px] xl:h-[520px]">
-      <div>
-        <SectionEyebrow>Mapa</SectionEyebrow>
-        <h3 className="mt-3 text-[2rem] leading-[0.95] font-semibold text-slate-950">
-          Mapa indisponível no momento
-        </h3>
-        <p className="mt-4 max-w-md text-sm leading-7 text-slate-600">
-          Nossa equipe pode orientar sua chegada por WhatsApp ou telefone enquanto o mapa não estiver disponível.
-        </p>
-      </div>
-    </article>
+    >
+      <iframe
+        src={mapEmbedUrl}
+        title={`Mapa de ${hotelName}`}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        className="h-full w-full border-0"
+        allowFullScreen
+      />
+    </div>
   );
 }
 
@@ -164,8 +168,6 @@ export default async function LocationPage() {
     getLocationContent(),
     getSiteSettings(),
   ]);
-
-  const mapEmbed = location.mapEmbed ?? settings.mapEmbed ?? "";
 
   return (
     <div className="mx-auto max-w-6xl space-y-12 md:space-y-16">
@@ -217,11 +219,16 @@ export default async function LocationPage() {
             </p>
           </div>
 
-          <LocationMap mapEmbed={mapEmbed} />
+          <LocationMap hotelName={settings.hotelName} address={settings.address} />
         </div>
 
         <div className="space-y-6 xl:sticky xl:top-28">
-          <ActionCard whatsapp={settings.whatsapp} phone={settings.phone} address={settings.address} />
+          <ActionCard
+            hotelName={settings.hotelName}
+            whatsapp={settings.whatsapp}
+            phone={settings.phone}
+            address={settings.address}
+          />
         </div>
       </section>
 
