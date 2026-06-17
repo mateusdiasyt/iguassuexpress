@@ -46,7 +46,7 @@ export function buildOmnibeesUrl(
   url.searchParams.set("NRooms", String(parsed.rooms));
   url.searchParams.set("ad", String(parsed.adults));
   url.searchParams.set("ch", String(parsed.children));
-  url.searchParams.set("ag", parsed.childAges.length ? parsed.childAges.join(",") : "");
+  url.searchParams.set("ag", parsed.childAges.length ? parsed.childAges.join(";") : "");
   url.searchParams.set("CheckIn", formatDateToOmnibees(parsed.checkIn));
   url.searchParams.set("CheckOut", formatDateToOmnibees(parsed.checkOut));
 
