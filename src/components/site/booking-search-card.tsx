@@ -15,6 +15,14 @@ type BookingSearchCardProps = {
 };
 
 type BookingCardMode = "inline" | "floating";
+type BookingValues = {
+  checkIn: string;
+  checkOut: string;
+  rooms: string;
+  adults: string;
+  children: string;
+  childAges: string[];
+};
 
 function formatReservationHint(value: string) {
   if (!value) {
@@ -41,12 +49,13 @@ export function BookingSearchCard({
   const [isMounted, setIsMounted] = useState(false);
   const [isFloatingVisible, setIsFloatingVisible] = useState(false);
   const [isFloatingOpen, setIsFloatingOpen] = useState(false);
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<BookingValues>({
     checkIn: "",
     checkOut: "",
     rooms: "1",
     adults: "2",
     children: "0",
+    childAges: [],
   });
 
   useEffect(() => {
@@ -105,23 +114,66 @@ export function BookingSearchCard({
     };
   }, [isFloatingOpen]);
 
-  function update(name: string, value: string) {
-    setValues((current) => ({
-      ...current,
-      [name]: value,
-    }));
+  function update(name: keyof Omit<BookingValues, "childAges">, value: string) {
+    setValues((current) => {
+      if (name !== "children") {
+        return {
+          ...current,
+          [name]: value,
+        };
+      }
+
+      const nextChildCount = Number(value);
+      const childAges = current.childAges.slice(0, nextChildCount);
+
+      while (childAges.length < nextChildCount) {
+        childAges.push("");
+      }
+
+      return {
+        ...current,
+        children: value,
+        childAges,
+      };
+    });
+    setError("");
+  }
+
+  function updateChildAge(index: number, value: string) {
+    setValues((current) => {
+      const childAges = [...current.childAges];
+      childAges[index] = value;
+
+      return {
+        ...current,
+        childAges,
+      };
+    });
+    setError("");
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const childCount = Number(values.children);
+    const childAges = values.childAges.slice(0, childCount);
+
+    if (childCount > 0 && (childAges.length < childCount || childAges.some((age) => !age))) {
+      setError(
+        childCount === 1
+          ? "Informe a idade da criança para consultar os valores."
+          : "Informe a idade de todas as crianças para consultar os valores.",
+      );
+      return;
+    }
 
     const payload = {
       checkIn: values.checkIn,
       checkOut: values.checkOut,
       rooms: Number(values.rooms),
       adults: Number(values.adults),
-      children: Number(values.children),
-      childAges: [],
+      children: childCount,
+      childAges: childAges.map(Number),
     };
 
     const parsed = validateReservationData(payload);
@@ -142,10 +194,12 @@ export function BookingSearchCard({
 
   function renderCard(mode: BookingCardMode) {
     const isFloating = mode === "floating";
+    const childCount = Number(values.children);
 
     return (
       <form
         onSubmit={handleSubmit}
+        data-booking-form={mode}
         className={cn(
           "rounded-[2rem] border p-6 backdrop-blur-xl transition-all",
           isFloating
@@ -183,6 +237,7 @@ export function BookingSearchCard({
           <label className="grid gap-2 text-sm text-white/72">
             Entrada
             <Input
+              name="checkIn"
               type="date"
               value={values.checkIn}
               onChange={(event) => update("checkIn", event.target.value)}
@@ -192,6 +247,7 @@ export function BookingSearchCard({
           <label className="grid gap-2 text-sm text-white/72">
             Saída
             <Input
+              name="checkOut"
               type="date"
               value={values.checkOut}
               onChange={(event) => update("checkOut", event.target.value)}
@@ -204,6 +260,7 @@ export function BookingSearchCard({
           <label className="grid gap-2 text-sm text-white/72">
             Quartos
             <Select
+              name="rooms"
               value={values.rooms}
               onChange={(event) => update("rooms", event.target.value)}
               className="border-white/15 bg-white/12 text-white"
@@ -218,6 +275,7 @@ export function BookingSearchCard({
           <label className="grid gap-2 text-sm text-white/72">
             Adultos
             <Select
+              name="adults"
               value={values.adults}
               onChange={(event) => update("adults", event.target.value)}
               className="border-white/15 bg-white/12 text-white"
@@ -232,6 +290,7 @@ export function BookingSearchCard({
           <label className="grid gap-2 text-sm text-white/72">
             Crianças
             <Select
+              name="children"
               value={values.children}
               onChange={(event) => update("children", event.target.value)}
               className="border-white/15 bg-white/12 text-white"
@@ -244,6 +303,41 @@ export function BookingSearchCard({
             </Select>
           </label>
         </div>
+
+        {childCount > 0 ? (
+          <div className="mt-4 grid gap-3">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-medium text-white/78">
+                Idade {childCount === 1 ? "da criança" : "das crianças"}
+              </p>
+              <p className="text-xs text-white/48">Obrigatório</p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {Array.from({ length: childCount }).map((_, index) => (
+                <label key={index} className="grid gap-2 text-sm text-white/72">
+                  Criança {index + 1}
+                  <Select
+                    name={`childAge-${index + 1}`}
+                    value={values.childAges[index] ?? ""}
+                    onChange={(event) => updateChildAge(index, event.target.value)}
+                    className="border-white/15 bg-white/12 text-white"
+                    aria-invalid={Boolean(error && !values.childAges[index])}
+                  >
+                    <option value="" className="text-slate-500">
+                      Selecione
+                    </option>
+                    {Array.from({ length: 18 }).map((_, age) => (
+                      <option key={age} value={age} className="text-slate-900">
+                        {age} {age === 1 ? "ano" : "anos"}
+                      </option>
+                    ))}
+                  </Select>
+                </label>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
         <div className={cn("mt-6 flex", isFloating ? "justify-stretch" : "justify-end")}>
           <Button

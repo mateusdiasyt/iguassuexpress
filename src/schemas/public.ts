@@ -1,6 +1,18 @@
 import { parseISO } from "date-fns";
 import { z } from "zod";
 
+const childAgeSchema = z.preprocess((value) => {
+  if (value === null || value === undefined) {
+    return Number.NaN;
+  }
+
+  if (typeof value === "string" && !value.trim()) {
+    return Number.NaN;
+  }
+
+  return value;
+}, z.coerce.number().int().min(0).max(17));
+
 export const loginSchema = z.object({
   email: z.string().email().transform((value) => value.toLowerCase().trim()),
   password: z.string().min(8, "Informe sua senha."),
@@ -13,7 +25,7 @@ export const reservationSearchSchema = z
     rooms: z.coerce.number().int().min(1).max(9),
     adults: z.coerce.number().int().min(1).max(9),
     children: z.coerce.number().int().min(0).max(6),
-    childAges: z.array(z.coerce.number().int().min(0).max(17)).default([]),
+    childAges: z.array(childAgeSchema).default([]),
   })
   .superRefine((value, ctx) => {
     const checkIn = parseISO(value.checkIn);
@@ -43,11 +55,11 @@ export const reservationSearchSchema = z
       });
     }
 
-    if (value.childAges.length > value.children) {
+    if (value.childAges.length !== value.children) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["childAges"],
-        message: "Quantidade de idades maior que o número de crianças.",
+        message: "Informe a idade de todas as crianças.",
       });
     }
   });
